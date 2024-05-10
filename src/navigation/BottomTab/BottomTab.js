@@ -15,6 +15,7 @@ import Mackup from '../../screens/HomeScreen/Mackup';
 import Manicure from '../../screens/HomeScreen/Manicure';
 import Massage from '../../screens/HomeScreen/Massage';
 import SearchFilter from '../../screens/HomeScreen/SearchFilter';
+import MyBookMarkScreen from '../../screens/HomeScreen/MyBookMarkScreen';
 
 
 
@@ -27,6 +28,7 @@ const HomeStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.HomeScreen} component={Home} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />
+            <Stack.Screen name={NavigationScreens.MyBookMarkScreen} component={MyBookMarkScreen} />
             <Stack.Screen name={NavigationScreens.HaircutScreen} component={Haircuts} />
             <Stack.Screen name={NavigationScreens.MackupScreen} component={Mackup} />
             <Stack.Screen name={NavigationScreens.ManicureScreen} component={Manicure} />
