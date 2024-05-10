@@ -17,7 +17,7 @@ const Haircuts = () => {
     <ScrollView style={{ width: Screen_Width, height: Screen_Height,paddingHorizontal:15 }}>
       <View style={{width:Screen_Width,height:Screen_Height*0.05,flexDirection:'row',alignItems:'center',gap:15,marginVertical:10}}>
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{fontWeight:'600',fontSize:25,color:'black'}}>Haircut</Text>
+        <Text style={{fontWeight:'600',fontSize:25,color:'black'}}>Haircuts</Text>
       </View>  
       <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.91, height: 50,paddingHorizontal:10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
         <View style={{ flexDirection: 'row', gap: 10,alignItems:'center' }}>
