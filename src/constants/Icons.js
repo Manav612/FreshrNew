@@ -20,7 +20,7 @@ export const OnBoard3 = require('../assets/OnBoard3.png');
 
 
 
-
+export const Hair1 = require ('../assets/images/Hair1.jpg');
 export const Apple = require('../assets/images/SocialIcon/Apple.png');
 export const Facebook = require('../assets/images/SocialIcon/facebook.png');
 export const Google = require('../assets/images/SocialIcon/google.png');
@@ -36,3 +36,14 @@ export const manicure = require('../assets/images/manicure.png');
 export const massage = require('../assets/images/massage.png');
 export const wallet = require('../assets/images/wallet.png');
 export const plus = require('../assets/images/plus.png');
+// export const offer = require('../assets/images/ticket.png');
+// export const user = require('../assets/images/user.png');
+export const barber = require('../assets/images/barber.jpg');
+export const barber2 = require('../assets/images/b2.jpg');
+export const barber3 = require('../assets/images/b3.jpg');
+export const barber4 = require('../assets/images/b4.jpg');
+export const web = require('../assets/images/compass.png');
+export const message = require('../assets/images/chat.png');
+export const call = require('../assets/images/call.png');
+export const share = require('../assets/images/telegram.png');
+export const map = require('../assets/images/map.png');
