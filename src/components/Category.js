@@ -84,18 +84,16 @@ const Category = () => {
       rating: '4.8',
     },
   ];
-  const filteredData = selectedItem
-    ? data2.filter(item => item.text === 'Haircuts')
-    : data2;
+
+  const filteredData = selectedItem === 'All' ? data2 : data2.filter(item => item.text.toLowerCase().includes(selectedItem.toLowerCase()));
 
   const styles = StyleSheet.create({
     CategoryContainer: {
       borderWidth: 2,
       borderColor: COLOR.ORANGECOLOR,
-      marginLeft: 10,
+      marginHorizontal: 5,
       borderRadius: 30,
       height: 35,
-      width: 100,
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 10,
@@ -113,7 +111,6 @@ const Category = () => {
     CardContainer: {
       elevation: 2,
       backgroundColor: COLOR.WHITE,
-      marginLeft: 10,
       borderRadius: 25,
       height: Screen_Height * 0.14,
       width: Screen_Width * 0.9,
@@ -136,13 +133,13 @@ const Category = () => {
     },
   });
 
-  const AllCategory = ({item}) => (
+  const AllCategory = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.CategoryContainer,
-        selectedItem === item.id && styles.selectedItem,
+        selectedItem === item.text && styles.selectedItem,
       ]}
-      onPress={() => setSelectedItem(item.id)}>
+      onPress={() => setSelectedItem(item.text)}>
       <View
         style={{
           marginHorizontal: 13,
@@ -150,189 +147,83 @@ const Category = () => {
         <Text
           style={[
             styles.Categorytext,
-            selectedItem === item.id && styles.SelectedCategorytext,
+            selectedItem === item.text && styles.SelectedCategorytext,
           ]}>
           {item.text}
         </Text>
       </View>
     </TouchableOpacity>
   );
-  const Card = ({item}) => (
+
+  const Card = ({ item }) => (
     <View style={styles.CardContainer}>
       <TouchableOpacity
-        onPress={() => handleCardPress(item)}
         style={{
           marginHorizontal: 13,
         }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image style={styles.CardImage} source={Hair1} />
           <View style={styles.CardContain}>
-            <Text style={{color: 'black', fontWeight: 'bold', fontSize: 18}}>
+            <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>
               {item.text}
             </Text>
-            <Text style={{color: 'gray'}}>{item.address}</Text>
+            <Text style={{ color: 'gray' }}>{item.address}</Text>
             <View
               style={{
                 flexDirection: 'row',
                 width: 110,
                 justifyContent: 'space-between',
               }}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <MaterialCommunityIcons
                   name="map-marker"
                   size={18}
                   color={COLOR.ORANGECOLOR}
                 />
-                <Text style={{color: 'black'}}>{item.km}</Text>
+                <Text style={{ color: 'black' }}>{item.km}</Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <MaterialCommunityIcons
                   name="star-half-full"
                   size={18}
                   color={COLOR.ORANGECOLOR}
                 />
-                <Text style={{color: 'black'}}>{item.rating}</Text>
+                <Text style={{ color: 'black' }}>{item.rating}</Text>
               </View>
             </View>
           </View>
-          <View style={{height: 90, width: 30}}>
-            <MaterialCommunityIcons
-              name="bookmark"
-              size={25}
-              color={COLOR.ORANGECOLOR}
-            />
-          </View>
+          <TouchableOpacity onPress={() => toggleBookmark(item.id)}>
+            <View style={{ height: 90, width: 30 }}>
+              <MaterialCommunityIcons
+                name={bookmarkStatus[item.id] ? "bookmark" : "bookmark-outline"}
+                size={25}
+                color={COLOR.ORANGECOLOR}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     </View>
   );
+
   return (
     <View>
-      <View style={{marginHorizontal: 10}}>
+      <View>
         <FlatList
           data={data}
           keyExtractor={item => item.id}
-          renderItem={AllCategory}
+          renderItem={({ item }) => <AllCategory item={item} />}
           horizontal
+          showsHorizontalScrollIndicator={false}
         />
       </View>
-      <View style={{marginHorizontal: 10, marginVertical: 15}}>
+      <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
         <FlatList
           data={filteredData}
           keyExtractor={item => item.id}
-          renderItem={Card}
+          renderItem={({ item }) => <Card item={item} />}
         />
       </View>
-      <RBSheet
-        ref={bottomSheetRef}
-        height={300}
-        duration={250}
-        customStyles={{
-          container: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderTopLeftRadius: 40,
-            borderTopRightRadius: 40,
-          },
-        }}>
-        <View>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderColor: COLOR.PRIMARYCOLOR,
-              alignItems: 'center',
-              margin: 15,
-              height: 35,
-            }}>
-            <Text
-              style={{fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK}}>
-              Remove from Bookmark ?
-            </Text>
-          </View>
-          <View style={styles.CardContainer}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image style={styles.CardImage} source={Hair1} />
-              <View style={styles.CardContain}>
-                <Text
-                  style={{color: 'black', fontWeight: 'bold', fontSize: 18}}>
-                  <Text>
-                    {selectedItemData
-                      ? selectedItemData.text
-                      : 'No item selected'}
-                  </Text>
-                </Text>
-                <Text>{selectedItemData ? selectedItemData.address : ''}</Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    width: 110,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <MaterialCommunityIcons
-                      name="map-marker"
-                      size={18}
-                      color={COLOR.ORANGECOLOR}
-                    />
-                    <Text style={{color: 'black'}}>
-                      {selectedItemData ? selectedItemData.km : ''}
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <MaterialCommunityIcons
-                      name="star-half-full"
-                      size={18}
-                      color={COLOR.ORANGECOLOR}
-                    />
-                    <Text style={{color: 'black'}}>
-                      {selectedItemData ? selectedItemData.rating : ''}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={{height: 90, width: 30}}>
-                <MaterialCommunityIcons
-                  name="bookmark"
-                  size={25}
-                  color={COLOR.ORANGECOLOR}
-                />
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              justifyContent: 'space-between',
-              width: 315,
-              flexDirection: 'row',
-              margin: 15,
-            }}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: 'red',
-                height: 45,
-                width: 145,
-                borderRadius: 30,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#FFF2D7',
-              }}>
-              <Text>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                height: 45,
-                width: 145,
-                borderRadius: 30,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: COLOR.ORANGECOLOR,
-                borderRadius: 25,
-              }}>
-              <Text>Yes, Remove</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </RBSheet>
     </View>
   );
 };

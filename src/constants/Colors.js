@@ -6,7 +6,7 @@ export const COLOR_LIGHT = {
 
     WHITE: 'rgba(255, 255, 255, 1)',
     WHITE_80: 'rgba(255, 255, 255, 0.8)',
-
+    LINECOLOR:'rgb(238,238,238)',
     TRANSPARENT: 'rgba(0, 0, 0, 0)',
     AuthField : '#FAFAFA',
     PRIMARYCOLOR: 'rgba(225, 216, 207, 1)',

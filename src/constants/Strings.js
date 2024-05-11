@@ -1,4 +1,6 @@
 import { Platform } from "react-native";
+import NearbyYourLocation from "../screens/HomeScreen/NearbyYourLocation";
+
 
 export const AppUrl = Platform.OS == 'ios' ? 'https://apps.apple.com/in/app/digital-health-news/id6473037148' : 'https://play.google.com/store/apps/details?id=com.dhn';
 
@@ -33,6 +35,7 @@ export const NavigationScreens = {
     ManicureScreen:'Manicure Screen',
     MassageScreen:'Massage Screen',
     SearchFilterScreen:'SearchFilter Screen',
+    NearbyYourLocationScreen:'NearbyYourLocation Screen'
 }
 
 export const label = {

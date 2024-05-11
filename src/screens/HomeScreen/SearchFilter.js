@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, Button } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -6,9 +6,103 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import { data, data3, data4 } from '../../components/utils';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const SearchFilter = () => {
-    const refRBSheet = useRef([]); // Initialize refRBSheet as an array
+
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem1, setSelectedItem1] = useState(null);
+    const [selectedItem2, setSelectedItem2] = useState(null);
+    const navigation = useNavigation()
+    const [resetSelected, setResetSelected] = useState(false);
+    const [applySelected, setApplySelected] = useState(false);
+
+    const handleResetPress = () => {
+        setResetSelected(!resetSelected);
+        setApplySelected(false); 
+    };
+
+    const handleApplyPress = () => {
+        setApplySelected(!applySelected);
+        setResetSelected(false); 
+    };
+
+    const AllCategory = ({ item }) => (
+        <TouchableOpacity
+            style={[
+                styles.CategoryContainer,
+                selectedItem === item.id && styles.selectedItem,
+            ]}
+            onPress={() => setSelectedItem(item.id)}>
+            <View
+                style={{
+                    marginHorizontal: 13,
+                }}>
+
+                <Text
+                    style={[
+                        styles.Categorytext,
+                        selectedItem === item.id && styles.SelectedCategorytext,
+                    ]}>
+                    {item.text}
+                </Text>
+            </View>
+        </TouchableOpacity>
+    );
+    const Rating = ({ item }) => (
+        <TouchableOpacity
+            style={[
+                styles.CategoryContainer,
+                selectedItem1 === item.id && styles.selectedItem,
+            ]}
+            onPress={() => setSelectedItem1(item.id)}>
+            <View
+                style={{
+                    marginHorizontal: 13,
+                    flexDirection: 'row',
+                    gap: 5,
+                }}>
+                <MaterialCommunityIcons
+                    name="star"
+                    size={18}
+                    color={selectedItem1 === item.id ? COLOR.WHITE : COLOR.ORANGECOLOR}
+                />
+                <Text
+                    style={[
+                        styles.Categorytext,
+                        selectedItem1 === item.id && styles.SelectedCategorytext,
+                    ]}>
+                    {item.text}
+                </Text>
+            </View>
+        </TouchableOpacity>
+    );
+    const Distance = ({ item }) => (
+        <TouchableOpacity
+            style={[
+                styles.CategoryContainer,
+                selectedItem2 === item.id && styles.selectedItem,
+            ]}
+            onPress={() => setSelectedItem2(item.id)}>
+            <View
+                style={{
+                    marginHorizontal: 13,
+                }}>
+
+                <Text
+                    style={[
+                        styles.Categorytext,
+                        selectedItem2 === item.id && styles.SelectedCategorytext,
+                    ]}>
+                    {item.text}
+                </Text>
+            </View>
+        </TouchableOpacity>
+    );
+
+    const refRBSheet = useRef([]);
 
     const openBottomSheet = () => {
         refRBSheet.current[0].open();
@@ -22,24 +116,49 @@ const SearchFilter = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-
+    const styles = StyleSheet.create({
+        CategoryContainer: {
+            borderWidth: 2,
+            borderColor: COLOR.ORANGECOLOR,
+            marginLeft: 10,
+            borderRadius: 30,
+            height: 35,
+            width: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 10,
+        },
+        selectedItem: {
+            backgroundColor: COLOR.ORANGECOLOR,
+        },
+        Categorytext: {
+            fontWeight: '500',
+            color: COLOR.ORANGECOLOR,
+        },
+        SelectedCategorytext: {
+            color: COLOR.WHITE,
+        },
+    });
     return (
         <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
-            <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.91, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:2}}>
+            <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
+            <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.80, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
                 <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
                     <AntDesign name="search1" size={30} color={COLOR.GRAY} />
                     <TextInput
                         placeholder='Search'
                         placeholderTextColor={COLOR.GRAY}
-                        style={{ fontSize: 20, color: COLOR.GRAY }}
+                        style={{ fontSize: 20, color: COLOR.GRAY,width:200 }}
                         onChangeText={text => setSearchText(text)}
                     />
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={openBottomSheet}>
                     <Ionicons name="filter" size={30} color={COLOR.ORANGECOLOR} />
                 </TouchableOpacity>
+                </View>
             </View>
-            <View style={{ backgroundColor: COLOR.BLACK_30, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
+            <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: '600' }}>
                     {searchText ? (
@@ -55,18 +174,23 @@ const SearchFilter = () => {
             </View>
 
             <View style={{}}>
-                <Button
-                    title="OPEN BOTTOM SHEET"
-                    onPress={openBottomSheet}
-                />
                 <RBSheet
                     ref={(ref) => (refRBSheet.current[0] = ref)}
+
+                    height={Screen_Height * 0.50}
                     customStyles={{
+
                         wrapper: {
                             backgroundColor: 'transparent',
                         },
+                        container:{
+                            backgroundColor:COLOR.WHITE,
+                            borderRadius:40,
+                            borderBottomRightRadius: 0,
+                             borderBottomLeftRadius: 0,
+                        },
                         draggableIcon: {
-                            backgroundColor: '#000',
+                            backgroundColor: COLOR.BLACK,
                         },
                     }}
                     customModalProps={{
@@ -76,6 +200,51 @@ const SearchFilter = () => {
                     customAvoidingViewProps={{
                         enabled: false,
                     }}>
+                    <View style={{  paddingHorizontal: 15,marginVertical:10 }}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                            <Text style={{ fontWeight: '600', fontSize: 25 }}>Filter</Text>
+                        </View>
+                        <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
+                        <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+                            <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Category</Text>
+                            <FlatList
+                                data={data}
+                                keyExtractor={item => item.id}
+                                renderItem={AllCategory}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                        <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+                            <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>Rating</Text>
+                            <FlatList
+                                data={data3}
+                                keyExtractor={item => item.id}
+                                renderItem={Rating}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                        <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+                            <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>Distance</Text>
+                            <FlatList
+                                data={data4}
+                                keyExtractor={item => item.id}
+                                renderItem={Distance}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                        <View style={{ width: Screen_Width * 0.91, flexDirection: 'row', justifyContent: 'space-between',marginVertical:10 }}>
+                            <TouchableOpacity onPress={handleResetPress} style={{ backgroundColor: resetSelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 20, fontWeight: '700', color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Reset</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleApplyPress} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 20, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Apply Filter</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
 
                 </RBSheet>
             </View>
@@ -85,4 +254,4 @@ const SearchFilter = () => {
 
 export default SearchFilter;
 
-const styles = StyleSheet.create({});
+

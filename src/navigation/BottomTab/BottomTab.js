@@ -16,7 +16,7 @@ import Manicure from '../../screens/HomeScreen/Manicure';
 import Massage from '../../screens/HomeScreen/Massage';
 import SearchFilter from '../../screens/HomeScreen/SearchFilter';
 import MyBookMarkScreen from '../../screens/HomeScreen/MyBookMarkScreen';
-
+import NearbyYourLocation from '../../screens/HomeScreen/NearbyYourLocation';
 
 
 const Tab = createBottomTabNavigator();
@@ -34,6 +34,8 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.ManicureScreen} component={Manicure} />
             <Stack.Screen name={NavigationScreens.MassageScreen} component={Massage} />
             <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
+            <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
+
         </Stack.Navigator>
     );
 };

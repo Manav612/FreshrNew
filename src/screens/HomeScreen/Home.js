@@ -9,6 +9,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { haircuts, mackup, manicure, massage } from '../../constants/Icons';
 import { ProfileData } from '../../components/utils';
 import { useNavigation } from '@react-navigation/native';
+import Category from '../../components/Category';
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const flatListRef = useRef(null);
@@ -40,7 +41,7 @@ const Home = () => {
           <View style={{ width: 50, backgroundColor: COLOR.ORANGECOLOR, height: 50, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: COLOR.WHITE,fontSize:40 }}>F</Text>
           </View>
-          <Text style={{ color: COLOR.BLACK, fontSize: 35 }}>Freshr</Text>
+          <Text style={{ color: COLOR.BLACK, fontSize: 25 }}>Freshr</Text>
         </View>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
           <TouchableOpacity onPress={()=>navigation.navigate('Notification Screen')}>
@@ -125,20 +126,20 @@ const Home = () => {
           <Text style={{ fontWeight: '600', color: COLOR.BLACK, fontSize: 14 }}>Massage</Text>
         </View>
       </View>
-      <View style={{backgroundColor:COLOR.BLACK_30,width:Screen_Width,height:2,marginVertical:10,paddingHorizontal:10}}/>
+      <View style={{backgroundColor:COLOR.LINECOLOR,width:Screen_Width,height:2,marginVertical:10,paddingHorizontal:10}}/>
       <View style={{justifyContent:'space-between',flexDirection:'row',paddingHorizontal:10,alignItems:'center'}}>
         <Text style={{fontWeight:'600',fontSize:20,color:COLOR.BLACK}}>Nearby Your Location</Text>
-        <Text style={{color:COLOR.ORANGECOLOR}}>See all</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('NearbyYourLocation Screen')} ><Text style={{color:COLOR.ORANGECOLOR,fontSize:20}}>See all</Text></TouchableOpacity>
       </View>
-      <View style={{backgroundColor:COLOR.GREEN,width:Screen_Width,height:Screen_Height*0.80,marginVertical:10}}>
-
+      <View style={{marginVertical:10}}> 
+        <Category/>
       </View>
       <View style={{justifyContent:'space-between',flexDirection:'row',paddingHorizontal:10,alignItems:'center',marginVertical:10}}>
         <Text style={{fontWeight:'600',fontSize:20,color:COLOR.BLACK}}>Most Popular</Text>
         <Text style={{color:COLOR.ORANGECOLOR}}>See all</Text>
       </View>
-      <View style={{backgroundColor:COLOR.GRAY,width:Screen_Width,height:Screen_Height*0.80,marginVertical:10}}>
-
+      <View style={{marginVertical:10}}>
+       <Category/>
       </View>
       
 
