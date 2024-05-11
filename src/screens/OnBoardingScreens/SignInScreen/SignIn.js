@@ -123,7 +123,7 @@ const SignIn = () => {
                 <TouchableOpacity onPress={()=>navigation.navigate('Home Tab')} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
                     <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ marginVertical: 15 }}>
+                <TouchableOpacity onPress={()=>navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
                     <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: '500',textAlign:'center' }}>Forgot the password?</Text>
                 </TouchableOpacity>
                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 20, marginTop: 30 }}>
