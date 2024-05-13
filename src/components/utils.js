@@ -1,5 +1,10 @@
-import { banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4 } from '../constants/Icons';
+import { useSelector } from 'react-redux';
+import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
+import { Hair1, banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4 } from '../constants/Icons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// const theme = useSelector(state => state.ThemeReducer);
+  // const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
 export const ProfileData = [
     {
       id: '1',
@@ -131,4 +136,121 @@ export const ProfileData = [
     {id: '3', text: '5 - 10 km'},
     {id: '4', text: '> 10 km'},
     {id: '5', text: '11 - 15 km'},
+  ];
+
+  export const chatdata = [
+    {
+      id: 1,
+      title: 'barberella invo',
+      recents: 'Awesome!',
+      date: '20:00',
+      notification_Count: 2,
+      img: Hair1,
+    },
+    {
+      id: 2,
+      title: 'The classic cut',
+      recents: 'omg this is amazing',
+      date: '18:55',
+      notification_Count: 2,
+      img: Hair1,
+    },
+    {
+      id: 3,
+      title: 'Nathin alexsnder',
+      recents: 'i will be there in 2 min',
+      date: '13:36',
+      img: Hair1,
+    },
+    {
+      id: 4,
+      title: 'Oh la la barber',
+      recents: 'Wow.this is really epic',
+      date: 'Yesterday',
+      img: Hair1,
+    },
+    {
+      id: 5,
+      title: 'luke gorlfield',
+      recents: 'How are you?',
+      date: 'Nov 02,2024',
+      img: Hair1,
+    },
+  ];
+  export const calldata = [
+    {
+      id: '1',
+      title: 'barberella invo',
+      recents: 'Outgoing',
+      date: 'Dec 20,2024',
+      img: Hair1,
+      icon: (
+        <MaterialCommunityIcons
+          name="arrow-up-bold-box"
+          style={{marginTop: 2}}
+          size={16}
+          color='green'
+        />
+      ),
+    },
+    {
+      id: '2',
+      title: 'The classic cut',
+      recents: 'Incoming',
+      date: 'Dec 19,2024',
+      img: Hair1,
+      icon: (
+        <MaterialCommunityIcons
+          name="arrow-down-bold-box"
+          style={{marginTop: 2}}
+          size={16}
+          color='blue'
+        />
+      ),
+    },
+    {
+      id: '3',
+      title: 'Nathin alexsnder',
+      recents: 'Outgoing',
+      date: 'Dec 07,2024',
+      img: Hair1,
+      icon: (
+        <MaterialCommunityIcons
+          name="arrow-up-bold-box"
+          style={{marginTop: 2}}
+          size={16}
+          color='green'
+        />
+      ),
+    },
+    {
+      id: '4',
+      title: 'Oh la la barber',
+      recents: 'Missed',
+      date: 'Dec 01,2024',
+      img: Hair1,
+      icon: (
+        <MaterialCommunityIcons
+          name="close-box"
+          style={{marginTop: 2}}
+          size={16}
+          color='red'
+        />
+      ),
+    },
+    {
+      id: '5',
+      title: 'luke gorlfield',
+      recents: 'Incoming',
+      date: 'Nov 02,2024',
+      img: Hair1,
+      icon: (
+        <MaterialCommunityIcons
+          name="arrow-down-bold-box"
+          style={{marginTop: 2}}
+          size={16}
+          color='blue'
+        />
+      ),
+    },
   ];
