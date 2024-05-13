@@ -44,11 +44,11 @@ const NotificationScreen = () => {
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
             ListHeaderComponent={
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', marginBottom: 10 }}>
                     <TouchableOpacity onPress={()=>navigation.goBack()}>
                         <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 24, color: COLOR.BLACK, marginLeft: 10 }}>Notification</Text>
+                    <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Notification</Text>
                     <TouchableOpacity>
                         <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
                     </TouchableOpacity>

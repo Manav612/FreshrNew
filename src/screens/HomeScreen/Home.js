@@ -6,6 +6,7 @@ import { Scale, Screen_Height, Screen_Width } from '../../constants/Constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
 import { haircuts, mackup, manicure, massage } from '../../constants/Icons';
 import { ProfileData } from '../../components/utils';
 import { useNavigation } from '@react-navigation/native';
@@ -36,22 +37,28 @@ const Home = () => {
   
   return (
     <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
-      <View style={{ width: Screen_Width * 0.95, height: Screen_Height * 0.08, paddingHorizontal: 15, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+      <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-          <View style={{ width: 50, backgroundColor: COLOR.ORANGECOLOR, height: 50, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress={()=>navigation.navigate('My Profile Screen')} style={{ width: 50, backgroundColor: COLOR.ORANGECOLOR, height: 50, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: COLOR.WHITE,fontSize:40 }}>F</Text>
+          </TouchableOpacity>
+          <View>
+          <Text style={{ color: COLOR.BLACK, fontSize:20 }}>Manav</Text>
+          <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+          <Entypo name="location-pin" size={15} color={COLOR.BLACK} />
+          <Text style={{color:COLOR.BLACK}}>Mumbai</Text>
           </View>
-          <Text style={{ color: COLOR.BLACK, fontSize: 25 }}>Freshr</Text>
+          </View>
         </View>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
           <TouchableOpacity onPress={()=>navigation.navigate('Notification Screen')}>
           <Ionicons name="notifications-outline" size={30} color="black" />
           </TouchableOpacity>
           
-          <TouchableOpacity onPress={()=>navigation.navigate('My Book Mark Screen')}>
+          {/* <TouchableOpacity onPress={()=>navigation.navigate('My Book Mark Screen')}>
 
           <Feather name="bookmark" size={30} color="black" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       <Text style={{ fontWeight: '900', fontSize: 30, color: COLOR.BLACK, paddingHorizontal: 15, marginVertical: 10 }}>Morning,Daniel👋</Text>

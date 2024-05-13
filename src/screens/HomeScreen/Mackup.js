@@ -56,7 +56,10 @@ const Mackup = () => {
 
   const Card = ({ item }) => (
     <View style={styles.CardContainer}>
-      <TouchableOpacity style={{ marginHorizontal: 13 }}>
+      <TouchableOpacity
+                style={{
+                    marginHorizontal: 13,
+                }} onPress={()=>navigation.navigate('Booking')}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image style={styles.CardImage} source={Hair1} />
           <View style={styles.CardContain}>

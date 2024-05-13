@@ -58,17 +58,8 @@ const TabBar = (props) => {
     })
 
     const HideTabScreens = [
-        NavigationScreens.EliteScreen + " " + NavigationScreens.HomeTab,
-        NavigationScreens.ForumScreen,
-        NavigationScreens.ForumEventScreen,
-        NavigationScreens.ForumLiveEventScreen,
-        NavigationScreens.ForumPassesListScreen,
-        NavigationScreens.BookmarkScreen,
-        NavigationScreens.MenuScreen,
-        NavigationScreens.EditProfileScreen,
-        NavigationScreens.ChangePasswordScreen,
-        NavigationScreens.SubCategoryScreen,
-        NavigationScreens.DetailScreen,
+        NavigationScreens.NotificationScreen + " " + NavigationScreens.HomeTab,
+        NavigationScreens.MyBookMarkScreen,
     ]
 
     return (

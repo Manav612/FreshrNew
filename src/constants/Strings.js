@@ -12,6 +12,7 @@ export const NavigationScreens = {
     SignInScreen:'Sign In Screen',
     FillProfileScreen:'Fill Profile Screen',
     MyBookMarkScreen:'My Book Mark Screen',
+    MyProfileScreen:'My Profile Screen',
     PasswordScreen: 'Password Screen',
     ForgotPasswordScreen: 'Forgot Password Screen',
     VerificationScreen: 'Verification Screen',

@@ -55,8 +55,8 @@ const SignIn = () => {
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: COLOR.AuthField,
-            borderWidth: isEmailFocused ? 1 : null,
-            borderColor: isEmailFocused || email ? COLOR.ORANGECOLOR : COLOR.AuthField,
+            borderWidth: isEmailFocused || isPasswordFocused ? 1 : null,
+            borderColor: (isEmailFocused || isPasswordFocused) || (email || password) ? COLOR.ORANGECOLOR : COLOR.AuthField,
             borderRadius: 10,
             marginBottom: 20,
             paddingHorizontal: 5
@@ -65,6 +65,7 @@ const SignIn = () => {
             flex: 1,
             marginLeft: 10,
             fontSize: 16,
+            color: COLOR.BLACK,
         },
         icon: {
             marginRight: 10,
@@ -85,48 +86,49 @@ const SignIn = () => {
                 <Text style={{ fontSize: 40, color: COLOR.BLACK, fontWeight: '500', marginVertical: '10%' }}>Login to your Account</Text>
 
                 {/* Email Input */}
-                <View style={styles.inputContainer}>
-                    <AntDesign name="mail" size={24} color={COLOR.BLACK} style={styles.icon} />
-                    <TextInput
-                        style={[styles.input]}
-                        placeholder="Email"
-                        placeholderTextColor={COLOR.BLACK}
-                        keyboardType="email-address"
-                        value={email}
-                        onChangeText={handleEmailChange}
-                        onFocus={handleEmailFocus}
-                        onBlur={handleEmailBlur}
-                    />
-                </View>
+                <View style={{marginTop:Screen_Height*0.1}}>
+                    <View style={styles.inputContainer}>
+                        <AntDesign name="mail" size={24} color={COLOR.BLACK} style={styles.icon} />
+                        <TextInput
+                            style={[styles.input]}
+                            placeholder="Email"
+                            placeholderTextColor={COLOR.BLACK}
+                            keyboardType="email-address"
+                            value={email}
+                            onChangeText={handleEmailChange}
+                            onFocus={handleEmailFocus}
+                            onBlur={handleEmailBlur}
+                        />
+                    </View>
 
-                {/* Password Input */}
-                <View style={styles.inputContainer}>
-                    <AntDesign name="lock" size={24} color={COLOR.BLACK} style={styles.icon} />
-                    <TextInput
-                        style={[styles.input]}
-                        placeholder="Password"
-                        placeholderTextColor={COLOR.BLACK}
-                        secureTextEntry={!showPassword}
-                        value={password}
-                        onChangeText={handlePasswordChange}
-                        onFocus={handlePasswordFocus}
-                        onBlur={handlePasswordBlur}
-                    />
-                    <TouchableOpacity onPress={toggleShowPassword}>
-                        <Entypo name={showPassword ? "eye-with-line" : "eye"} size={24} color={COLOR.BLACK} style={styles.icon} />
+                    {/* Password Input */}
+                    <View style={styles.inputContainer}>
+                        <AntDesign name="lock" size={24} color={COLOR.BLACK} style={styles.icon} />
+                        <TextInput
+                            style={[styles.input]}
+                            placeholder="Password"
+                            placeholderTextColor={COLOR.BLACK}
+                            secureTextEntry={!showPassword}
+                            value={password}
+                            onChangeText={handlePasswordChange}
+                            onFocus={handlePasswordFocus}
+                            onBlur={handlePasswordBlur}
+                        />
+                        <TouchableOpacity onPress={toggleShowPassword}>
+                            <Entypo name={showPassword ? "eye-with-line" : "eye"} size={24} color={COLOR.BLACK} style={styles.icon} />
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
+                        <Fontisto name={rememberMe ? "checkbox-active" : "checkbox-passive"} size={24} color={COLOR.ORANGECOLOR} style={styles.icon} />
+                        <Text style={{ marginLeft: 10, color: COLOR.BLACK }}>Remember me</Text>
                     </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
-                    <Fontisto name={rememberMe ? "checkbox-active" : "checkbox-passive"} size={24} color={COLOR.ORANGECOLOR} style={styles.icon} />
-                    <Text style={{ marginLeft: 10 }}>Remember me</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate('Home Tab')} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
-                    <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
-                    <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: '500',textAlign:'center' }}>Forgot the password?</Text>
-                </TouchableOpacity>
-                <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 20, marginTop: 30 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Home Tab')} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
+                        <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: '500', textAlign: 'center' }}>Forgot the password?</Text>
+                    </TouchableOpacity>
+                    {/* <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 20, marginTop: 30 }}>
                     <View style={{ width: 100, height: 1, backgroundColor: COLOR.BLACK_30 }} />
                     <Text style={{ color: COLOR.BLACK }}>or continue with</Text>
                     <View style={{ width: 100, height: 1, backgroundColor: COLOR.BLACK_30 }} />
@@ -141,10 +143,11 @@ const SignIn = () => {
                     <TouchableOpacity style={{ borderWidth: 1, borderRadius: 15, justifyContent: 'center', alignItems: 'center', borderColor: COLOR.BLACK_30, width: 100, height: 80 }}>
                         <FastImage source={Apple} style={{ width: 30, height: 30 }} />
                     </TouchableOpacity>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>
-                    <Text style={{}}>Don't have an account? </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('Sign Up Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>Sign up</Text></TouchableOpacity>
+                </View> */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ color: COLOR.BLACK }}>Don't have an account? </Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Sign Up Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>Sign up</Text></TouchableOpacity>
+                    </View>
                 </View>
             </View>
 

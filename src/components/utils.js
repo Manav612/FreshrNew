@@ -1,4 +1,4 @@
-import { banner1, banner2, banner3, banner4, banner5 } from '../constants/Icons';
+import { banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4 } from '../constants/Icons';
 
 export const ProfileData = [
     {
@@ -18,7 +18,23 @@ export const ProfileData = [
       img: banner4
     },
   ];
-
+  export const barberData = [{ 
+    id: '1', 
+    image: barber
+  },
+  { 
+    id: '2',
+    image: barber2
+  },
+  { 
+    id: '3', 
+    image: barber3
+  },
+  { 
+    id: '4', 
+    image: barber4
+  }
+];
   export const data = [
     {id: '1', text: 'All'},
     {id: '2', text: 'Haircuts'},

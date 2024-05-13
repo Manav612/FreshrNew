@@ -10,6 +10,7 @@ import SignUP from '../screens/OnBoardingScreens/SignUpScreen/SignUP';
 import SignIn from '../screens/OnBoardingScreens/SignInScreen/SignIn';
 import FillProfile from '../screens/OnBoardingScreens/FillProfileScreen/FillProfile';
 import ForgotPassword from '../screens/OnBoardingScreens/ForgotPasswordScreen/ForgotPassword';
+import Booking from '../screens/Booking';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -19,28 +20,28 @@ const NavigationHandler = () => {
     const dispatch = useDispatch();
     return (
         <NavigationContainer
-            // ref={navigationRef}
-            // onReady={() => {
-            //     routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-            // }}
-            // onStateChange={async () => {
-            //     const previousRouteName = routeNameRef.current;
-            //     const currentRouteName = navigationRef.current.getCurrentRoute().name;
+            ref={navigationRef}
+            onReady={() => {
+                routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+            }}
+            onStateChange={async () => {
+                const previousRouteName = routeNameRef.current;
+                const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
-            //     if (previousRouteName !== currentRouteName) {
-            //         const currentScreen = {
-            //             screen_name: currentRouteName,
-            //             screen_class: currentRouteName,
-            //         };
-            //         console.log("Current Screen : ", currentScreen);
-            //         dispatch(setActiveScreen(currentScreen.screen_name));
-            //         await analytics().logScreenView({
-            //             screen_name: currentRouteName,
-            //             screen_class: currentRouteName,
-            //         }).catch((e) => { console.log("Error : ", e) });
-            //     }
-            //     routeNameRef.current = currentRouteName;
-            // }}
+                if (previousRouteName !== currentRouteName) {
+                    const currentScreen = {
+                        screen_name: currentRouteName,
+                        screen_class: currentRouteName,
+                    };
+                    console.log("Current Screen : ", currentScreen);
+                    dispatch(setActiveScreen(currentScreen.screen_name));
+                    await analytics().logScreenView({
+                        screen_name: currentRouteName,
+                        screen_class: currentRouteName,
+                    }).catch((e) => { console.log("Error : ", e) });
+                }
+                routeNameRef.current = currentRouteName;
+            }}
         >
             <Stack.Navigator screenOptions={{
                 headerShown: false
@@ -58,6 +59,7 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.VerificationScreen} component={VerificationScreen} />
                 <Stack.Screen name={NavigationScreens.WelcomeOnboardScreen} component={WelcomeOnboardScreen} /> */}
                 <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        
+                <Stack.Screen name="Booking" component={Booking} />        
             </Stack.Navigator>
         </NavigationContainer >
     );

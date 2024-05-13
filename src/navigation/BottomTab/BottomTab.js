@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationScreens } from '../../constants/Strings';
 import React from 'react';
 import TabBar from './TabBar';
-import { BBookmarkIcon, BEliteIcon, BHomeIcon, BQBIcon, BookingIcon, HomeIcon, InboxIcon, LocationIcon, UserIcon } from '../../constants/Icons';
+import { BBookmarkIcon, BEliteIcon, BHomeIcon, BQBIcon, BookingIcon, BookmarkFill, BookmarkOutline, HomeIcon, InboxIcon, LocationIcon, UserIcon } from '../../constants/Icons';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import Home from '../../screens/HomeScreen/Home';
 import Explore from '../../screens/ExploreScreen/Explore';
@@ -17,6 +17,8 @@ import Massage from '../../screens/HomeScreen/Massage';
 import SearchFilter from '../../screens/HomeScreen/SearchFilter';
 import MyBookMarkScreen from '../../screens/HomeScreen/MyBookMarkScreen';
 import NearbyYourLocation from '../../screens/HomeScreen/NearbyYourLocation';
+import MyProfile from '../../screens/HomeScreen/MyProfile';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -36,6 +38,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
             <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
 
+            <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
         </Stack.Navigator>
     );
 };
@@ -68,12 +71,12 @@ const InboxStack = () => {
     );
 };
 
-const ProfileStack = () => {
+const FollowedStack = () => {
     return (
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name={NavigationScreens.ProfileScreen} component={Profile} />
+            <Stack.Screen name={NavigationScreens.MyBookMarkScreen} component={MyBookMarkScreen} />
         </Stack.Navigator>
     );
 };
@@ -105,9 +108,9 @@ const Screens = [
     },
     {
         name: NavigationScreens.ProfileScreen + " " + NavigationScreens.HomeTab,
-        title: "Profile",
-        component: ProfileStack,
-        icon: UserIcon,
+        title: "Followed",
+        component: FollowedStack,
+        icon:BookmarkOutline,
     },
 ]
 export default BottomTab = ({ route }) => {
