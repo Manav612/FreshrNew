@@ -34,16 +34,16 @@ const ForgotPassword = ({navigation}) => {
           <Text style={styles.HeaderText}>Forgot Password</Text>
         </View>
       </View>
-      <View>
-        <Image source={forgotpassword} style={{height: 270, width: '100%'}} />
+      <View style={{justifyContent:'center',alignItems:'center'}}>
+        <Image source={forgotpassword} style={{height: 250, width: 270}} />
       </View>
-      <View style={{margin: 15}}>
+      <View style={{marginHorizontal:15,marginTop:10}}>
         <Text style={{fontSize: 16, color: COLOR.BLACK}}>
           Select which contact details should we use to reset your password
         </Text>
       </View>
       <View>
-        <View
+        <TouchableOpacity
           style={[
             styles.Container,
             {backgroundColor: COLOR.WHITE, borderColor: COLOR.BLUE},
@@ -63,7 +63,31 @@ const ForgotPassword = ({navigation}) => {
               +1 111*****75
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.Container,
+            {backgroundColor: COLOR.WHITE,elevation:2,borderColor:'white'},
+          ]}>
+          <View
+            style={[styles.imageContainer, {backgroundColor: COLOR.GULABI}]}>
+            <MaterialCommunityIcons
+              name="email"
+              size={25}
+              color={COLOR.ORANGECOLOR}
+            />
+          </View>
+          <View style={{height: 43, justifyContent: 'space-between'}}>
+            <Text>via Email</Text>
+            <Text
+              style={{fontSize: 16, color: COLOR.BLACK, fontWeight: 'bold'}}>
+              dan***in@yourdomain.com
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={{height:50,marginTop:25,backgroundColor:COLOR.ORANGECOLOR,borderRadius:30,margin:15,justifyContent:'center',alignItems:'center'}}>
+          <Text style={{color:COLOR.WHITE,fontSize:16,fontWeight:'bold'}}>Continue</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -82,11 +106,10 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginHorizontal: 15,
     borderRadius: 20,
-
     flexDirection: 'row',
     alignItems: 'center',
-
     borderWidth: 2,
+    marginTop:15
   },
   imageContainer: {
     height: 65,
