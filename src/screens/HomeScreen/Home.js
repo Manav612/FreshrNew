@@ -4,7 +4,6 @@ import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } fr
 import { useSelector } from 'react-redux';
 import { Scale, Screen_Height, Screen_Width } from '../../constants/Constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { haircuts, mackup, manicure, massage } from '../../constants/Icons';
@@ -54,11 +53,6 @@ const Home = () => {
           <TouchableOpacity onPress={()=>navigation.navigate('Notification Screen')}>
           <Ionicons name="notifications-outline" size={30} color="black" />
           </TouchableOpacity>
-          
-          {/* <TouchableOpacity onPress={()=>navigation.navigate('My Book Mark Screen')}>
-
-          <Feather name="bookmark" size={30} color="black" />
-          </TouchableOpacity> */}
         </View>
       </View>
       <Text style={{ fontWeight: '900', fontSize: 30, color: COLOR.BLACK, paddingHorizontal: 15, marginVertical: 10 }}>Morning,Daniel👋</Text>

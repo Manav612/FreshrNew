@@ -25,6 +25,16 @@ const Manicure = () => {
     }));
   };
 
+  const [filteredData, setFilteredData] = useState([]);
+  const handleSearch = () => {
+        const newData = data2.filter(item => {
+            const itemData = `${item.text.toUpperCase()}`;
+            const searchTextData = searchText.toUpperCase();
+            return itemData.indexOf(searchTextData) > -1;
+        });
+        setFilteredData(newData);
+    };
+
   const styles = StyleSheet.create({
     CardContainer: {
       elevation: 2,
@@ -110,7 +120,9 @@ const Manicure = () => {
             placeholder='Search'
             placeholderTextColor={COLOR.GRAY}
             style={{ fontSize: 20, color: COLOR.GRAY,width:250 }}
-            onChangeText={text => setSearchText(text)} 
+            onChangeText={text => { setSearchText(text)
+              handleSearch();
+            }}  
           />
         </View>
         <TouchableOpacity>
@@ -119,7 +131,7 @@ const Manicure = () => {
       </View>
       <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
         <FlatList
-          data={data2}
+          data={searchText ? filteredData : data2}
           keyExtractor={item => item.id}
           renderItem={({ item }) => <Card item={item} />}
         />

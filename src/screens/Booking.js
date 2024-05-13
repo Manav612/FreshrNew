@@ -150,11 +150,11 @@ const Booking = () => {
             width: 10,
             height: 10,
             borderRadius: 10,
-            backgroundColor: COLOR_LIGHT.GRAY, // Inactive dot color
+            backgroundColor: COLOR_LIGHT.GRAY, 
             marginHorizontal: 5,
         },
         activeDot: {
-            backgroundColor: COLOR_LIGHT.ORANGECOLOR, // Active dot color
+            backgroundColor: COLOR_LIGHT.ORANGECOLOR, 
         },
         CategoryContainer: {
             borderWidth: 2,

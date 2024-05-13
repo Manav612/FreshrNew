@@ -20,6 +20,18 @@ const SearchFilter = () => {
     const [resetSelected, setResetSelected] = useState(false);
     const [applySelected, setApplySelected] = useState(false);
     const [bookmarkStatus, setBookmarkStatus] = useState({});
+    const [searchText, setSearchText] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+    const theme = useSelector(state => state.ThemeReducer);
+
+    const handleSearch = () => {
+        const newData = data2.filter(item => {
+            const itemData = `${item.text.toUpperCase()}`;
+            const searchTextData = searchText.toUpperCase();
+            return itemData.indexOf(searchTextData) > -1;
+        });
+        setFilteredData(newData);
+    };
 
     const toggleBookmark = (itemId) => {
       setBookmarkStatus(prevState => ({
@@ -36,6 +48,8 @@ const SearchFilter = () => {
         setApplySelected(!applySelected);
         setResetSelected(false); 
     };
+
+
 
     const AllCategory = ({ item }) => (
         <TouchableOpacity
@@ -120,8 +134,6 @@ const SearchFilter = () => {
         refRBSheet.current[index + 1].open();
     };
 
-    const [searchText, setSearchText] = useState('');
-    const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
     const styles = StyleSheet.create({
@@ -228,7 +240,9 @@ const SearchFilter = () => {
                         placeholder='Search'
                         placeholderTextColor={COLOR.GRAY}
                         style={{ fontSize: 20, color: COLOR.GRAY,width:200 }}
-                        onChangeText={text => setSearchText(text)}
+                        onChangeText={text => { setSearchText(text);
+                            handleSearch();
+                        }}
                     />
                 </View>
                 <TouchableOpacity onPress={openBottomSheet}>
@@ -252,7 +266,7 @@ const SearchFilter = () => {
             </View>
             <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
         <FlatList
-          data={data2}
+          data={searchText ? filteredData : data2}
           keyExtractor={item => item.id}
           renderItem={({ item }) => <Card item={item} />}
         />
@@ -272,6 +286,8 @@ const SearchFilter = () => {
                             borderRadius:40,
                             borderBottomRightRadius: 0,
                              borderBottomLeftRadius: 0,
+                             elevation:10,
+                             shadowColor:COLOR.BLACK,
                         },
                         draggableIcon: {
                             backgroundColor: COLOR.BLACK,

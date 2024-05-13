@@ -1,4 +1,4 @@
-import { banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4 } from '../constants/Icons';
+import { banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, map, message, share, sp1, sp2, web } from '../constants/Icons';
 
 export const ProfileData = [
     {
@@ -132,3 +132,105 @@ export const ProfileData = [
     {id: '4', text: '> 10 km'},
     {id: '5', text: '11 - 15 km'},
   ];
+
+
+
+
+export  const Socialicons =[
+  {
+      id:1,
+      name:'Website',
+      icon:web,
+  },
+  {
+      id:2,
+      name:'Message',
+      icon:message,
+  },
+  {
+      id:3,
+      name:'Call',
+      icon:call,
+  },
+  {
+      id:4,
+      name:'Direction',
+      icon:map,
+  },
+  {
+      id:5,
+      name:'Share',
+      icon:share,
+  },
+];
+
+export const Specialist=[
+  {
+      id:1,
+      name:'Nathan',
+      type:'Sr. Barber',
+      image:sp1,
+  },
+  {
+    id:2,
+    name:'Jenny',
+    type:'Hair Stylist',
+    image:sp2,
+},
+{
+  id:3,
+  name:'Sarah',
+  type:'Makeup Artist',
+  image:sp2,
+},
+{
+  id:4,
+  name:'Mike',
+  type:'Barber',
+  image:sp1,
+},
+{
+  id:5,
+  name:'Nathan',
+  type:'Sr. Barber',
+  image:sp1,
+},
+];
+
+export const AllCategoryData=[
+  {
+    id:1,
+    name:'About Us',
+  },
+  {
+    id:2,
+    name:'Services',
+  },
+  {
+    id:3,
+    name:'Package',
+  },
+  {
+    id:4,
+    name:'Gallary',
+  },
+  {
+    id:5,
+    name:'Review',
+  },
+];
+
+export const AllCategoryData1=[
+  {
+    id:1,
+    name:'Upcoming',
+  },
+  {
+    id:2,
+    name:'Completed',
+  },
+  {
+    id:3,
+    name:'Cancelled',
+  },
+];

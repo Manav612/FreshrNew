@@ -17,10 +17,11 @@ export const COLOR_LIGHT = {
     PRIMARYCOLORDARK: 'rgba(16, 12, 8, 1)',
     SECONDARYCOLOR: 'rgba(255, 92, 0, 1)',
     ORANGECOLOR: '#FFC02D',
-    PINK:"#FF657B",
+    PINK:"#FF657B", 
     YELLOW:"#FCD435",
     BLUE:"#3979FE",
     GREEN:"#4ADE80",
+    CANCEL_B:'#F75555',
 
     PLACEHOLDERCOLOR: 'rgba(180, 159, 138, 0.7)',
 
