@@ -1,7 +1,7 @@
-import { banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, map, message, share, sp1, sp2, web } from '../constants/Icons';
+import { Hair1,banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, map, message, share, sp1, sp2, web } from '../constants/Icons';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
-import { Hair1, banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4 } from '../constants/Icons';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // const theme = useSelector(state => state.ThemeReducer);
