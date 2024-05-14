@@ -14,10 +14,12 @@ export const BookingIcon = require('../assets/images/Booking.png');
 
 export const BBookmarkIcon = require('../assets/images/BottomTab/Bookmarks.png');
 export const Loader = require('../assets/Loader.gif');
+export const Successful = require ('../assets/Successful.gif');
+
 export const OnBoard1 = require('../assets/OnBoard1.png');
 export const OnBoard2 = require('../assets/OnBoard2.png');
 export const OnBoard3 = require('../assets/OnBoard3.png');
-export const Successful = require ('../assets/Successful.gif');
+
 
 
 export const Hair1 = require ('../assets/images/Hair1.jpg');
@@ -50,8 +52,3 @@ export const map = require('../assets/images/map.png');
 export const sp1 = require('../assets/images/s1.jpg');
 export const sp2 = require('../assets/images/s2.jpg');
 export const forgotpassword = require('../assets/images/ForgotPassword.jpg');
-
-export const verify = require('../assets/images/m2.webp');
-export const m2 = require('../assets/images/login.png');
-export const m3 = require('../assets/images/m1.jpg');
-export const Successful = require ('../assets/Successful.gif');

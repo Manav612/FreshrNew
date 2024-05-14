@@ -18,6 +18,7 @@ import SearchFilter from '../../screens/HomeScreen/SearchFilter';
 import MyBookMarkScreen from '../../screens/HomeScreen/MyBookMarkScreen';
 import NearbyYourLocation from '../../screens/HomeScreen/NearbyYourLocation';
 import MyProfile from '../../screens/HomeScreen/MyProfile';
+import ChatScreen from '../../screens/InboxScreen/ChatScreen';
 import Cancelbooking from '../../components/MyBookingDetails/Cancelbooking';
 
 
@@ -69,6 +70,7 @@ const InboxStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.InboxScreen} component={Inbox} />
+            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
         </Stack.Navigator>
     );
 };

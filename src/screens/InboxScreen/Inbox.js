@@ -66,7 +66,9 @@ const Inbox = ({navigate}) => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-      }}>
+      }}
+      onPress={() => navigation.navigate('Chat Screen', { title: item.title })}
+      >
       <View
         style={{
           flexDirection: 'row',
@@ -145,9 +147,9 @@ const Inbox = ({navigate}) => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
+            // flexDirection: 'row',
             marginHorizontal: 15,
-            justifyContent: 'space-evenly',
+            justifyContent:'flex-start',
           }}>
           <TouchableOpacity
             onPress={() => setActiveTab('Chats')}
@@ -164,31 +166,17 @@ const Inbox = ({navigate}) => {
               Chats
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setActiveTab('Calls')}
-            style={[
-              styles.category,
-              {
-                borderColor:
-                  activeTab === 'Calls' ? COLOR.ORANGECOLOR : COLOR.ORANGECOLOR,
-                backgroundColor:
-                  activeTab === 'Calls' ? COLOR.ORANGECOLOR : 'transparent',
-              },
-            ]}>
-            <Text style={{color: activeTab === 'Calls' ? 'white' : 'orange'}}>
-              Calls
-            </Text>
-          </TouchableOpacity>
+         
         </View>
       </View>
       <View>
         <FlatList
-          data={activeTab === 'Chats' ? chatdata : calldata}
+          data={chatdata}
           keyExtractor={item => item.id}
           renderItem={
-            activeTab === 'Chats'
-              ? ({item}) => <SelectChats item={item} />
-              : ({item}) => <SelectCalls item={item} />
+           
+              ({item}) => <SelectChats item={item} />
+             
           }
           showsHorizontalScrollIndicator={false}
         />
