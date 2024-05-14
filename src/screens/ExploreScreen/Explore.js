@@ -9,6 +9,9 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MapView, {Marker} from 'react-native-maps';
+import { data4 } from '../../components/utils';
+
+
 const Explore = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;

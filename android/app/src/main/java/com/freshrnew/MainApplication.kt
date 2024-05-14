@@ -1,4 +1,4 @@
-package com.freshrnew
+package com.freshr.freshrapp
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -17,7 +17,7 @@ export const Loader = require('../assets/Loader.gif');
 export const OnBoard1 = require('../assets/OnBoard1.png');
 export const OnBoard2 = require('../assets/OnBoard2.png');
 export const OnBoard3 = require('../assets/OnBoard3.png');
-
+export const Successful = require ('../assets/Successful.gif');
 
 
 export const Hair1 = require ('../assets/images/Hair1.jpg');

@@ -1,4 +1,4 @@
-package com.freshrnew
+package com.freshr.freshrapp
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

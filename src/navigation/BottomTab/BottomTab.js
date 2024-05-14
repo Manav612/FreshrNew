@@ -18,6 +18,7 @@ import SearchFilter from '../../screens/HomeScreen/SearchFilter';
 import MyBookMarkScreen from '../../screens/HomeScreen/MyBookMarkScreen';
 import NearbyYourLocation from '../../screens/HomeScreen/NearbyYourLocation';
 import MyProfile from '../../screens/HomeScreen/MyProfile';
+import Cancelbooking from '../../components/MyBookingDetails/Cancelbooking';
 
 
 
@@ -58,6 +59,7 @@ const MyBookingStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.MyBookingScreen} component={MyBooking} />
+            <Stack.Screen name={NavigationScreens.CancelbookingScreen} component={Cancelbooking} />
         </Stack.Navigator>
     );
 };

@@ -4,9 +4,11 @@ import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
 
 import { Hair1, OnBoard3, banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, map, message, share, sp1, sp2, web } from '../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-// const theme = useSelector(state => state.ThemeReducer);
-  // const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
 export const ProfileData = [
     {
       id: '1',
@@ -140,11 +142,6 @@ export const ProfileData = [
     {id: '5', text: '11 - 15 km'},
   ];
 
-
-
-
-
-
 export const AllCategoryData1=[
   {
     id:1,
@@ -275,7 +272,6 @@ export const AllCategoryData1=[
       ),
     },
   ];
-
   export  const Socialicons =[
     {
         id:1,
@@ -303,7 +299,6 @@ export const AllCategoryData1=[
         icon:share,
     },
   ];
-  
   export const Specialist=[
     {
         id:1,
@@ -336,7 +331,6 @@ export const AllCategoryData1=[
     image:sp1,
   },
   ];
-  
   export const AllCategoryData=[
     {
       id:1,
@@ -401,7 +395,6 @@ export const AllCategoryData1=[
       type:'20 types'
     },
    ];
-  
    export const Servicesdata2=[
     {
       id:1,
@@ -439,7 +432,6 @@ export const AllCategoryData1=[
       price:'$240'
     },
    ];
-  
    export const Servicesdata3=[
     {
       id:1,
@@ -478,7 +470,6 @@ export const AllCategoryData1=[
       image:OnBoard3,
     },
    ];
-  
    export const reviews=[
     {
       id:1,
@@ -528,4 +519,37 @@ export const AllCategoryData1=[
       txt:'This is my first time trying the service, but the results are very satisfying! love it!!❤❤❤',
       like2:982,
     },
-   ]
+   ];
+   export const ProfileData1=[
+    {
+      id:1,
+      icon:(<AntDesign name="user" size={30} color="black" />),
+      name:'Edit Profile',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:2,
+      icon:(<Ionicons name="notifications-outline" size={30} color="black" />),
+      name:'Notification',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:3,
+      icon:(<MaterialIcons name="payment" size={30} color="black" />),
+      name:'Payment',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:4,
+      icon:(<MaterialIcons name="security" size={30} color="black" />),
+      name:'Security',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:5,
+      icon:(<Ionicons name="lock-closed-outline" size={30} color="black" />),
+      name:'Privacy Policy',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+   
+   ];

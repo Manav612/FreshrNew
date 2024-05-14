@@ -36,7 +36,8 @@ export const NavigationScreens = {
     ManicureScreen:'Manicure Screen',
     MassageScreen:'Massage Screen',
     SearchFilterScreen:'SearchFilter Screen',
-    NearbyYourLocationScreen:'NearbyYourLocation Screen'
+    NearbyYourLocationScreen:'NearbyYourLocation Screen',
+    CancelbookingScreen:'Cancelbooking Screen'
 }
 
 export const label = {
