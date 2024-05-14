@@ -158,10 +158,14 @@ const FillProfile = () => {
             onChangeFormattedText={(text) => {
               setFormattedValue(text);
             }}
-            withDarkTheme
-            autoFocus
-            containerStyle={{backgroundColor:COLOR.AuthField,height:50,width:Screen_Width*0.92,marginBottom:20,borderRadius:10}}
-            textInputStyle={{color:COLOR.BLACK}}
+            // withDarkTheme
+            // autoFocus
+            containerStyle={{backgroundColor:COLOR.AuthField,height:68,width:Screen_Width*0.92,marginBottom:20,borderRadius:10}}
+            // textInputStyle={{color:COLOR.BLACK,backgroundColor:'yellow'}}
+            // codeTextStyle={{color:COLOR.BLACK}}
+            textContainerStyle={{borderTopRightRadius:10,borderBottomRightRadius:10}}
+            textInputProps={{fontSize:12}}
+            codeTextStyle={{fontSize:12}}
           />
           <Dropdown
             style={{
