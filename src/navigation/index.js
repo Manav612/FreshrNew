@@ -11,6 +11,8 @@ import SignIn from '../screens/OnBoardingScreens/SignInScreen/SignIn';
 import FillProfile from '../screens/OnBoardingScreens/FillProfileScreen/FillProfile';
 import ForgotPassword from '../screens/OnBoardingScreens/ForgotPasswordScreen/ForgotPassword';
 import Booking from '../screens/Booking';
+import otp from '../screens/OnBoardingScreens/ForgotPasswordScreen/otp';
+import Newpassword from '../screens/OnBoardingScreens/ForgotPasswordScreen/Newpassword';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -51,6 +53,8 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.SignUpScreen} component={SignUP} />
                 <Stack.Screen name={NavigationScreens.SignInScreen} component={SignIn} />
                 <Stack.Screen name={NavigationScreens.ForgotPasswordScreen} component={ForgotPassword} />
+                <Stack.Screen name={NavigationScreens.OTPScreen} component={otp} />
+                <Stack.Screen name={NavigationScreens.NewpasswordScreen} component={Newpassword} />
                 <Stack.Screen name={NavigationScreens.FillProfileScreen} component={FillProfile} />
                 <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        
                 <Stack.Screen name="Booking" component={Booking} />        

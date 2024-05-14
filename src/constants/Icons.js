@@ -50,3 +50,8 @@ export const map = require('../assets/images/map.png');
 export const sp1 = require('../assets/images/s1.jpg');
 export const sp2 = require('../assets/images/s2.jpg');
 export const forgotpassword = require('../assets/images/ForgotPassword.jpg');
+
+export const verify = require('../assets/images/m2.webp');
+export const m2 = require('../assets/images/login.png');
+export const m3 = require('../assets/images/m1.jpg');
+export const Successful = require ('../assets/Successful.gif');

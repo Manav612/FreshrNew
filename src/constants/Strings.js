@@ -15,6 +15,8 @@ export const NavigationScreens = {
     MyProfileScreen:'My Profile Screen',
     PasswordScreen: 'Password Screen',
     ForgotPasswordScreen: 'Forgot Password Screen',
+    OTPScreen:'OTPScreen',
+    NewpasswordScreen:'NewpasswordScreen',
     VerificationScreen: 'Verification Screen',
     WelcomeOnboardScreen: 'Welcome Onboard Screen',
     HomeScreen: 'Home Screen',

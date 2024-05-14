@@ -9,8 +9,10 @@ import {
   GRADIENT_COLOR_DARK,
   GRADIENT_COLOR_LIGHT,
 } from '../../../constants/Colors';
+import { useNavigation } from '@react-navigation/native';
 
-const ForgotPassword = ({navigation}) => {
+const ForgotPassword = () => {
+  const navigation = useNavigation();
   const BackPress = () => {
     navigation.goBack();
   };
@@ -85,7 +87,7 @@ const ForgotPassword = ({navigation}) => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={{height:50,marginTop:25,backgroundColor:COLOR.ORANGECOLOR,borderRadius:30,margin:15,justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity style={{height:50,marginTop:25,backgroundColor:COLOR.ORANGECOLOR,borderRadius:30,margin:15,justifyContent:'center',alignItems:'center'}} onPress={()=>navigation.navigate('OTPScreen')}>
           <Text style={{color:COLOR.WHITE,fontSize:16,fontWeight:'bold'}}>Continue</Text>
         </TouchableOpacity>
       </View>
