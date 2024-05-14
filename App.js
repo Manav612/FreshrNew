@@ -5,7 +5,11 @@ import NavigationHandler from './src/navigation';
 import Store from './src/redux/Store';
 import { SetThemeMode } from './src/redux/ThemeAction';
 
-
+const customTextProps = {
+  style: {
+    fontFamily: 'Poppins-Italic',
+  },
+};
 // ngrok config add-authtoken 2fMQD0u4cWkzERbRGcAH7fvGz4t_7oV6eG5eVbSVUJLPqdPL8
 const App = () => {
   const colorScheme = useColorScheme(); // This will give you the device theme mode

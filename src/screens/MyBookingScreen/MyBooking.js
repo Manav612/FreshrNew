@@ -66,7 +66,7 @@ const MyBooking = () => {
     },
     Categorytext: {
         fontWeight: '500',
-        fontSize:18,
+        fontSize:14,
         color: COLOR.ORANGECOLOR,
     },
     SelectedCategorytext: {

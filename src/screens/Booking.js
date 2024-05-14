@@ -15,13 +15,15 @@ import PackageScreen from '../components/SalonDetailScreen/PackageScreen';
 import GalleryScreen from '../components/SalonDetailScreen/GalleryScreen';
 import ReviewScreen from '../components/SalonDetailScreen/ReviewScreen';
 import { useNavigation } from '@react-navigation/native';
+
 const Booking = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [selectedItem, setSelectedItem] = useState('About Us');
-    const navigation = useNavigation()
     const [activeIndex, setActiveIndex] = useState(0);
     const flatListRef = useRef(null);
+  const navigation = useNavigation()
+
     useEffect(() => {
         const timer = setInterval(() => {
             let nextIndex = activeIndex + 1;
@@ -42,10 +44,10 @@ const Booking = () => {
     const renderItem = ({ item }) => (
         <ImageBackground source={item.image} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => {handleScroll(-1),navigation.goBack()}}>
                     <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => handleScroll(1)}>
                     <MaterialCommunityIcons name="bookmark-minus-outline" size={30} color={COLOR.WHITE} />
                 </TouchableOpacity>
             </View>
@@ -68,7 +70,7 @@ const Booking = () => {
                 <Image source={item.image} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
                 <View style={{ alignItems: 'center' }}>
                     <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.name}</Text>
-                    <Text style={{ color: COLOR.BLACK_70, fontSize: 14 }}>{item.type}</Text>
+                    <Text style={{ color: COLOR.BLACK_40, fontSize: 14 }}>{item.type}</Text>
                 </View>
             </TouchableOpacity>
 
@@ -295,5 +297,3 @@ const Booking = () => {
 }
 
 export default Booking;
-
-

@@ -121,7 +121,7 @@ const SignUP = () => {
           </View>
           <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
             <Fontisto name={rememberMe ? "checkbox-active" : "checkbox-passive"} size={24} color={COLOR.ORANGECOLOR} style={styles.icon} />
-            <Text style={{ marginLeft: 10, color: COLOR.BLACK }}>Remember me</Text>
+            <Text style={{ fontFamily:"Poppins-Bold",marginLeft: 10, color: COLOR.BLACK }}>Remember me</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Fill Profile Screen')} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign up</Text>

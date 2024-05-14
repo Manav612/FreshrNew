@@ -1,7 +1,8 @@
-import { Hair1,banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, map, message, share, sp1, sp2, web } from '../constants/Icons';
+
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
 
+import { Hair1, OnBoard3, banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, map, message, share, sp1, sp2, web } from '../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // const theme = useSelector(state => state.ThemeReducer);
@@ -142,89 +143,7 @@ export const ProfileData = [
 
 
 
-export  const Socialicons =[
-  {
-      id:1,
-      name:'Website',
-      icon:web,
-  },
-  {
-      id:2,
-      name:'Message',
-      icon:message,
-  },
-  {
-      id:3,
-      name:'Call',
-      icon:call,
-  },
-  {
-      id:4,
-      name:'Direction',
-      icon:map,
-  },
-  {
-      id:5,
-      name:'Share',
-      icon:share,
-  },
-];
 
-export const Specialist=[
-  {
-      id:1,
-      name:'Nathan',
-      type:'Sr. Barber',
-      image:sp1,
-  },
-  {
-    id:2,
-    name:'Jenny',
-    type:'Hair Stylist',
-    image:sp2,
-},
-{
-  id:3,
-  name:'Sarah',
-  type:'Makeup Artist',
-  image:sp2,
-},
-{
-  id:4,
-  name:'Mike',
-  type:'Barber',
-  image:sp1,
-},
-{
-  id:5,
-  name:'Nathan',
-  type:'Sr. Barber',
-  image:sp1,
-},
-];
-
-export const AllCategoryData=[
-  {
-    id:1,
-    name:'About Us',
-  },
-  {
-    id:2,
-    name:'Services',
-  },
-  {
-    id:3,
-    name:'Package',
-  },
-  {
-    id:4,
-    name:'Gallary',
-  },
-  {
-    id:5,
-    name:'Review',
-  },
-];
 
 export const AllCategoryData1=[
   {
@@ -356,3 +275,257 @@ export const AllCategoryData1=[
       ),
     },
   ];
+
+  export  const Socialicons =[
+    {
+        id:1,
+        name:'Website',
+        icon:web,
+    },
+    {
+        id:2,
+        name:'Message',
+        icon:message,
+    },
+    {
+        id:3,
+        name:'Call',
+        icon:call,
+    },
+    {
+        id:4,
+        name:'Direction',
+        icon:map,
+    },
+    {
+        id:5,
+        name:'Share',
+        icon:share,
+    },
+  ];
+  
+  export const Specialist=[
+    {
+        id:1,
+        name:'Nathan',
+        type:'Sr. Barber',
+        image:sp1,
+    },
+    {
+      id:2,
+      name:'Jenny',
+      type:'Hair Stylist',
+      image:sp2,
+  },
+  {
+    id:3,
+    name:'Sarah',
+    type:'Makeup Artist',
+    image:sp2,
+  },
+  {
+    id:4,
+    name:'Mike',
+    type:'Barber',
+    image:sp1,
+  },
+  {
+    id:5,
+    name:'Nathan',
+    type:'Sr. Barber',
+    image:sp1,
+  },
+  ];
+  
+  export const AllCategoryData=[
+    {
+      id:1,
+      name:'About Us',
+    },
+    {
+      id:2,
+      name:'Services',
+    },
+    {
+      id:3,
+      name:'Package',
+    },
+    {
+      id:4,
+      name:'Gallary',
+    },
+    {
+      id:5,
+      name:'Review',
+    },
+  ];
+  export const Servicesdata=[
+    {
+      id:1,
+      name:'Hair Cut',
+      type:'44 types'
+    },
+    {
+      id:2,
+      name:'Hair Coloring',
+      type:'12 types'
+    },
+    {
+      id:3,
+      name:'Hair Wash',
+      type:'8 types'
+    },
+    {
+      id:4,
+      name:'Saving',
+      type:'22 types'
+    },
+    {
+      id:5,
+      name:'Skin Care',
+      type:'12 types'
+    },
+    {
+      id:6,
+      name:'Hair Dryer',
+      type:'4 types'
+    },
+    {
+      id:7,
+      name:'Face Make up',
+      type:'18 types'
+    },
+    {
+      id:8,
+      name:'Body Massage',
+      type:'20 types'
+    },
+   ];
+  
+   export const Servicesdata2=[
+    {
+      id:1,
+      name:'Haircut & Hairstyle',
+      image:sp1,
+      type:'Special Offers Package, valid\nuntil Dec 10,2024',
+      price:'$125'
+    },
+    {
+      id:2,
+      name:'Beauty Make up',
+      image:sp2,
+      type:'Special Offers Package, valid\nuntil Dec 20,2024',
+      price:'$140'
+    },
+    {
+      id:3,
+      name:'Haircut & Hair Coloring',
+      image:OnBoard3,
+      type:'Special Offers Package, valid\nuntil Dec 16,2024',
+      price:'$100'
+    },
+    {
+      id:4,
+      name:'Bridal Make up',
+      image:sp2,
+      type:'Special Offers Package, valid\nuntil Dec 24,2024',
+      price:'$160'
+    },
+    {
+      id:5,
+      name:'Skin Care & Body Massage',
+      image:OnBoard3,
+      type:'Special Offers Package, valid\nuntil Dec 18,2024',
+      price:'$240'
+    },
+   ];
+  
+   export const Servicesdata3=[
+    {
+      id:1,
+      image:sp1,
+    },
+    {
+      id:2,
+      image:sp2,
+    },
+    {
+      id:3,
+      image:OnBoard3,
+    },
+    {
+      id:4,
+      image:sp1,
+    },
+    {
+      id:5,
+      image:sp2,
+    },
+    {
+      id:6,
+      image:OnBoard3,
+    },
+    {
+      id:7,
+      image:sp1,
+    },
+    {
+      id:8,
+      image:sp2,
+    },
+    {
+      id:9,
+      image:OnBoard3,
+    },
+   ];
+  
+   export const reviews=[
+    {
+      id:1,
+      name:'Marielle Wigington',
+      rating:5,
+      image:OnBoard3,
+      txt:'The people who work here are very friendly and\nprofessional, I really like it!👍👍',
+      like2:982,
+    },
+    {
+      id:2,
+      name:'Annabel Rohan',
+      rating:5,
+      image:sp2,
+      txt:'This is my first time trying the service, but the results are very satisfying! love it!!❤❤❤',
+      like2:748,
+    },
+    {
+      id:3,
+      name:'Marielle Wigington',
+      rating:4,
+      image:sp1,
+      txt:'The people who work here are very friendly and\nprofessional, I really like it!👍👍',
+      like2:572,
+    },
+    {
+      id:4,
+      name:'Rayford Chenail',
+      rating:5,
+      image:sp1,
+      txt:'The people who work here are very friendly and\nprofessional, I really like it!❤❤❤',
+      like2:493,
+    },
+    {
+      id:5,
+      name:'Tynisha Obey',
+      rating:3,
+      image:sp2,
+      txt:'The people who work here are very friendly and\nprofessional, I really like it!👍👍',
+      like2:600,
+    },
+    {
+      id:6,
+      name:'Willard Purnell',
+      rating:4,
+      image:sp1,
+      txt:'This is my first time trying the service, but the results are very satisfying! love it!!❤❤❤',
+      like2:982,
+    },
+   ]

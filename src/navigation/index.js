@@ -52,12 +52,6 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.SignInScreen} component={SignIn} />
                 <Stack.Screen name={NavigationScreens.ForgotPasswordScreen} component={ForgotPassword} />
                 <Stack.Screen name={NavigationScreens.FillProfileScreen} component={FillProfile} />
-
-                {/* <Stack.Screen name={NavigationScreens.SignUpScreen} component={SignUpScreen} />
-                <Stack.Screen name={NavigationScreens.PasswordScreen} component={PasswordScreen} />
-                <Stack.Screen name={NavigationScreens.ForgotPasswordScreen} component={ForgotPasswordScreen} />
-                <Stack.Screen name={NavigationScreens.VerificationScreen} component={VerificationScreen} />
-                <Stack.Screen name={NavigationScreens.WelcomeOnboardScreen} component={WelcomeOnboardScreen} /> */}
                 <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        
                 <Stack.Screen name="Booking" component={Booking} />        
             </Stack.Navigator>

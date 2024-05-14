@@ -1,25 +1,25 @@
-diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/8b1ae302910990f117dc55d4842991ab/results.bin b/node_modules/react-native-vector-icons/android/build/.transforms/8b1ae302910990f117dc55d4842991ab/results.bin
+diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/7e4e51c1e9d676d9cecc868bfd735d3c/results.bin b/node_modules/react-native-vector-icons/android/build/.transforms/7e4e51c1e9d676d9cecc868bfd735d3c/results.bin
 new file mode 100644
 index 0000000..0d259dd
 --- /dev/null
-+++ b/node_modules/react-native-vector-icons/android/build/.transforms/8b1ae302910990f117dc55d4842991ab/results.bin
++++ b/node_modules/react-native-vector-icons/android/build/.transforms/7e4e51c1e9d676d9cecc868bfd735d3c/results.bin
 @@ -0,0 +1 @@
 +o/classes
-diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/8b1ae302910990f117dc55d4842991ab/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-vector-icons/android/build/.transforms/8b1ae302910990f117dc55d4842991ab/transformed/classes/classes_dex/classes.dex
+diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/7e4e51c1e9d676d9cecc868bfd735d3c/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-vector-icons/android/build/.transforms/7e4e51c1e9d676d9cecc868bfd735d3c/transformed/classes/classes_dex/classes.dex
 new file mode 100644
 index 0000000..2eec2c2
-Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/.transforms/8b1ae302910990f117dc55d4842991ab/transformed/classes/classes_dex/classes.dex differ
-diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/ebd60ba2eecb1fe57f2cb73c8d31df09/results.bin b/node_modules/react-native-vector-icons/android/build/.transforms/ebd60ba2eecb1fe57f2cb73c8d31df09/results.bin
+Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/.transforms/7e4e51c1e9d676d9cecc868bfd735d3c/transformed/classes/classes_dex/classes.dex differ
+diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/8771e03d069daae5df6f474e585b4ce9/results.bin b/node_modules/react-native-vector-icons/android/build/.transforms/8771e03d069daae5df6f474e585b4ce9/results.bin
 new file mode 100644
 index 0000000..0d259dd
 --- /dev/null
-+++ b/node_modules/react-native-vector-icons/android/build/.transforms/ebd60ba2eecb1fe57f2cb73c8d31df09/results.bin
++++ b/node_modules/react-native-vector-icons/android/build/.transforms/8771e03d069daae5df6f474e585b4ce9/results.bin
 @@ -0,0 +1 @@
 +o/classes
-diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/ebd60ba2eecb1fe57f2cb73c8d31df09/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-vector-icons/android/build/.transforms/ebd60ba2eecb1fe57f2cb73c8d31df09/transformed/classes/classes_dex/classes.dex
+diff --git a/node_modules/react-native-vector-icons/android/build/.transforms/8771e03d069daae5df6f474e585b4ce9/transformed/classes/classes_dex/classes.dex b/node_modules/react-native-vector-icons/android/build/.transforms/8771e03d069daae5df6f474e585b4ce9/transformed/classes/classes_dex/classes.dex
 new file mode 100644
 index 0000000..41897f9
-Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/.transforms/ebd60ba2eecb1fe57f2cb73c8d31df09/transformed/classes/classes_dex/classes.dex differ
+Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/.transforms/8771e03d069daae5df6f474e585b4ce9/transformed/classes/classes_dex/classes.dex differ
 diff --git a/node_modules/react-native-vector-icons/android/build/generated/source/buildConfig/debug/com/oblador/vectoricons/BuildConfig.java b/node_modules/react-native-vector-icons/android/build/generated/source/buildConfig/debug/com/oblador/vectoricons/BuildConfig.java
 new file mode 100644
 index 0000000..52a02e0
@@ -573,11 +573,11 @@ index 0000000..e5f7d70
 Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/intermediates/full_jar/release/full.jar differ
 diff --git a/node_modules/react-native-vector-icons/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/react-native-vector-icons/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 new file mode 100644
-index 0000000..47f0826
+index 0000000..aa03d8b
 --- /dev/null
 +++ b/node_modules/react-native-vector-icons/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 @@ -0,0 +1 @@
-+#Fri May 10 15:49:32 IST 2024
++#Mon May 13 18:55:17 IST 2024
 diff --git a/node_modules/react-native-vector-icons/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/react-native-vector-icons/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
 new file mode 100644
 index 0000000..9ad9a9a
@@ -647,11 +647,11 @@ index 0000000..1c983fc
 Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/intermediates/incremental/release-mergeJavaRes/merge-state differ
 diff --git a/node_modules/react-native-vector-icons/android/build/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties b/node_modules/react-native-vector-icons/android/build/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties
 new file mode 100644
-index 0000000..5ee75e1
+index 0000000..a63740e
 --- /dev/null
 +++ b/node_modules/react-native-vector-icons/android/build/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties
 @@ -0,0 +1 @@
-+#Fri May 10 12:57:30 IST 2024
++#Mon May 13 19:28:52 IST 2024
 diff --git a/node_modules/react-native-vector-icons/android/build/intermediates/incremental/release/packageReleaseResources/merger.xml b/node_modules/react-native-vector-icons/android/build/intermediates/incremental/release/packageReleaseResources/merger.xml
 new file mode 100644
 index 0000000..ca5eb4a
@@ -4459,13 +4459,13 @@ index 0000000..66ad1dd
 Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
 diff --git a/node_modules/react-native-vector-icons/android/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin b/node_modules/react-native-vector-icons/android/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin
 new file mode 100644
-index 0000000..9d67203
+index 0000000..677b806
 Binary files /dev/null and b/node_modules/react-native-vector-icons/android/build/tmp/compileReleaseJavaWithJavac/previous-compilation-data.bin differ
 diff --git a/node_modules/react-native-vector-icons/fonts.gradle b/node_modules/react-native-vector-icons/fonts.gradle
-index 5485fac..3ff5771 100644
+index 5485fac..fcdb02b 100644
 --- a/node_modules/react-native-vector-icons/fonts.gradle
 +++ b/node_modules/react-native-vector-icons/fonts.gradle
-@@ -26,6 +26,17 @@ afterEvaluate {
+@@ -26,7 +26,18 @@ afterEvaluate {
  
      android.applicationVariants.all { def variant ->
          def targetName = variant.name.capitalize()
@@ -4482,4 +4482,6 @@ index 5485fac..3ff5771 100644
 +
          def generateAssetsTask = tasks.findByName("generate${targetName}Assets")
          generateAssetsTask.dependsOn(fontCopyTask)
-     }
+-    }
++    }
+ }

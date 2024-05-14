@@ -12,7 +12,7 @@ const MyBookMarkScreen = ({navigation}) => {
 
   return (
     <View>
-      <ScrollView>
+      
         <View
           style={{
             flexDirection: 'row',
@@ -39,7 +39,7 @@ const MyBookMarkScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <Category />
-      </ScrollView>
+      
     </View>
   );
 };

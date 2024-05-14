@@ -47,4 +47,6 @@ export const message = require('../assets/images/chat.png');
 export const call = require('../assets/images/call.png');
 export const share = require('../assets/images/telegram.png');
 export const map = require('../assets/images/map.png');
+export const sp1 = require('../assets/images/s1.jpg');
+export const sp2 = require('../assets/images/s2.jpg');
 export const forgotpassword = require('../assets/images/ForgotPassword.jpg');

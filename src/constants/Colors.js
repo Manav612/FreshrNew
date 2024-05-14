@@ -22,6 +22,7 @@ export const COLOR_LIGHT = {
     BLUE:"#3979FE",
     GREEN:"#4ADE80",
     CANCEL_B:'#F75555',
+    BUTTON_SHADOW:'#FFF4E6',
 
     PLACEHOLDERCOLOR: 'rgba(180, 159, 138, 0.7)',
 
@@ -46,6 +47,7 @@ export const COLOR_LIGHT = {
         PRIMARYCOLORDARK2: 'rgba(69, 53, 40, 1)',
         EXTRALIGHTGRAY: 'rgba(217, 217, 217, 1)',
         HOME_CARD_COLOR: 'rgba(37, 32, 27, 1)',
+
     },
 }
 
@@ -73,7 +75,8 @@ export const COLOR_DARK = {
     PRIMARYCOLORDARK: 'rgba(16, 12, 8, 1)',
     SECONDARYCOLOR: 'rgba(255, 92, 0, 1)',
     ORANGECOLOR: '#FFC02D',
-
+    BUTTON_SHADOW:'#FFF4E6',
+    
     PLACEHOLDERCOLOR: 'rgba(180, 159, 138, 0.7)',
 
     GREEN: 'rgba(55, 191, 69, 1)',
