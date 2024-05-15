@@ -42,7 +42,12 @@ export const NavigationScreens = {
     MassageScreen:'Massage Screen',
     SearchFilterScreen:'SearchFilter Screen',
     NearbyYourLocationScreen:'NearbyYourLocation Screen',
-    CancelbookingScreen:'Cancelbooking Screen'
+    CancelbookingScreen:'Cancelbooking Screen',
+    EditProfileScreen:'EditProfile Screen',
+    SecurityScreen:'Security Screen',
+    PrivacyPolicyScreen:'PrivacyPolicy Screen',
+    ReviewSummaryScreen:'ReviewSummary Screen',
+    EReceiptScreen:'EReceiptScreen'
 }
 
 export const label = {
