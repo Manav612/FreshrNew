@@ -12,34 +12,28 @@ const MyBookMarkScreen = ({navigation}) => {
 
   return (
     <View>
-      
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            margin: 15,
-            alignItems: 'center',
-          }}>
-          <View style={styles.HeaderView}>
-            <TouchableOpacity onPress={BackPress}>
-              <MaterialCommunityIcons
-                name="arrow-left"
-                size={35}
-                color="#000"
-              />
-            </TouchableOpacity>
-            <Text style={styles.HeaderText}>My Bookmark</Text>
-          </View>
-          <TouchableOpacity>
-            <MaterialCommunityIcons
-              name="dots-horizontal-circle-outline"
-              size={30}
-              color="#000"
-            />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          margin: 15,
+          alignItems: 'center',
+        }}>
+        <View style={styles.HeaderView}>
+          <TouchableOpacity onPress={BackPress}>
+            <MaterialCommunityIcons name="arrow-left" size={35} color="#000" />
           </TouchableOpacity>
+          <Text style={styles.HeaderText}>My Bookmark</Text>
         </View>
-        <Category />
-      
+        <TouchableOpacity>
+          <MaterialCommunityIcons
+            name="dots-horizontal-circle-outline"
+            size={30}
+            color="#000"
+          />
+        </TouchableOpacity>
+      </View>
+      <Category />
     </View>
   );
 };
