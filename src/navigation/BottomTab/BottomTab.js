@@ -22,6 +22,13 @@ import ChatScreen from '../../screens/InboxScreen/ChatScreen';
 import Cancelbooking from '../../components/MyBookingDetails/Cancelbooking';
 import OurServices from '../../components/OrderComponents/OurServices';
 import ServiceDetails from '../../components/OrderComponents/ServiceDetails';
+import Ourpackages from '../../components/OrderComponents/PackageDetail/Ourpackages';
+import OurPackageDetail from '../../components/OrderComponents/PackageDetail/OurPackageDetail';
+import Editprofile from '../../components/UserdetailsScreen/Editprofile';
+import Security from '../../components/UserdetailsScreen/Security';
+import PrivacyPolicy from '../../components/UserdetailsScreen/PrivacyPolicy';
+import ReviewSummary from '../../components/OrderComponents/PaymentScreen/ReviewSummary';
+import EReceipt from '../../components/OrderComponents/PaymentScreen/EReceipt';
 
 
 
@@ -32,6 +39,8 @@ const HomeStack = () => {
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
+            {/* <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} /> */}
+            {/* <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} /> */}
             <Stack.Screen name={NavigationScreens.HomeScreen} component={Home} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />
             <Stack.Screen name={NavigationScreens.MyBookMarkScreen} component={MyBookMarkScreen} />
@@ -44,8 +53,14 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.OurServicesScreen} component={OurServices} />
             <Stack.Screen name={NavigationScreens.ServiceDetailsScreen} component={ServiceDetails} />
 
+            <Stack.Screen name={NavigationScreens.OurpackagesScreen} component={Ourpackages} />
+            <Stack.Screen name={NavigationScreens.OurPackageDetailScreen} component={OurPackageDetail} />
 
             <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
+            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+            <Stack.Screen name={NavigationScreens.SecurityScreen} component={Security} />
+            <Stack.Screen name={NavigationScreens.PrivacyPolicyScreen} component={PrivacyPolicy} />
+            
         </Stack.Navigator>
     );
 };

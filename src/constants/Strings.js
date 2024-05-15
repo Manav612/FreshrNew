@@ -14,10 +14,13 @@ export const NavigationScreens = {
     MyBookMarkScreen:'My Book Mark Screen',
     MyProfileScreen:'My Profile Screen',
     PasswordScreen: 'Password Screen',
+    NewpasswordScreen:'NewpasswordScreen',
     ForgotPasswordScreen: 'Forgot Password Screen',
     OTPScreen:'OTPScreen',
     OurServicesScreen:'OurServices Screen',
     ServiceDetailsScreen:'ServiceDetails Screen',
+    OurpackagesScreen:'Ourpackages Screen',
+    OurPackageDetailScreen:'OurPackageDetail Screen',
     VerificationScreen: 'Verification Screen',
     WelcomeOnboardScreen: 'Welcome Onboard Screen',
     HomeScreen: 'Home Screen',
@@ -42,7 +45,12 @@ export const NavigationScreens = {
     MassageScreen:'Massage Screen',
     SearchFilterScreen:'SearchFilter Screen',
     NearbyYourLocationScreen:'NearbyYourLocation Screen',
-    CancelbookingScreen:'Cancelbooking Screen'
+    CancelbookingScreen:'Cancelbooking Screen',
+    EditProfileScreen:'EditProfile Screen',
+    SecurityScreen:'Security Screen',
+    PrivacyPolicyScreen:'PrivacyPolicy Screen',
+    ReviewSummaryScreen:'ReviewSummary Screen',
+    EReceiptScreen:'EReceiptScreen'
 }
 
 export const label = {
