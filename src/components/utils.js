@@ -551,5 +551,57 @@ export const AllCategoryData1=[
       name:'Privacy Policy',
       icon1:(<AntDesign name="right" size={30} color="black" />),
     },
-   
+   ];
+
+   export const Servicedetails=[
+    {
+      id:1,
+      name:'Undercut',
+      order:'728 booked',
+      price:'$6.50',
+      image:sp1,
+    },
+    {
+      id:2,
+      name:'Quiff',
+      order:'629 booked',
+      price:'$6.00',
+      image:sp1,
+    },
+    {
+      id:3,
+      name:'Crew Cut',
+      order:'922 booked',
+      price:'$5.50',
+      image:sp1,
+    },
+    {
+      id:4,
+      name:'Regular Cut',
+      order:'728 booked',
+      price:'$5.00',
+      image:sp1,
+    },
+    {
+      id:5,
+      name:'Tample Fade',
+      order:'728 booked',
+      price:'$6.50',
+      image:sp1,
+    },
+    {
+      id:6,
+      name:'Undercut',
+      order:'728 booked',
+      price:'$6.50',
+      image:sp1,
+    },
+    {
+      id:7,
+      name:'Undercut',
+      order:'728 booked',
+      price:'$6.50',
+      image:sp1,
+    },
+
    ];

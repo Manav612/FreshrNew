@@ -11,8 +11,8 @@ import SignIn from '../screens/OnBoardingScreens/SignInScreen/SignIn';
 import FillProfile from '../screens/OnBoardingScreens/FillProfileScreen/FillProfile';
 import ForgotPassword from '../screens/OnBoardingScreens/ForgotPasswordScreen/ForgotPassword';
 import Booking from '../screens/Booking';
-import otp from '../screens/OnBoardingScreens/ForgotPasswordScreen/otp';
 import Newpassword from '../screens/OnBoardingScreens/ForgotPasswordScreen/Newpassword';
+import otp from '../screens/OnBoardingScreens/ForgotPasswordScreen/otp';
 
 const Stack = createSharedElementStackNavigator();
 

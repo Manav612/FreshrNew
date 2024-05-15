@@ -20,6 +20,8 @@ import NearbyYourLocation from '../../screens/HomeScreen/NearbyYourLocation';
 import MyProfile from '../../screens/HomeScreen/MyProfile';
 import ChatScreen from '../../screens/InboxScreen/ChatScreen';
 import Cancelbooking from '../../components/MyBookingDetails/Cancelbooking';
+import OurServices from '../../components/OrderComponents/OurServices';
+import ServiceDetails from '../../components/OrderComponents/ServiceDetails';
 
 
 
@@ -39,6 +41,9 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.MassageScreen} component={Massage} />
             <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
             <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
+            <Stack.Screen name={NavigationScreens.OurServicesScreen} component={OurServices} />
+            <Stack.Screen name={NavigationScreens.ServiceDetailsScreen} component={ServiceDetails} />
+
 
             <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
         </Stack.Navigator>

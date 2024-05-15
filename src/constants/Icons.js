@@ -52,3 +52,5 @@ export const map = require('../assets/images/map.png');
 export const sp1 = require('../assets/images/s1.jpg');
 export const sp2 = require('../assets/images/s2.jpg');
 export const forgotpassword = require('../assets/images/ForgotPassword.jpg');
+
+export const m1 = require('../assets/images/m1.jpg')

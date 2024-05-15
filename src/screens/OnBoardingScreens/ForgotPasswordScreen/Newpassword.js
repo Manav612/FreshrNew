@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
-import { Loader, Successful, m3 } from '../../../constants/Icons';
+import { Loader, Successful, m1, m3 } from '../../../constants/Icons';
 import Modal from "react-native-modal";
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
@@ -68,7 +68,7 @@ const Newpassword = () => {
                 </TouchableOpacity>
                 <Text style={{ color: COLOR.BLACK, fontSize: 22 }}>Create New Password</Text>
             </View>
-            <Image source={m3} style={{ height: Screen_Height * 0.40, width: Screen_Width }} />
+            <Image source={m1} style={{ height: Screen_Height * 0.40, width: Screen_Width }} />
             <View style={{ marginTop: 20, marginHorizontal: 20 }}>
                 <Text style={{ fontSize: 20, color: COLOR.BLACK_70 }}>Create Your New Password</Text>
                 {/* Password Input */}

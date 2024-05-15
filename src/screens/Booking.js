@@ -263,11 +263,11 @@ const Booking = () => {
                     keyExtractor={item => item.id}
                     renderItem={renderItem2}
                 />
-                <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 20 }} />
-                <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
+                <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 14 }} />
+                <View style={{ flexDirection: 'row', justifyContent: "space-between",alignItems:'center' }}>
                     <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Our Specialist</Text>
                     <TouchableOpacity >
-                        <Text style={{ fontSize: 20, color: COLOR.ORANGECOLOR }}>See All</Text>
+                        <Text style={{ fontSize: 18, color: COLOR.ORANGECOLOR ,fontWeight:'600'}}>See All</Text>
                     </TouchableOpacity>
                 </View>
                 <FlatList
