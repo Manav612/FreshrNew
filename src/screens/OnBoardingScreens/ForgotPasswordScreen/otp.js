@@ -5,8 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
-import OtpInputs from 'react-native-otp-inputs';
-import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+
 
 const otp = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -29,20 +28,7 @@ const otp = () => {
       <View style={{ justifyContent: 'center', alignItems: 'center',flex:1}}>
         <View style={{height:Screen_Height*0.20,alignItems:'center'}}>
         <Text style={{ color: COLOR.BLACK_70, fontSize: 20 }}>Code has been send to +1 111*****99</Text>
-          <OtpInputs
-            inputContainerStyles={{
-              backgroundColor: COLOR.WHITE,
-              width: 70, // Adjust width as needed
-              height: 70, // Adjust height as needed
-              borderRadius: 10, // Adjust border radius as needed
-              marginHorizontal: 5, // Adjust horizontal margin between inputs
-              justifyContent:'center',
-              alignItems:'center',
-            }}
-            inputStyles={{ fontSize: 20,fontWeight:'600' }}
-            textAlign='center'
-            handleChange={(code) => console.log(code)}
-            numberOfInputs={4} />
+  
             </View>
             <Text  style={{textAlign:'center',fontSize:18,color:COLOR.BLACK_70}}>Resend code in 55s</Text>
             <TouchableOpacity style={{

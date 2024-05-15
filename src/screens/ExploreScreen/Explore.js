@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { data4 } from '../../components/utils';
 
 
@@ -17,85 +17,86 @@ const Explore = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const mapStyle = [
-    {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-    {elementType: 'labels.texztroke', stylers: [{color: '#242f3e'}]},
+    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.texztroke', stylers: [{ color: '#242f3e' }] },
     {
       featureType: 'administrative.locality',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'geometry',
-      stylers: [{color: '#263c3f'}],
+      stylers: [{ color: '#263c3f' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#6b9a76'}],
+      stylers: [{ color: '#6b9a76' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry',
-      stylers: [{color: '#38414e'}],
+      stylers: [{ color: '#38414e' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#212a37'}],
+      stylers: [{ color: '#212a37' }],
     },
     {
       featureType: 'road',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#9ca5b3'}],
+      stylers: [{ color: '#9ca5b3' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry',
-      stylers: [{color: '#746855'}],
+      stylers: [{ color: '#746855' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#1f2835'}],
+      stylers: [{ color: '#1f2835' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#f3d19c'}],
+      stylers: [{ color: '#f3d19c' }],
     },
     {
       featureType: 'transit',
       elementType: 'geometry',
-      stylers: [{color: '#2f3948'}],
+      stylers: [{ color: '#2f3948' }],
     },
     {
       featureType: 'transit.station',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'water',
       elementType: 'geometry',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#515c6d'}],
+      stylers: [{ color: '#515c6d' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.stroke',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
   ];
   const [searchText, setSearchText] = useState('');
+  const [activeTab, setActiveTab] = useState('Delivery');
   const refRBSheet = useRef([]);
 
   const openBottomSheet = () => {
@@ -103,7 +104,31 @@ const Explore = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <>
+      <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, position: 'absolute', top: 10, zIndex: 1000, marginVertical: 20 }}>
+        <TouchableOpacity style={{ width: 150, height: 60, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
+          <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ width: 150, height: 60, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+          <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ backgroundColor: COLOR.WHITE, borderRadius: 25, elevation: 2, shadowColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.92, marginHorizontal: 15, position: 'absolute', top: 100, zIndex: 1000 }}>
+        <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.80, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
+          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+            <AntDesign name="search1" size={30} color={COLOR.GRAY} />
+            <TextInput
+              placeholder='Search'
+              placeholderTextColor={COLOR.GRAY}
+              style={{ fontSize: 20, color: COLOR.GRAY, width: 200 }}
+              onChangeText={text => {
+                setSearchText(text);
+              }}
+            />
+          </View>
+        </View>
+        </View>
         <MapView
           style={styles.mapStyle}
           initialRegion={{
@@ -126,31 +151,14 @@ const Explore = () => {
             description={'This is a description of the marker'}
           />
         </MapView>
-        {/* <View style={{ backgroundColor: COLOR.WHITE, borderRadius: 25, elevation: 2, shadowColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', marginHorizontal: 15, marginTop: 40 }}>
-          <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.80, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <AntDesign name="search1" size={30} color={COLOR.GRAY} />
-              <TextInput
-                placeholder='Search'
-                placeholderTextColor={COLOR.GRAY}
-                style={{ fontSize: 20, color: COLOR.GRAY, width: 200 }}
-                onChangeText={text => {
-                  setSearchText(text);
-                }}
-              />
-            </View>
-            <TouchableOpacity onPress={openBottomSheet}>
-              <Ionicons name="filter" size={30} color={COLOR.ORANGECOLOR} />
-            </TouchableOpacity>
-          </View>
-        </View>
+
         <View style={{}}>
           <RBSheet
             ref={(ref) => (refRBSheet.current[0] = ref)}
-  
+
             height={Screen_Height * 0.50}
             customStyles={{
-  
+
               wrapper: {
                 backgroundColor: 'transparent',
               },
@@ -178,11 +186,12 @@ const Explore = () => {
                 <Text style={{ fontWeight: '600', fontSize: 25 }}>Details</Text>
               </View>
             </View>
-  
+
           </RBSheet>
-        </View> */}
-      </View>
+        </View>
+    </>
   )
+
 }
 
 export default Explore

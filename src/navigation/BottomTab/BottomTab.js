@@ -29,6 +29,9 @@ import Security from '../../components/UserdetailsScreen/Security';
 import PrivacyPolicy from '../../components/UserdetailsScreen/PrivacyPolicy';
 import ReviewSummary from '../../components/OrderComponents/PaymentScreen/ReviewSummary';
 import EReceipt from '../../components/OrderComponents/PaymentScreen/EReceipt';
+import OurGallery from '../../components/OrderComponents/OurGallery';
+import ReviewsDetail from '../../components/OrderComponents/ReviewsDetailScreen/ReviewsDetail';
+import BookAppointmentScreen from '../../components/OrderComponents/BookAppointment/BookAppointmentScreen';
 
 
 
@@ -55,6 +58,9 @@ const HomeStack = () => {
 
             <Stack.Screen name={NavigationScreens.OurpackagesScreen} component={Ourpackages} />
             <Stack.Screen name={NavigationScreens.OurPackageDetailScreen} component={OurPackageDetail} />
+            <Stack.Screen name={NavigationScreens.OurGalleryScreen} component={OurGallery} />
+            <Stack.Screen name={NavigationScreens.ReviewsDetailScreen} component={ReviewsDetail} />
+            <Stack.Screen name={NavigationScreens.BookAppointmentScreen} component={BookAppointmentScreen} />
 
             <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
             <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
