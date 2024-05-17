@@ -20,9 +20,10 @@ const Booking = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [selectedItem, setSelectedItem] = useState('About Us');
+    const [isOpen, setIsOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const flatListRef = useRef(null);
-  const navigation = useNavigation()
+    const navigation = useNavigation()
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -44,7 +45,7 @@ const Booking = () => {
     const renderItem = ({ item }) => (
         <ImageBackground source={item.image} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
-                <TouchableOpacity onPress={() => {handleScroll(-1),navigation.goBack()}}>
+                <TouchableOpacity onPress={() => { handleScroll(-1), navigation.goBack() }}>
                     <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleScroll(1)}>
@@ -57,7 +58,7 @@ const Booking = () => {
 
     const renderItem2 = ({ item }) => (
         <View style={{ alignItems: 'center', marginTop: 10 }}>
-            <TouchableOpacity style={{ backgroundColor: COLOR.ORANGE_80, width: Screen_Width*0.16, height: Screen_Height*0.07, borderRadius: 99, marginHorizontal: 5, justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity style={{ backgroundColor: COLOR.ORANGE_80, width: Screen_Width * 0.16, height: Screen_Height * 0.07, borderRadius: 99, marginHorizontal: 5, justifyContent: 'center', alignItems: 'center' }}>
                 <Image source={item.icon} style={{ width: 30, height: 30 }} />
             </TouchableOpacity>
             <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.name}</Text>
@@ -69,7 +70,7 @@ const Booking = () => {
             <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.18, borderRadius: 25, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
                 <Image source={item.image} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.name}</Text>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.title}</Text>
                     <Text style={{ color: COLOR.BLACK_40, fontSize: 14 }}>{item.type}</Text>
                 </View>
             </TouchableOpacity>
@@ -152,11 +153,11 @@ const Booking = () => {
             width: 10,
             height: 10,
             borderRadius: 10,
-            backgroundColor: COLOR_LIGHT.GRAY, 
+            backgroundColor: COLOR_LIGHT.GRAY,
             marginHorizontal: 5,
         },
         activeDot: {
-            backgroundColor: COLOR_LIGHT.ORANGECOLOR, 
+            backgroundColor: COLOR_LIGHT.ORANGECOLOR,
         },
         CategoryContainer: {
             borderWidth: 2,
@@ -243,8 +244,19 @@ const Booking = () => {
                 <View style={{ marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Barbarella Inova</Text>
-                        <TouchableOpacity style={{ width: 80, height: 35, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 22 }}>
-                            <Text style={{ fontSize: 16, color: COLOR.WHITE_80, textAlign: 'center' }}>Open</Text>
+                        <TouchableOpacity
+                            style={{
+                                width: 80,
+                                height: 35,
+                                backgroundColor: isOpen ? COLOR.ORANGECOLOR : COLOR.CANCEL_B,
+                                justifyContent: 'center',
+                                borderRadius: 22
+                            }}
+                            onPress={() => setIsOpen(prevState => !prevState)}
+                        >
+                            <Text style={{ fontSize: 16, color: COLOR.WHITE_80, textAlign: 'center' }}>
+                                {isOpen ? "Open" : "Close"}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -264,10 +276,10 @@ const Booking = () => {
                     renderItem={renderItem2}
                 />
                 <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 14 }} />
-                <View style={{ flexDirection: 'row', justifyContent: "space-between",alignItems:'center' }}>
+                <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
                     <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Our Specialist</Text>
-                    <TouchableOpacity >
-                        <Text style={{ fontSize: 18, color: COLOR.ORANGECOLOR ,fontWeight:'600'}}>See All</Text>
+                    <TouchableOpacity  onPress={()=>navigation.navigate('OurSpecialistDetails Screen')}>
+                        <Text style={{ fontSize: 18, color: COLOR.ORANGECOLOR, fontWeight: '600' }}>See All</Text>
                     </TouchableOpacity>
                 </View>
                 <FlatList

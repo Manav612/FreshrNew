@@ -4,11 +4,13 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { useSelector } from 'react-redux';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { useNavigation } from '@react-navigation/native';
 
 const AboutUsScreen = () => {
     const [showMore, setShowMore] = useState(false);
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+    const navigation = useNavigation()
     return (
         <View style={{ marginTop: 20 }}>
             <Text style={{ fontSize: 15, color: COLOR.BLACK }}>
@@ -49,7 +51,7 @@ const AboutUsScreen = () => {
                 <Fontisto name="map-marker-alt" size={24} color={COLOR.ORANGECOLOR} />
                 <Text style={{ marginLeft: 10, color: COLOR.GRAY ,fontSize:16}}>6993 Meadow Vally Terrace, New York</Text>
             </View>
-            <TouchableOpacity style={{width:Screen_Width*0.80,height:Screen_Height*0.05,backgroundColor:COLOR.ORANGECOLOR,justifyContent:'center',borderRadius:35,alignSelf:'center'}}>
+            <TouchableOpacity style={{width:Screen_Width*0.80,height:Screen_Height*0.05,backgroundColor:COLOR.ORANGECOLOR,justifyContent:'center',borderRadius:35,alignSelf:'center'}} onPress={()=>navigation.navigate('BookAppointment Screen')}>
                 <Text style={{textAlign:'center',fontSize:18,color:COLOR.WHITE_80}}>Book Now</Text>
             </TouchableOpacity>
         </View>

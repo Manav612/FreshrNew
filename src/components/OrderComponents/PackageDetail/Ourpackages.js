@@ -1,3 +1,4 @@
+
 import {
   StyleSheet,
   Text,
@@ -7,22 +8,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
-import {Servicesdata2} from '../../utils';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+import { Servicesdata2 } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 
 const Ourpackages = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const navigation = useNavigation();
 
   const BackPress = () => {
     navigation.goBack();
   };
-  const navigation = useNavigation()
-  const renderitem = ({item}) => (
+
+  const renderitem = ({ item }) => (
     <TouchableOpacity
       style={{
         backgroundColor: COLOR.WHITE,
@@ -35,8 +37,8 @@ const Ourpackages = () => {
         flexDirection: 'row',
         marginHorizontal: 15,
       }}
-      onPress={ ()=>navigation.navigate('OurPackageDetail Screen')}
-      >
+      onPress={() => navigation.navigate('OurPackageDetail Screen', { name: item.name, image: item.image })}
+    >
       <Image
         style={{
           width: Screen_Width * 0.22,
@@ -45,11 +47,11 @@ const Ourpackages = () => {
         }}
         source={item.image}
       />
-      <View style={{flexDirection: 'column', marginLeft: 15, gap: 5}}>
+      <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5 }}>
         <Text
           style={{
             color: COLOR.BLACK,
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: '600',
             paddingRight: 10,
           }}>
@@ -88,9 +90,11 @@ const Ourpackages = () => {
               justifyContent: 'center',
               borderRadius: 35,
               alignSelf: 'center',
-            }}>
+            }}
+            onPress={()=>navigation.navigate('BookAppointment Screen')}
+            >
             <Text
-              style={{textAlign: 'center', fontSize: 14, color: COLOR.WHITE}}>
+              style={{ textAlign: 'center', fontSize: 14, color: COLOR.WHITE }}>
               Book Now
             </Text>
           </TouchableOpacity>
@@ -98,6 +102,7 @@ const Ourpackages = () => {
       </View>
     </TouchableOpacity>
   );
+
   return (
     <View>
       <View
@@ -138,5 +143,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  HeaderText: {color: '#000', fontSize: 22, fontWeight: '600', marginLeft: 10},
+  HeaderText: { color: '#000', fontSize: 22, fontWeight: '600', marginLeft: 10 },
 });

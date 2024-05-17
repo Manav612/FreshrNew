@@ -44,7 +44,7 @@ const ServicesScreen = () => {
         keyExtractor={item => item.id}
         renderItem={renderitem}
       />
-      <TouchableOpacity style={{ width: Screen_Width * 0.80, height: Screen_Height * 0.05, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center',marginTop:5}}>
+      <TouchableOpacity onPress={()=>navigation.navigate('BookAppointment Screen')} style={{ width: Screen_Width * 0.80, height: Screen_Height * 0.05, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center',marginTop:5}}>
         <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
       </TouchableOpacity>
     </ScrollView>

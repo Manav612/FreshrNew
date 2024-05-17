@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
-
+import OTPTextView from 'react-native-otp-textinput';
 
 const otp = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -21,14 +21,33 @@ const otp = () => {
         alignItems: 'center',
       }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialCommunityIcons name="arrow-left" size={35} color="#000" />
+          <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />
         </TouchableOpacity>
         <Text style={{ color: COLOR.BLACK, fontSize: 22 }}>Forgot Password</Text>
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center',flex:1}}>
         <View style={{height:Screen_Height*0.20,alignItems:'center'}}>
-        <Text style={{ color: COLOR.BLACK_70, fontSize: 20 }}>Code has been send to +1 111*****99</Text>
-  
+        <Text style={{ color: COLOR.BLACK_70, fontSize: 20 }}>Code has been send to +1 111***99</Text>
+        <OTPTextView
+            containerStyle={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 20,
+            }}
+            handleTextChange={(code) => console.log(code)}
+            inputCount={4}
+            keyboardType="numeric"
+            tintColor={COLOR.ORANGECOLOR}
+            offTintColor={COLOR.GRAY}
+            inputCellLength={1}
+            inputCellWidth={50} // Adjust size as needed
+            inputCellHeight={50} // Adjust size as needed
+            inputCellBorderWidth={0}
+            inputCellRadius={0}
+            focusedBorderColor={COLOR.ORANGECOLOR}
+            offBorderColor={COLOR.GRAY}
+            autoFocusOnLoad
+          />
             </View>
             <Text  style={{textAlign:'center',fontSize:18,color:COLOR.BLACK_70}}>Resend code in 55s</Text>
             <TouchableOpacity style={{

@@ -32,6 +32,8 @@ import EReceipt from '../../components/OrderComponents/PaymentScreen/EReceipt';
 import OurGallery from '../../components/OrderComponents/OurGallery';
 import ReviewsDetail from '../../components/OrderComponents/ReviewsDetailScreen/ReviewsDetail';
 import BookAppointmentScreen from '../../components/OrderComponents/BookAppointment/BookAppointmentScreen';
+import OurSpecialistDetails from '../../components/OrderComponents/OurSpecialistDetails';
+import PaymentMethod from '../../components/OrderComponents/PaymentScreen/PaymentMethod';
 
 
 
@@ -42,8 +44,7 @@ const HomeStack = () => {
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            {/* <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} /> */}
-            {/* <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} /> */}
+
             <Stack.Screen name={NavigationScreens.HomeScreen} component={Home} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />
             <Stack.Screen name={NavigationScreens.MyBookMarkScreen} component={MyBookMarkScreen} />
@@ -53,6 +54,11 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.MassageScreen} component={Massage} />
             <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
             <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
+
+            <Stack.Screen name={NavigationScreens.OurSpecialistDetailsScreen} component={OurSpecialistDetails} />
+
+
+
             <Stack.Screen name={NavigationScreens.OurServicesScreen} component={OurServices} />
             <Stack.Screen name={NavigationScreens.ServiceDetailsScreen} component={ServiceDetails} />
 
@@ -66,7 +72,12 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
             <Stack.Screen name={NavigationScreens.SecurityScreen} component={Security} />
             <Stack.Screen name={NavigationScreens.PrivacyPolicyScreen} component={PrivacyPolicy} />
-            
+            <Stack.Screen name={NavigationScreens.PaymentMethodScreen} component={PaymentMethod} />
+
+            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
+            <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} />
+            <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} />
+
         </Stack.Navigator>
     );
 };
@@ -116,13 +127,13 @@ const Screens = [
         name: NavigationScreens.HomeScreen + " " + NavigationScreens.HomeTab,
         title: "Home",
         component: HomeStack,
-        icon:HomeIcon,
+        icon: HomeIcon,
     },
     {
         name: NavigationScreens.ExploreScreen + " " + NavigationScreens.HomeTab,
         title: "Explore",
         component: ExploreStack,
-        icon:LocationIcon,
+        icon: LocationIcon,
     },
     {
         name: NavigationScreens.MyBookingScreen + " " + NavigationScreens.HomeTab,
@@ -140,7 +151,7 @@ const Screens = [
         name: NavigationScreens.ProfileScreen + " " + NavigationScreens.HomeTab,
         title: "Followed",
         component: FollowedStack,
-        icon:BookmarkOutline,
+        icon: BookmarkOutline,
     },
 ]
 export default BottomTab = ({ route }) => {

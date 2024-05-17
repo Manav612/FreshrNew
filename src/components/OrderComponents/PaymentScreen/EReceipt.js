@@ -17,7 +17,9 @@ const EReceipt = () => {
     <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
         <View style={{ alignItems: 'center', flexDirection: 'row', gap: 20 }}>
-          <AntDesign name="arrowleft" size={30} color="black" />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={30} color="black"/>
+          </TouchableOpacity>
           <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>E-Receipt</Text>
         </View>
         <MaterialCommunityIcons

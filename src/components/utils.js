@@ -304,31 +304,31 @@ export const AllCategoryData1=[
   export const Specialist=[
     {
         id:1,
-        name:'Nathan',
+        title:'Nathan',
         type:'Sr. Barber',
         image:sp1,
     },
     {
       id:2,
-      name:'Jenny',
+      title:'Jenny',
       type:'Hair Stylist',
       image:sp2,
   },
   {
     id:3,
-    name:'Sarah',
+    title:'Sarah',
     type:'Makeup Artist',
     image:sp2,
   },
   {
     id:4,
-    name:'Mike',
+    title:'Mike',
     type:'Barber',
     image:sp1,
   },
   {
     id:5,
-    name:'Nathan',
+    title:'Nathan',
     type:'Sr. Barber',
     image:sp1,
   },

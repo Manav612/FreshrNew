@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+import Modal from "react-native-modal";
+import FastImage from 'react-native-fast-image';
+import { Successful } from '../../../constants/Icons';
 
 const ReviewSummary = () => {
 
@@ -13,6 +16,11 @@ const ReviewSummary = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
     return (
         <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
             <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
@@ -85,11 +93,27 @@ const ReviewSummary = () => {
                     backgroundColor: COLOR.ORANGECOLOR,
                     marginVertical:10
                 }}
+                onPress={toggleModal}
             >
                  <Text style={{ color: COLOR.WHITE, fontSize: 20, fontWeight: '500' }}>
                     Confirm Payment
                 </Text>
             </TouchableOpacity>
+            <Modal isVisible={isModalVisible}>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <View style={{ backgroundColor: 'white', height: Screen_Height * 0.50, width: Screen_Width * 0.80, borderRadius: 25, marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>
+                            <FastImage source={Successful} style={{ height: 150, width: 150 }} resizeMode='cover' />
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, color: COLOR.ORANGECOLOR }}>Successful!</Text>
+                            <Text style={{ marginVertical: 10, fontSize: 18, color: COLOR.GRAY,textAlign:'center' }}>Your Booking has been {'\n'} successfully done</Text>
+                            <TouchableOpacity onPress={()=>{navigation.navigate('EReceiptScreen'),setModalVisible(false)}} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15, width: Screen_Width * 0.70 }}>
+                                <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '800' }}>View E-Recepit</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>navigation.navigate('Home Screen',{toggleModal})} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.GULABI, marginVertical: 15, width: Screen_Width * 0.70 }}>
+                                <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: '800' }}>Home</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
             <View style={{height:90}}/>
         </ScrollView>
     )

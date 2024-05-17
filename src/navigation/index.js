@@ -14,7 +14,6 @@ import Booking from '../screens/Booking';
 
 import Newpassword from '../screens/OnBoardingScreens/ForgotPasswordScreen/Newpassword';
 import otp from '../screens/OnBoardingScreens/ForgotPasswordScreen/otp';
-import BookAppointmentScreen from '../components/OrderComponents/BookAppointment/BookAppointmentScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -50,7 +49,6 @@ const NavigationHandler = () => {
             <Stack.Navigator screenOptions={{
                 headerShown: false
             }}>
-            {/* <Stack.Screen name={NavigationScreens.BookAppointmentScreen} component={BookAppointmentScreen} /> */}
 
                 <Stack.Screen name={NavigationScreens.SplashScreen} component={SplashScreen} />
                 <Stack.Screen name={NavigationScreens.WelcomeOnboardScreen} component={WelcomeOnboardScreen} />

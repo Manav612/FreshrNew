@@ -1,14 +1,14 @@
-import {StyleSheet, Text, View, TouchableOpacity,Image} from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
-import {useSelector} from 'react-redux';
+
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {sp1} from '../../../constants/Icons';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { Screen_Height } from '../../../constants/Constants';
+import { sp1 } from '../../../constants/Icons';
 
-
-const OurPackageDetail = ({navigation}) => {
+const OurPackageDetail = () => {
   const [showMore, setShowMore] = useState(false);
   const [checkboxStatus, setCheckboxStatus] = useState({
     haircut: false,
@@ -21,6 +21,10 @@ const OurPackageDetail = ({navigation}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
 
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { name, image } = route.params;
+
   const BackPress = () => {
     navigation.goBack();
   };
@@ -31,6 +35,7 @@ const OurPackageDetail = ({navigation}) => {
       [key]: !prevState[key],
     }));
   };
+
   return (
     <View>
       <View
@@ -54,17 +59,17 @@ const OurPackageDetail = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View>
-        <Image style={{height:250,width:'90%',marginHorizontal:20,borderRadius:20}} source={sp1}/>
+        <Image style={{ height: 250, width: '90%', marginHorizontal: 20, borderRadius: 20 }} source={image} />
       </View>
-      <View style={{margin: 15}}>
+      <View style={{ margin: 15 }}>
         <View>
-          <Text style={{color: COLOR.BLACK, fontSize: 18, fontWeight: 'bold'}}>
-            Haircut & Hairstyle
+          <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: 'bold' }}>
+            {name}
           </Text>
-          <Text style={{marginVertical: 10}}>
+          <Text style={{ marginVertical: 10 }}>
             Special Offers Package, valid until Dec 15,2024
           </Text>
-          <Text style={{fontSize: 15}}>
+          <Text style={{ fontSize: 15 }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget
             laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec,
             aliquam{' '}
@@ -80,7 +85,7 @@ const OurPackageDetail = ({navigation}) => {
             {!showMore ? (
               <TouchableOpacity
                 onPress={() => setShowMore(true)}
-                style={{marginTop: 10}}>
+                style={{ marginTop: 10 }}>
                 <Text
                   style={{
                     color: COLOR.ORANGECOLOR,
@@ -122,7 +127,6 @@ const OurPackageDetail = ({navigation}) => {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  //marginTop: 10,
                 }}>
                 <TouchableOpacity
                   onPress={() => handleCheckboxPress('haircut')}>
@@ -264,7 +268,7 @@ const OurPackageDetail = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}
-        onPress={() => navigation.navigate('OTPScreen')}>
+        onPress={() => navigation.navigate('BookAppointment Screen')}>
         <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: 'bold'}}>
           Book Now - $125
         </Text>
