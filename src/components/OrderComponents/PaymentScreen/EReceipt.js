@@ -54,7 +54,7 @@ const EReceipt = () => {
           <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>10:00 AM</Text>
         </View>
         <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 10 }}>
-          <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Specialist</Text>
+          <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Professional</Text>
           <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Nathan Alexander</Text>
         </View>
 

@@ -12,11 +12,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PhoneInput from 'react-native-phone-number-input';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useNavigation } from '@react-navigation/native';
-import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
-import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 
-const Editprofile = () => {
+const ProfessionalEditprofile = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation();
@@ -243,4 +243,4 @@ const Editprofile = () => {
     );
 };
 
-export default Editprofile;
+export default ProfessionalEditprofile;

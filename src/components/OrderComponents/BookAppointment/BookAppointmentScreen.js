@@ -13,7 +13,7 @@ import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import { HoursData, Specialist, } from '../../utils';
+import { HoursData, Professional, } from '../../utils';
 const BookAppointmentScreen = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -101,7 +101,7 @@ const BookAppointmentScreen = () => {
       </View>
     </TouchableOpacity>
   );
-  // const Specialist = ({item}) => (
+  // const Professional = ({item}) => (
   //   <TouchableOpacity
   //     style={{marginHorizontal: 13,}}
   //     onPress={() => setSelectedItem(item.id)}>
@@ -157,9 +157,12 @@ const BookAppointmentScreen = () => {
         <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK, marginVertical: 10 }}>
           Select Hours
         </Text>
+        <TouchableOpacity onPress={()=>navigation.navigate('Booking Hours Screen')}>
         <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.ORANGECOLOR, marginVertical: 10 }}>
           See All
         </Text>
+        </TouchableOpacity>
+        
       </View>
       <FlatList
         data={HoursData}
@@ -170,14 +173,14 @@ const BookAppointmentScreen = () => {
       />
       <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
         <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK, marginVertical: 10 }}>
-          Select Specialist
+          Select Professional
         </Text>
         <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.ORANGECOLOR, marginVertical: 10 }}>
           See All
         </Text>
       </View>
       <FlatList
-        data={Specialist}
+        data={Professional}
         horizontal
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}

@@ -8,13 +8,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { Screen_Height, Screen_Width } from '../constants/Constants';
-import { AllCategory, AllCategoryData, Socialicons, Specialist, barberData, data, data2 } from '../components/utils';
+import { AllCategory, AllCategoryData, Socialicons, Professional, barberData, data, data2 } from '../components/utils';
 import AboutUsScreen from '../components/SalonDetailScreen/AboutUsScreen';
 import ServicesScreen from '../components/SalonDetailScreen/ServicesScreen';
 import PackageScreen from '../components/SalonDetailScreen/PackageScreen';
 import GalleryScreen from '../components/SalonDetailScreen/GalleryScreen';
 import ReviewScreen from '../components/SalonDetailScreen/ReviewScreen';
 import { useNavigation } from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const Booking = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -49,7 +50,11 @@ const Booking = () => {
                     <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleScroll(1)}>
-                    <MaterialCommunityIcons name="bookmark-minus-outline" size={30} color={COLOR.WHITE} />
+                <MaterialCommunityIcons
+                                                name="bookmark-outline"
+                                                size={25}
+                                                color={COLOR.WHITE}
+                                            />
                 </TouchableOpacity>
             </View>
             {renderPaginationDots()}
@@ -139,7 +144,7 @@ const Booking = () => {
                 return <ServicesScreen />;
             case 'Package':
                 return <PackageScreen />;
-            case 'Gallary':
+            case 'Gallery':
                 return <GalleryScreen />;
             case 'Review':
                 return <ReviewScreen />;
@@ -259,31 +264,27 @@ const Booking = () => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Fontisto name="map-marker-alt" size={24} color={COLOR.ORANGECOLOR} />
-                        <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>6993 Meadow Vally Terrace, New York</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginTop: 5, alignItems: 'center' }}>
+                   
+                    <View style={{ flexDirection: 'row',justifyContent:'flex-start', alignItems: 'center', marginVertical: 5 }}>
                         <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
                         <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>4.8(3,279 reviews)</Text>
                     </View>
+                    <TouchableOpacity style={{ flexDirection: 'row',justifyContent:'flex-start', alignItems: 'center' }}>
+
+                        <FastImage source={share} style={{ height: 20, width: 20, marginVertical: 5 }} />
+                        <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>Share</Text>
+                    </TouchableOpacity>
                 </View>
-                <FlatList
-                    data={Socialicons}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={item => item.id}
-                    renderItem={renderItem2}
-                />
+
                 <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 14 }} />
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
-                    <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Our Specialist</Text>
-                    <TouchableOpacity  onPress={()=>navigation.navigate('OurSpecialistDetails Screen')}>
+                    <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Our Professionals</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('OurProfessionalDetails Screen')}>
                         <Text style={{ fontSize: 18, color: COLOR.ORANGECOLOR, fontWeight: '600' }}>See All</Text>
                     </TouchableOpacity>
                 </View>
                 <FlatList
-                    data={Specialist}
+                    data={Professional}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={item => item.id}

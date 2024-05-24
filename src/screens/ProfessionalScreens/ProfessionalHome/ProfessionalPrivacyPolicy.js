@@ -1,12 +1,12 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Screen_Height, Screen_Width } from '../../constants/Constants'
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants'
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
-const PrivacyPolicy = () => {
+const ProfessionalPrivacyPolicy = () => {
   const navigation = useNavigation()
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -34,6 +34,6 @@ const PrivacyPolicy = () => {
   )
 }
 
-export default PrivacyPolicy
+export default ProfessionalPrivacyPolicy
 
 const styles = StyleSheet.create({})

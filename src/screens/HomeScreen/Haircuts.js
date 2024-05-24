@@ -7,8 +7,9 @@ import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_LIGHT } from '../../constants/C
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { data2 } from '../../components/utils';
-import { Hair1 } from '../../constants/Icons';
+import { Filter, Hair1 } from '../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FastImage from 'react-native-fast-image';
 
 
 const Haircuts = () => {
@@ -127,7 +128,7 @@ const Haircuts = () => {
           />
         </View>
         <TouchableOpacity>
-          <Ionicons name="filter" size={30} color={COLOR.ORANGECOLOR} />
+        <FastImage source={Filter} style={{height:20,width:20}}/>
         </TouchableOpacity>
       </View>
       <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>

@@ -5,14 +5,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
-import { ProfileData1 } from '../../components/utils';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
+import { ProfessionalProfileData, ProfileData1 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
-const MyProfile = () => {
+const ProfessionalProfile = () => {
 
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
@@ -89,27 +89,27 @@ const MyProfile = () => {
           </TouchableOpacity>
         </View>
         <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>Daniel Austin</Text>
-        <Text style={{ fontSize: 18, color: COLOR.GRAY }}>daniel_austin@yourdomain.com</Text>
+        <Text style={{ fontSize: 18, color: COLOR.GRAY }}>manav@yourdomain.com</Text>
       </View>
       <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} />
       <FlatList
-        data={ProfileData1}
+        data={ProfessionalProfileData}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={{ width: Screen_Width * 0.90, height: 60, borderRadius: 15, marginVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}
             onPress={() => {
               switch (item.name) {
                 case 'Edit Profile':
-                  navigation.navigate('EditProfile Screen');
+                  navigation.navigate('ProfessionalEditProfile Screen');
                   break;
                 case 'Security':
-                  navigation.navigate('Security Screen');
+                  navigation.navigate('ProfessionalSecurity Screen');
                   break;
                 case 'Privacy Policy':
-                  navigation.navigate('PrivacyPolicy Screen');
+                  navigation.navigate('ProfessionalPrivacyPolicy Screen');
                   break;
-                case 'Switch to Professionals':
-                  navigation.navigate('ProfessionalBottom Tab');
+                case 'Switch to Client':
+                  navigation.navigate('Home Tab');
                   break;
                 default:
                   break;
@@ -215,6 +215,6 @@ const MyProfile = () => {
   )
 }
 
-export default MyProfile
+export default ProfessionalProfile
 
 const styles = StyleSheet.create({})

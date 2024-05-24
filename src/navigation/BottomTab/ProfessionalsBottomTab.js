@@ -1,0 +1,123 @@
+// ProfessionalBottomTab.js
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationScreens } from '../../constants/Strings';
+import React from 'react';
+import TabBar from './TabBar';
+import ProfessionalHome from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalHome';
+import ProfessionalServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalServices';
+import { BookingIcon, HomeIcon, InboxIcon, ScissorIcon } from '../../constants/Icons';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import TransactionHistoryScreen from '../../screens/ProfessionalScreens/ProfessionalHome/TranscationHistoryScreen';
+import ProfessionalProfile from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalProfile';
+import ProfessionalEditprofile from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalEditprofile';
+import ProfessionalSecurity from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalSecurity';
+import ProfessionalPrivacyPolicy from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalPrivacyPolicy';
+import ProfessionalBooking from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalBooking';
+import ProfessionalInbox from '../../screens/ProfessionalScreens/ProfessionalInboxScreen/ProfessionalInbox';
+import ProfessionalChatScreen from '../../screens/ProfessionalScreens/ProfessionalInboxScreen/ProfessionalChatScreen';
+
+const Tab = createBottomTabNavigator();
+const Stack = createSharedElementStackNavigator();
+
+const HomeStack = () => {
+    return (
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+        }}>
+            <Stack.Screen name={NavigationScreens.ProfessionalHomeScreen} component={ProfessionalHome} />
+            <Stack.Screen name={NavigationScreens.TransactionHistoryScreen} component={TransactionHistoryScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalProfileScreen} component={ProfessionalProfile} />
+            <Stack.Screen name={NavigationScreens.ProfessionalEditProfileScreen} component={ProfessionalEditprofile} />
+            <Stack.Screen name={NavigationScreens.ProfessionalSecurityScreen} component={ProfessionalSecurity} />
+            <Stack.Screen name={NavigationScreens.ProfessionalPrivacyPolicyScreen} component={ProfessionalPrivacyPolicy} />
+        </Stack.Navigator>
+    );
+};
+
+const ServicesStack = () => {
+    return (
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+        }}>
+            <Stack.Screen name={NavigationScreens.ProfessionalServicesScreen} component={ProfessionalServices} />
+        </Stack.Navigator>
+    );
+};
+
+const MyBookingStack = () => {
+    return (
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+        }}>
+            <Stack.Screen name={NavigationScreens.ProfessionalBookingScreen} component={ProfessionalBooking} />
+            {/* <Stack.Screen name={NavigationScreens.CancelbookingScreen} component={Cancelbooking} /> */}
+        </Stack.Navigator>
+    );
+};
+const InboxStack = () => {
+    return (
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+        }}>
+            <Stack.Screen name={NavigationScreens.ProfessionalInboxScreen} component={ProfessionalInbox} />
+            <Stack.Screen name={NavigationScreens.ProfessionalChatScreen} component={ProfessionalChatScreen} />
+        </Stack.Navigator>
+    );
+};
+
+const Screens = [
+    {
+        name: NavigationScreens.ProfessionalHomeScreen + " " + NavigationScreens.ProfessionalBottomTab,
+        title: "Home",
+        component: HomeStack,
+        icon: HomeIcon,
+    },
+    {
+        name: NavigationScreens.ProfessionalServicesScreen + " " + NavigationScreens.ProfessionalBottomTab,
+        title: "Services",
+        component: ServicesStack,
+        icon: ScissorIcon,
+    },
+    {
+        name: NavigationScreens.ProfessionalBookingScreen + " " + NavigationScreens.ProfessionalBottomTab,
+        title: "My Bookings",
+        component: MyBookingStack,
+        icon: BookingIcon,
+    },
+    {
+        name: NavigationScreens.ProfessionalInboxScreen + " " + NavigationScreens.ProfessionalBottomTab,
+        title: "Inbox",
+        component: InboxStack,
+        icon: InboxIcon,
+    },
+]
+
+export default ProfessionalBottomTab = ({ route }) => {
+    return (
+        <Tab.Navigator screenOptions={{
+            headerShown: false,
+            // unmountOnBlur: true,
+        }}
+            tabBar={(props) => (<TabBar {...props} route={route} />)}
+        >
+            {
+                Screens.map((screen, i) => {
+                    return (
+                        <Tab.Screen
+                            name={screen.name}
+                            component={screen.component}
+                            options={{
+                                title: screen.title,
+                                tabBarIcon: screen.icon,
+                            }}
+                            key={i}
+                        />
+                    )
+                })
+            }
+        </Tab.Navigator>
+    );
+}
+
+
+

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { data, data2 } from './utils';
@@ -8,6 +9,7 @@ import { Scale, Screen_Height, Screen_Width } from '../constants/Constants';
 import { Hair1 } from '../constants/Icons';
 import { useNavigation } from '@react-navigation/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import FastImage from 'react-native-fast-image';
 
 const Category = () => {
     const [selectedItem, setSelectedItem] = useState('All');
@@ -123,7 +125,7 @@ const Category = () => {
                     marginHorizontal: 13,
                 }} onPress={() => navigation.navigate('Booking')}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image style={styles.CardImage} source={Hair1} />
+                    <FastImage style={styles.CardImage} source={Hair1} />
                     <View style={styles.CardContain}>
                         <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>
                             {item.text}
@@ -170,7 +172,7 @@ const Category = () => {
 
     return (
         <View>
-            <View>
+            {/* <View>
                 <FlatList
                     data={data}
                     keyExtractor={item => item.id}
@@ -178,7 +180,7 @@ const Category = () => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
-            </View>
+            </View> */}
             <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
                 <FlatList
                     data={filteredData}
@@ -190,10 +192,10 @@ const Category = () => {
             <View style={{}}>
                 <RBSheet
                     ref={(ref) => (refRBSheet.current[0] = ref)}
-                    height={Screen_Height * 0.3}
+                    height={Screen_Height * 0.35}
                     customStyles={{
                         wrapper: {
-                            backgroundColor: 'transparent',
+                            backgroundColor:COLOR.BLACK_40,
                         },
                         container: {
                             backgroundColor: COLOR.WHITE,
@@ -217,9 +219,18 @@ const Category = () => {
                     {/* Display details of selected bookmark item */}
                     {selectedBookmarkItem && (
                         <View style={{ borderRadius: 25, borderBottomRightRadius: 0, borderBottomLeftRadius: 0, paddingHorizontal: 15 }}>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
-                                <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Remove from Bookmark?</Text>
+                           
+                            <View style={{ justifyContent: 'center', alignItems: 'center',marginVertical:10 }}>
+                            <View style={{ width: 30, height: 3, backgroundColor: COLOR.BLACK, marginBottom: 10 }} />
+                            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',width:Screen_Width*0.9}}>
+                                <View style={{width:30}}/>
+                                <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK}}>Remove from Bookmark?</Text>
+                                <TouchableOpacity onPress={() => refRBSheet.current[0].close()}>
+                                    <AntDesign name="closecircle" size={24} color={COLOR.BLACK} />
+                                </TouchableOpacity>
                             </View>
+
+                        </View>
                             {/* Card details */}
                             <View style={styles.CardContainer}>
 

@@ -38,20 +38,11 @@ const AboutUsScreen = () => {
             </Text>
             <Text style={{ color: COLOR.BLACK, fontSize: 20, marginVertical: 10, fontWeight: 'bold' }}>Working Hours</Text>
             <View>
-                <Text style={{fontSize:16}}>Monday-Friday   : 08:00 AM - 21:00 PM</Text>
-                <Text style={{fontSize:16}}>Saturday-Sunday : 10:00 AM - 20:00 PM</Text>
+                <Text style={{fontSize:16,color: COLOR.BLACK,}}>Monday-Friday   : 08:00 AM - 21:00 PM</Text>
+                <Text style={{fontSize:16,color: COLOR.BLACK,}}>Saturday-Sunday : 10:00 AM - 20:00 PM</Text>
             </View>
-            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginVertical: 10, fontWeight: 'bold' }}>Contact us</Text>
-            <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 18 }}>(406) 555-0120</Text>
-            <View style={{ justifyContent: 'space-between', flexDirection: 'row' ,marginVertical:10}}>
-                <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: 'bold' }}>Our Address</Text>
-                <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: 'bold' }}>See on Maps</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Fontisto name="map-marker-alt" size={24} color={COLOR.ORANGECOLOR} />
-                <Text style={{ marginLeft: 10, color: COLOR.GRAY ,fontSize:16}}>6993 Meadow Vally Terrace, New York</Text>
-            </View>
-            <TouchableOpacity style={{width:Screen_Width*0.80,height:Screen_Height*0.05,backgroundColor:COLOR.ORANGECOLOR,justifyContent:'center',borderRadius:35,alignSelf:'center'}} onPress={()=>navigation.navigate('BookAppointment Screen')}>
+            
+            <TouchableOpacity style={{width:Screen_Width*0.80,height:Screen_Height*0.05,backgroundColor:COLOR.ORANGECOLOR,justifyContent:'center',borderRadius:35,alignSelf:'center',marginVertical:20}} onPress={()=>navigation.navigate('BookAppointment Screen')}>
                 <Text style={{textAlign:'center',fontSize:18,color:COLOR.WHITE_80}}>Book Now</Text>
             </TouchableOpacity>
         </View>

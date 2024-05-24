@@ -5,9 +5,12 @@ export const CameraIcon = require('../assets/images/Camera.png');
 export const UploadIcon = require('../assets/images/Upload.png');
 export const NoBookMark = require('../assets/NobookMark.png')
 export const SplashImage = require('../assets/SplashImage.png')
+export const Splash = require('../assets/images/Splash.jpg')
+export const Filter = require('../assets/images/Filter.png')
 
 export const HomeIcon = require('../assets/images/Home.png');
 export const UserIcon = require('../assets/images/User.png');
+export const ScissorIcon = require('../assets/images/cut.png');
 export const LocationIcon = require('../assets/images/Location.png');
 export const InboxIcon = require('../assets/images/Inbox.png');
 export const BookingIcon = require('../assets/images/Booking.png');

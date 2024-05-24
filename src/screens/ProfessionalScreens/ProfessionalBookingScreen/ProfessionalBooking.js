@@ -1,17 +1,17 @@
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity,FlatList } from 'react-native'
 import React, { useState } from 'react'
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
-import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { AllCategoryData1 } from '../../components/utils';
-import Cancelled from '../../components/MyBookingDetails/Cancelled';
-import Completed from '../../components/MyBookingDetails/Completed';
-import Upcoming from '../../components/MyBookingDetails/Upcoming';
+import { AllCategoryData1 } from '../../../components/utils';
+import Cancelled from '../../../components/MyBookingDetails/Cancelled';
+import Completed from '../../../components/MyBookingDetails/Completed';
+import Upcoming from '../../../components/MyBookingDetails/Upcoming';
 
-const MyBooking = () => {
+const ProfessionalBooking = () => {
   const navigation = useNavigation()
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -139,7 +139,10 @@ const renderScreen = () => {
           </TouchableOpacity>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Booking</Text>
         </View>
-        <AntDesign name="search1" size={30} color={COLOR.GRAY} />
+        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalProfile Screen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <AntDesign name="setting" size={28} color={COLOR.ChartBlue} />
+
+                    </TouchableOpacity>
         {/* <View style={{ flexDirection: 'row', gap: 10 }}>
           <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
         </View> */}
@@ -161,6 +164,6 @@ const renderScreen = () => {
   )
 }
 
-export default MyBooking
+export default ProfessionalBooking
 
 const styles = StyleSheet.create({})

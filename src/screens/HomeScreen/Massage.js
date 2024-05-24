@@ -10,7 +10,6 @@ import { data2 } from '../../components/utils';
 import { Hair1 } from '../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 const Massage = () => {
   const navigation = useNavigation()
   const [searchText, setSearchText] = useState('');

@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {Hair1} from '../../constants/Icons';
-import {Screen_Height} from '../../constants/Constants';
+import {Hair1} from '../../../constants/Icons';
+import {Screen_Height} from '../../../constants/Constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,12 +18,12 @@ import {
   COLOR_LIGHT,
   GRADIENT_COLOR_DARK,
   GRADIENT_COLOR_LIGHT,
-} from '../../constants/Colors';
+} from '../../../constants/Colors';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import {calldata, chatdata} from '../../components/utils';
+import {calldata, chatdata} from '../../../components/utils';
 
-const Inbox = ({navigate}) => {
+const ProfessionalInbox = ({navigate}) => {
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -185,7 +185,7 @@ const Inbox = ({navigate}) => {
   );
 };
 
-export default Inbox;
+export default ProfessionalInbox;
 
 const styles = StyleSheet.create({
   category: {

@@ -8,7 +8,6 @@ import Home from '../../screens/HomeScreen/Home';
 import Explore from '../../screens/ExploreScreen/Explore';
 import MyBooking from '../../screens/MyBookingScreen/MyBooking';
 import Inbox from '../../screens/InboxScreen/Inbox';
-import Profile from '../../screens/ProfileScreen/Profile';
 import NotificationScreen from '../../screens/HomeScreen/NotificationScreen';
 import Haircuts from '../../screens/HomeScreen/Haircuts';
 import Mackup from '../../screens/HomeScreen/Mackup';
@@ -32,8 +31,10 @@ import EReceipt from '../../components/OrderComponents/PaymentScreen/EReceipt';
 import OurGallery from '../../components/OrderComponents/OurGallery';
 import ReviewsDetail from '../../components/OrderComponents/ReviewsDetailScreen/ReviewsDetail';
 import BookAppointmentScreen from '../../components/OrderComponents/BookAppointment/BookAppointmentScreen';
-import OurSpecialistDetails from '../../components/OrderComponents/OurSpecialistDetails';
+import OurProfessionalDetails from '../../components/OrderComponents/OurProfessionalDetails';
 import PaymentMethod from '../../components/OrderComponents/PaymentScreen/PaymentMethod';
+import BookingHoursScreen from '../../components/OrderComponents/BookAppointment/BookingHoursScreen';
+
 
 
 
@@ -55,7 +56,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
             <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
 
-            <Stack.Screen name={NavigationScreens.OurSpecialistDetailsScreen} component={OurSpecialistDetails} />
+            <Stack.Screen name={NavigationScreens.OurProfessionalDetailsScreen} component={OurProfessionalDetails} />
 
 
 
@@ -67,8 +68,10 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.OurGalleryScreen} component={OurGallery} />
             <Stack.Screen name={NavigationScreens.ReviewsDetailScreen} component={ReviewsDetail} />
             <Stack.Screen name={NavigationScreens.BookAppointmentScreen} component={BookAppointmentScreen} />
+            <Stack.Screen name={NavigationScreens.BookingHoursScreen} component={BookingHoursScreen} />
 
             <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
+           
             <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
             <Stack.Screen name={NavigationScreens.SecurityScreen} component={Security} />
             <Stack.Screen name={NavigationScreens.PrivacyPolicyScreen} component={PrivacyPolicy} />
@@ -137,7 +140,7 @@ const Screens = [
     },
     {
         name: NavigationScreens.MyBookingScreen + " " + NavigationScreens.HomeTab,
-        title: "My Booking",
+        title: "My Bookings",
         component: MyBookingStack,
         icon: BookingIcon,
     },
@@ -149,7 +152,7 @@ const Screens = [
     },
     {
         name: NavigationScreens.ProfileScreen + " " + NavigationScreens.HomeTab,
-        title: "Followed",
+        title: "Following",
         component: FollowedStack,
         icon: BookmarkOutline,
     },

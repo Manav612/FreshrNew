@@ -18,7 +18,7 @@ const navigation = useNavigation()
   return (
     <View>
      <View style={{ justifyContent: 'space-between', marginTop: 10, flexDirection: 'row' }}>
-        <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>Our Gallary</Text>
+        <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>Our Gallery</Text>
         <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('OurGallery Screen')}>See All</Text>
       </View>
       <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 20 }} />

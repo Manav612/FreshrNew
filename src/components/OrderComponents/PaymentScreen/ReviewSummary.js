@@ -24,25 +24,22 @@ const ReviewSummary = () => {
     return (
         <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
             <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                    
                 <AntDesign name="arrowleft" size={30} color="black" />
+                </TouchableOpacity>
                 <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Review Summary</Text>
             </View>
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 15 }}>
                 <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Barber/Salon</Text>
                 <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Barbarella lnova</Text>
             </View>
-            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 10 }}>
-                <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Address</Text>
-                <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>6993 Meadow Valley Terrace</Text>
-            </View>
+            
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 10 }}>
                 <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Name</Text>
                 <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Daniel Austin</Text>
             </View>
-            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 10 }}>
-                <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Phone</Text>
-                <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>+1 1111 467 378 555</Text>
-            </View>
+           
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 10 }}>
                 <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Booking Date</Text>
                 <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>December 23, 2024</Text>
@@ -52,7 +49,7 @@ const ReviewSummary = () => {
                 <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>10:00 AM</Text>
             </View>
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 10 }}>
-                <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Specialist</Text>
+                <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Professional</Text>
                 <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Nathan Alexander</Text>
             </View>
 

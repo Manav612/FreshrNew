@@ -23,6 +23,11 @@ export const COLOR_LIGHT = {
     GREEN:"#4ADE80",
     CANCEL_B:'#F75555',
     BUTTON_SHADOW:'#FFF4E6',
+    ChartBlue:'#0FD0D5',
+    GRAYBTN:'rgb(235,235,238)',
+    COMBTN:'rgb(236,251,245)',
+    DECBTN:'rgb(250,234,235)',
+
 
     PLACEHOLDERCOLOR: 'rgba(180, 159, 138, 0.7)',
 

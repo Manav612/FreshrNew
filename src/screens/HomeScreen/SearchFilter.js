@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList,Image } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -7,10 +7,11 @@ import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } fr
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { data, data2, data3, data4 } from '../../components/utils';
-import { Hair1 } from '../../constants/Icons';
+import { Filter, Hair1 } from '../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
-
+import FastImage from 'react-native-fast-image';
+import Slider from '@react-native-community/slider';
 const SearchFilter = () => {
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -22,6 +23,7 @@ const SearchFilter = () => {
     const [bookmarkStatus, setBookmarkStatus] = useState({});
     const [searchText, setSearchText] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    const [distance, setDistance] = useState(50);
     const theme = useSelector(state => state.ThemeReducer);
 
     const handleSearch = () => {
@@ -34,19 +36,19 @@ const SearchFilter = () => {
     };
 
     const toggleBookmark = (itemId) => {
-      setBookmarkStatus(prevState => ({
-        ...prevState,
-        [itemId]: !prevState[itemId]
-      }));
+        setBookmarkStatus(prevState => ({
+            ...prevState,
+            [itemId]: !prevState[itemId]
+        }));
     };
     const handleResetPress = () => {
         setResetSelected(!resetSelected);
-        setApplySelected(false); 
+        setApplySelected(false);
     };
 
     const handleApplyPress = () => {
         setApplySelected(!applySelected);
-        setResetSelected(false); 
+        setResetSelected(false);
     };
 
 
@@ -68,7 +70,7 @@ const SearchFilter = () => {
                         styles.Categorytext,
                         selectedItem === item.id && styles.SelectedCategorytext,
                     ]}>
-                    {item.text}
+                    {item.text.length > 10 ? item.text.substring(0, 10) + '...' : item.text}
                 </Text>
             </View>
         </TouchableOpacity>
@@ -101,28 +103,7 @@ const SearchFilter = () => {
             </View>
         </TouchableOpacity>
     );
-    const Distance = ({ item }) => (
-        <TouchableOpacity
-            style={[
-                styles.CategoryContainer,
-                selectedItem2 === item.id && styles.selectedItem,
-            ]}
-            onPress={() => setSelectedItem2(item.id)}>
-            <View
-                style={{
-                    marginHorizontal: 13,
-                }}>
 
-                <Text
-                    style={[
-                        styles.Categorytext,
-                        selectedItem2 === item.id && styles.SelectedCategorytext,
-                    ]}>
-                    {item.text}
-                </Text>
-            </View>
-        </TouchableOpacity>
-    );
 
     const refRBSheet = useRef([]);
 
@@ -133,6 +114,8 @@ const SearchFilter = () => {
     const openItemBottomSheet = (index) => {
         refRBSheet.current[index + 1].open();
     };
+    const [activeTab, setActiveTab] = useState('Apply Filter');
+    const [activeTab2, setActiveTab2] = useState('Masculine');
 
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
@@ -143,7 +126,7 @@ const SearchFilter = () => {
             marginLeft: 10,
             borderRadius: 30,
             height: 35,
-            width: 100,
+            width: 110,
             justifyContent: 'center',
             alignItems: 'center',
             marginTop: 10,
@@ -167,87 +150,89 @@ const SearchFilter = () => {
             justifyContent: 'center',
             alignItems: 'center',
             marginVertical: 10,
-          },
-          CardImage: {
+        },
+        CardImage: {
             width: 80,
             height: 80,
             resizeMode: 'cover',
             borderRadius: 15,
-          },
-          CardContain: {
+        },
+        CardContain: {
             height: 90,
             width: 180,
             paddingVertical: 5,
             justifyContent: 'space-between',
             paddingHorizontal: 10,
-          },
+        },
     });
-    
-    
-      const Card = ({ item }) => (
+
+
+    const Card = ({ item }) => (
         <View style={styles.CardContainer}>
-          <TouchableOpacity
+            <TouchableOpacity
                 style={{
                     marginHorizontal: 13,
-                }} onPress={()=>navigation.navigate('Booking')}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image style={styles.CardImage} source={Hair1} />
-              <View style={styles.CardContain}>
-                <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>
-                  {item.text}
-                </Text>
-                <Text style={{ color: 'gray' }}>{item.address}</Text>
-                <View style={{ flexDirection: 'row', width: 110, justifyContent: 'space-between' }}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <MaterialCommunityIcons
-                      name="map-marker"
-                      size={18}
-                      color={COLOR.ORANGECOLOR}
-                    />
-                    <Text style={{ color: 'black' }}>{item.km}</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <MaterialCommunityIcons
-                      name="star-half-full"
-                      size={18}
-                      color={COLOR.ORANGECOLOR}
-                    />
-                    <Text style={{ color: 'black' }}>{item.rating}</Text>
-                  </View>
+                }} onPress={() => navigation.navigate('Booking')}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Image style={styles.CardImage} source={Hair1} />
+                    <View style={styles.CardContain}>
+                        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>
+                            {item.text}
+                        </Text>
+                        <Text style={{ color: 'gray' }}>{item.address}</Text>
+                        <View style={{ flexDirection: 'row', width: 110, justifyContent: 'space-between' }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <MaterialCommunityIcons
+                                    name="map-marker"
+                                    size={18}
+                                    color={COLOR.ORANGECOLOR}
+                                />
+                                <Text style={{ color: 'black' }}>{item.km}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <MaterialCommunityIcons
+                                    name="star-half-full"
+                                    size={18}
+                                    color={COLOR.ORANGECOLOR}
+                                />
+                                <Text style={{ color: 'black' }}>{item.rating}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <TouchableOpacity onPress={() => toggleBookmark(item.id)}>
+                        <View style={{ height: 90, width: 30 }}>
+                            <MaterialCommunityIcons
+                                name={bookmarkStatus[item.id] ? "bookmark" : "bookmark-outline"}
+                                size={25}
+                                color={COLOR.ORANGECOLOR}
+                            />
+                        </View>
+                    </TouchableOpacity>
                 </View>
-              </View>
-              <TouchableOpacity onPress={() => toggleBookmark(item.id)}>
-                <View style={{ height: 90, width: 30 }}>
-                  <MaterialCommunityIcons
-                    name={bookmarkStatus[item.id] ? "bookmark" : "bookmark-outline"}
-                    size={25}
-                    color={COLOR.ORANGECOLOR}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
         </View>
-      );
+    );
     return (
         <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
-            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:2}}>
-            <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-            <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.80, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
-                <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                    <AntDesign name="search1" size={30} color={COLOR.GRAY} />
-                    <TextInput
-                        placeholder='Search'
-                        placeholderTextColor={COLOR.GRAY}
-                        style={{ fontSize: 20, color: COLOR.GRAY,width:200 }}
-                        onChangeText={text => { setSearchText(text);
-                            handleSearch();
-                        }}
-                    />
-                </View>
-                <TouchableOpacity onPress={openBottomSheet}>
-                    <Ionicons name="filter" size={30} color={COLOR.ORANGECOLOR} />
-                </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 2 }}>
+                <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
+                <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.80, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
+                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+                        <AntDesign name="search1" size={30} color={COLOR.GRAY} />
+                        <TextInput
+                            placeholder='Search'
+                            placeholderTextColor={COLOR.GRAY}
+                            style={{ fontSize: 20, color: COLOR.GRAY, width: 200 }}
+                            onChangeText={text => {
+                                setSearchText(text);
+                                handleSearch();
+                            }}
+                        />
+                    </View>
+                    <TouchableOpacity onPress={openBottomSheet}>
+                        <FastImage source={Filter} style={{ height: 20, width: 20 }} />
+
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
@@ -265,29 +250,29 @@ const SearchFilter = () => {
                     <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>12,289 founds</Text>}
             </View>
             <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
-        <FlatList
-          data={searchText ? filteredData : data2}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => <Card item={item} />}
-        />
-      </View>
+                <FlatList
+                    data={searchText ? filteredData : data2}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => <Card item={item} />}
+                />
+            </View>
             <View style={{}}>
                 <RBSheet
                     ref={(ref) => (refRBSheet.current[0] = ref)}
 
-                    height={Screen_Height * 0.50}
+                    height={Screen_Height * 0.65}
                     customStyles={{
 
                         wrapper: {
-                            backgroundColor: 'transparent',
+                            backgroundColor: COLOR.BLACK_40,
                         },
-                        container:{
-                            backgroundColor:COLOR.WHITE,
-                            borderRadius:40,
+                        container: {
+                            backgroundColor: COLOR.WHITE,
+                            borderRadius: 40,
                             borderBottomRightRadius: 0,
-                             borderBottomLeftRadius: 0,
-                             elevation:10,
-                             shadowColor:COLOR.BLACK,
+                            borderBottomLeftRadius: 0,
+                            elevation: 10,
+                            shadowColor: COLOR.BLACK,
                         },
                         draggableIcon: {
                             backgroundColor: COLOR.BLACK,
@@ -300,11 +285,33 @@ const SearchFilter = () => {
                     customAvoidingViewProps={{
                         enabled: false,
                     }}>
-                    <View style={{  paddingHorizontal: 15,marginVertical:10 }}>
+                    <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                            <Text style={{ fontWeight: '600', fontSize: 25 }}>Filter</Text>
+                            <View style={{ width: 30, height: 3, backgroundColor: COLOR.BLACK, marginBottom: 10 }} />
+                            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',width:Screen_Width*0.9}}>
+                                <View style={{width:30}}/>
+                                <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK}}>Filter</Text>
+                                <TouchableOpacity onPress={() => refRBSheet.current[0].close()}>
+                                    <AntDesign name="closecircle" size={24} color={COLOR.BLACK} />
+                                </TouchableOpacity>
+                            </View>
+
                         </View>
                         <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
+
+                        
+
+                        <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+                            <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Style</Text>
+                            <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
+                            <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab2 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab2('Masculine') }}>
+                                <Text style={{ color: activeTab2 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab2 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab2('Feminine') }}>
+                                <Text style={{ color: activeTab2 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
+                            </TouchableOpacity>
+                        </View>
+                        </View>
                         <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
                             <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Category</Text>
                             <FlatList
@@ -326,24 +333,27 @@ const SearchFilter = () => {
                             />
                         </View>
                         <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-                            <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>Distance</Text>
-                            <FlatList
-                                data={data4}
-                                keyExtractor={item => item.id}
-                                renderItem={Distance}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
+                            <Text style={{ fontWeight: '700', color: '#000', fontSize: 18 }}>Distance: {distance} km</Text>
+                            <Slider
+                                style={{ width: '100%', marginTop: 10 }}
+                                minimumValue={0}
+                                maximumValue={100}
+                                step={1}
+                                minimumTrackTintColor="#000"
+                                maximumTrackTintColor="#000"
+                                thumbTintColor="#000"
+                                value={distance}
+                                onValueChange={(value) => setDistance(value)}
                             />
                         </View>
-                        <View style={{ width: Screen_Width * 0.91, flexDirection: 'row', justifyContent: 'space-between',marginVertical:10 }}>
-                            <TouchableOpacity onPress={handleResetPress} style={{ backgroundColor: resetSelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 20, fontWeight: '700', color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Reset</Text>
+                        <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
+                            <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Reset' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Reset') }}>
+                                <Text style={{ color: activeTab === 'Reset' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Reset</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={handleApplyPress} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 20, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Apply Filter</Text>
+                            <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Apply Filter' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Apply Filter') }}>
+                                <Text style={{ color: activeTab === 'Apply Filter' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Apply Filter</Text>
                             </TouchableOpacity>
                         </View>
-
                     </View>
 
                 </RBSheet>

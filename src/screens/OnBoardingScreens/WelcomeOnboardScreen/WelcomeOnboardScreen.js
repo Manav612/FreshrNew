@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { OnBoard1, OnBoard2, OnBoard3, SplashImage } from '../../../constants/Icons';
+import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { OnBoard1, OnBoard2, OnBoard3, Splash, SplashImage } from '../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import Onboarding from 'react-native-onboarding-swiper';
@@ -23,13 +23,13 @@ const WelcomeOnboardScreen = () => {
     return (
         <>
             {showSplash ? (
-                <View style={{}}>
-                    <FastImage
-                        style={{ width: Screen_Width, height: Screen_Height*0.96}}
-                        source={SplashImage}
-                        resizeMode={FastImage.resizeMode.cover}
-                    />
-                </View>
+               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+               <ImageBackground source={Splash} style={{height:Screen_Height,width:Screen_Width,justifyContent:'flex-end',paddingBottom:30,paddingHorizontal:30}}>
+                 <Text style={{fontSize:30,fontWeight:'bold',color:COLOR.WHITE}}>Welcome to 👋</Text>
+                 <Text style={{fontSize:55,fontWeight:'bold',color:COLOR.ORANGECOLOR }}>Freshr</Text>
+                 <Text style={{fontSize:16,fontWeight:'bold',color:COLOR.WHITE,marginBottom:30}}>The best barber & salon app in this{'\n'}century for your good looks and beauty.</Text>
+               </ImageBackground>
+             </View>
             ) : (
                 <Onboarding
                 bottomBarColor={COLOR.ORANGECOLOR}

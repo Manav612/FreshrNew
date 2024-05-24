@@ -49,9 +49,7 @@ export const ProfileData = [
   export const data = [
     {id: '1', text: 'All'},
     {id: '2', text: 'Haircuts'},
-    {id: '3', text: 'Make up'},
-    {id: '4', text: 'Manicure'},
-    {id: '5', text: 'Massage'},
+    {id: '3', text: 'Hair Services'},
   ];
 
  export const data2 = [
@@ -80,48 +78,6 @@ export const ProfileData = [
       id: '4',
       text: 'Haircuts',
       address: '88 commercial plaza',
-      km: '12 km',
-      rating: '4.8',
-    },
-    {
-      id: '5',
-      text: 'Make up',
-      address: '9 Evergreen drive',
-      km: '12 km',
-      rating: '4.8',
-    },
-    {
-      id: '6',
-      text: 'Make up',
-      address: '9 Evergreen drive',
-      km: '12 km',
-      rating: '4.8',
-    },
-    {
-      id: '7',
-      text: 'Manicure',
-      address: '65220 Holy Cross pass',
-      km: '12 km',
-      rating: '4.8',
-    },
-    {
-      id: '8',
-      text: 'Manicure',
-      address: '65220 Holy Cross pass',
-      km: '12 km',
-      rating: '4.8',
-    },
-    {
-      id: '9',
-      text: 'Massage',
-      address: '9 Evergreen drive',
-      km: '12 km',
-      rating: '4.8',
-    },
-    {
-      id: '10',
-      text: 'Massage',
-      address: '9 Evergreen drive',
       km: '12 km',
       rating: '4.8',
     },
@@ -301,7 +257,7 @@ export const AllCategoryData1=[
         icon:share,
     },
   ];
-  export const Specialist=[
+  export const Professional=[
     {
         id:1,
         title:'Nathan',
@@ -348,7 +304,7 @@ export const AllCategoryData1=[
     },
     {
       id:4,
-      name:'Gallary',
+      name:'Gallery',
     },
     {
       id:5,
@@ -551,6 +507,50 @@ export const AllCategoryData1=[
       id:5,
       icon:(<Ionicons name="lock-closed-outline" size={30} color="black" />),
       name:'Privacy Policy',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:6,
+      icon:(<AntDesign name="user" size={30} color="black" />),
+      name:'Switch to Professionals',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+   ];
+   export const ProfessionalProfileData=[
+    {
+      id:1,
+      icon:(<AntDesign name="user" size={30} color="black" />),
+      name:'Edit Profile',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:2,
+      icon:(<Ionicons name="notifications-outline" size={30} color="black" />),
+      name:'Notification',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:3,
+      icon:(<MaterialIcons name="payment" size={30} color="black" />),
+      name:'Payment',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:4,
+      icon:(<MaterialIcons name="security" size={30} color="black" />),
+      name:'Security',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:5,
+      icon:(<Ionicons name="lock-closed-outline" size={30} color="black" />),
+      name:'Privacy Policy',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:6,
+      icon:(<AntDesign name="user" size={30} color="black" />),
+      name:'Switch to Client',
       icon1:(<AntDesign name="right" size={30} color="black" />),
     },
    ];

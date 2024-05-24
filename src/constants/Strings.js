@@ -10,9 +10,12 @@ export const NavigationScreens = {
     SplashScreen: 'Splash Screen',
     SignUpScreen: 'Sign Up Screen',
     SignInScreen:'Sign In Screen',
+    EmailVerificationScreen:'EmailVerification Screen',
     FillProfileScreen:'Fill Profile Screen',
     MyBookMarkScreen:'My Book Mark Screen',
     MyProfileScreen:'My Profile Screen',
+    SwitchToProfessionalsScreen:'SwitchToProfessionals Screen',
+    TransactionHistoryScreen:'TransactionHistory Screen',
     PasswordScreen: 'Password Screen',
     NewpasswordScreen:'NewpasswordScreen',
     ForgotPasswordScreen: 'Forgot Password Screen',
@@ -50,14 +53,27 @@ export const NavigationScreens = {
     ManicureScreen:'Manicure Screen',
     MassageScreen:'Massage Screen',
     SearchFilterScreen:'SearchFilter Screen',
+    BookingHoursScreen:'Booking Hours Screen',
     NearbyYourLocationScreen:'NearbyYourLocation Screen',
-    OurSpecialistDetailsScreen:'OurSpecialistDetails Screen',
+    OurProfessionalDetailsScreen:'OurProfessionalDetails Screen',
     CancelbookingScreen:'Cancelbooking Screen',
     EditProfileScreen:'EditProfile Screen',
     SecurityScreen:'Security Screen',
     PrivacyPolicyScreen:'PrivacyPolicy Screen',
     ReviewSummaryScreen:'ReviewSummary Screen',
-    EReceiptScreen:'EReceiptScreen'
+    EReceiptScreen:'EReceiptScreen',
+
+    ProfessionalBottomTab:'ProfessionalBottom Tab',
+    ProfessionalHomeScreen:'ProfessionalHome Screen',
+    ProfessionalServicesScreen:'ProfessionalServices Screen',
+    ProfessionalProfileScreen:'ProfessionalProfile Screen',
+    ProfessionalEditProfileScreen:'ProfessionalEditProfile Screen',
+    ProfessionalSecurityScreen:'ProfessionalSecurity Screen',
+    ProfessionalPrivacyPolicyScreen:'ProfessionalPrivacyPolicy Screen',
+    ProfessionalBookingScreen:'ProfessionalBookingScreen',
+    ProfessionalInboxScreen:'ProfessionalInboxScreen',
+    ProfessionalChatScreen:'ProfessionalChatScreen',
+
 }
 
 export const label = {
