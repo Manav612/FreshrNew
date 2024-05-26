@@ -58,7 +58,7 @@ const MyProfile = () => {
           </View>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Profile</Text>
         </View>
-        <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
+        {/* <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} /> */}
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View

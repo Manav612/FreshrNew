@@ -22,6 +22,7 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {calldata, chatdata} from '../../../components/utils';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const ProfessionalInbox = ({navigate}) => {
   const navigation = useNavigation();
@@ -67,7 +68,7 @@ const ProfessionalInbox = ({navigate}) => {
         justifyContent: 'space-between',
         alignItems: 'center',
       }}
-      onPress={() => navigation.navigate('Chat Screen', { title: item.title })}
+      onPress={() => navigation.navigate(NavigationScreens.ProfessionalChatScreen, { title: item.title })}
       >
       <View
         style={{
@@ -117,7 +118,7 @@ const ProfessionalInbox = ({navigate}) => {
           }}>
           <View style={{flexDirection: 'row', gap: 20}}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('My Profile Screen')}
+              onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfileScreen)}
               style={{
                 width: 40,
                 backgroundColor: COLOR.ORANGECOLOR,

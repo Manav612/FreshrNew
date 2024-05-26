@@ -10,6 +10,10 @@ import { AllCategoryData1 } from '../../../components/utils';
 import Cancelled from '../../../components/MyBookingDetails/Cancelled';
 import Completed from '../../../components/MyBookingDetails/Completed';
 import Upcoming from '../../../components/MyBookingDetails/Upcoming';
+import { NavigationScreens } from '../../../constants/Strings';
+import ProfessionalUpcoming from './ProfessionalUpcoming';
+import ProfessionalCompleted from './ProfessionalCompleted';
+import ProfessionalCancelled from './ProfessionalCancelled';
 
 const ProfessionalBooking = () => {
   const navigation = useNavigation()
@@ -121,11 +125,11 @@ const ProfessionalBooking = () => {
 const renderScreen = () => {
     switch (selectedItem) {
         case 'Upcoming':
-            return <Upcoming />;
+            return <ProfessionalUpcoming />;
         case 'Completed':
-          return <Completed />;
+          return <ProfessionalCompleted />;
         case 'Cancelled':
-          return <Cancelled />;
+          return <ProfessionalCancelled />;
         default:
             return null;
     }
@@ -139,7 +143,7 @@ const renderScreen = () => {
           </TouchableOpacity>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Booking</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalProfile Screen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalSettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="setting" size={28} color={COLOR.ChartBlue} />
 
                     </TouchableOpacity>
@@ -159,7 +163,7 @@ const renderScreen = () => {
         />
       </View>
         <View>{renderScreen()}</View>
-
+          <View style={{height:100}}/>
     </ScrollView>
   )
 }

@@ -5,16 +5,21 @@ import React from 'react';
 import TabBar from './TabBar';
 import ProfessionalHome from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalHome';
 import ProfessionalServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalServices';
-import { BookingIcon, HomeIcon, InboxIcon, ScissorIcon } from '../../constants/Icons';
+import { BookingIcon, HomeIcon, InboxIcon, ScissorIcon, UserIcon } from '../../constants/Icons';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
-import TransactionHistoryScreen from '../../screens/ProfessionalScreens/ProfessionalHome/TranscationHistoryScreen';
-import ProfessionalProfile from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalProfile';
-import ProfessionalEditprofile from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalEditprofile';
-import ProfessionalSecurity from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalSecurity';
-import ProfessionalPrivacyPolicy from '../../screens/ProfessionalScreens/ProfessionalHome/ProfessionalPrivacyPolicy';
 import ProfessionalBooking from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalBooking';
 import ProfessionalInbox from '../../screens/ProfessionalScreens/ProfessionalInboxScreen/ProfessionalInbox';
 import ProfessionalChatScreen from '../../screens/ProfessionalScreens/ProfessionalInboxScreen/ProfessionalChatScreen';
+import ProfessionalCancelbooking from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalCancelbooking';
+import ProfessionalCancelled from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalCancelled';
+import ProfessionalCompleted from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalCompleted';
+import ProfessionalUpcoming from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalUpcoming';
+import ProfessionalProfile from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalProfile';
+import ProfessionalEditprofile from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalEditprofile';
+import ProfessionalSecurity from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalSecurity';
+import ProfessionalPrivacyPolicy from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalPrivacyPolicy';
+import TransactionHistoryScreen from '../../screens/ProfessionalScreens/ProfessionalHome/TranscationHistoryScreen';
+import ProfessionalSettingScreen from '../../components/ProfessionalSetting';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -26,10 +31,8 @@ const HomeStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalHomeScreen} component={ProfessionalHome} />
             <Stack.Screen name={NavigationScreens.TransactionHistoryScreen} component={TransactionHistoryScreen} />
-            <Stack.Screen name={NavigationScreens.ProfessionalProfileScreen} component={ProfessionalProfile} />
-            <Stack.Screen name={NavigationScreens.ProfessionalEditProfileScreen} component={ProfessionalEditprofile} />
-            <Stack.Screen name={NavigationScreens.ProfessionalSecurityScreen} component={ProfessionalSecurity} />
-            <Stack.Screen name={NavigationScreens.ProfessionalPrivacyPolicyScreen} component={ProfessionalPrivacyPolicy} />
+            <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+           
         </Stack.Navigator>
     );
 };
@@ -50,7 +53,12 @@ const MyBookingStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalBookingScreen} component={ProfessionalBooking} />
-            {/* <Stack.Screen name={NavigationScreens.CancelbookingScreen} component={Cancelbooking} /> */}
+            <Stack.Screen name={NavigationScreens.ProfessionalCancelbookingScreen} component={ProfessionalCancelbooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalCancelledScreen} component={ProfessionalCancelled} />
+            <Stack.Screen name={NavigationScreens.ProfessionalCompletedScreen} component={ProfessionalCompleted} />
+            <Stack.Screen name={NavigationScreens.ProfessionalUpcomingScreen} component={ProfessionalUpcoming} />
+            <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+
         </Stack.Navigator>
     );
 };
@@ -61,6 +69,18 @@ const InboxStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalInboxScreen} component={ProfessionalInbox} />
             <Stack.Screen name={NavigationScreens.ProfessionalChatScreen} component={ProfessionalChatScreen} />
+        </Stack.Navigator>
+    );
+};
+const ProfileStack = () => {
+    return (
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+        }}>
+            <Stack.Screen name={NavigationScreens.ProfessionalProfileScreen} component={ProfessionalProfile} />
+            <Stack.Screen name={NavigationScreens.ProfessionalEditProfileScreen} component={ProfessionalEditprofile} />
+            <Stack.Screen name={NavigationScreens.ProfessionalSecurityScreen} component={ProfessionalSecurity} />
+            <Stack.Screen name={NavigationScreens.ProfessionalPrivacyPolicyScreen} component={ProfessionalPrivacyPolicy} />
         </Stack.Navigator>
     );
 };
@@ -89,6 +109,12 @@ const Screens = [
         title: "Inbox",
         component: InboxStack,
         icon: InboxIcon,
+    },
+    {
+        name: NavigationScreens.ProfessionalProfileScreen + " " + NavigationScreens.ProfessionalBottomTab,
+        title: "Profile",
+        component: ProfileStack,
+        icon: UserIcon,
     },
 ]
 

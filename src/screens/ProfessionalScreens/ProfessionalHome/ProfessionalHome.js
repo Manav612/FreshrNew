@@ -13,6 +13,7 @@ import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 
 import { Dropdown } from 'react-native-element-dropdown';
 import { barber } from '../../../constants/Icons';
+import { NavigationScreens } from '../../../constants/Strings';
 
 
 const ProfessionalHome = () => {
@@ -224,7 +225,7 @@ const ProfessionalHome = () => {
                         <Text style={styles.role}>Senior Barber</Text>
                     </View>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('ProfessionalProfile Screen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="setting" size={28} color={COLOR.ChartBlue} />
 
                     </TouchableOpacity>
@@ -241,7 +242,7 @@ const ProfessionalHome = () => {
                         <Text style={styles.earningsText}>10,254 <Text style={styles.percentageText}>1.5% ↓</Text></Text>
                         <Text style={styles.earningsSubText}>Earnings At This Week</Text>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('TransactionHistory Screen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.TransactionHistoryScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="right" size={28} color={COLOR.ChartBlue} />
 
                     </TouchableOpacity>

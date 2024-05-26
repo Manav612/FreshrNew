@@ -73,6 +73,11 @@ export const NavigationScreens = {
     ProfessionalBookingScreen:'ProfessionalBookingScreen',
     ProfessionalInboxScreen:'ProfessionalInboxScreen',
     ProfessionalChatScreen:'ProfessionalChatScreen',
+    ProfessionalCancelbookingScreen:'ProfessionalCancelbookingScreen',
+    ProfessionalCancelledScreen:'ProfessionalCancelledScreen',
+    ProfessionalCompletedScreen:'ProfessionalCompletedScreen',
+    ProfessionalUpcomingScreen:'ProfessionalUpcomingScreen',
+    ProfessionalSettingScreen:'ProfessionalSettingScreen'
 
 }
 
