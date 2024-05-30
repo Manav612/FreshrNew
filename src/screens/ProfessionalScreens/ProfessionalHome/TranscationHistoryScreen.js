@@ -137,7 +137,7 @@ const TransactionHistoryScreen = () => {
 
                             </View>
                             <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',marginHorizontal:10}}>
-                                <Text>{item.date}</Text>
+                                <Text style={{fontSize:14,color:COLOR.GRAY}}>{item.date}</Text>
                                 <Text style={{fontSize:16,fontWeight:'bold',color:COLOR.BLACK}}>{item.price}</Text>
                             </View>
                         </View>

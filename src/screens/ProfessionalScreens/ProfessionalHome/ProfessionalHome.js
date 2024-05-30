@@ -28,7 +28,7 @@ const ProfessionalHome = () => {
             value: 600, label: 'Aug', customDataPoint: () => (
                 <View style={styles.customLabel}>
                     <Text style={styles.labelText}>$27632</Text>
-                    <Text>August</Text>
+                    <Text style={styles.labelText}>August</Text>
                 </View>
             ),
         },
@@ -58,12 +58,12 @@ const ProfessionalHome = () => {
         container: {
             flex: 1,
             padding: 20,
-            backgroundColor: '#f8f8f8',
+            backgroundColor: COLOR.WHITE,
         },
         header: {
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent:'space-between'
+            justifyContent: 'space-between'
         },
         avatar: {
             width: 50,
@@ -74,10 +74,11 @@ const ProfessionalHome = () => {
         name: {
             fontSize: 18,
             fontWeight: 'bold',
+            color: COLOR.BLACK
         },
         role: {
             fontSize: 14,
-            color: '#666',
+            color: COLOR.GRAY,
         },
         menuIcon: {
             marginLeft: 'auto',
@@ -88,21 +89,22 @@ const ProfessionalHome = () => {
         earningsContainer: {
             marginVertical: 20,
             padding: 20,
-            backgroundColor: '#fff',
+            backgroundColor: COLOR.BLACK,
             borderRadius: 10,
             alignItems: 'center',
         },
         earningsText: {
             fontSize: 28,
             fontWeight: 'bold',
+            color: COLOR.BLACK
         },
         percentageText: {
             fontSize: 16,
-            color:COLOR.ORANGECOLOR, // COLOR.ORANGECOLOR-red color for percentage
+            color: COLOR.ORANGECOLOR, // COLOR.ORANGECOLOR-red color for percentage
         },
         earningsSubText: {
             fontSize: 16,
-            color: '#666',
+            color: COLOR.GRAY,
         },
         overview: {
             marginVertical: 20,
@@ -111,6 +113,7 @@ const ProfessionalHome = () => {
             fontSize: 18,
             fontWeight: 'bold',
             marginBottom: 10,
+            color: COLOR.BLACK
         },
         overviewRow: {
             flexDirection: 'row',
@@ -119,30 +122,32 @@ const ProfessionalHome = () => {
         overviewBox: {
             width: '48%',
             padding: 15,
-            backgroundColor: '#fff',
+            backgroundColor: COLOR.WHITE,
             borderRadius: 10,
             marginVertical: 5
         },
         overviewBoxTitle: {
             fontSize: 16,
             fontWeight: 'bold',
+            color: COLOR.BLACK
         },
         overviewBoxValue: {
             fontSize: 24,
             fontWeight: 'bold',
             marginVertical: 5,
+            color: COLOR.BLACK
         },
         overviewBoxSubText: {
             fontSize: 14,
-            color: '#666',
+            color: COLOR.GRAY,
         },
         increaseText: {
             fontSize: 16,
-            color:COLOR.ChartBlue, // lime-green color for increase
+            color: COLOR.ChartBlue, // lime-green color for increase
         },
         decreaseText: {
             fontSize: 16,
-            color:COLOR.ORANGECOLOR, // COLOR.ORANGECOLOR-red color for decrease
+            color: COLOR.ORANGECOLOR, // COLOR.ORANGECOLOR-red color for decrease
         },
         chartContainer: {
             marginVertical: 20,
@@ -153,27 +158,30 @@ const ProfessionalHome = () => {
             borderRadius: 25,
             width: Screen_Width * 0.88,
             height: Screen_Height * 0.48,
-              justifyContent:'center',
+            justifyContent: 'center',
 
         },
         chartTitle: {
             fontSize: 18,
             fontWeight: 'bold',
             marginBottom: 10,
+            color: COLOR.BLACK
         },
         customLabel: {
-            backgroundColor: '#fff',
+            backgroundColor: COLOR.WHITE,
             padding: 5,
             borderRadius: 5,
-            shadowColor: '#000',
+            shadowColor: COLOR.BLACK,
             shadowOpacity: 0.1,
             shadowOffset: { width: 0, height: 2 },
             shadowRadius: 5,
             elevation: 3,
+            color: COLOR.BLACK
         },
         labelText: {
             fontWeight: 'bold',
             textAlign: 'center',
+            color: COLOR.BLACK
         },
         dropdownContainer: {
             backgroundColor: COLOR.AuthField,
@@ -183,7 +191,7 @@ const ProfessionalHome = () => {
         },
         dropdown: {
             height: 40,
-            width:150,
+            width: 150,
             backgroundColor: COLOR.AuthField,
             borderRadius: 10,
             paddingHorizontal: 8,
@@ -218,23 +226,25 @@ const ProfessionalHome = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <View style={{justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                    <Image style={styles.avatar} source={barber} />
-                    <View>
-                        <Text style={styles.name}>Nathan Alexander</Text>
-                        <Text style={styles.role}>Senior Barber</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                        <Image style={styles.avatar} source={barber} />
+                        <View>
+                            <Text style={styles.name}>Nathan Alexander</Text>
+                            <Text style={styles.role}>Senior Barber</Text>
+                        </View>
                     </View>
-                    </View>
-                    <TouchableOpacity onPress={()=>navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <MaterialIcons name="schedule" size={28} color={COLOR.ChartBlue} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="setting" size={28} color={COLOR.ChartBlue} />
-
                     </TouchableOpacity>
                 </View>
 
                 <View style={{
                     marginVertical: 20,
                     padding: 20,
-                    backgroundColor: '#fff',
+                    backgroundColor: COLOR.WHITE,
                     borderRadius: 10,
                     alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
                 }}>
@@ -244,11 +254,9 @@ const ProfessionalHome = () => {
                     </View>
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.TransactionHistoryScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="right" size={28} color={COLOR.ChartBlue} />
-
                     </TouchableOpacity>
 
                 </View>
-
                 <View style={styles.overview}>
                     <Text style={styles.overviewTitle}>Overview</Text>
                     <View style={styles.overviewRow}>
@@ -303,14 +311,14 @@ const ProfessionalHome = () => {
                             />
                         </View>
                     </View>
-                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width * 0.88, paddingHorizontal: 15,marginVertical:10 }}>
-                        <View style={{flexDirection:'row',gap:5,justifyContent:'center',alignItems:'center'}}>
-                        <View style={{width:10,height:10,borderRadius:20,backgroundColor:COLOR.ChartBlue}}/>
-                        <Text>In Salon</Text>
+                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width * 0.88, paddingHorizontal: 15, marginVertical: 10 }}>
+                        <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ChartBlue }} />
+                            <Text style={{ color: COLOR.BLACK }}>In Salon</Text>
                         </View>
-                        <View style={{flexDirection:'row',gap:5,justifyContent:'center',alignItems:'center'}}>
-                        <View style={{width:10,height:10,borderRadius:20,backgroundColor:COLOR.ORANGECOLOR}}/>
-                        <Text>Delivery</Text>
+                        <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ORANGECOLOR }} />
+                            <Text style={{ color: COLOR.BLACK }}>Delivery</Text>
                         </View>
                     </View>
                     <LineChart
@@ -333,7 +341,11 @@ const ProfessionalHome = () => {
                         endFillColor2={COLOR.ORANGECOLOR}
                         startOpacity2={0.5}
                         endOpacity2={0.1}
+                        xAxisLabelTextStyle={{color:COLOR.BLACK}}
+                        yAxisLabelTextStyle={{color:COLOR.BLACK}}
+                        yAxisTextStyle={{color:COLOR.BLACK}}
                     />
+
                 </View>
                 <View style={{ height: 100 }} />
             </View>

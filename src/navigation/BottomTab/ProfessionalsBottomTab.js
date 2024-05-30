@@ -19,7 +19,8 @@ import ProfessionalEditprofile from '../../screens/ProfessionalScreens/Professio
 import ProfessionalSecurity from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalSecurity';
 import ProfessionalPrivacyPolicy from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalPrivacyPolicy';
 import TransactionHistoryScreen from '../../screens/ProfessionalScreens/ProfessionalHome/TranscationHistoryScreen';
-import ProfessionalSettingScreen from '../../components/ProfessionalSetting';
+import ProfessionalScheduleScreen from '../../components/ProfessionalComponents/ProfessionalScheduleScreen';
+import ProfessionalSettingScreen from '../../components/ProfessionalComponents/ProfessionalSettingScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -31,6 +32,7 @@ const HomeStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalHomeScreen} component={ProfessionalHome} />
             <Stack.Screen name={NavigationScreens.TransactionHistoryScreen} component={TransactionHistoryScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
            
         </Stack.Navigator>
@@ -57,7 +59,9 @@ const MyBookingStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalCancelledScreen} component={ProfessionalCancelled} />
             <Stack.Screen name={NavigationScreens.ProfessionalCompletedScreen} component={ProfessionalCompleted} />
             <Stack.Screen name={NavigationScreens.ProfessionalUpcomingScreen} component={ProfessionalUpcoming} />
+            <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+
 
         </Stack.Navigator>
     );

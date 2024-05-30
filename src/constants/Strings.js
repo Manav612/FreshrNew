@@ -77,6 +77,7 @@ export const NavigationScreens = {
     ProfessionalCancelledScreen:'ProfessionalCancelledScreen',
     ProfessionalCompletedScreen:'ProfessionalCompletedScreen',
     ProfessionalUpcomingScreen:'ProfessionalUpcomingScreen',
+    ProfessionalScheduleScreen:'ProfessionalScheduleScreen',
     ProfessionalSettingScreen:'ProfessionalSettingScreen'
 
 }
