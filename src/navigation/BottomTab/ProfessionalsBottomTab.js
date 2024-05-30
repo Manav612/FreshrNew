@@ -21,6 +21,7 @@ import ProfessionalPrivacyPolicy from '../../screens/ProfessionalScreens/Profess
 import TransactionHistoryScreen from '../../screens/ProfessionalScreens/ProfessionalHome/TranscationHistoryScreen';
 import ProfessionalScheduleScreen from '../../components/ProfessionalComponents/ProfessionalScheduleScreen';
 import ProfessionalSettingScreen from '../../components/ProfessionalComponents/ProfessionalSettingScreen';
+import ProfessionalViewServices from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalViewServices';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -85,6 +86,7 @@ const ProfileStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalEditProfileScreen} component={ProfessionalEditprofile} />
             <Stack.Screen name={NavigationScreens.ProfessionalSecurityScreen} component={ProfessionalSecurity} />
             <Stack.Screen name={NavigationScreens.ProfessionalPrivacyPolicyScreen} component={ProfessionalPrivacyPolicy} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
         </Stack.Navigator>
     );
 };

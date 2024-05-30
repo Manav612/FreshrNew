@@ -70,6 +70,7 @@ export const NavigationScreens = {
     ProfessionalEditProfileScreen:'ProfessionalEditProfile Screen',
     ProfessionalSecurityScreen:'ProfessionalSecurity Screen',
     ProfessionalPrivacyPolicyScreen:'ProfessionalPrivacyPolicy Screen',
+    ProfessionalViewServicesScreen:'ProfessionalViewServicesScreen',
     ProfessionalBookingScreen:'ProfessionalBookingScreen',
     ProfessionalInboxScreen:'ProfessionalInboxScreen',
     ProfessionalChatScreen:'ProfessionalChatScreen',
