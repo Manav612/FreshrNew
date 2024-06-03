@@ -1,16 +1,17 @@
 import { ScrollView,StyleSheet, Text, View,TextInput,TouchableOpacity,FlatList,Image } from 'react-native'
 import React, { useState } from 'react'
-import {Screen_Height,Screen_Width } from '../../constants/Constants';
+import {Screen_Height,Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
-import { data2 } from '../../components/utils';
-import { Hair1 } from '../../constants/Icons';
+import { data2 } from '../../../components/utils';
+import { Hair1 } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Massage = () => {
+
+const Mackup = () => {
   const navigation = useNavigation()
   const [searchText, setSearchText] = useState('');
   const theme = useSelector(state => state.ThemeReducer);
@@ -18,6 +19,13 @@ const Massage = () => {
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
 
   const [bookmarkStatus, setBookmarkStatus] = useState({});
+
+  const toggleBookmark = (itemId) => {
+    setBookmarkStatus(prevState => ({
+      ...prevState,
+      [itemId]: !prevState[itemId]
+    }));
+  };
 
   const [filteredData, setFilteredData] = useState([]);
   const handleSearch = () => {
@@ -29,12 +37,6 @@ const Massage = () => {
         setFilteredData(newData);
     };
 
-  const toggleBookmark = (itemId) => {
-    setBookmarkStatus(prevState => ({
-      ...prevState,
-      [itemId]: !prevState[itemId]
-    }));
-  };
 
   const styles = StyleSheet.create({
     CardContainer: {
@@ -109,10 +111,10 @@ const Massage = () => {
   );
 
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height,paddingHorizontal:15 }}>
-      <View style={{width:Screen_Width,height:Screen_Height*0.05,paddingHorizontal:10,flexDirection:'row',alignItems:'center',gap:15,marginVertical:10}}>
+      <ScrollView style={{ width: Screen_Width, height: Screen_Height,paddingHorizontal:15 }}>
+      <View style={{width:Screen_Width,height:Screen_Height*0.05,flexDirection:'row',alignItems:'center',gap:15,marginVertical:10}}>
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{fontWeight:'600',fontSize:25,color:COLOR.BLACK}}>Massage</Text>
+        <Text style={{fontWeight:'600',fontSize:25,color:COLOR.BLACK}}>Mack Up</Text>
       </View>  
       <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.91, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
@@ -142,6 +144,6 @@ const Massage = () => {
   )
 }
 
-export default Massage
+export default Mackup
 
 const styles = StyleSheet.create({})

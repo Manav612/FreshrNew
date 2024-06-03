@@ -5,15 +5,15 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useSelector } from 'react-redux';
-import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
-import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MapView, { Marker } from 'react-native-maps';
-import { data, data3, data4 } from '../../components/utils';
+import { data, data3, data4 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import { Filter } from '../../constants/Icons';
+import { Filter } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 

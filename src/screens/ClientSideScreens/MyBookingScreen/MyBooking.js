@@ -1,15 +1,15 @@
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity,FlatList } from 'react-native'
 import React, { useState } from 'react'
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
-import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { AllCategoryData1 } from '../../components/utils';
-import Cancelled from '../../components/MyBookingDetails/Cancelled';
-import Completed from '../../components/MyBookingDetails/Completed';
-import Upcoming from '../../components/MyBookingDetails/Upcoming';
+import { AllCategoryData1 } from '../../../components/utils';
+import Cancelled from '../../../components/MyBookingDetails/Cancelled';
+import Completed from '../../../components/MyBookingDetails/Completed';
+import Upcoming from '../../../components/MyBookingDetails/Upcoming';
 
 const MyBooking = () => {
   const navigation = useNavigation()

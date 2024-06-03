@@ -1,13 +1,13 @@
 import { ScrollView,StyleSheet, Text, View,TextInput,TouchableOpacity,FlatList,Image } from 'react-native'
 import React, { useState } from 'react'
-import {Screen_Height,Screen_Width } from '../../constants/Constants';
+import {Screen_Height,Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
-import { data2 } from '../../components/utils';
-import { Hair1 } from '../../constants/Icons';
+import { data2 } from '../../../components/utils';
+import { Hair1 } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Manicure = () => {

@@ -64,12 +64,9 @@ const TabBar = (props) => {
 
     return (
         <View style={[styles.Container, HideTabScreens.includes(routeName) && { display: 'none' }]}>
-            <BlurView
-                style={styles.absolute}
-                blurType="light"
-                blurAmount={22}
-                reducedTransparencyFallbackColor="white"
-            >
+            <View style={{backgroundColor:COLOR.WHITE,width: '100%',
+            height: '100%',
+            position: 'absolute'}}>
                 <LinearGradient
                     colors={GRADIENT_COLOR.WHITE_30_TO_40}
                     style={{ width: '100%', height: '100%' }}
@@ -78,7 +75,7 @@ const TabBar = (props) => {
                 >
 
                 </LinearGradient>
-            </BlurView>
+                </View>
             <View style={styles.BarStyle}>
                 {
                     props.state.routes.map((route, i) => {

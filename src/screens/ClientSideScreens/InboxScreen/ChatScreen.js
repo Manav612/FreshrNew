@@ -105,8 +105,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { Hair1 } from '../../constants/Icons';
-import { Screen_Height } from '../../constants/Constants';
+import { Hair1 } from '../../../constants/Icons';
+import { Screen_Height } from '../../../constants/Constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -115,11 +115,11 @@ import {
   COLOR_LIGHT,
   GRADIENT_COLOR_DARK,
   GRADIENT_COLOR_LIGHT,
-} from '../../constants/Colors';
+} from '../../../constants/Colors';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { calldata, chatdata } from '../../components/utils';
+import { calldata, chatdata } from '../../../components/utils';
 
 const ChatScreen = ({ route }) => {
   const { title } = route.params;

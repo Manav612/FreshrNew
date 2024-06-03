@@ -1,15 +1,15 @@
 import { ScrollView, StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
-import { Scale, Screen_Height, Screen_Width } from '../../constants/Constants';
+import { Scale, Screen_Height, Screen_Width } from '../../../constants/Constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Filter, haircuts, mackup, manicure, massage } from '../../constants/Icons';
-import { ProfileData } from '../../components/utils';
+import { Filter, haircuts, mackup, manicure, massage } from '../../../constants/Icons';
+import { ProfileData } from '../../../components/utils';
 import { useNavigation } from '@react-navigation/native';
-import Category from '../../components/Category';
+import Category from '../../../components/Category';
 import FastImage from 'react-native-fast-image';
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0);

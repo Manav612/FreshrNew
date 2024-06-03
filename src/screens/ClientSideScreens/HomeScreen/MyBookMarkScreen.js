@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Category from '../../components/Category';
+import Category from '../../../components/Category';
 import { useSelector } from 'react-redux';
-import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import { Filter } from '../../constants/Icons';
-import { Screen_Width } from '../../constants/Constants';
+import { Filter } from '../../../constants/Icons';
+import { Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 const MyBookMarkScreen = () => {

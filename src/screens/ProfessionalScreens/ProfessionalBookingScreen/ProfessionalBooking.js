@@ -16,6 +16,8 @@ import ProfessionalUpcoming from './ProfessionalUpcoming';
 import ProfessionalCompleted from './ProfessionalCompleted';
 import ProfessionalCancelled from './ProfessionalCancelled';
 import CalendarScreen from '../../../components/Calendar';
+import { ClockUserIcon, GearFineIcon } from '../../../constants/Icons';
+import FastImage from 'react-native-fast-image';
 
 const ProfessionalBooking = () => {
   const navigation = useNavigation()
@@ -146,12 +148,14 @@ const ProfessionalBooking = () => {
           </TouchableOpacity>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Booking</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-          <MaterialIcons name="schedule" size={28} color={COLOR.ChartBlue} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-          <AntDesign name="setting" size={28} color={COLOR.ChartBlue} />
-        </TouchableOpacity>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+            <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+            <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+          </TouchableOpacity>
+        </View>
         {/* <View style={{ flexDirection: 'row', gap: 10 }}>
           <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
         </View> */}

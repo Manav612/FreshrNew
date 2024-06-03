@@ -5,12 +5,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
-import { ProfileData1 } from '../../components/utils';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
+import { ProfileData1 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const MyProfile = () => {
 
@@ -100,16 +101,19 @@ const MyProfile = () => {
             onPress={() => {
               switch (item.name) {
                 case 'Edit Profile':
-                  navigation.navigate('EditProfile Screen');
+                  navigation.navigate(NavigationScreens.EditProfileScreen);
                   break;
                 case 'Security':
-                  navigation.navigate('Security Screen');
+                  navigation.navigate(NavigationScreens.SecurityScreen);
                   break;
                 case 'Privacy Policy':
-                  navigation.navigate('PrivacyPolicy Screen');
+                  navigation.navigate(NavigationScreens.PrivacyPolicyScreen);
                   break;
                 case 'Switch to Professionals':
-                  navigation.navigate('ProfessionalBottom Tab');
+                  navigation.navigate(NavigationScreens.ProfessionalBottomTab);
+                  break;
+                case 'Switch to Host':
+                  navigation.navigate(NavigationScreens.FacilityPrivacyAndPolicyScreen);
                   break;
                 default:
                   break;

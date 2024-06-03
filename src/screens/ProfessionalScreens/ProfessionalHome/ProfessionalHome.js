@@ -12,8 +12,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 
 import { Dropdown } from 'react-native-element-dropdown';
-import { barber } from '../../../constants/Icons';
+import { ClockUserIcon, GearFineIcon, barber } from '../../../constants/Icons';
 import { NavigationScreens } from '../../../constants/Strings';
+import FastImage from 'react-native-fast-image';
 
 
 const ProfessionalHome = () => {
@@ -58,7 +59,7 @@ const ProfessionalHome = () => {
         container: {
             flex: 1,
             padding: 20,
-            backgroundColor: COLOR.WHITE,
+           
         },
         header: {
             flexDirection: 'row',
@@ -123,7 +124,7 @@ const ProfessionalHome = () => {
             width: '48%',
             padding: 15,
             backgroundColor: COLOR.WHITE,
-            borderRadius: 10,
+            borderRadius: 20,
             marginVertical: 5
         },
         overviewBoxTitle: {
@@ -155,8 +156,7 @@ const ProfessionalHome = () => {
             backgroundColor: COLOR.WHITE,
             elevation: 2,
             shadowColor: COLOR.BLACK,
-            borderRadius: 25,
-            width: Screen_Width * 0.88,
+            borderRadius: 20,
             height: Screen_Height * 0.48,
             justifyContent: 'center',
 
@@ -233,19 +233,24 @@ const ProfessionalHome = () => {
                             <Text style={styles.role}>Senior Barber</Text>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                        <MaterialIcons name="schedule" size={28} color={COLOR.ChartBlue} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                        <AntDesign name="setting" size={28} color={COLOR.ChartBlue} />
-                    </TouchableOpacity>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <FastImage source={ClockUserIcon} style={{height:30,width:30}}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+              </TouchableOpacity>
+                    </View>
                 </View>
 
                 <View style={{
                     marginVertical: 20,
                     padding: 20,
-                    backgroundColor: COLOR.WHITE,
-                    borderRadius: 10,
+                    backgroundColor:COLOR.WHITE,
+                    borderRadius: 20,
+
+                    elevation:2,
+                    shadowColor:COLOR.BLACK,
                     alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
                 }}>
                     <View>
@@ -341,9 +346,9 @@ const ProfessionalHome = () => {
                         endFillColor2={COLOR.ORANGECOLOR}
                         startOpacity2={0.5}
                         endOpacity2={0.1}
-                        xAxisLabelTextStyle={{color:COLOR.BLACK}}
-                        yAxisLabelTextStyle={{color:COLOR.BLACK}}
-                        yAxisTextStyle={{color:COLOR.BLACK}}
+                        xAxisLabelTextStyle={{ color: COLOR.BLACK }}
+                        yAxisLabelTextStyle={{ color: COLOR.BLACK }}
+                        yAxisTextStyle={{ color: COLOR.BLACK }}
                     />
 
                 </View>

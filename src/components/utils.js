@@ -511,8 +511,14 @@ export const AllCategoryData1=[
     },
     {
       id:6,
-      icon:(<AntDesign name="user" size={30} color="black" />),
+      icon:(<AntDesign name="swap" size={30} color="black" />),
       name:'Switch to Professionals',
+      icon1:(<AntDesign name="right" size={30} color="black" />),
+    },
+    {
+      id:6,
+      icon:(<AntDesign name="swap" size={30} color="black" />),
+      name:'Switch to Host',
       icon1:(<AntDesign name="right" size={30} color="black" />),
     },
    ];
@@ -549,7 +555,7 @@ export const AllCategoryData1=[
     },
     {
       id:6,
-      icon:(<AntDesign name="user" size={30} color="black" />),
+      icon:(<AntDesign name="swap" size={30} color="black" />),
       name:'Switch to Client',
       icon1:(<AntDesign name="right" size={30} color="black" />),
     },

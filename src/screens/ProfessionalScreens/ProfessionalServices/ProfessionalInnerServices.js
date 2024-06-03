@@ -10,7 +10,7 @@ import { ClockUserIcon } from '../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
-const ProfessionalServices = () => {
+const ProfessionalInnerServices = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const navigation = useNavigation();
@@ -93,23 +93,23 @@ const [Services, setServices] = useState('View services');
           <View>
             <View
               style={{
-                justifyContent: 'space-between',
-                flexDirection: 'row',
+                justifyContent:'flex-start',alignItems:'center',gap:20,
+                flexDirection: 'row',marginVertical:10
               }}>
+                 <AntDesign
+              onPress={() => navigation.goBack()}
+              name="arrowleft"
+              size={24}
+              color={COLOR.BLACK}
+            />
+         
               <Text
                 style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>
                 Services
               </Text>
               {/* <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('Ourpackages Screen')}>See All</Text> */}
             </View>
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: COLOR.BLACK_30,
-                width: Screen_Width * 0.95,
-                marginVertical: 10,
-              }}
-            />
+           
             <FlatList
               data={servicesToPass}
               showsVerticalScrollIndicator={false}
@@ -205,7 +205,7 @@ const [Services, setServices] = useState('View services');
                     onPress={() => {
                       refRBSheet.current[0].close(),
                         setServices('View Services'),
-                        navigation.navigate('ProfessionalViewServicesScreen', {
+                        navigation.navigate('ProfessionalViewInnerServicesScreen', {
                           services: servicesData,
                         })
                     }}>
@@ -326,52 +326,12 @@ const [Services, setServices] = useState('View services');
     },
   });
 
-  const renderitem2 = ({ item }) => (
-    <TouchableOpacity style={{
-      backgroundColor: COLOR.WHITE,
-      marginTop: 10,
-      width: Screen_Width * 0.92,
-      height: Screen_Height * 0.08,
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal:10,
-      borderRadius: 10,
-      flexDirection: 'row'
-    }}
-     onPress={()=>navigation.navigate('ProfessionalInnerServicesScreen',{name:item.name})}
-     >
-      <Text style={{ color: COLOR.BLACK_40, fontSize: 16 }}>{item.name}</Text>
-      <View style={{flexDirection:'row',alignItems:'center'}}>
-        <Text style={{ color: COLOR.BLACK, fontSize: 14, fontWeight: '600',paddingRight:10}}>{item.type}</Text>
-        <AntDesign name="caretright" size={14} color={COLOR.ORANGECOLOR} />
-      </View>
-    </TouchableOpacity>
-  );
+ 
   return (
-    <ScrollView  style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
-       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-        <View style={{ flexDirection: 'row', gap: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 30 }}>F</Text>
-          </TouchableOpacity>
-          <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Services</Text>
-        </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-            <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-            <AntDesign name="setting" size={28} color={COLOR.BLACK} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <FlatList
-        data={Servicesdata}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        renderItem={renderitem2}
-      />
+    <ScrollView  style={{ width: Screen_Width, height: Screen_Height }}>
+   
       {renderContent()}
+      <View style={{height:100}}/>
       {/* <TouchableOpacity onPress={()=>navigation.navigate('BookAppointment Screen')} style={{ width: Screen_Width * 0.80, height: Screen_Height * 0.05, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center',marginTop:5}}>
         <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
       </TouchableOpacity> */}
@@ -379,4 +339,4 @@ const [Services, setServices] = useState('View services');
   )
 }
 
-export default ProfessionalServices
+export default ProfessionalInnerServices

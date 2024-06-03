@@ -21,7 +21,9 @@ import ProfessionalPrivacyPolicy from '../../screens/ProfessionalScreens/Profess
 import TransactionHistoryScreen from '../../screens/ProfessionalScreens/ProfessionalHome/TranscationHistoryScreen';
 import ProfessionalScheduleScreen from '../../components/ProfessionalComponents/ProfessionalScheduleScreen';
 import ProfessionalSettingScreen from '../../components/ProfessionalComponents/ProfessionalSettingScreen';
-import ProfessionalViewServices from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalViewServices';
+import ProfessionalViewServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalViewInnerServices';
+import ProfessionalInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalInnerServices';
+import ProfessionalViewInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalViewInnerServices';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -46,6 +48,11 @@ const ServicesStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalServicesScreen} component={ProfessionalServices} />
+            <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalInnerServicesScreen} component={ProfessionalInnerServices} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewInnerServicesScreen} component={ProfessionalViewInnerServices} />
+
         </Stack.Navigator>
     );
 };
@@ -62,6 +69,8 @@ const MyBookingStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalUpcomingScreen} component={ProfessionalUpcoming} />
             <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
+
 
 
         </Stack.Navigator>
@@ -106,7 +115,7 @@ const Screens = [
     },
     {
         name: NavigationScreens.ProfessionalBookingScreen + " " + NavigationScreens.ProfessionalBottomTab,
-        title: "My Bookings",
+        title: "Bookings",
         component: MyBookingStack,
         icon: BookingIcon,
     },

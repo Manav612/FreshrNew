@@ -11,17 +11,17 @@ const GalleryScreen = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
 const navigation = useNavigation()
   const renderitem = ({ item}) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10,margin:5 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between',alignItems:'center',marginHorizontal:10, marginBottom: 10 }}>
           <Image source={item.image} style={{ width:Screen_Width*0.28,height:Screen_Height*0.13,borderRadius:10 }} />
     </View>
   );
   return (
     <View>
-     <View style={{ justifyContent: 'space-between', marginTop: 10, flexDirection: 'row' }}>
+     <View style={{ justifyContent: 'space-between', alignItems:'center',marginTop:10,paddingHorizontal:10, flexDirection: 'row' }}>
         <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>Our Gallery</Text>
         <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('OurGallery Screen')}>See All</Text>
       </View>
-      <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 20 }} />
+      <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 20,marginHorizontal:10 }} />
       <FlatList
         data={Servicesdata3}
         showsVerticalScrollIndicator={false}

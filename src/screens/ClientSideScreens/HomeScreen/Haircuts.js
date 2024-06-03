@@ -1,32 +1,25 @@
-import { ScrollView,StyleSheet, Text, View,TextInput,TouchableOpacity,FlatList,Image } from 'react-native'
-import React, { useState } from 'react'
-import {Screen_Height,Screen_Width } from '../../constants/Constants';
+import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity,FlatList,Image } from 'react-native'
+import React,{useState} from 'react'
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { data2 } from '../../components/utils';
-import { Hair1 } from '../../constants/Icons';
+import { data2 } from '../../../components/utils';
+import { Filter, Hair1 } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FastImage from 'react-native-fast-image';
 
 
-const Mackup = () => {
-  const navigation = useNavigation()
+const Haircuts = () => {
   const [searchText, setSearchText] = useState('');
+  const navigation = useNavigation()
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
 
   const [bookmarkStatus, setBookmarkStatus] = useState({});
-
-  const toggleBookmark = (itemId) => {
-    setBookmarkStatus(prevState => ({
-      ...prevState,
-      [itemId]: !prevState[itemId]
-    }));
-  };
-
   const [filteredData, setFilteredData] = useState([]);
   const handleSearch = () => {
         const newData = data2.filter(item => {
@@ -37,6 +30,12 @@ const Mackup = () => {
         setFilteredData(newData);
     };
 
+  const toggleBookmark = (itemId) => {
+    setBookmarkStatus(prevState => ({
+      ...prevState,
+      [itemId]: !prevState[itemId]
+    }));
+  };
 
   const styles = StyleSheet.create({
     CardContainer: {
@@ -111,11 +110,11 @@ const Mackup = () => {
   );
 
   return (
-      <ScrollView style={{ width: Screen_Width, height: Screen_Height,paddingHorizontal:15 }}>
-      <View style={{width:Screen_Width,height:Screen_Height*0.05,flexDirection:'row',alignItems:'center',gap:15,marginVertical:10}}>
+    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
+      <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{fontWeight:'600',fontSize:25,color:COLOR.BLACK}}>Mack Up</Text>
-      </View>  
+        <Text style={{ fontWeight: '600', fontSize: 25, color:COLOR.BLACK }}>Haircuts</Text>
+      </View>
       <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.91, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
           <AntDesign name="search1" size={30} color={COLOR.GRAY} />
@@ -125,11 +124,11 @@ const Mackup = () => {
             style={{ fontSize: 20, color: COLOR.GRAY,width:250 }}
             onChangeText={text => { setSearchText(text)
               handleSearch();
-            }}  
+            }} 
           />
         </View>
         <TouchableOpacity>
-          <Ionicons name="filter" size={30} color={COLOR.ORANGECOLOR} />
+        <FastImage source={Filter} style={{height:20,width:20}}/>
         </TouchableOpacity>
       </View>
       <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
@@ -139,11 +138,10 @@ const Mackup = () => {
           renderItem={({ item }) => <Card item={item} />}
         />
       </View>
-      
+
     </ScrollView>
   )
 }
 
-export default Mackup
+export default Haircuts
 
-const styles = StyleSheet.create({})

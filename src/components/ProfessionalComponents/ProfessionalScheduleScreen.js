@@ -265,7 +265,7 @@ const ProfessionalScheduleScreen = () => {
             <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
           </TouchableOpacity>
         </View>
-        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>Schedule</Text>
+        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>My Schedule</Text>
      
       <View style={styles.container}>
         {Object.keys(timeData).map((day) => (

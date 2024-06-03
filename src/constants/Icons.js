@@ -1,6 +1,5 @@
 
-export const BookmarkOutline = require('../assets/images/Bookmark/Outline.png');
-export const BookmarkFill = require('../assets/images/Bookmark/Fill.png');
+export const BookmarkFill = require('../assets/images/Bookmark.png');
 export const CameraIcon = require('../assets/images/Camera.png');
 export const UploadIcon = require('../assets/images/Upload.png');
 export const NoBookMark = require('../assets/NobookMark.png')
@@ -8,21 +7,27 @@ export const SplashImage = require('../assets/SplashImage.png')
 export const Splash = require('../assets/images/Splash.jpg')
 export const Filter = require('../assets/images/Filter.png')
 
-export const HomeIcon = require('../assets/images/Home.png');
+export const HomeIcon = require('../assets/images/House.png');
 export const UserIcon = require('../assets/images/User.png');
-export const ScissorIcon = require('../assets/images/cut.png');
-export const LocationIcon = require('../assets/images/Location.png');
+export const ScissorIcon = require('../assets/images/Scissors.png');
+export const LocationIcon = require('../assets/images/map.png');
 export const InboxIcon = require('../assets/images/Inbox.png');
-export const BookingIcon = require('../assets/images/Booking.png');
+export const BookingIcon = require('../assets/images/Note.png');
+export const ClockUserIcon = require('../assets/images/ClockUser.png');
+export const ClockUserIcon2 = require('../assets/images/ClockUser2.png');
+export const ClockUserIcon3 = require('../assets/images/ClockUser3.png');
+export const GearFineIcon = require('../assets/images/GearFine.png');
+export const ShareIcon = require('../assets/images/Share.png');
+export const ShareIcon2 = require('../assets/images/Share2.png');
+export const ShareIcon3 = require('../assets/images/Share3.png');
 
-export const BBookmarkIcon = require('../assets/images/BottomTab/Bookmarks.png');
+export const BBookmarkIcon = require('../assets/images/Bookmark.png');
 export const Loader = require('../assets/Loader.gif');
 export const Successful = require ('../assets/Successful.gif');
 
 export const OnBoard1 = require('../assets/OnBoard1.png');
 export const OnBoard2 = require('../assets/OnBoard2.png');
 export const OnBoard3 = require('../assets/OnBoard3.png');
-
 
 
 export const Hair1 = require ('../assets/images/Hair1.jpg');
@@ -55,5 +60,4 @@ export const map = require('../assets/images/map.png');
 export const sp1 = require('../assets/images/s1.jpg');
 export const sp2 = require('../assets/images/s2.jpg');
 export const forgotpassword = require('../assets/images/ForgotPassword.jpg');
-
 export const m1 = require('../assets/images/m1.jpg')

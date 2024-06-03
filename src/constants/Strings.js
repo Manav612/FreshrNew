@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import NearbyYourLocation from "../screens/HomeScreen/NearbyYourLocation";
+import NearbyYourLocation from "../screens/ClientSideScreens/HomeScreen/NearbyYourLocation";
 
 
 export const AppUrl = Platform.OS == 'ios' ? 'https://apps.apple.com/in/app/digital-health-news/id6473037148' : 'https://play.google.com/store/apps/details?id=com.dhn';
@@ -62,6 +62,7 @@ export const NavigationScreens = {
     PrivacyPolicyScreen:'PrivacyPolicy Screen',
     ReviewSummaryScreen:'ReviewSummary Screen',
     EReceiptScreen:'EReceiptScreen',
+    Booking:'Booking',
 
     ProfessionalBottomTab:'ProfessionalBottom Tab',
     ProfessionalHomeScreen:'ProfessionalHome Screen',
@@ -71,6 +72,7 @@ export const NavigationScreens = {
     ProfessionalSecurityScreen:'ProfessionalSecurity Screen',
     ProfessionalPrivacyPolicyScreen:'ProfessionalPrivacyPolicy Screen',
     ProfessionalViewServicesScreen:'ProfessionalViewServicesScreen',
+    ProfessionalViewInnerServicesScreen:'ProfessionalViewInnerServicesScreen',
     ProfessionalBookingScreen:'ProfessionalBookingScreen',
     ProfessionalInboxScreen:'ProfessionalInboxScreen',
     ProfessionalChatScreen:'ProfessionalChatScreen',
@@ -79,8 +81,12 @@ export const NavigationScreens = {
     ProfessionalCompletedScreen:'ProfessionalCompletedScreen',
     ProfessionalUpcomingScreen:'ProfessionalUpcomingScreen',
     ProfessionalScheduleScreen:'ProfessionalScheduleScreen',
-    ProfessionalSettingScreen:'ProfessionalSettingScreen'
+    ProfessionalSettingScreen:'ProfessionalSettingScreen',
+    ProfessionalInnerServicesScreen:'ProfessionalInnerServicesScreen',
 
+    FacilityBottomTab:'FacilityBottomTab',
+    FacilityPrivacyAndPolicyScreen:'FacilityPrivacyAndPolicyScreen',
+    FacilityHomeScreen:'FacilityHomeScreen',
 }
 
 export const label = {

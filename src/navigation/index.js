@@ -17,6 +17,8 @@ import otp from '../screens/OnBoardingScreens/ForgotPasswordScreen/otp';
 import EmailVerificationScreen from '../screens/OnBoardingScreens/VerifyEmail/EmailVerificationScreen';
 import ProfessionalBottomTab from './BottomTab/ProfessionalsBottomTab';
 import ProfessionalScheduleScreen from '../components/ProfessionalComponents/ProfessionalScheduleScreen';
+import FacilityBottomTab from './BottomTab/FacilityBottomTab';
+import FacilityPrivacyAndPolicy from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityPrivacyAndPolicy';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -65,7 +67,9 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
                 <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        
                 <Stack.Screen name={NavigationScreens.ProfessionalBottomTab} component={ProfessionalBottomTab} />        
-                <Stack.Screen name="Booking" component={Booking} />        
+                <Stack.Screen name={NavigationScreens.FacilityBottomTab} component={FacilityBottomTab} />        
+                <Stack.Screen name={NavigationScreens.FacilityPrivacyAndPolicyScreen} component={FacilityPrivacyAndPolicy} />        
+                <Stack.Screen name={NavigationScreens.Booking} component={Booking} />        
             </Stack.Navigator>
         </NavigationContainer >
     );

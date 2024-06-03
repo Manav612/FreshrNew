@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Image,
   ImageBackground,
@@ -10,34 +10,42 @@ import {
   FlatList,
   Button,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {Hair1, barber} from '../../../constants/Icons';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { ClockUserIcon2, ClockUserIcon3, GearFineIcon, Hair1, ShareIcon, ShareIcon2, ShareIcon3, barber } from '../../../constants/Icons';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
+import Feather from 'react-native-vector-icons/Feather';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import ServicesScreen from '../../../components/SalonDetailScreen/ServicesScreen';
 import ReviewScreen from '../../../components/SalonDetailScreen/ReviewScreen';
 import GalleryScreen from '../../../components/SalonDetailScreen/GalleryScreen';
 import PackageScreen from '../../../components/SalonDetailScreen/PackageScreen';
-import {Servicesdata2} from '../../../components/utils';
+import { Servicesdata2 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import FastImage from 'react-native-fast-image';
 
-const ProfessionalProfile = ({name}) => {
+const ProfessionalProfile = ({ name }) => {
   const navigation = useNavigation();
   const [showMore, setShowMore] = useState(false);
   const [resetSelected, setResetSelected] = useState(false);
   const [applySelected, setApplySelected] = useState(false);
   const [selectedTab, setSelectedTab] = useState(null);
-  const [activeTab, setActiveTab] = useState('Edit Profile');
+  const [servicesToPass, setServicesToPass] = useState(Servicesdata2);
+  const [servicesData, setServicesData] = useState()
+  const [activeTab, setActiveTab] = useState('');
+  const [activeTab2, setActiveTab2] = useState('');
   const refRBSheet = useRef([]);
-
-  const openBottomSheet2 = () => {
+  useEffect(() => {
+    setServicesData()
+  }, [])
+  
+  const openBottomSheet2 = (item, index) => {
     refRBSheet.current[0].open();
+    setServicesData(item)
   };
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -56,6 +64,14 @@ const ProfessionalProfile = ({name}) => {
     setSelectedTab(tab);
   };
 
+  const [showFullText, setShowFullText] = useState(false);
+  const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
+  const truncatedText = fullText.slice(0, 100) + '...';
+
+  const toggleShowFullText = () => {
+    setShowFullText(!showFullText);
+  };
+
   const [selectedScreen, setSelectedScreen] = useState('gallery');
   const [Services, setServices] = useState('View services');
 
@@ -67,9 +83,9 @@ const ProfessionalProfile = ({name}) => {
         </View>
       );
     } else if (selectedScreen === 'services') {
-      const renderitem = ({item}) => (
+      const renderitem = ({ item, index }) => (
         <TouchableOpacity
-          onPress={openBottomSheet2}
+          onPress={() => openBottomSheet2(item, index)}
           style={{
             backgroundColor: COLOR.WHITE,
             marginTop: 10,
@@ -88,7 +104,7 @@ const ProfessionalProfile = ({name}) => {
             }}
             source={item.image}
           />
-          <View style={{flexDirection: 'column', marginLeft: 15, gap: 5}}>
+          <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5 }}>
             <Text
               style={{
                 color: COLOR.BLACK,
@@ -136,11 +152,10 @@ const ProfessionalProfile = ({name}) => {
             <View
               style={{
                 justifyContent: 'space-between',
-                marginTop: 10,
                 flexDirection: 'row',
               }}>
               <Text
-                style={{fontSize: 22, fontWeight: '600', color: COLOR.BLACK}}>
+                style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>
                 Services
               </Text>
               {/* <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('Ourpackages Screen')}>See All</Text> */}
@@ -150,11 +165,11 @@ const ProfessionalProfile = ({name}) => {
                 borderBottomWidth: 1,
                 borderBottomColor: COLOR.BLACK_30,
                 width: Screen_Width * 0.95,
-                marginVertical: 20,
+                marginVertical: 10,
               }}
             />
             <FlatList
-              data={Servicesdata2}
+              data={servicesToPass}
               showsVerticalScrollIndicator={false}
               keyExtractor={item => item.id}
               renderItem={renderitem}
@@ -185,8 +200,8 @@ const ProfessionalProfile = ({name}) => {
               customAvoidingViewProps={{
                 enabled: false,
               }}>
-              <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <View
                     style={{
                       width: 30,
@@ -202,7 +217,7 @@ const ProfessionalProfile = ({name}) => {
                       alignItems: 'center',
                       width: Screen_Width * 0.9,
                     }}>
-                    <View style={{width: 30}} />
+                    <View style={{ width: 30 }} />
                     <Text
                       style={{
                         fontWeight: '600',
@@ -246,9 +261,11 @@ const ProfessionalProfile = ({name}) => {
                       marginBottom: 10,
                     }}
                     onPress={() => {
-                      setServices('View Services'),
-                        navigation.navigate('ProfessionalViewServicesScreen')
-                        
+                      refRBSheet.current[0].close(),
+                        setServices('View Services'),
+                        navigation.navigate('ProfessionalViewServicesScreen', {
+                          services: servicesData,
+                        })
                     }}>
                     <Text
                       style={{
@@ -275,7 +292,7 @@ const ProfessionalProfile = ({name}) => {
                       borderColor: COLOR.ORANGECOLOR,
                       marginBottom: 10,
                     }}
-                    onPress={() => setServices('Edit Services')}>
+                    onPress={() => { setServices('Edit Services'), refRBSheet.current[0].close() }}>
                     <Text
                       style={{
                         color:
@@ -301,7 +318,7 @@ const ProfessionalProfile = ({name}) => {
                       borderColor: COLOR.ORANGECOLOR,
                       marginBottom: 10,
                     }}
-                    onPress={() => setServices('Delete Services')}>
+                    onPress={() => { setServices('Delete Services'), refRBSheet.current[0].close() }}>
                     <Text
                       style={{
                         color:
@@ -373,8 +390,8 @@ const ProfessionalProfile = ({name}) => {
     },
   });
   return (
-    <ScrollView style={{width: Screen_Width, height: Screen_Height}}>
-      <View style={{height: 330}}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height }}>
+      <View style={{ height: 330 }}>
         <ImageBackground
           source={barber}
           style={{
@@ -391,21 +408,22 @@ const ProfessionalProfile = ({name}) => {
               alignItems: 'center',
               marginVertical: 10,
             }}>
-            <AntDesign
-              onPress={() => navigation.goBack()}
-              name="arrowleft"
-              size={30}
-              color={COLOR.WHITE}
-            />
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-                gap: 20,
-              }}>
-              <FontAwesome name="share" size={30} color={COLOR.WHITE} />
-              <AntDesign name="setting" size={30} color={COLOR.WHITE} />
+            <View>
+              <AntDesign
+                onPress={() => navigation.goBack()}
+                name="arrowleft"
+                size={30}
+                color={COLOR.WHITE}
+              />
+            </View>
+
+            <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+              {/* <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                <Entypo name="direction" size={28} color={COLOR.ChartBlue} />
+              </TouchableOpacity> */}
+              <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+              <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+              </TouchableOpacity>
             </View>
           </View>
           <View
@@ -420,7 +438,7 @@ const ProfessionalProfile = ({name}) => {
             }}>
             <Image
               source={Hair1}
-              style={{width: 140, height: 140, borderRadius: 100}}
+              style={{ width: 140, height: 140, borderRadius: 100 }}
             />
             <View
               style={{
@@ -434,7 +452,7 @@ const ProfessionalProfile = ({name}) => {
                 borderRadius: 15,
                 backgroundColor: COLOR.ORANGECOLOR,
               }}>
-              <Text style={{color: COLOR.WHITE, fontSize: 18}}>+</Text>
+              <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>+</Text>
             </View>
           </View>
         </ImageBackground>
@@ -445,12 +463,12 @@ const ProfessionalProfile = ({name}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{color: COLOR.BLACK, fontSize: 25, fontWeight: 'bold'}}>
+        <Text style={{ color: COLOR.BLACK, fontSize: 25, fontWeight: 'bold' }}>
           Kathryn Murphy
         </Text>
-        <Text style={{color: COLOR.GRAY}}>
+        <Text style={{ color: COLOR.GRAY }}>
           Hair Stylist at{' '}
-          <Text style={{fontWeight: 'bold', color: COLOR.BLACK}}>
+          <Text style={{ fontWeight: 'bold', color: COLOR.BLACK }}>
             Bella Rinova
           </Text>{' '}
           5.0 (25 Reviews)
@@ -459,8 +477,9 @@ const ProfessionalProfile = ({name}) => {
       <View
         style={{
           flexDirection: 'row',
-          alignSelf: 'center',
-          gap: 30,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingHorizontal: 15,
           marginVertical: 10,
         }}>
         <TouchableOpacity
@@ -522,70 +541,79 @@ const ProfessionalProfile = ({name}) => {
           alignItems: 'center',
           paddingHorizontal: 15,
         }}>
-        <View style={{alignItems: 'center', flexDirection: 'row', gap: 5}}>
+
+        <TouchableOpacity
+          style={{
+            width:Screen_Width*0.3,
+            height: 50,
+            backgroundColor:
+              activeTab2 === 'Distance' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+            borderRadius: 15,
+            flexDirection: 'row',
+            gap: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: COLOR.ORANGECOLOR,
+          }}
+          onPress={() => setActiveTab2('Distance')
+          }>
           <MaterialCommunityIcons
             name="map-marker-distance"
             size={22}
-            color={COLOR.BLACK}
+            color={activeTab2 === 'Distance' ? COLOR.WHITE : COLOR.ORANGECOLOR}
           />
-          <Text style={{fontSize: 14, color: COLOR.BLACK}}>Distance</Text>
-        </View>
-        <View style={{alignItems: 'center', flexDirection: 'row', gap: 5}}>
-          <Entypo name="network" size={22} color={COLOR.BLACK} />
-          <Text style={{fontSize: 14, color: COLOR.BLACK}}>Work as</Text>
-        </View>
-        <View style={{alignItems: 'center', flexDirection: 'row', gap: 5}}>
-          <MaterialIcons name="schedule" size={22} color={COLOR.BLACK} />
-          <Text style={{fontSize: 14, color: COLOR.BLACK}}>My schedule</Text>
-        </View>
+          <Text style={{ fontSize: 14, color:activeTab2 === 'Distance' ? COLOR.WHITE : COLOR.ORANGECOLOR}}>Distance</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width:Screen_Width*0.3,
+            height: 50,
+            backgroundColor:
+              activeTab2 === 'My schedule' ?COLOR.ORANGECOLOR : COLOR.GULABI,
+            borderRadius: 15,
+            flexDirection: 'row',
+            gap: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: COLOR.ORANGECOLOR,
+          }}
+          onPress={() => setActiveTab2('My schedule')
+          }>
+          <FastImage source={activeTab2==='My schedule'?ClockUserIcon3:ClockUserIcon2} style={{height:20,width:20}}/>
+          <Text style={{ fontSize: 14, color:activeTab2 === 'My schedule' ? COLOR.WHITE : COLOR.ORANGECOLOR}}>My schedule</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width:Screen_Width*0.3,
+            height: 50,
+            backgroundColor:
+              activeTab2 === 'Share' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+            borderRadius: 15,
+            flexDirection: 'row',
+            gap: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: COLOR.ORANGECOLOR,
+          }}
+          onPress={() => setActiveTab2('Share')
+          }>
+                     <FastImage source={activeTab2==='Share'?ShareIcon3:ShareIcon2} style={{height:20,width:20}}/>
+
+          <Text style={{ fontSize: 14, color:activeTab2 === 'Share' ? COLOR.WHITE : COLOR.ORANGECOLOR}}>Share</Text>
+        </TouchableOpacity>
       </View>
-      <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-        <View>
-          <Text style={{color: COLOR.BLACK, fontSize: 18, fontWeight: 'bold'}}>
-            {name}
-          </Text>
-          <Text style={{fontSize: 15, color: COLOR.BLACK}}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget
-            laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec,
-            aliquam{' '}
-            {showMore && (
-              <Text>
-                Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis
-                varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis
-                ultricies, eros nec fermentum iaculis, libero lorem rhoncus
-                justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus
-                non erat posuere pharetra sed lacinia arcu neque.
-              </Text>
-            )}
-            {!showMore ? (
-              <TouchableOpacity
-                onPress={() => setShowMore(true)}
-                style={{marginTop: 10}}>
-                <Text
-                  style={{
-                    color: COLOR.ORANGECOLOR,
-                    fontSize: 16,
-                    fontWeight: '600',
-                  }}>
-                  Read more...
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => setShowMore(false)}>
-                <Text
-                  style={{
-                    color: COLOR.ORANGECOLOR,
-                    fontSize: 16,
-                    fontWeight: '600',
-                  }}>
-                  Read less...
-                </Text>
-              </TouchableOpacity>
-            )}
-          </Text>
-        </View>
+      <View style={{ paddingHorizontal: 15,marginVertical:10 }}>
+      
+          <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>{showFullText ? fullText : truncatedText}</Text>
+          <TouchableOpacity onPress={toggleShowFullText}>
+            <Text style={{ color: COLOR.ORANGECOLOR }}>{showFullText ? 'Read Less' : 'Read More'}</Text>
+          </TouchableOpacity>
+        
       </View>
-      <View style={styles.navbar}>
+      <View>
         <View
           style={{
             flexDirection: 'row',
@@ -671,7 +699,7 @@ const ProfessionalProfile = ({name}) => {
         </View>
       </View>
       {renderContent()}
-      <View style={{height: 100}} />
+      <View style={{ height: 100 }} />
     </ScrollView>
   );
 };

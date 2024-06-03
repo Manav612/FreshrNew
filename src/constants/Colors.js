@@ -16,7 +16,7 @@ export const COLOR_LIGHT = {
     PRIMARYCOLORMIDDARK: 'rgba(180, 159, 138, 1)',
     PRIMARYCOLORDARK: 'rgba(16, 12, 8, 1)',
     SECONDARYCOLOR: 'rgba(255, 92, 0, 1)',
-    ORANGECOLOR: '#FFC02D',
+    ORANGECOLOR:'rgba(251, 148, 0, 1)',
     PINK:"#FF657B", 
     YELLOW:"#FCD435",
     BLUE:"#3979FE",
@@ -39,7 +39,7 @@ export const COLOR_LIGHT = {
     FORUM: {
         WHITE: 'rgba(255, 255, 255, 1)',
         BLACK: 'rgba(225, 216, 207, 1)',
-        ORANGECOLOR: '#FFC02D',
+        ORANGECOLOR: 'rgba(251, 148, 0, 1)',
         SECONDARYCOLOR: 'rgba(255, 109, 0, 1)',
         LIGHTGRAY: 'rgba(91, 91, 91, 1)',
         PRIMARYCOLOR_OP: 'rgba(246, 220, 193, 1)',
@@ -79,7 +79,7 @@ export const COLOR_DARK = {
     PRIMARYCOLORMIDDARK: 'rgba(255, 255, 255,0.4)',
     PRIMARYCOLORDARK: 'rgba(16, 12, 8, 1)',
     SECONDARYCOLOR: 'rgba(255, 92, 0, 1)',
-    ORANGECOLOR: '#FFC02D',
+    ORANGECOLOR: 'rgba(251, 148, 0, 1)',
     BUTTON_SHADOW:'#FFF4E6',
     
     PLACEHOLDERCOLOR: 'rgba(180, 159, 138, 0.7)',
@@ -92,7 +92,7 @@ export const COLOR_DARK = {
     FORUM: {
         WHITE: 'rgba(255, 255, 255, 1)',
         BLACK: 'rgba(0, 0, 0, 1)',
-        ORANGECOLOR: '#FFC02D',
+        ORANGECOLOR: 'rgba(251, 148, 0, 1)',
         SECONDARYCOLOR: 'rgba(255, 109, 0, 1)',
         LIGHTGRAY: 'rgba(91, 91, 91, 1)',
         EXTRALIGHTGRAY: 'rgba(217, 217, 217, 1)',

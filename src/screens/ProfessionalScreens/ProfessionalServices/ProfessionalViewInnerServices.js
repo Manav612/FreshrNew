@@ -13,11 +13,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
 import {barber} from '../../../constants/Icons';
 
-const ProfessionalViewServices = () => {
+const ProfessionalViewInnerServices = ({route}) => {
   const navigation = useNavigation();
-  const route = useRoute();
-  // const { name, image } = route.params;
-
+  const { services } = route.params;
+console.log("=======>",services);
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   return (
@@ -29,22 +28,14 @@ const ProfessionalViewServices = () => {
             justifyContent: 'space-between',
             marginTop: 15,
           }}>
-          <View
-            style={{
-              backgroundColor: COLOR.BLACK,
-              height: 40,
-              width: 40,
-              borderRadius: 50,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+         
             <AntDesign
               onPress={() => navigation.goBack()}
               name="arrowleft"
               size={24}
-              color={COLOR.WHITE}
+              color={COLOR.BLACK}
             />
-          </View>
+         
           <TouchableOpacity
             style={{
               justifyContent: 'center',
@@ -102,39 +93,39 @@ const ProfessionalViewServices = () => {
           </TouchableOpacity>
         </View>
         <ImageBackground
-          source={barber}
+          source={services.image}
           style={{
             height: 180,
             width: '100%',
             backgroundColor: 'yellow',
+            justifyContent:'flex-end',
             marginVertical: 10,
           }}>
           <View
             style={{
               height: 40,
               width: 120,
-              justifyContent: 'center',
-              alignItems: 'center',
+              alignItems:'center',
+              justifyContent:'center',
               backgroundColor: COLOR.ChartBlue,
-              marginTop: 140,
-              marginLeft: 10,
+              margin:10
             }}>
-            <Text style={{color: COLOR.WHITE}}>hello</Text>
+            <Text style={{color: COLOR.WHITE}}>{services.name}</Text>
           </View>
         </ImageBackground>
         <View
           style={{
-            backgroundColor: COLOR.ORANGECOLOR,
+            backgroundColor: COLOR.ChartBlue,
             height: 50,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: COLOR.WHITE}}>dxgffdg</Text>
+          <Text style={{color: COLOR.WHITE,textAlign:'center'}}>"{services.type}"</Text>
         </View>
         <View style={{marginVertical: 20}}>
           <View style={[styles.box, {backgroundColor: COLOR.ORANGECOLOR}]}>
             <Text style={{color: COLOR.WHITE}}>COST PER SERVICE</Text>
-            <Text style={{color: COLOR.WHITE}}>$ 31.00</Text>
+            <Text style={{color: COLOR.WHITE}}>{services.price}</Text>
           </View>
           <View style={[styles.box, {backgroundColor: COLOR.ORANGECOLOR}]}>
             <Text style={{color: COLOR.WHITE}}>DURATION</Text>
@@ -156,7 +147,7 @@ const ProfessionalViewServices = () => {
   );
 };
 
-export default ProfessionalViewServices;
+export default ProfessionalViewInnerServices;
 
 const styles = StyleSheet.create({
   box: {

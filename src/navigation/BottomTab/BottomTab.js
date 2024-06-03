@@ -4,20 +4,20 @@ import React from 'react';
 import TabBar from './TabBar';
 import { BBookmarkIcon, BEliteIcon, BHomeIcon, BQBIcon, BookingIcon, BookmarkFill, BookmarkOutline, HomeIcon, InboxIcon, LocationIcon, UserIcon } from '../../constants/Icons';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
-import Home from '../../screens/HomeScreen/Home';
-import Explore from '../../screens/ExploreScreen/Explore';
-import MyBooking from '../../screens/MyBookingScreen/MyBooking';
-import Inbox from '../../screens/InboxScreen/Inbox';
-import NotificationScreen from '../../screens/HomeScreen/NotificationScreen';
-import Haircuts from '../../screens/HomeScreen/Haircuts';
-import Mackup from '../../screens/HomeScreen/Mackup';
-import Manicure from '../../screens/HomeScreen/Manicure';
-import Massage from '../../screens/HomeScreen/Massage';
-import SearchFilter from '../../screens/HomeScreen/SearchFilter';
-import MyBookMarkScreen from '../../screens/HomeScreen/MyBookMarkScreen';
-import NearbyYourLocation from '../../screens/HomeScreen/NearbyYourLocation';
-import MyProfile from '../../screens/HomeScreen/MyProfile';
-import ChatScreen from '../../screens/InboxScreen/ChatScreen';
+import Home from '../../screens/ClientSideScreens/HomeScreen/Home';
+import Explore from '../../screens/ClientSideScreens/ExploreScreen/Explore';
+import MyBooking from '../../screens/ClientSideScreens/MyBookingScreen/MyBooking';
+import Inbox from '../../screens/ClientSideScreens/InboxScreen/Inbox';
+import NotificationScreen from '../../screens/ClientSideScreens/HomeScreen/NotificationScreen';
+import Haircuts from '../../screens/ClientSideScreens/HomeScreen/Haircuts';
+import Mackup from '../../screens/ClientSideScreens/HomeScreen/Mackup';
+import Manicure from '../../screens/ClientSideScreens/HomeScreen/Manicure';
+import Massage from '../../screens/ClientSideScreens/HomeScreen/Massage';
+import SearchFilter from '../../screens/ClientSideScreens/HomeScreen/SearchFilter';
+import MyBookMarkScreen from '../../screens/ClientSideScreens/HomeScreen/MyBookMarkScreen';
+import NearbyYourLocation from '../../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
+import MyProfile from '../../screens/ClientSideScreens/HomeScreen/MyProfile';
+import ChatScreen from '../../screens/ClientSideScreens/InboxScreen/ChatScreen';
 import Cancelbooking from '../../components/MyBookingDetails/Cancelbooking';
 import OurServices from '../../components/OrderComponents/OurServices';
 import ServiceDetails from '../../components/OrderComponents/ServiceDetails';
@@ -140,21 +140,21 @@ const Screens = [
     },
     {
         name: NavigationScreens.MyBookingScreen + " " + NavigationScreens.HomeTab,
-        title: "My Bookings",
+        title: "Bookings",
         component: MyBookingStack,
         icon: BookingIcon,
+    },
+    {
+        name: NavigationScreens.ProfileScreen + " " + NavigationScreens.HomeTab,
+        title: "Following",
+        component: FollowedStack,
+        icon: BBookmarkIcon,
     },
     {
         name: NavigationScreens.InboxScreen + " " + NavigationScreens.HomeTab,
         title: "Inbox",
         component: InboxStack,
         icon: InboxIcon,
-    },
-    {
-        name: NavigationScreens.ProfileScreen + " " + NavigationScreens.HomeTab,
-        title: "Following",
-        component: FollowedStack,
-        icon: BookmarkOutline,
     },
 ]
 export default BottomTab = ({ route }) => {

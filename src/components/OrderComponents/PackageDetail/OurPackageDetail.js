@@ -20,7 +20,13 @@ const OurPackageDetail = () => {
   });
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const [showFullText, setShowFullText] = useState(false);
+  const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
+  const truncatedText = fullText.slice(0, 100) + '...';
 
+  const toggleShowFullText = () => {
+    setShowFullText(!showFullText);
+  };
   const navigation = useNavigation();
   const route = useRoute();
   const { name, image } = route.params;
@@ -69,45 +75,10 @@ const OurPackageDetail = () => {
           <Text style={{ marginVertical: 10 }}>
             Special Offers Package, valid until Dec 15,2024
           </Text>
-          <Text style={{ fontSize: 15 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget
-            laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec,
-            aliquam{' '}
-            {showMore && (
-              <Text>
-                Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis
-                varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis
-                ultricies, eros nec fermentum iaculis, libero lorem rhoncus
-                justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus
-                non erat posuere pharetra sed lacinia arcu neque.
-              </Text>
-            )}
-            {!showMore ? (
-              <TouchableOpacity
-                onPress={() => setShowMore(true)}
-                style={{ marginTop: 10 }}>
-                <Text
-                  style={{
-                    color: COLOR.ORANGECOLOR,
-                    fontSize: 16,
-                    fontWeight: '600',
-                  }}>
-                  Read more...
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => setShowMore(false)}>
-                <Text
-                  style={{
-                    color: COLOR.ORANGECOLOR,
-                    fontSize: 16,
-                    fontWeight: '600',
-                  }}>
-                  Read less...
-                </Text>
-              </TouchableOpacity>
-            )}
-          </Text>
+          <Text style={{color:COLOR.BLACK,fontSize:14}}>{showFullText ? fullText : truncatedText}</Text>
+      <TouchableOpacity onPress={toggleShowFullText}>
+        <Text style={{color:COLOR.ORANGECOLOR}}>{showFullText ? 'Read Less' : 'Read More'}</Text>
+      </TouchableOpacity>
           <Text
             style={{
               color: COLOR.BLACK,
