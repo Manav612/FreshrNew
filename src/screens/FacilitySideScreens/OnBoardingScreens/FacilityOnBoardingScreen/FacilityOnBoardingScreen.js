@@ -70,6 +70,20 @@ const FacilityOnBoardingScreen = () => {
             justifyContent: 'center',
             marginTop: 10,
         },
+        button: {
+            backgroundColor: COLOR.ORANGECOLOR,
+           justifyContent:'center',
+            borderRadius: 25,
+            alignItems: 'center',
+            marginVertical:10,
+            height:40,
+            width: Screen_Width * 0.88,
+        },
+        buttonText: {
+            color: COLOR.WHITE,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
     });
 
     return (
@@ -104,6 +118,9 @@ const FacilityOnBoardingScreen = () => {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ height: 50, width: Screen_Width * 0.88, borderRadius: 15, marginHorizontal: 15, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} />
+                                <TouchableOpacity style={styles.button} >
+                                    <Text style={styles.buttonText}>Get Started</Text>
+                                </TouchableOpacity>
                             </>
                         ),
                     },
@@ -119,7 +136,7 @@ const FacilityOnBoardingScreen = () => {
                         title: (
                             <ScrollView showsVerticalScrollIndicator={false}>
                                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
-                                    <KeyboardAvoidingView style={{ width: Screen_Width * 0.9, }}>
+                                    <KeyboardAvoidingView style={{ width: Screen_Width * 0.88, }}>
                                         <View>
                                             <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Add Address</Text>
                                             <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Street</Text>
@@ -189,9 +206,12 @@ const FacilityOnBoardingScreen = () => {
 
                                             />
                                         </View>
+                                        <TouchableOpacity style={styles.button} >
+                                            <Text style={styles.buttonText}>Get Started</Text>
+                                        </TouchableOpacity>
                                     </KeyboardAvoidingView>
                                 </View >
-                                <View style={{ height: Screen_Height*0.5 }} />
+                                <View style={{ height: Screen_Height * 0.5 }} />
                             </ScrollView>
 
                         ),
@@ -206,15 +226,21 @@ const FacilityOnBoardingScreen = () => {
                             </View>
                         ),
                         title: (
-                            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
-                                <View style={{ width: Screen_Width * 0.6 }}>
-                                    <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Select Location</Text>
-                                    <Text style={{ color: COLOR.BLACK, fontSize: 10 }}>Please check that your Facility location is shown on Google Maps.</Text>
+                            <>
+                                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
+                                    <View style={{ width: Screen_Width * 0.6 }}>
+                                        <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Select Location</Text>
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 10 }}>Please check that your Facility location is shown on Google Maps.</Text>
+                                    </View>
+                                    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.2, height: 40, borderRadius: 20 }}>
+                                        <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Find By Map</Text>
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.2, height: 40, borderRadius: 20 }}>
-                                    <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Find By Map</Text>
+                                <View style={{ height: 50, width: Screen_Width * 0.88, borderRadius: 15, marginHorizontal: 15, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} />
+                                <TouchableOpacity style={styles.button} >
+                                    <Text style={styles.buttonText}>Get Started</Text>
                                 </TouchableOpacity>
-                            </View>
+                            </>
                         ),
                     },
                     {
@@ -227,15 +253,21 @@ const FacilityOnBoardingScreen = () => {
                             </View>
                         ),
                         title: (
-                            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
-                                <View style={{ width: Screen_Width * 0.6 }}>
-                                    <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Select Location</Text>
-                                    <Text style={{ color: COLOR.BLACK, fontSize: 10 }}>Please check that your Facility location is shown on Google Maps.</Text>
+                            <>
+                                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
+                                    <View style={{ width: Screen_Width * 0.6 }}>
+                                        <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Select Location</Text>
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 10 }}>Please check that your Facility location is shown on Google Maps.</Text>
+                                    </View>
+                                    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.2, height: 40, borderRadius: 20 }}>
+                                        <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Find By Map</Text>
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.2, height: 40, borderRadius: 20 }}>
-                                    <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Find By Map</Text>
+                                <View style={{ height: 50, width: Screen_Width * 0.88, borderRadius: 15, marginHorizontal: 15, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} />
+                                <TouchableOpacity style={styles.button} >
+                                    <Text style={styles.buttonText}>Get Started</Text>
                                 </TouchableOpacity>
-                            </View>
+                            </>
                         ),
                     },
                     {
@@ -248,15 +280,21 @@ const FacilityOnBoardingScreen = () => {
                             </View>
                         ),
                         title: (
-                            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
-                                <View style={{ width: Screen_Width * 0.6 }}>
-                                    <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Select Location</Text>
-                                    <Text style={{ color: COLOR.BLACK, fontSize: 10 }}>Please check that your Facility location is shown on Google Maps.</Text>
+                            <>
+                                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
+                                    <View style={{ width: Screen_Width * 0.6 }}>
+                                        <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Select Location</Text>
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 10 }}>Please check that your Facility location is shown on Google Maps.</Text>
+                                    </View>
+                                    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.2, height: 40, borderRadius: 20 }}>
+                                        <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Find By Map</Text>
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.2, height: 40, borderRadius: 20 }}>
-                                    <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Find By Map</Text>
+                                <View style={{ height: 50, width: Screen_Width * 0.88, borderRadius: 15, marginHorizontal: 15, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} />
+                                <TouchableOpacity style={styles.button} >
+                                    <Text style={styles.buttonText}>Get Started</Text>
                                 </TouchableOpacity>
-                            </View>
+                            </>
                         ),
                     },
 
