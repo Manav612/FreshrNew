@@ -19,6 +19,7 @@ import ProfessionalBottomTab from './BottomTab/ProfessionalsBottomTab';
 import ProfessionalScheduleScreen from '../components/ProfessionalComponents/ProfessionalScheduleScreen';
 import FacilityBottomTab from './BottomTab/FacilityBottomTab';
 import FacilityPrivacyAndPolicy from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityPrivacyAndPolicy';
+import FacilityOnBoardingScreen from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityOnBoardingScreen/FacilityOnBoardingScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -69,6 +70,7 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.ProfessionalBottomTab} component={ProfessionalBottomTab} />        
                 <Stack.Screen name={NavigationScreens.FacilityBottomTab} component={FacilityBottomTab} />        
                 <Stack.Screen name={NavigationScreens.FacilityPrivacyAndPolicyScreen} component={FacilityPrivacyAndPolicy} />        
+                <Stack.Screen name={NavigationScreens.FacilityOnBoardingScreen} component={FacilityOnBoardingScreen} />        
                 <Stack.Screen name={NavigationScreens.Booking} component={Booking} />        
             </Stack.Navigator>
         </NavigationContainer >

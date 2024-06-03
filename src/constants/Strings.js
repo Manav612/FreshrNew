@@ -86,6 +86,7 @@ export const NavigationScreens = {
 
     FacilityBottomTab:'FacilityBottomTab',
     FacilityPrivacyAndPolicyScreen:'FacilityPrivacyAndPolicyScreen',
+    FacilityOnBoardingScreen:'FacilityOnBoardingScreen',
     FacilityHomeScreen:'FacilityHomeScreen',
 }
 

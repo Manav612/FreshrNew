@@ -1,7 +1,10 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const FacilityPrivacyAndPolicy = () => {
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <View style={styles.section}>
@@ -22,7 +25,7 @@ const FacilityPrivacyAndPolicy = () => {
         </Text>
         <Text style={styles.text}>We do not use cookies?</Text>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)}>
         <Text style={styles.buttonText}>Accept All</Text>
       </TouchableOpacity>
     </View>
