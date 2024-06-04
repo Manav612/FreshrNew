@@ -1,13 +1,14 @@
+
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
 import {Screen_Height, Screen_Width} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { NavigationScreens } from '../../../constants/Strings';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 
-const FacilityPrivacyAndPolicy = () => {
+const ProfessionalPrivacyAndPolicy = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const navigation = useNavigation()
@@ -165,7 +166,7 @@ const FacilityPrivacyAndPolicy = () => {
         </Text>
         <Text style={styles.text}>We do not use cookies?</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)}>
+      <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate(NavigationScreens.ProfessionalConnectStripeScreen)}>
         <Text style={styles.buttonText}>Accept All</Text>
       </TouchableOpacity>
     </View>
@@ -175,4 +176,4 @@ const FacilityPrivacyAndPolicy = () => {
 
 
 
-export default FacilityPrivacyAndPolicy;
+export default ProfessionalPrivacyAndPolicy;

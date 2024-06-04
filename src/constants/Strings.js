@@ -81,12 +81,16 @@ export const NavigationScreens = {
     ProfessionalCompletedScreen:'ProfessionalCompletedScreen',
     ProfessionalUpcomingScreen:'ProfessionalUpcomingScreen',
     ProfessionalScheduleScreen:'ProfessionalScheduleScreen',
+    ProfessionalPrivacyAndPolicyScreen:'ProfessionalPrivacyAndPolicyScreen',
     ProfessionalSettingScreen:'ProfessionalSettingScreen',
     ProfessionalInnerServicesScreen:'ProfessionalInnerServicesScreen',
+    ProfessionalConnectStripeScreen:'ProfessionalConnectStripeScreen',
 
     FacilityBottomTab:'FacilityBottomTab',
     FacilityPrivacyAndPolicyScreen:'FacilityPrivacyAndPolicyScreen',
     FacilityOnBoardingScreen:'FacilityOnBoardingScreen',
+    ConfirmationForCreateFacilitieScreen:'ConfirmationForCreateFacilitieScreen',
+    FacilityConnectStripeScreen:'FacilityConnectStripe',
     FacilityHomeScreen:'FacilityHomeScreen',
 }
 

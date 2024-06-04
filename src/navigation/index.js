@@ -20,6 +20,10 @@ import ProfessionalScheduleScreen from '../components/ProfessionalComponents/Pro
 import FacilityBottomTab from './BottomTab/FacilityBottomTab';
 import FacilityPrivacyAndPolicy from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityPrivacyAndPolicy';
 import FacilityOnBoardingScreen from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityOnBoardingScreen/FacilityOnBoardingScreen';
+import ConfirmationForCreateFacilitie from '../screens/FacilitySideScreens/OnBoardingScreens/ConfirmationForCreateFacilitie/ConfirmationForCreateFacilitie';
+import ProfessionalPrivacyAndPolicy from '../screens/ProfessionalScreens/ProfessionalPrivacyAndPolicy/ProfessionalPrivacyAndPolicy';
+import FacilityConnectStripe from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityConnectStripe';
+import ProfessionalConnectStripeScreen from '../screens/ProfessionalScreens/ProfessionalConnectStripeScreen/ProfessionalConnectStripeScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -66,11 +70,15 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.NewpasswordScreen} component={Newpassword} />
                 <Stack.Screen name={NavigationScreens.FillProfileScreen} component={FillProfile} />
                 <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
+                <Stack.Screen name={NavigationScreens.ProfessionalPrivacyAndPolicyScreen} component={ProfessionalPrivacyAndPolicy} />
+                <Stack.Screen name={NavigationScreens.ProfessionalConnectStripeScreen} component={ProfessionalConnectStripeScreen} />
                 <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        
                 <Stack.Screen name={NavigationScreens.ProfessionalBottomTab} component={ProfessionalBottomTab} />        
                 <Stack.Screen name={NavigationScreens.FacilityBottomTab} component={FacilityBottomTab} />        
                 <Stack.Screen name={NavigationScreens.FacilityPrivacyAndPolicyScreen} component={FacilityPrivacyAndPolicy} />        
                 <Stack.Screen name={NavigationScreens.FacilityOnBoardingScreen} component={FacilityOnBoardingScreen} />        
+                <Stack.Screen name={NavigationScreens.ConfirmationForCreateFacilitieScreen} component={ConfirmationForCreateFacilitie} />        
+                <Stack.Screen name={NavigationScreens.FacilityConnectStripeScreen} component={FacilityConnectStripe} />        
                 <Stack.Screen name={NavigationScreens.Booking} component={Booking} />        
             </Stack.Navigator>
         </NavigationContainer >
