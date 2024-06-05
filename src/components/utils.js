@@ -666,3 +666,60 @@ export const AllCategoryData1=[
       name:'05:00'
     },
    ]
+
+   export const FacilityData= [
+    {
+      id:1,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:2,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:3,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:4,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:5,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:6,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:7,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:8,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    },
+    {
+      id:9,
+      img: Hair1,
+      name:'Barbarella Lnova',
+      title:'6993 Meadow Valley Terrace'
+    }, 
+   ]

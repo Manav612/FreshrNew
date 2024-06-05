@@ -4,9 +4,12 @@ import { NavigationScreens } from '../../constants/Strings';
 import React from 'react';
 import TabBar from './TabBar';
 
-import { BookingIcon, HomeIcon, InboxIcon, ScissorIcon, UserIcon } from '../../constants/Icons';
+import { BookingIcon, FacilitiesIcon, HomeIcon, InboxIcon, ScissorIcon, UserIcon } from '../../constants/Icons';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import FacilityHome from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityHome';
+import FacilityDetalis from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityDetalis';import FacilityFacilitiesScreen from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityFacilitiesScreen';
+import FacilityProfile from '../../screens/FacilitySideScreens/FacilityProfileScreen/FacilityProfile';
+;
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -16,7 +19,7 @@ const HomeStack = () => {
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name={NavigationScreens.FacilityHomeScreen} component={FacilityHome} />  
+            <Stack.Screen name={NavigationScreens.FacilityHomeScreen} component={FacilityHome} />   
         </Stack.Navigator>
     );
 };
@@ -27,16 +30,17 @@ const FacilitiesStack = () => {
             headerShown: false
         }}>
             
-            <Stack.Screen name={NavigationScreens.ProfessionalChatScreen} component={ProfessionalChatScreen} />
+            <Stack.Screen name={NavigationScreens.FacilityFacilitiesScreen} component={FacilityFacilitiesScreen} />
+            <Stack.Screen name={NavigationScreens.FacilityDetalisScreen} component={FacilityDetalis} />
         </Stack.Navigator>
     );
 };
-const HistoryStack = () => {
+const ProfileStack = () => {
     return (
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name={NavigationScreens.ProfessionalProfileScreen} component={ProfessionalProfile} />
+            <Stack.Screen name={NavigationScreens.FacilityProfileScreen} component={FacilityProfile} />
           
         </Stack.Navigator>
     );
@@ -44,23 +48,23 @@ const HistoryStack = () => {
 
 const Screens = [
     {
-        name: NavigationScreens.ProfessionalHomeScreen + " " + NavigationScreens.FacilityBottomTab,
+        name: NavigationScreens.FacilityHomeScreen + " " + NavigationScreens.FacilityBottomTab,
         title: "Home",
         component: HomeStack,
         icon: HomeIcon,
     },
-    // {
-    //     name: NavigationScreens.ProfessionalInboxScreen + " " + NavigationScreens.FacilityBottomTab,
-    //     title: "Inbox",
-    //     component: InboxStack,
-    //     icon: InboxIcon,
-    // },
-    // {
-    //     name: NavigationScreens.ProfessionalProfileScreen + " " + NavigationScreens.FacilityBottomTab,
-    //     title: "Profile",
-    //     component: ProfileStack,
-    //     icon: UserIcon,
-    // },
+    {
+        name: NavigationScreens.FacilityFacilitiesScreen+ " " + NavigationScreens.FacilityBottomTab,
+        title: "Facilities",
+        component: FacilitiesStack,
+        icon:FacilitiesIcon,
+    },
+    {
+        name: NavigationScreens.FacilityProfileScreen + " " + NavigationScreens.FacilityBottomTab,
+        title: "Profile",
+        component: ProfileStack,
+        icon: UserIcon,
+    },
 ]
 
 export default FacilityBottomTab = ({ route }) => {

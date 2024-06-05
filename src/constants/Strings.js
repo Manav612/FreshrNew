@@ -66,6 +66,7 @@ export const NavigationScreens = {
 
     ProfessionalBottomTab:'ProfessionalBottom Tab',
     ProfessionalHomeScreen:'ProfessionalHome Screen',
+    ProfessionalFacilitiesScreen:'ProfessionalFacilities Screen',
     ProfessionalServicesScreen:'ProfessionalServices Screen',
     ProfessionalProfileScreen:'ProfessionalProfile Screen',
     ProfessionalEditProfileScreen:'ProfessionalEditProfile Screen',
@@ -92,6 +93,9 @@ export const NavigationScreens = {
     ConfirmationForCreateFacilitieScreen:'ConfirmationForCreateFacilitieScreen',
     FacilityConnectStripeScreen:'FacilityConnectStripe',
     FacilityHomeScreen:'FacilityHomeScreen',
+    FacilityFacilitiesScreen:'FacilityFacilitiesScreen',
+    FacilityDetalisScreen:'FacilityDetalisScreen',
+    FacilityProfileScreen:'FacilityProfileScreen'
 }
 
 export const label = {
