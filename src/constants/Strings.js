@@ -95,7 +95,8 @@ export const NavigationScreens = {
     FacilityHomeScreen:'FacilityHomeScreen',
     FacilityFacilitiesScreen:'FacilityFacilitiesScreen',
     FacilityDetalisScreen:'FacilityDetalisScreen',
-    FacilityProfileScreen:'FacilityProfileScreen'
+    FacilityProfileScreen:'FacilityProfileScreen',
+    FacilitySettingScreen:'FacilitySettingScreen',
 }
 
 export const label = {

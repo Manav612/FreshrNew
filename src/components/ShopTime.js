@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, Modal, View, Button, ScrollView } f
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../constants/Constants';
 import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -22,7 +22,7 @@ const ShopTime = () => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [activeTab, setActiveTab] = useState('Delivery');
-
+const [ShopTime,setShopTime]= useState(false)
 
   const [timeData, setTimeData] = useState({
     Monday: { start: '10:00 AM', end: '11:00 PM' },
@@ -251,8 +251,15 @@ const ShopTime = () => {
 
   return (
     <View style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
-    
+    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
         <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>Shop Timing</Text>
+        <TouchableOpacity onPress={()=>setShopTime(!ShopTime)} style={{flexDirection:'row',alignItems:'center',justifyContent:'center',gap:10}}>
+        <Text style={{fontWeight: '600', fontSize:18, color: COLOR.BLACK}}>Vacation</Text>
+        <FontAwesome name={ShopTime?"toggle-off":"toggle-on"} size={30} color={COLOR.ORANGECOLOR} />
+
+        </TouchableOpacity>
+
+    </View>
      
       <View style={styles.container}>
         {Object.keys(timeData).map((day) => (

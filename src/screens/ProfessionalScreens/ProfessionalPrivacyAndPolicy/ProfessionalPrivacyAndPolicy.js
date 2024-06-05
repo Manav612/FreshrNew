@@ -15,7 +15,6 @@ const ProfessionalPrivacyAndPolicy = () => {
   const styles = StyleSheet.create({
     container: {
       height:Screen_Height*0.9,
-      backgroundColor:COLOR.WHITE,
       padding: 16,
     },
     section: {

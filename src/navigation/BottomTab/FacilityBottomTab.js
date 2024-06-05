@@ -9,6 +9,8 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import FacilityHome from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityHome';
 import FacilityDetalis from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityDetalis';import FacilityFacilitiesScreen from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityFacilitiesScreen';
 import FacilityProfile from '../../screens/FacilitySideScreens/FacilityProfileScreen/FacilityProfile';
+import ProfessionalSettingScreen from '../../components/ProfessionalComponents/ProfessionalSettingScreen';
+import FacilitySettingScreen from '../../components/FacilityComponents/FacilitySettingScreen';
 ;
 
 const Tab = createBottomTabNavigator();
@@ -32,6 +34,8 @@ const FacilitiesStack = () => {
             
             <Stack.Screen name={NavigationScreens.FacilityFacilitiesScreen} component={FacilityFacilitiesScreen} />
             <Stack.Screen name={NavigationScreens.FacilityDetalisScreen} component={FacilityDetalis} />
+            <Stack.Screen name={NavigationScreens.FacilitySettingScreen} component={FacilitySettingScreen} />
+
         </Stack.Navigator>
     );
 };

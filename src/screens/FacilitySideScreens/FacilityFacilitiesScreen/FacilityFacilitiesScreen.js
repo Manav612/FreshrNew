@@ -10,6 +10,7 @@ import { Hair1, barber } from '../../../constants/Icons';
 import { FacilityData } from '../../../components/utils';
 import { Screen_Width } from '../../../constants/Constants';
 import { NavigationScreens } from '../../../constants/Strings';
+import FacilitySettingScreen from '../../../components/FacilityComponents/FacilitySettingScreen';
 
 const FacilityFacilitiesScreen = () => {
     const navigation = useNavigation();
@@ -79,10 +80,10 @@ const FacilityFacilitiesScreen = () => {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <Ionicons name="add-outline" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>
                     </View>
