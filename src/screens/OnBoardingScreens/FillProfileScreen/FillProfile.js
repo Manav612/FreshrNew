@@ -228,7 +228,7 @@ const FillProfile = () => {
       fontSize: 12,
       fontWeight: 'bold',
       color: COLOR.BLACK,
-      textAlign:'center'
+      textAlign: 'center'
     },
     imageContainer: { justifyContent: 'center', alignItems: 'center', paddingVertical: 15, paddingHorizontal: 15 },
     imageInnerContainer: {
@@ -241,7 +241,7 @@ const FillProfile = () => {
       elevation: 3,
       shadowColor: COLOR.ORANGECOLOR,
       position: 'relative',
-      marginBottom:20
+      marginBottom: 20
     },
     image: {
       height: 100,
@@ -259,7 +259,7 @@ const FillProfile = () => {
       right: 1,
       bottom: 1,
     },
-   
+
     modalContainer: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -298,7 +298,7 @@ const FillProfile = () => {
       fontSize: 18,
       fontWeight: '700',
     },
-   
+
     iconStyle: {
       width: 20,
       height: 20,
@@ -466,38 +466,38 @@ const FillProfile = () => {
         </View>
       </View>
       <Modal
-                    transparent
-                    visible={imageModalVisible}
-                    animationType='slide'
-                    statusBarTranslucent
-                >
-                    <View style={styles.modalContainer}>
-                        <View style={styles.innerContainer}>
-                            <TouchableOpacity
-                                onPress={() => setImageModalVisible(false)}
-                                style={styles.closeButton}
-                            >
-                                <AntDesign name="closecircle" size={30} color={COLOR.BLACK} />
-                            </TouchableOpacity>
-                            <View style={styles.buttonContainer}>
-                                <TouchableOpacity
-                                    onPress={onCapturePress}
-                                    style={styles.button}
-                                >
-                                    <AntDesign name="camera" size={40} color={COLOR.BLACK} />
-                                    <Text style={styles.buttonText}>Camera</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    onPress={onUploadPress}
-                                    style={styles.button}
-                                >
-                                    <AntDesign name="upload" size={40} color={COLOR.BLACK} />
-                                    <Text style={styles.buttonText}>Upload</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
+        transparent
+        visible={imageModalVisible}
+        animationType='slide'
+        statusBarTranslucent
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.innerContainer}>
+            <TouchableOpacity
+              onPress={() => setImageModalVisible(false)}
+              style={styles.closeButton}
+            >
+              <AntDesign name="closecircle" size={30} color={COLOR.BLACK} />
+            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={onCapturePress}
+                style={styles.button}
+              >
+                <AntDesign name="camera" size={40} color={COLOR.BLACK} />
+                <Text style={styles.buttonText}>Camera</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={onUploadPress}
+                style={styles.button}
+              >
+                <AntDesign name="upload" size={40} color={COLOR.BLACK} />
+                <Text style={styles.buttonText}>Upload</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
