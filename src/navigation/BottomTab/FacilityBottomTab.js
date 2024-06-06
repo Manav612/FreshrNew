@@ -11,6 +11,7 @@ import FacilityDetalis from '../../screens/FacilitySideScreens/FacilityFacilitie
 import FacilityProfile from '../../screens/FacilitySideScreens/FacilityProfileScreen/FacilityProfile';
 import ProfessionalSettingScreen from '../../components/ProfessionalComponents/ProfessionalSettingScreen';
 import FacilitySettingScreen from '../../components/FacilityComponents/FacilitySettingScreen';
+import FacilityViewMore from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityViewMore';
 ;
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +22,9 @@ const HomeStack = () => {
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name={NavigationScreens.FacilityHomeScreen} component={FacilityHome} />   
+            <Stack.Screen name={NavigationScreens.FacilityHomeScreen} component={FacilityHome} /> 
+            <Stack.Screen name={NavigationScreens.FacilityViewMoreScreen} component={FacilityViewMore} /> 
+
         </Stack.Navigator>
     );
 };

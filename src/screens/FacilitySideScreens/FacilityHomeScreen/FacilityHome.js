@@ -9,7 +9,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
-
 import { Dropdown } from 'react-native-element-dropdown';
 import { ClockUserIcon, GearFineIcon, barber } from '../../../constants/Icons';
 import { NavigationScreens } from '../../../constants/Strings';
@@ -48,6 +47,7 @@ const FacilityHome = () => {
 
     const [selectedYear, setSelectedYear] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
+    const [gender, setGender] = useState('');
 
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 50 }, (_, i) => ({
@@ -59,7 +59,7 @@ const FacilityHome = () => {
         container: {
             flex: 1,
             padding: 20,
-           
+
         },
         header: {
             flexDirection: 'row',
@@ -195,6 +195,7 @@ const FacilityHome = () => {
             backgroundColor: COLOR.AuthField,
             borderRadius: 10,
             paddingHorizontal: 8,
+            marginBottom:10
         },
         placeholderStyle: {
             fontSize: 16,
@@ -234,21 +235,21 @@ const FacilityHome = () => {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-                      
+
                         <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                        <AntDesign name="setting" size={28} color={COLOR.BLACK} />
-              </TouchableOpacity>
+                            <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+                        </TouchableOpacity>
                     </View>
                 </View>
 
                 <View style={{
                     marginVertical: 20,
                     padding: 20,
-                    backgroundColor:COLOR.WHITE,
+                    backgroundColor: COLOR.WHITE,
                     borderRadius: 20,
 
-                    elevation:2,
-                    shadowColor:COLOR.BLACK,
+                    elevation: 2,
+                    shadowColor: COLOR.BLACK,
                     alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
                 }}>
                     <View>
@@ -261,7 +262,36 @@ const FacilityHome = () => {
 
                 </View>
                 <View style={styles.overview}>
-                    <Text style={styles.overviewTitle}>Overview</Text>
+                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 5 }}>
+                        <Text style={styles.overviewTitle}>Overview</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityViewMoreScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, width: 90, justifyContent: 'center', alignItems: 'center', borderRadius: 10, height: 35 }}><Text style={{ color: COLOR.WHITE, fontSize: 18, fontWeight: "bold" }}>View More</Text></TouchableOpacity>
+                    </View>
+                    <Dropdown
+                        style={styles.dropdown}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        iconStyle={styles.iconStyle}
+                        itemTextStyle={theme === 1 ? { color: COLOR_LIGHT.BLACK } : { color: COLOR_DARK.WHITE }}
+                        selectedItemTextStyle={theme === 1 ? { color: COLOR_LIGHT.BLACK } : { color: COLOR_DARK.WHITE }}
+                        data={[
+                            { label: 'Customer', value: 'Customer' },
+                            { label: 'Orders', value: 'Orders' },
+                            { label: 'Cancel Orders', value: 'Cancel Orders' },
+                            { label: 'Completed', value: 'Completed' },
+                            { label: 'Barbarella Lnova', value: 'Barbarella Lnova' },
+                        ]}
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder="In Salon"
+                        value={gender}
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={item => {
+                            setGender(item.value);
+                            setIsFocus(false);
+                        }}
+                    />
                     <View style={styles.overviewRow}>
                         <View style={styles.overviewBox}>
                             <Text style={styles.overviewBoxTitle}>Customer</Text>
