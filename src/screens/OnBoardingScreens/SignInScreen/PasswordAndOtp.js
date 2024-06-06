@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
@@ -9,9 +9,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import FastImage from 'react-native-fast-image';
 import { Apple, Facebook, Google } from '../../../constants/Icons';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationScreens } from '../../../constants/Strings';
-
-const SignIn = () => {
+import OtpTextInput from 'react-native-otp-textinput';
+const PasswordAndOtp = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation()
@@ -21,22 +20,19 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-    const handleEmailChange = (text) => {
-        setEmail(text);
+    const [otp, setOtp] = useState('');
+
+    const handleOtpChange = (newOtp) => {
+        setOtp(newOtp);
     };
 
+    const handleOtpSubmit = () => {
+        // Handle OTP submission here
+        console.log('OTP:', otp);
+    };
     const handlePasswordChange = (text) => {
         setPassword(text);
     };
-
-    const handleEmailFocus = () => {
-        setIsEmailFocused(true);
-    };
-
-    const handleEmailBlur = () => {
-        setIsEmailFocused(false);
-    };
-
     const handlePasswordFocus = () => {
         setIsPasswordFocused(true);
     };
@@ -77,6 +73,18 @@ const SignIn = () => {
             justifyContent: 'center',
             marginTop: 10,
         },
+        otpContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        otpInput: {
+            borderWidth: 1,
+            borderColor: '#e0e0e0',
+            borderRadius: 5,
+            fontSize: 20,
+            padding: 10,
+            marginHorizontal: 5,
+        },
     });
     return (
         <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width }}>
@@ -85,24 +93,10 @@ const SignIn = () => {
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
                 </TouchableOpacity>
                 <Text style={{ fontSize: 40, color: COLOR.BLACK, fontWeight: '500', marginVertical: '10%' }}>Login to your Account</Text>
-            
-                {/* Email Input */}
-                <View style={{marginTop:Screen_Height*0.15}}>
-                    <View style={styles.inputContainer}>
-                        <AntDesign name="mail" size={24} color={COLOR.BLACK} style={styles.icon} />
-                        <TextInput
-                            style={[styles.input]}
-                            placeholder="Email"
-                            placeholderTextColor={COLOR.BLACK}
-                            keyboardType="email-address"
-                            value={email}
-                            onChangeText={handleEmailChange}
-                            onFocus={handleEmailFocus}
-                            onBlur={handleEmailBlur}
-                        />
-                    </View>
 
-                    {/* Password Input
+                {/* Email Input */}
+                <View style={{ marginTop: Screen_Height * 0.1 }}>
+                    {/* Password Input */}
                     <View style={styles.inputContainer}>
                         <AntDesign name="lock" size={24} color={COLOR.BLACK} style={styles.icon} />
                         <TextInput
@@ -119,16 +113,34 @@ const SignIn = () => {
                             <Entypo name={showPassword ? "eye-with-line" : "eye"} size={24} color={COLOR.BLACK} style={styles.icon} />
                         </TouchableOpacity>
                     </View>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+                        <View style={{ height: 1, backgroundColor: COLOR.BLACK, width: Screen_Width * 0.3 }} />
+                        <Text style={{ color: COLOR.BLACK, fontSize: 20 }}>OR</Text>
+                        <View style={{ height: 1, backgroundColor: COLOR.BLACK, width: Screen_Width * 0.3 }} />
+                    </View>
+                    <View style={{marginVertical:15}}>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 20,marginBottom:10 }}>Enter Otp</Text>
+                    
+                    <OtpTextInput
+                        handleChange={handleOtpChange}
+                        handleSubmit={handleOtpSubmit}
+                        tintColor={COLOR.ORANGECOLOR}
+                        offTintColor={COLOR.LIGHTGRAY}
+                        containerStyle={styles.otpContainer}
+                        textInputStyle={styles.otpInput}
+                        inputCount={6}
+                    />
+                    </View>
                     <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
                         <Fontisto name={rememberMe ? "checkbox-active" : "checkbox-passive"} size={24} color={COLOR.ORANGECOLOR} style={styles.icon} />
                         <Text style={{ marginLeft: 10, color: COLOR.BLACK }}>Remember me</Text>
-                    </TouchableOpacity> */}
-                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.PasswordAndOtpScreen)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
-                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Continue</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity onPress={() => navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('EmailVerification Screen')} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
                         <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: '500', textAlign: 'center' }}>Forgot the password?</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                     {/* <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 20, marginTop: 30 }}>
                     <View style={{ width: 100, height: 1, backgroundColor: COLOR.BLACK_30 }} />
                     <Text style={{ color: COLOR.BLACK }}>or continue with</Text>
@@ -145,10 +157,10 @@ const SignIn = () => {
                         <FastImage source={Apple} style={{ width: 30, height: 30 }} />
                     </TouchableOpacity>
                 </View> */}
-                    {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: COLOR.BLACK }}>Don't have an account? </Text>
                         <TouchableOpacity onPress={() => navigation.navigate('Sign Up Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>Sign up</Text></TouchableOpacity>
-                    </View> */}
+                    </View>
                 </View>
             </View>
 
@@ -156,6 +168,6 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default PasswordAndOtp;
 
 

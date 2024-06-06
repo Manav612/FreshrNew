@@ -6408,12 +6408,10 @@ react-native-onboarding-swiper@^1.2.0:
   dependencies:
     tinycolor2 "^1.4.1"
 
-react-native-otp-textinput@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.npmjs.org/react-native-otp-textinput/-/react-native-otp-textinput-1.1.5.tgz"
-  integrity sha512-zV5aq5gyU54SPn5WGC8el0P1RdOEb0FiuPg9O+yBhwieDy2/ov16830KCHPG0ZNN5DErTPtzwLbrXQUdrt7tNA==
-  dependencies:
-    react "^18.2.0"
+react-native-otp-textinput@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.npmjs.org/react-native-otp-textinput/-/react-native-otp-textinput-1.1.6.tgz"
+  integrity sha512-auj4etyrp8N2GWyWTDO2If3uMdSoMR9oSJweQYfNEYP8cJEoEHLtDJhNOBJMwTrkRG8YbYroHg3b30TOhLv9kw==
 
 react-native-paper@^5.12.3:
   version "5.12.3"
@@ -6526,7 +6524,7 @@ react-native-web@*, react-native-web@0.9.x:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.4"
 
-react-native@*, "react-native@^0.0.0-0 || >=0.60 <1.0", react-native@^0.72.4, "react-native@>= 0.30.0", "react-native@>= 0.64.3", react-native@>=0.33, react-native@>=0.40.0, react-native@>=0.42.0, react-native@>=0.58.4, react-native@>=0.59, react-native@>=0.60.0, react-native@>=0.61.0, react-native@>=0.65.0, react-native@>=0.69.9, react-native@>=0.70.0, react-native@0.74.1:
+react-native@*, "react-native@^0.0.0-0 || >=0.60 <1.0", "react-native@>= 0.30.0", "react-native@>= 0.64.3", react-native@>=0.33, react-native@>=0.40.0, react-native@>=0.42.0, react-native@>=0.58.4, react-native@>=0.59, react-native@>=0.60.0, react-native@>=0.61.0, react-native@>=0.65.0, react-native@>=0.69.9, react-native@>=0.70.0, react-native@0.74.1:
   version "0.74.1"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.74.1.tgz"
   integrity sha512-0H2XpmghwOtfPpM2LKqHIN7gxy+7G/r1hwJHKLV6uoyXGC/gCojRtoo5NqyKrWpFC8cqyT6wTYCLuG7CxEKilg==

@@ -24,6 +24,7 @@ import ConfirmationForCreateFacilitie from '../screens/FacilitySideScreens/OnBoa
 import ProfessionalPrivacyAndPolicy from '../screens/ProfessionalScreens/ProfessionalPrivacyAndPolicy/ProfessionalPrivacyAndPolicy';
 import FacilityConnectStripe from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityConnectStripe';
 import ProfessionalConnectStripeScreen from '../screens/ProfessionalScreens/ProfessionalConnectStripeScreen/ProfessionalConnectStripeScreen';
+import PasswordAndOtp from '../screens/OnBoardingScreens/SignInScreen/PasswordAndOtp';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -64,6 +65,7 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.WelcomeOnboardScreen} component={WelcomeOnboardScreen} />
                 <Stack.Screen name={NavigationScreens.SignUpScreen} component={SignUP} />
                 <Stack.Screen name={NavigationScreens.SignInScreen} component={SignIn} />
+                <Stack.Screen name={NavigationScreens.PasswordAndOtpScreen} component={PasswordAndOtp} />
                 <Stack.Screen name={NavigationScreens.EmailVerificationScreen} component={EmailVerificationScreen} />
                 <Stack.Screen name={NavigationScreens.ForgotPasswordScreen} component={ForgotPassword} />
                 <Stack.Screen name={NavigationScreens.OTPScreen} component={otp} />
