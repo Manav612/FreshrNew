@@ -23,6 +23,7 @@ export const ShareIcon3 = require('../assets/images/Share3.png');
 export const Media = require('../assets/images/FolderPlus.png');
 export const ConnectStripeIcon = require('../assets/images/ConnectStripe.png');
 export const FacilitiesIcon = require('../assets/images/Facilities.png');
+export const HistoryIcon = require('../assets/images/History.png');
 
 export const BBookmarkIcon = require('../assets/images/Bookmark.png');
 export const Loader = require('../assets/Loader.gif');

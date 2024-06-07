@@ -4,7 +4,7 @@ import { NavigationScreens } from '../../constants/Strings';
 import React from 'react';
 import TabBar from './TabBar';
 
-import { BookingIcon, FacilitiesIcon, HomeIcon, InboxIcon, ScissorIcon, UserIcon } from '../../constants/Icons';
+import { BookingIcon, FacilitiesIcon, HistoryIcon, HomeIcon, InboxIcon, ScissorIcon, UserIcon } from '../../constants/Icons';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import FacilityHome from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityHome';
 import FacilityDetalis from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityDetalis';import FacilityFacilitiesScreen from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityFacilitiesScreen';
@@ -42,7 +42,7 @@ const FacilitiesStack = () => {
         </Stack.Navigator>
     );
 };
-const ProfileStack = () => {
+const HistoryStack = () => {
     return (
         <Stack.Navigator screenOptions={{
             headerShown: false
@@ -68,9 +68,9 @@ const Screens = [
     },
     {
         name: NavigationScreens.FacilityProfileScreen + " " + NavigationScreens.FacilityBottomTab,
-        title: "Profile",
-        component: ProfileStack,
-        icon: UserIcon,
+        title: "History",
+        component: HistoryStack,
+        icon: HistoryIcon,
     },
 ]
 

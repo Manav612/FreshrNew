@@ -264,7 +264,7 @@ const FacilityHome = () => {
                 <View style={styles.overview}>
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 5 }}>
                         <Text style={styles.overviewTitle}>Overview</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityViewMoreScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, width: 90, justifyContent: 'center', alignItems: 'center', borderRadius: 10, height: 35 }}><Text style={{ color: COLOR.WHITE, fontSize: 18, fontWeight: "bold" }}>View More</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityViewMoreScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, width: 90, justifyContent: 'center', alignItems: 'center', borderRadius: 10, height: 35 }}><Text style={{ color: COLOR.WHITE, fontSize: 14, fontWeight: "bold" }}>View More</Text></TouchableOpacity>
                     </View>
                     <Dropdown
                         style={styles.dropdown}
