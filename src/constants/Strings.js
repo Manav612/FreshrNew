@@ -95,8 +95,8 @@ export const NavigationScreens = {
     FacilityConnectStripeScreen:'FacilityConnectStripe',
     FacilityHomeScreen:'FacilityHomeScreen',
     FacilityFacilitiesScreen:'FacilityFacilitiesScreen',
+    FacilityHistoryScreen:'FacilityHistoryScreen',
     FacilityDetalisScreen:'FacilityDetalisScreen',
-    FacilityProfileScreen:'FacilityProfileScreen',
     FacilitySettingScreen:'FacilitySettingScreen',
     FacilityViewMoreScreen:'FacilityViewMoreScreen',
 }
