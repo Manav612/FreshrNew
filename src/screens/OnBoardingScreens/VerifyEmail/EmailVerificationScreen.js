@@ -54,7 +54,7 @@ const EmailVerificationScreen = () => {
 
         if (res.data) {
           Alert.alert('Verification compeleted')
-            navigation.navigate(NavigationScreens.FillProfileScreen);
+            navigation.navigate(NavigationScreens.HomeTab);
 
         }
     } catch (error) {
@@ -62,7 +62,9 @@ const EmailVerificationScreen = () => {
     }
 };
 
-
+const handleEmailVerify = () => {
+ fetchData(email)
+};
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -113,7 +115,7 @@ const EmailVerificationScreen = () => {
         </View>
         {!isEmailValid && email.length > 0 && <Text style={{ color: 'red' }}>Please enter a valid email address.</Text>}
         <TouchableOpacity 
-          onPress={fetchData(email)} 
+          onPress={handleEmailVerify} 
           style={{ marginBottom: 10, height: 50, borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: isEmailValid ? COLOR.ORANGECOLOR : COLOR.GRAY, width: Screen_Width*0.8 }}
           disabled={!isEmailValid}
         >
