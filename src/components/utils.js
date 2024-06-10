@@ -2,13 +2,14 @@
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
 
-import { Hair1, OnBoard3, banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, map, message, share, sp1, sp2, web } from '../constants/Icons';
+import { Hair1, OnBoard3, banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, chartdonut, currency, map, message, share, sp1, sp2, tipjar, vector, vectorh, web } from '../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Screen_Width } from '../constants/Constants';
 
 
 export const ProfileData = [
@@ -723,3 +724,138 @@ export const AllCategoryData1=[
       title:'6993 Meadow Valley Terrace'
     }, 
    ]
+
+   export const ProfileData2=[
+    {
+      id:1,
+      text:"Leader Board",
+      name:'Leader Board',
+      img:vector,
+
+    },
+    {
+      id:2,
+      text:"Gross Sales",
+      name:'Gross Sales',
+      img:tipjar,
+    },
+    {
+      id:3,
+      text:"Pro Sales Details",
+      name:'Pro Sales Details',
+      img:chartdonut,
+    },
+    {
+      id:4,
+      text:"Commission Splits",
+      name:'Commission Splits',
+      img:vectorh,
+    },
+    {
+      id:5,
+      text:"Next Payout",
+      name:'Next Payout',
+      img:currency,
+    },
+   ];
+  
+   export const Leaderboard= [
+    {
+      id:1,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:(<View style={{backgroundColor:'#00A92F80',width:60,height:30,justifyContent:'center',alignItems:'center',borderRadius:10}}>
+        <Text style={{color:'#000'}}>4000 $</Text>
+      </View>)
+    },
+    {
+      id:2,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Freelancer',
+      price:(<View style={{backgroundColor:'#E4C35E',width:60,height:30,justifyContent:'center',alignItems:'center',borderRadius:10}}>
+        <Text style={{color:'#000'}}>3500 $</Text>
+      </View>)
+    },
+    {
+      id:3,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:(<View style={{backgroundColor:'#6BE6D2',width:60,height:30,justifyContent:'center',alignItems:'center',borderRadius:10}}>
+        <Text style={{color:'#000'}}>3000 $</Text>
+      </View>)
+    },
+    {
+      id:4,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:(<View style={{backgroundColor:'#CECECE',width:60,height:30,justifyContent:'center',alignItems:'center',borderRadius:10}}>
+        <Text style={{color:'#000'}}>1000 $</Text>
+      </View>)
+    },
+   ];
+
+   export const Commissionsplits= [
+    {
+      id:1,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:'4000 %'
+    },
+    {
+      id:2,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Freelancer',
+      price:'3500 %'
+    },
+    {
+      id:3,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:'3000 %'
+    },
+    {
+      id:4,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:'2500 %'
+    },
+   ];
+
+   export const Nextpayout= [
+    {
+      id:1,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:'4000 $'
+    },
+    {
+      id:2,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Freelancer',
+      price:'3500 $'
+    },
+    {
+      id:3,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:'3000 $'
+    },
+    {
+      id:4,
+      img: Hair1,
+      name:'Dianne Russell',
+      title:'Facility Worker',
+      price:'2500 $'
+    },
+   ];

@@ -99,6 +99,12 @@ export const NavigationScreens = {
     FacilityDetalisScreen:'FacilityDetalisScreen',
     FacilitySettingScreen:'FacilitySettingScreen',
     FacilityViewMoreScreen:'FacilityViewMoreScreen',
+    FacilityLeaderboardScreen:'FacilityLeaderboardScreen',
+    FacilityGrossSalesScreen:'FacilityGrossSalesScreen',
+    FacilityProsaledetailsScreen:'FacilityProsaledetailsScreen',
+    FacilityCommissionsplitsScreen:'FacilityCommissionsplitsScreen',
+    FacilityNextpayoutScreen:'FacilityNextpayoutScreen',
+    
 }
 
 export const label = {
