@@ -112,7 +112,7 @@ const MyProfile = () => {
                 case 'Switch to Professionals':
                   navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
                   break;
-                case 'Switch to Host':
+                case 'Become to Host':
                   navigation.navigate(NavigationScreens.FacilityPrivacyAndPolicyScreen);
                   break;
                 default:

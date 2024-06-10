@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { NavigationScreens } from '../../../constants/Strings';
+import axios from 'axios';
+import { BASE_API_URL } from '../../../Services';
 
 const EmailVerificationScreen = () => {
   const navigation = useNavigation()
@@ -44,28 +47,22 @@ const EmailVerificationScreen = () => {
     },
   });
 
-  const handleSendVerificationCode = async () => {
+  const fetchData = async (email) => {
     try {
-      const response = await axios.post('https://yourapi.com/send-verification-code', { email });
-      Alert.alert('Success', 'Verification code sent to your email.');
-    } catch (error) {
-      Alert.alert('Error', 'Failed to send verification code.');
-    }
-  };
+        const res = await axios.post(`${BASE_API_URL}/users/emailcheck`, { email: email });
+        console.log("Response data:", res.data);
 
-  const handleVerifyCode = async () => {
-    try {
-      const response = await axios.post('https://yourapi.com/verify-code', { email, code });
-      if (response.data.success) {
-        Alert.alert('Success', 'Email verified successfully.');
-        navigation.navigate('Home'); // Navigate to home or another screen
-      } else {
-        Alert.alert('Error', 'Invalid verification code.');
-      }
+        if (res.data) {
+          Alert.alert('Verification compeleted')
+            navigation.navigate(NavigationScreens.FillProfileScreen);
+
+        }
     } catch (error) {
-      Alert.alert('Error', 'Failed to verify code.');
+        console.error("Error:", error);
     }
-  };
+};
+
+
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -116,32 +113,13 @@ const EmailVerificationScreen = () => {
         </View>
         {!isEmailValid && email.length > 0 && <Text style={{ color: 'red' }}>Please enter a valid email address.</Text>}
         <TouchableOpacity 
-          onPress={handleSendVerificationCode} 
+          onPress={fetchData(email)} 
           style={{ marginBottom: 10, height: 50, borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: isEmailValid ? COLOR.ORANGECOLOR : COLOR.GRAY, width: Screen_Width*0.8 }}
           disabled={!isEmailValid}
         >
-          <Text style={{ color: 'white' }}>Send Verification Code</Text>
+          <Text style={{ color: 'white' }}>Verify Email</Text>
         </TouchableOpacity>
-        <View style={styles.inputContainer}>
-          <MaterialIcons  name="verified" size={30} color={COLOR.BLACK} />
-          <TextInput
-            style={[styles.input]}
-            placeholder="Enter verification code"
-            placeholderTextColor={COLOR.BLACK}
-            value={code}
-            onChangeText={handleCodeChange}
-            keyboardType="number-pad"
-          />
-        </View>
-        {!isCodeValid && code.length > 0 && <Text style={{ color: 'red' }}>Please enter a valid verification code.</Text>}
-        <TouchableOpacity 
-          // onPress={handleVerifyCode} 
-          onPress={()=>navigation.navigate('Home Tab')}
-          style={{ marginBottom: 10, height: 50, borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: isCodeValid ? COLOR.ORANGECOLOR : COLOR.GRAY, width: Screen_Width*0.8 }}
-          disabled={!isCodeValid}
-        >
-          <Text style={{ color:COLOR.WHITE }}>Verify Code</Text>
-        </TouchableOpacity>
+       
       </View>
     </ScrollView>
   );

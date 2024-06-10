@@ -518,7 +518,7 @@ export const AllCategoryData1=[
     {
       id:6,
       icon:(<AntDesign name="swap" size={30} color="black" />),
-      name:'Switch to Host',
+      name:'Become to Host',
       icon1:(<AntDesign name="right" size={30} color="black" />),
     },
    ];

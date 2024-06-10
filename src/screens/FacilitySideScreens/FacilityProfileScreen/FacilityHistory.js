@@ -13,16 +13,16 @@ const FacilityHistory = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const notifications = [
-    { title: 'Today', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Dec 22,2024 - 10:00 AM' }] },
-    { title: 'Yesterday', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Nov 25,2024 - 10:00 AM'  }] },
-    { title: "Today's Special Offers", data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Oct 19,2024 - 10:00 AM'  }] },
-    { title: 'December 11, 2024', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'May 16,2024 - 10:00 AM'  }] },
-    { title: 'Account Setup Successful!', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Jun 22,2024 - 10:00 AM'  }] },
+    { title: 'Today', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Dec 22,2024 - 10:00 AM' },{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Dec 22,2024 - 10:00 AM' },{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Dec 22,2024 - 10:00 AM' }] },
+    { title: 'Yesterday', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Nov 25,2024 - 10:00 AM'  },{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Dec 22,2024 - 10:00 AM' }] },
+    { title: "December 21, 2024", data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Oct 19,2024 - 10:00 AM'  }] },
+    { title: 'December 11, 2024', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'May 16,2024 - 10:00 AM'  },{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Dec 22,2024 - 10:00 AM' }] },
+    { title: 'December 1, 2024', data: [{ message: 'Barbarella inova', price: '6993 Meadow valley ',services:'Services', description:'Quiff Haircut.Thin Shaving.aloe vera Shampoo Hair Wash',time:'Jun 22,2024 - 10:00 AM'  }] },
 ]; 
 
 const renderItem = ({ item }) => (
   <>
-  <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'space-between', paddingHorizontal:15, paddingVertical: 10, backgroundColor:COLOR.WHITE,borderRadius:10}}>
+  <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'space-between', paddingHorizontal:15,marginVertical:5, paddingVertical: 10, backgroundColor:COLOR.WHITE,borderRadius:10}}>
           <Image source={Hair1} style={{ width: 100, height: 100,borderRadius:10,resizeMode:'cover'}} />
       <View style={{width:Screen_Width*0.53}}>
           <Text style={{ fontSize: 22, fontWeight: 'bold', color: COLOR.BLACK}}>{item.message}</Text>
@@ -32,7 +32,6 @@ const renderItem = ({ item }) => (
           <Text style={{ fontSize: 15, color: COLOR.BLACK }}>{item.time}</Text>
       </View>
   </View>
-  <View style={{height:100}}/>
   </>
 );
 
@@ -42,6 +41,7 @@ const renderSectionHeader = ({ section: { title } }) => (
 
 
   return (
+    <>
     <SectionList
       showsVerticalScrollIndicator={false}
       style={{ marginTop: 15, marginHorizontal: 15 }}
@@ -50,17 +50,17 @@ const renderSectionHeader = ({ section: { title } }) => (
       renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
       ListHeaderComponent={
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+        <View style={{ flexDirection: 'row', justifyContent:'flex-start',gap:10, alignItems: 'center', marginBottom: 10 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
           </TouchableOpacity>
           <Text style={{ fontSize: 24, color: COLOR.BLACK }}>History</Text>
-          <TouchableOpacity>
-            <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
-          </TouchableOpacity>
+          
         </View>
       }
     />
+  <View style={{height:100}}/>
+  </>
   )
 }
 

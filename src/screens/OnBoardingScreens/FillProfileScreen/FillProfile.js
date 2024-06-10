@@ -21,6 +21,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import ImagePicker from 'react-native-image-crop-picker'
 import { CheckPermission } from '../../../constants/CheckPermission';
 import { PERMISSIONS } from 'react-native-permissions';
+import { NavigationScreens } from '../../../constants/Strings';
 const FillProfile = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -90,7 +91,7 @@ const FillProfile = () => {
       return;
     }
 
-    navigation.navigate('Home Tab');
+    navigation.navigate(NavigationScreens.HomeTab);
   };
   const CameraHandle = async () => {
     const granted = await CheckPermission(
