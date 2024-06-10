@@ -1,9 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView,FlatList, Image } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { NavigationScreens } from '../../../constants/Strings';
+import { ProfileData2 } from '../../../components/utils';
+import { Screen_Width } from '../../../constants/Constants';
 
 const FacilityViewMore = () => {
   const navigation = useNavigation();
@@ -14,40 +18,10 @@ const FacilityViewMore = () => {
     HeaderView: {
       paddingHorizontal: 15,
       marginVertical: 10,
-
+      justifyContent:'space-between',
+      alignItems:'center',
+      flexDirection:'row'
     },
-    overviewRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginTop: 15
-    },
-    overviewBox: {
-      width: '48%',
-      height: 200,
-      padding: 15,
-      backgroundColor: COLOR.WHITE,
-      borderRadius: 20,
-      marginVertical: 5
-    },
-    overviewBoxTitle: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: COLOR.BLACK
-    },
-    overviewBoxValue: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginVertical: 5,
-      color: COLOR.BLACK
-  },
-  overviewBoxSubText: {
-      fontSize: 14,
-      color: COLOR.GRAY,
-  },
-  increaseText: {
-      fontSize: 16,
-      color: COLOR.ChartBlue, // lime-green color for increase
-  },
   });
 
   return (
@@ -56,44 +30,51 @@ const FacilityViewMore = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />
         </TouchableOpacity>
-        <View style={styles.overviewRow}>
-          <View style={styles.overviewBox}>
-            <Text style={styles.overviewBoxTitle}>Leader Board</Text>
-            <Text style={styles.overviewBoxValue}>10289 <Text style={styles.increaseText}>+2.5% ↑</Text></Text>
-            <Text style={styles.overviewBoxSubText}>Compared to 9340 last month</Text>
-          </View>
-          <View style={styles.overviewBox}>
-            <Text style={styles.overviewBoxTitle}>Gross Sales</Text>
-            <Text style={styles.overviewBoxValue}>10289 <Text style={styles.increaseText}>+2.5% ↑</Text></Text>
-            <Text style={styles.overviewBoxSubText}>Compared to 9340 last month</Text>
-          </View>
-        </View>
-        <View style={styles.overviewRow}>
-          <View style={styles.overviewBox}>
-            <Text style={styles.overviewBoxTitle}>Pro Sales Details</Text>
-            <Text style={styles.overviewBoxValue}>10289 <Text style={styles.increaseText}>+2.5% ↑</Text></Text>
-            <Text style={styles.overviewBoxSubText}>Compared to 9340 last month</Text>
-          </View>
-          <View style={styles.overviewBox}>
-            <Text style={styles.overviewBoxTitle}>Analytics</Text>
-            <Text style={styles.overviewBoxValue}>10289 <Text style={styles.increaseText}>+2.5% ↑</Text></Text>
-            <Text style={styles.overviewBoxSubText}>Compared to 9340 last month</Text>
-          </View>
-        </View>
-        <View style={styles.overviewRow}>
-          <View style={styles.overviewBox}>
-            <Text style={styles.overviewBoxTitle}>Commission Splits</Text>
-            <Text style={styles.overviewBoxValue}>10289 <Text style={styles.increaseText}>+2.5% ↑</Text></Text>
-            <Text style={styles.overviewBoxSubText}>Compared to 9340 last month</Text>
-          </View>
-          <View style={styles.overviewBox}>
-            <Text style={styles.overviewBoxTitle}>Payout Schedule</Text>
-            <Text style={styles.overviewBoxValue}>10289 <Text style={styles.increaseText}>+2.5% ↑</Text></Text>
-            <Text style={styles.overviewBoxSubText}>Compared to 9340 last month</Text>
-          </View>
-        </View>
-
+        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+          <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+        </TouchableOpacity>
       </View>
+      <FlatList
+        data={ProfileData2}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={{
+            marginVertical: 10,
+            padding: 20,
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 20,
+            elevation: 2,
+            shadowColor: COLOR.BLACK,
+            alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}
+            onPress={() => {
+              switch (item.name) {
+                case 'Leader Board':
+                  navigation.navigate(NavigationScreens.FacilityLeaderboardScreen);
+                  break;
+                case 'Gross Sales':
+                  navigation.navigate(NavigationScreens.FacilityGrossSalesScreen);
+                  break;
+                case 'Pro Sales Details':
+                  navigation.navigate(NavigationScreens.FacilityProsaledetailsScreen);
+                  break;
+                case 'Commission Splits':
+                  navigation.navigate(NavigationScreens.FacilityCommissionsplitsScreen);
+                  break;
+                case 'Next Payout':
+                  navigation.navigate(NavigationScreens.FacilityNextpayoutScreen);
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
+            <View style={{ flexDirection: 'row', gap: 15, alignItems: 'center' }}>
+              <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK }}>{item.text}</Text>
+            </View>
+            <Image source={item.img} style={{height:25,width:25}}/>
+          </TouchableOpacity>
+        )}
+      />
       <View style={{ height: 100 }} />
     </ScrollView>
   )

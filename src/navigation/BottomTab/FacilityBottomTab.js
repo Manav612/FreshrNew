@@ -8,11 +8,20 @@ import { BookingIcon, FacilitiesIcon, HistoryIcon, HomeIcon, InboxIcon, ScissorI
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import FacilityHome from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityHome';
 import FacilityDetalis from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityDetalis';import FacilityFacilitiesScreen from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityFacilitiesScreen';
-import FacilityProfile from '../../screens/FacilitySideScreens/FacilityProfileScreen/FacilityHistory';
+import FacilityProfile from '../../screens/FacilitySideScreens/FacilityHistoryScreen/FacilityHistory';
 import ProfessionalSettingScreen from '../../components/ProfessionalComponents/ProfessionalSettingScreen';
 import FacilitySettingScreen from '../../components/FacilityComponents/FacilitySettingScreen';
 import FacilityViewMore from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityViewMore';
-import FacilityHistory from '../../screens/FacilitySideScreens/FacilityProfileScreen/FacilityHistory';
+import FacilityHistory from '../../screens/FacilitySideScreens/FacilityHistoryScreen/FacilityHistory';
+import GrossSales from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityGrossSales';
+import Prosaledetails from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityProsaledetails';
+import Commissionsplits from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityCommissionsplits';
+import Nextpayout from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityNextpayout';
+import FacilityGrossSales from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityGrossSales';
+import FacilityProsaledetails from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityProsaledetails';
+import FacilityCommissionsplits from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityCommissionsplits';
+import FacilityNextpayout from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityNextpayout';
+import FacilityLeaderboard from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityLeaderboaed';
 ;
 
 const Tab = createBottomTabNavigator();
@@ -25,6 +34,13 @@ const HomeStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.FacilityHomeScreen} component={FacilityHome} /> 
             <Stack.Screen name={NavigationScreens.FacilityViewMoreScreen} component={FacilityViewMore} /> 
+            <Stack.Screen name={NavigationScreens.FacilitySettingScreen} component={FacilitySettingScreen} />
+            <Stack.Screen name={NavigationScreens.FacilityLeaderboardScreen} component={FacilityLeaderboard} />
+            <Stack.Screen name={NavigationScreens.FacilityGrossSalesScreen} component={FacilityGrossSales} />
+            <Stack.Screen name={NavigationScreens.FacilityProsaledetailsScreen} component={FacilityProsaledetails} />
+            <Stack.Screen name={NavigationScreens.FacilityCommissionsplitsScreen} component={FacilityCommissionsplits} />
+            <Stack.Screen name={NavigationScreens.FacilityNextpayoutScreen} component={FacilityNextpayout} />
+
         </Stack.Navigator>
     );
 };
