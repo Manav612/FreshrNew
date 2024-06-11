@@ -70,7 +70,7 @@ export const COLOR_DARK = {
     BLUEL:"#3979FE",
     GREEN:"#4ADE80",
     AuthField : '#FAFAFA',
-
+    WHITE_30_TO_40:'#20232B',
     PRIMARYCOLOR: 'rgba(37, 32, 27, 1)',
     // PRIMARYCOLOR: 'rgba(77, 70, 64,1)',
     PRIMARYCOLOR_FORUM: 'rgba(246, 220, 193, 1)',
