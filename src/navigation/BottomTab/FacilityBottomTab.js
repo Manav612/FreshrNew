@@ -22,6 +22,7 @@ import FacilityProsaledetails from '../../screens/FacilitySideScreens/FacilityHo
 import FacilityCommissionsplits from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityCommissionsplits';
 import FacilityNextpayout from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityNextpayout';
 import FacilityLeaderboard from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityLeaderboaed';
+import FacilityManageSeatScreen from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityManageSeatScreen';
 ;
 
 const Tab = createBottomTabNavigator();
@@ -54,6 +55,7 @@ const FacilitiesStack = () => {
             <Stack.Screen name={NavigationScreens.FacilityFacilitiesScreen} component={FacilityFacilitiesScreen} />
             <Stack.Screen name={NavigationScreens.FacilityDetalisScreen} component={FacilityDetalis} />
             <Stack.Screen name={NavigationScreens.FacilitySettingScreen} component={FacilitySettingScreen} />
+            <Stack.Screen name={NavigationScreens.FacilityManageSeatScreen} component={FacilityManageSeatScreen} />
 
         </Stack.Navigator>
     );

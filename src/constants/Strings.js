@@ -98,6 +98,7 @@ export const NavigationScreens = {
     FacilityHistoryScreen:'FacilityHistoryScreen',
     FacilityDetalisScreen:'FacilityDetalisScreen',
     FacilitySettingScreen:'FacilitySettingScreen',
+    FacilityManageSeatScreen:'FacilityManageSeatScreen',
     FacilityViewMoreScreen:'FacilityViewMoreScreen',
     FacilityLeaderboardScreen:'FacilityLeaderboardScreen',
     FacilityGrossSalesScreen:'FacilityGrossSalesScreen',
