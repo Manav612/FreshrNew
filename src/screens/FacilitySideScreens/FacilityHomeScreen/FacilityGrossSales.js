@@ -164,7 +164,7 @@ const FacilityGrossSales = () => {
                 </TouchableOpacity>
             </View>
 
-            <View>
+            {/* <View>
                 <TouchableOpacity
                     style={{
                         marginVertical: 10,
@@ -243,7 +243,7 @@ const FacilityGrossSales = () => {
                         </TouchableOpacity>
                     </View>
                 </Modal>
-            </View>
+            </View> */}
 
             <View style={styles.chartContainer}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width * 0.88, paddingHorizontal: 10 }}>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity,FlatList,Modal } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -10,16 +10,29 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { Dropdown } from 'react-native-element-dropdown';
-import { ClockUserIcon, GearFineIcon, barber } from '../../../constants/Icons';
+import { ClockUserIcon, GearFineIcon, Hair1, barber } from '../../../constants/Icons';
 import { NavigationScreens } from '../../../constants/Strings';
 import FastImage from 'react-native-fast-image';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { FacilityData } from '../../../components/utils';
 
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const FacilityHome = () => {
     const navigation = useNavigation();
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+    const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const handleItemSelect = (item) => {
+    setSelectedItem(item);
+    toggleModal();
+    // Handle the selected item here, e.g., navigate to the FacilityDetalisScreen
+  };
     const inSalonData = [
         { value: 100, label: 'May' },
         { value: 600, label: 'Jun' },
@@ -266,7 +279,7 @@ const FacilityHome = () => {
                         <Text style={styles.overviewTitle}>Overview</Text>
                         <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityViewMoreScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, width: 90, justifyContent: 'center', alignItems: 'center', borderRadius: 10, height: 35 }}><Text style={{ color: COLOR.WHITE, fontSize: 14, fontWeight: "bold" }}>View More</Text></TouchableOpacity>
                     </View>
-                    <Dropdown
+                    {/* <Dropdown
                         style={styles.dropdown}
                         placeholderStyle={styles.placeholderStyle}
                         selectedTextStyle={styles.selectedTextStyle}
@@ -291,7 +304,87 @@ const FacilityHome = () => {
                             setGender(item.value);
                             setIsFocus(false);
                         }}
+                    /> */}
+                     <View>
+          <TouchableOpacity
+            style={{
+              marginVertical: 10,
+              padding: 20,
+              backgroundColor: COLOR.WHITE,
+              borderRadius: 20,
+              elevation: 2,
+              shadowColor: COLOR.BLACK,
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+            onPress={toggleModal}
+          >
+            {selectedItem ? (
+              <>
+                <Image
+                  source={Hair1}
+                  style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
+                />
+                <View style={{ width: Screen_Width * 0.5 }}>
+                  <Text style={styles.earningsText}>{selectedItem.name}</Text>
+                  <Text style={styles.earningsSubText}>{selectedItem.title}</Text>
+                </View>
+              </>
+            ) : (
+              <Text>In Salon</Text>
+            )}
+            <AntDesign name="down" size={28} color={COLOR.ChartBlue} />
+          </TouchableOpacity>
+  
+          <Modal visible={isModalVisible} animationType="slide">
+            <View style={{ flex: 1 }}>
+              <FlatList
+                data={FacilityData}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={{
+                      marginVertical: 10,
+                      marginHorizontal: 15,
+                      padding: 20,
+                      backgroundColor: COLOR.WHITE,
+                      borderRadius: 20,
+                      elevation: 2,
+                      shadowColor: COLOR.BLACK,
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      gap: 20,
+                    }}
+                    onPress={() => handleItemSelect(item)}
+                  >
+  
+                    <Image
+                      source={Hair1}
+                      style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
                     />
+                    <View style={{ width: Screen_Width * 0.5 }}>
+                      <Text style={styles.earningsText}>{item.name}</Text>
+                      <Text style={styles.earningsSubText}>{item.title}</Text>
+                    </View>
+                    <Fontisto
+                      name={selectedItem?.id === item.id ? "checkbox-active" : "checkbox-passive"}
+                      size={24}
+                      color={COLOR.ORANGECOLOR}
+                    />
+                  </TouchableOpacity>
+                )}
+              />
+              <TouchableOpacity
+                style={{ padding: 20, backgroundColor: COLOR.WHITE }}
+                onPress={toggleModal}
+              >
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
+        </View>
                     <View style={styles.overviewRow}>
                         <View style={styles.overviewBox}>
                             <Text style={styles.overviewBoxTitle}>Customer</Text>

@@ -129,7 +129,7 @@ const [errorMsg,setErrorMessage] =useState('')
         `${BASE_API_URL}/users/signUp`,
         { firstName, lastName, email, password, passwordConfirm, gender, phone, pushToken }
       );
-      console.log("RESSSS--MMMM", res.data);
+      console.log("RESSSS--MMMM", res.data.data);
       console.log("=================>");
       if (res.data) {
         await AsyncStorage.setItem("AuthToken", res.data.data.token.toString());
@@ -400,13 +400,13 @@ const [errorMsg,setErrorMessage] =useState('')
               itemTextStyle={theme === 1 ? { color: COLOR_LIGHT.BLACK } : { color: COLOR_DARK.WHITE }}
               selectedItemTextStyle={theme === 1 ? { color: COLOR_LIGHT.BLACK } : { color: COLOR_DARK.WHITE }}
               data={[
-                { label: 'Male', value: 'male' },
-                { label: 'Female', value: 'female' }
+                { label: 'Masculine', value: 'masculine' },
+                { label: 'Feminine', value: 'feminine' }
               ]}
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder="Select Gender"
+              placeholder="Select Style"
               value={gender}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}

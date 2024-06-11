@@ -8,7 +8,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { NavigationScreens } from '../../../constants/Strings';
 import { Leaderboard } from '../../../components/utils';
 import { Hair1 } from '../../../constants/Icons';
-import { Screen_Width } from '../../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 
 const FacilityLeaderboard = () => {
     const navigation = useNavigation();
@@ -48,7 +48,7 @@ const FacilityLeaderboard = () => {
             </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
-                style={{ marginTop: 15, marginHorizontal: 15 }}
+                style={{ marginTop: 15 }}
                 data={Leaderboard}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => {

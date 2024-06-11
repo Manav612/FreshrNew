@@ -31,7 +31,7 @@ const SignIn = () => {
     const fetchData = async (email) => {
         try {
             const res = await axios.post(`${BASE_API_URL}/users/emailcheck`, { email: email });
-            console.log("Response data:", res.data);
+            console.log("Response data:", res.data.data);
 
             if (res.data) {
                 navigation.navigate(NavigationScreens.PasswordAndOtpScreen,{email:email});
