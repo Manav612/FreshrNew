@@ -49,7 +49,7 @@ const Home = () => {
   }
 
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
+    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE }}>
       <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 50, backgroundColor: COLOR.ORANGECOLOR, height: 50, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>

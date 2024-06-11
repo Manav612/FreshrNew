@@ -48,7 +48,7 @@ const ProfessionalCancelled = () => {
     return (
         <FlatList
             showsVerticalScrollIndicator={false}
-            style={{ marginTop: 15, marginHorizontal: 15 }}
+            style={{ marginTop: 15, marginHorizontal: 15,backgroundColor:COLOR.WHITE }}
             data={Cancelled}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}

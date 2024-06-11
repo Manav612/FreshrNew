@@ -28,7 +28,7 @@ const ProfessionalCancelbooking = () => {
     };
 
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
             <View style={{ width: Screen_Width, height: Screen_Height * 0.83, paddingHorizontal: 15 }}>
                 <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
                     <AntDesign onPress={() => navigation.navigate('My Booking')} name="arrowleft" size={30} color="black" />

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -7,19 +7,22 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { ProfileData1 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { NavigationScreens } from '../../../constants/Strings';
+import { StoreThemeMode } from '../../../constants/AsyncStorage';
+import { SetThemeMode } from '../../../redux/ThemeAction';
 
 const MyProfile = () => {
 
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
+  const dispatch = useDispatch()
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-
+  const [selectedThemeMode,setSelectedThemeMode]= useState(theme)
   const [toggleStatus, setToggleStatus] = useState({});
   const [resetSelected, setResetSelected] = useState(false);
   const [applySelected, setApplySelected] = useState(false);
@@ -42,16 +45,19 @@ const MyProfile = () => {
         refRBSheet.current[index + 1].open();
     };
 
+    useEffect(()=>{
+console.log("==== theme from storage  =====",theme);
+    },[theme])
 
-  const toggleBookmark = (id) => {
-    setToggleStatus(prevState => ({
-      ...prevState,
-      [id]: !prevState[id]
-    }));
+  const toggledarkMode = (theme) => {
+   setSelectedThemeMode(theme)
+   StoreThemeMode(theme)
+   dispatch(SetThemeMode(theme))
+   console.log("====== theme =" ,theme);
   };
 
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
+    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <View style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
@@ -95,6 +101,7 @@ const MyProfile = () => {
       <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} />
       <FlatList
         data={ProfileData1}
+        keyExtractor={({item,index})=>index}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={{ width: Screen_Width * 0.90, height: 60, borderRadius: 15, marginVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}
@@ -139,17 +146,17 @@ const MyProfile = () => {
           justifyContent: 'space-between',
           paddingHorizontal: 10
         }}
-        onPress={() => toggleBookmark("dark_mode")} // Pass appropriate ID or identifier here
+        onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)} // Pass appropriate ID or identifier here
       >
         <View style={{ flexDirection: 'row', gap: 15, alignItems: 'center' }}>
-          <AntDesign name="eyeo" size={26} color={COLOR.BLACK} />
+          <AntDesign name="eyeo" size={26} color={COLOR.ORANGECOLOR} />
           <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK }}>Dark Mode</Text>
         </View>
-        <TouchableOpacity onPress={() => toggleBookmark("dark_mode")}>
+        <TouchableOpacity onPress={() =>  toggledarkMode(selectedThemeMode === 1 ? 0 : 1)}>
           <FontAwesome
-            name={toggleStatus["dark_mode"] ? "toggle-off" : "toggle-on"}
+            name={selectedThemeMode === 1 ? "toggle-on" : "toggle-off"}
             size={30}
-            color={COLOR.BLACK}
+            color={COLOR.ORANGECOLOR}
           />
         </TouchableOpacity>
       </TouchableOpacity>

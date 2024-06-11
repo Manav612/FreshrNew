@@ -7,7 +7,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { NavigationScreens } from '../../../constants/Strings';
 import { ProfileData2 } from '../../../components/utils';
-import { Screen_Width } from '../../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+import { screenWidth } from 'react-native-gifted-charts/src/utils';
 
 const FacilityViewMore = () => {
   const navigation = useNavigation();
@@ -16,7 +17,6 @@ const FacilityViewMore = () => {
 
   const styles = StyleSheet.create({
     HeaderView: {
-      paddingHorizontal: 15,
       marginVertical: 10,
       justifyContent:'space-between',
       alignItems:'center',
@@ -25,7 +25,7 @@ const FacilityViewMore = () => {
   });
 
   return (
-    <ScrollView>
+    <ScrollView style={{width:Screen_Width,height:Screen_Height,paddingHorizontal:15,backgroundColor:COLOR.WHITE}}>
       <View style={styles.HeaderView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />

@@ -1,6 +1,6 @@
-const HOST_PROTOCOL = "http";
+const HOST_PROTOCOL = "https";
 const API_SUFFIX = "api/v1";
-const API_HOST ="25aa-2405-201-201c-88b2-9c1-2470-2e21-d80c.ngrok-free.app" 
+const API_HOST ="8695-2405-201-201c-88b2-5469-14b8-3017-b065.ngrok-free.app" 
 
 
 

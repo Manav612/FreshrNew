@@ -108,7 +108,7 @@ const Manicure = () => {
   );
 
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height,paddingHorizontal:15 }}>
+    <ScrollView style={{ width: Screen_Width, height: Screen_Height,paddingHorizontal:15 ,backgroundColor:COLOR.WHITE}}>
       <View style={{width:Screen_Width,height:Screen_Height*0.05,flexDirection:'row',alignItems:'center',gap:15,marginVertical:10}}>
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
         <Text style={{fontWeight:'600',fontSize:25,color:COLOR.BLACK}}>Manicure</Text>

@@ -50,7 +50,7 @@ const ProfessionalPrivacyAndPolicy = () => {
     },
   });
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
     <View style={styles.container}>
       <View
         style={{

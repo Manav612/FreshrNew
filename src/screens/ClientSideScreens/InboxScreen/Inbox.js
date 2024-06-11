@@ -106,7 +106,8 @@ const Inbox = ({navigate}) => {
   );
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:COLOR.WHITE}}>
+      
       <View>
         <View
           style={{

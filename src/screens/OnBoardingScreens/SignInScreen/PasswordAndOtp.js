@@ -122,7 +122,7 @@ console.log("========  otp =======>>>",otp);
         },
     });
     return (
-        <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width }}>
+        <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width,backgroundColor:COLOR.WHITE }}>
             <View style={{ margin: 20 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />

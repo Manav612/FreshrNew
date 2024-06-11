@@ -107,7 +107,7 @@ const ProfessionalInbox = ({navigate}) => {
   );
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
       <View>
         <View
           style={{

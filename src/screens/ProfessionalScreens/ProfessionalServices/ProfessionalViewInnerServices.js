@@ -21,7 +21,7 @@ console.log("=======>",services);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   return (
     <ScrollView>
-      <View style={{marginHorizontal: 15}}>
+      <View style={{marginHorizontal: 15,backgroundColor:COLOR.WHITE}}>
         <View
           style={{
             flexDirection: 'row',

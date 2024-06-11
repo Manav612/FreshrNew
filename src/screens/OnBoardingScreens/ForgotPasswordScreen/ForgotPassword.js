@@ -21,7 +21,7 @@ const ForgotPassword = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   return (
-    <View>
+    <View style={{backgroundColor:COLOR.WHITE}}>
       <View
         style={{
           flexDirection: 'row',

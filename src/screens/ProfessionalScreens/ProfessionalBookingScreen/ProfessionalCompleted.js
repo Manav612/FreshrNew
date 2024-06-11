@@ -57,7 +57,7 @@ const ProfessionalCompleted = () => {
     return (
         <FlatList
             showsVerticalScrollIndicator={false}
-            style={{ marginTop: 15, marginHorizontal: 15 }}
+            style={{ marginTop: 15, marginHorizontal: 15,backgroundColor:COLOR.WHITE }}
             data={Completeds}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}

@@ -17,7 +17,7 @@ const FacilityLeaderboard = () => {
 
     const styles = StyleSheet.create({
         HeaderView: {
-            paddingHorizontal: 15,
+          
             marginVertical: 10,
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -34,7 +34,7 @@ const FacilityLeaderboard = () => {
         },
     });
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE}}>
             <View style={styles.HeaderView}>
                 <View style={{justifyContent:'center',alignItems:'center',gap:10,flexDirection:'row'}}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>

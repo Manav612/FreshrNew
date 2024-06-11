@@ -61,7 +61,7 @@ const Newpassword = () => {
     };
 
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
             <View style={{ flexDirection: 'row', margin: 15, gap: 10, alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialCommunityIcons name="arrow-left" size={35} color="#000" />

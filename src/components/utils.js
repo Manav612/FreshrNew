@@ -11,7 +11,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Screen_Width } from '../constants/Constants';
 
-
 export const ProfileData = [
     {
       id: '1',
@@ -482,83 +481,83 @@ export const AllCategoryData1=[
    export const ProfileData1=[
     {
       id:1,
-      icon:(<AntDesign name="user" size={30} color="black" />),
+      icon:(<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Edit Profile',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:2,
-      icon:(<Ionicons name="notifications-outline" size={30} color="black" />),
+      icon:(<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Notification',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:3,
-      icon:(<MaterialIcons name="payment" size={30} color="black" />),
+      icon:(<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Payment',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:4,
-      icon:(<MaterialIcons name="security" size={30} color="black" />),
+      icon:(<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Security',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:5,
-      icon:(<Ionicons name="lock-closed-outline" size={30} color="black" />),
+      icon:(<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Privacy Policy',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:6,
-      icon:(<AntDesign name="swap" size={30} color="black" />),
+      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Switch to Professionals',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:6,
-      icon:(<AntDesign name="swap" size={30} color="black" />),
+      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Become to Host',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
    ];
    export const ProfessionalProfileData=[
     {
       id:1,
-      icon:(<AntDesign name="user" size={30} color="black" />),
+      icon:(<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Edit Profile',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:2,
-      icon:(<Ionicons name="notifications-outline" size={30} color="black" />),
+      icon:(<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Notification',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:3,
-      icon:(<MaterialIcons name="payment" size={30} color="black" />),
+      icon:(<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Payment',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:4,
-      icon:(<MaterialIcons name="security" size={30} color="black" />),
+      icon:(<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Security',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:5,
-      icon:(<Ionicons name="lock-closed-outline" size={30} color="black" />),
+      icon:(<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Privacy Policy',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id:6,
-      icon:(<AntDesign name="swap" size={30} color="black" />),
+      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Switch to Client',
-      icon1:(<AntDesign name="right" size={30} color="black" />),
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
    ];
 
@@ -678,51 +677,28 @@ export const AllCategoryData1=[
     {
       id:2,
       img: Hair1,
-      name:'Barbarella Lnova',
+      name:'kfhdi Lnova',
       title:'6993 Meadow Valley Terrace'
     },
     {
       id:3,
       img: Hair1,
-      name:'Barbarella Lnova',
+      name:'jwhu',
       title:'6993 Meadow Valley Terrace'
     },
     {
       id:4,
       img: Hair1,
-      name:'Barbarella Lnova',
+      name:'orjjimn',
       title:'6993 Meadow Valley Terrace'
     },
     {
       id:5,
       img: Hair1,
-      name:'Barbarella Lnova',
+      name:'Manjefn',
       title:'6993 Meadow Valley Terrace'
     },
-    {
-      id:6,
-      img: Hair1,
-      name:'Barbarella Lnova',
-      title:'6993 Meadow Valley Terrace'
-    },
-    {
-      id:7,
-      img: Hair1,
-      name:'Barbarella Lnova',
-      title:'6993 Meadow Valley Terrace'
-    },
-    {
-      id:8,
-      img: Hair1,
-      name:'Barbarella Lnova',
-      title:'6993 Meadow Valley Terrace'
-    },
-    {
-      id:9,
-      img: Hair1,
-      name:'Barbarella Lnova',
-      title:'6993 Meadow Valley Terrace'
-    }, 
+   
    ]
 
    export const ProfileData2=[

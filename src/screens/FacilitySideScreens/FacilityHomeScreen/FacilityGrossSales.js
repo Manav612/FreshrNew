@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Image, ScrollView, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import { NavigationScreens } from '../../../constants/Strings';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { LineChart } from 'react-native-gifted-charts';
+import { FacilityData } from '../../../components/utils';
+import { Hair1 } from '../../../constants/Icons';
 
 const FacilityGrossSales = () => {
     const navigation = useNavigation();
@@ -17,6 +20,20 @@ const FacilityGrossSales = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [gender, setGender] = useState('');
     const [selectedYear, setSelectedYear] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const toggleModal = () => {
+        setIsModalVisible(!isModalVisible);
+    };
+
+    const handleItemSelect = (item) => {
+        setSelectedItem(item);
+        toggleModal();
+        // Handle the selected item here, e.g., navigate to the FacilityDetalisScreen
+    };
+
+
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 50 }, (_, i) => ({
         label: (currentYear - i).toString(),
@@ -50,7 +67,7 @@ const FacilityGrossSales = () => {
 
     const styles = StyleSheet.create({
         HeaderView: {
-            paddingHorizontal: 15,
+
             marginVertical: 10,
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -115,47 +132,118 @@ const FacilityGrossSales = () => {
             borderColor: COLOR.AuthField,
             padding: 10
         },
+        earningsContainer: {
+            marginVertical: 20,
+            padding: 20,
+            backgroundColor: COLOR.BLACK,
+            borderRadius: 10,
+            alignItems: 'center',
+        },
+        earningsText: {
+            fontSize: 22,
+            fontWeight: 'bold',
+            color: COLOR.BLACK
+        },
+        earningsSubText: {
+            fontSize: 16,
+            color: COLOR.GRAY,
+        },
     });
 
     return (
-        <>
+        <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE }}>
             <View style={styles.HeaderView}>
-             <View style={{justifyContent:'center',alignItems:'center',gap:10,flexDirection:'row'}}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Gross Sales</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center', gap: 10, flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Gross Sales</Text>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                     <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                 </TouchableOpacity>
             </View>
-            <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                iconStyle={styles.iconStyle}
-                itemTextStyle={theme === 1 ? { color: COLOR_LIGHT.BLACK } : { color: COLOR_DARK.WHITE }}
-                selectedItemTextStyle={theme === 1 ? { color: COLOR_LIGHT.BLACK } : { color: COLOR_DARK.WHITE }}
-                data={[
-                    { label: 'Customer', value: 'Customer' },
-                    { label: 'Orders', value: 'Orders' },
-                    { label: 'Cancel Orders', value: 'Cancel Orders' },
-                    { label: 'Completed', value: 'Completed' },
-                    { label: 'Barbarella Lnova', value: 'Barbarella Lnova' },
-                ]}
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder="In Salon"
-                value={gender}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                onChange={item => {
-                    setGender(item.value);
-                    setIsFocus(false);
-                }}
-            />
+
+            <View>
+                <TouchableOpacity
+                    style={{
+                        marginVertical: 10,
+                        padding: 20,
+                        backgroundColor: COLOR.WHITE,
+                        borderRadius: 20,
+                        elevation: 2,
+                        shadowColor: COLOR.BLACK,
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }}
+                    onPress={toggleModal}
+                >
+                    {selectedItem ? (
+                        <>
+                            <Image
+                                source={Hair1}
+                                style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
+                            />
+                            <View style={{ width: Screen_Width * 0.5 }}>
+                                <Text style={styles.earningsText}>{selectedItem.name}</Text>
+                                <Text style={styles.earningsSubText}>{selectedItem.title}</Text>
+                            </View>
+                        </>
+                    ) : (
+                        <Text>Select a facility</Text>
+                    )}
+                    <AntDesign name="down" size={28} color={COLOR.ChartBlue} />
+                </TouchableOpacity>
+
+                <Modal visible={isModalVisible} animationType="slide">
+                    <View style={{ flex: 1 }}>
+                        <FlatList
+                            data={FacilityData}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    style={{
+                                        marginVertical: 10,
+                                        marginHorizontal: 15,
+                                        padding: 20,
+                                        backgroundColor: COLOR.WHITE,
+                                        borderRadius: 20,
+                                        elevation: 2,
+                                        shadowColor: COLOR.BLACK,
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                        justifyContent:'space-between',
+                                        gap: 20,
+                                    }}
+                                    onPress={() => handleItemSelect(item)}
+                                >
+                                   
+                                    <Image
+                                        source={Hair1}
+                                        style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
+                                    />
+                                    <View style={{ width: Screen_Width * 0.5 }}>
+                                        <Text style={styles.earningsText}>{item.name}</Text>
+                                        <Text style={styles.earningsSubText}>{item.title}</Text>
+                                    </View>
+                                    <Fontisto
+                                        name={selectedItem?.id === item.id ? "checkbox-active" : "checkbox-passive"}
+                                        size={24}
+                                        color={COLOR.ORANGECOLOR}
+                                    />
+                                </TouchableOpacity>
+                            )}
+                        />
+                        <TouchableOpacity
+                            style={{ padding: 20, backgroundColor: COLOR.WHITE }}
+                            onPress={toggleModal}
+                        >
+                            <Text>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+            </View>
 
             <View style={styles.chartContainer}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width * 0.88, paddingHorizontal: 10 }}>
@@ -219,7 +307,7 @@ const FacilityGrossSales = () => {
                 />
 
             </View>
-        </>
+        </ScrollView>
     )
 }
 

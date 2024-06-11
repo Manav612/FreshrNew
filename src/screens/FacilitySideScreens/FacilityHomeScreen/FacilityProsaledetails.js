@@ -51,11 +51,13 @@ const FacilityProsaledetails = () => {
                 renderItem={renderItem}
                 renderSectionHeader={renderSectionHeader}
                 ListHeaderComponent={
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10, alignItems: 'center', marginBottom: 10 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10, alignItems: 'center', marginBottom: 10,backgroundColor:COLOR.WHITE }}>
+                <View style={{justifyContent:'center',alignItems:'center',gap:10,flexDirection:'row'}}>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
                             <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Pro Sale Details</Text>
+                        </View>
                         <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>

@@ -13,7 +13,7 @@ const otp = () => {
 
   const navigation = useNavigation();
   return (
-    <>
+    <View style={{backgroundColor:COLOR.WHITE}}>
       <View style={{
         flexDirection: 'row',
         margin: 15,
@@ -65,7 +65,7 @@ const otp = () => {
               <Text style={{textAlign:'center',fontSize:18,color:COLOR.WHITE_80}}>Verify</Text>
             </TouchableOpacity>
       </View>
-    </>
+    </View>
   )
 }
 

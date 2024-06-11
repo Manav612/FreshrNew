@@ -116,7 +116,7 @@ const FacilityDetalis = ({ route }) => {
 
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, paddingVertical: 10 }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, paddingVertical: 10,backgroundColor:COLOR.WHITE }}>
       <View
         style={{
           flexDirection: 'row',

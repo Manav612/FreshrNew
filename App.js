@@ -4,6 +4,7 @@ import {Provider, useDispatch} from 'react-redux';
 import NavigationHandler from './src/navigation';
 import Store from './src/redux/Store';
 import { SetThemeMode } from './src/redux/ThemeAction';
+import Toast from 'react-native-toast-message';
 
 const customTextProps = {
   style: {
@@ -11,20 +12,14 @@ const customTextProps = {
   },
 };
 const App = () => {
-  const colorScheme = useColorScheme(); 
-  console.log('=================>', colorScheme);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(SetThemeMode(colorScheme));
-  }, [colorScheme, dispatch]);
-
+  
   return <NavigationHandler/>;
 };
 
 const WrappedApp = () => {
   return (
     <Provider store={Store}>
+      <Toast/>
       <App />
     </Provider>
   );

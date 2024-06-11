@@ -348,7 +348,7 @@ const [Services, setServices] = useState('View services');
     </TouchableOpacity>
   );
   return (
-    <ScrollView  style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
+    <ScrollView  style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE }}>
        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>

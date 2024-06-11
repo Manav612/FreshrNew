@@ -377,6 +377,7 @@ const ProfessionalProfile = ({ name }) => {
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
+      
     },
     title: {
       fontSize: 24,
@@ -390,7 +391,7 @@ const ProfessionalProfile = ({ name }) => {
     },
   });
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height,backgroundColor:COLOR.WHITE }}>
       <View style={{ height: 330 }}>
         <ImageBackground
           source={barber}

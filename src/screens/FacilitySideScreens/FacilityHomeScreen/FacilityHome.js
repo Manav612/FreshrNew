@@ -58,7 +58,7 @@ const FacilityHome = () => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            padding: 20,
+           
 
         },
         header: {
@@ -224,7 +224,7 @@ const FacilityHome = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height,marginVertical:10, paddingHorizontal: 15,backgroundColor:COLOR.WHITE}}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>

@@ -111,7 +111,7 @@ const ProfessionalUpcoming = () => {
     );
 
     return (
-        <>
+        <View style={{backgroundColor:COLOR.WHITE}}>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 15, marginHorizontal: 15 }}
@@ -177,7 +177,7 @@ const ProfessionalUpcoming = () => {
                     </View>    
                 </RBSheet>
             </View>
-        </>
+        </View>
     )
 }
 

@@ -16,10 +16,16 @@ const MyBookMarkScreen = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [searchText, setSearchText] = useState('');
-
+  const styles = StyleSheet.create({
+    HeaderView: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    HeaderText: { color:COLOR.BLACK, fontSize: 22, fontWeight: '600', marginLeft: 10 },
+  });
   // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:COLOR.WHITE}}>
       <View
         style={{
           flexDirection: 'row',
@@ -79,10 +85,4 @@ const MyBookMarkScreen = () => {
 
 export default MyBookMarkScreen;
 
-const styles = StyleSheet.create({
-  HeaderView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  HeaderText: { color: '#000', fontSize: 22, fontWeight: '600', marginLeft: 10 },
-});
+

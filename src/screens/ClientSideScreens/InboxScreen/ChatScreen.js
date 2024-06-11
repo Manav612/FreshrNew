@@ -151,7 +151,7 @@ const ChatScreen = ({ route }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,backgroundColor:COLOR.WHITE }}>
       {/* Header */}
        <View
         style={{

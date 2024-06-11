@@ -328,7 +328,7 @@ const [Services, setServices] = useState('View services');
 
  
   return (
-    <ScrollView  style={{ width: Screen_Width, height: Screen_Height }}>
+    <ScrollView  style={{ width: Screen_Width, height: Screen_Height,backgroundColor:COLOR.WHITE }}>
    
       {renderContent()}
       <View style={{height:100}}/>

@@ -230,7 +230,7 @@ const Booking = () => {
         },
     });
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
             <FlatList
                 data={barberData}
                 ref={flatListRef}

@@ -14,6 +14,9 @@ import { BASE_API_URL } from '../../../Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dropdown } from 'react-native-element-dropdown';
 import PhoneInput from 'react-native-phone-number-input';
+import Toast from 'react-native-toast-message';
+import { NavigationScreens } from '../../../constants/Strings';
+
 
 const SignUP = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -36,18 +39,20 @@ const SignUP = () => {
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
   const [formattedValue, setFormattedValue] = useState("");
   const phoneInput = useRef(null);
-  const [value, setValue] = useState('');
+  const [phone, setPhone] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [gender, setGender] = useState('');
+  const [pushToken, setPushToken] = useState('test');
   const [isFocus, setIsFocus] = useState(false);
 
-
+const [errorMsg,setErrorMessage] =useState('')
 
 
   const handleEmailChange = (text) => {
     setEmail(text);
     setEmailError('');
+    
   };
 
   const handlePasswordChange = (text) => {
@@ -118,23 +123,26 @@ const SignUP = () => {
     return true;
   };
 
-  const fetchData = async (email, password, passwordConfirm) => {
+  const fetchData = async (firstName, lastName, email, password, passwordConfirm, gender, phone, pushToken) => {
     try {
       const res = await axios.post(
         `${BASE_API_URL}/users/signUp`,
-        { email, password, passwordConfirm }
+        { firstName, lastName, email, password, passwordConfirm, gender, phone, pushToken }
       );
       console.log("RESSSS--MMMM", res.data);
       console.log("=================>");
-      if(res.data){
+      if (res.data) {
         await AsyncStorage.setItem("AuthToken", res.data.data.token.toString());
-        navigation.navigate('EmailVerification Screen');
+       
+       
+          navigation.navigate(NavigationScreens.EmailVerificationScreen,{email: email});
+        
+       
+        
       }
-      // Handle successful signup, e.g., navigate to email verification
-      
     } catch (error) {
       console.log("error", error);
-      // Handle error, e.g., show error message
+      // setErrorMessage(error,)
     }
   };
 
@@ -144,7 +152,7 @@ const SignUP = () => {
     const isEmailValid = validateEmail();
     const arePasswordsValid = validatePasswords();
     if (isEmailValid && arePasswordsValid) {
-      fetchData(email, password, passwordConfirm);
+      fetchData(firstName,lastName, email, password, passwordConfirm,gender,phone,pushToken);
     }
   };
 
@@ -310,7 +318,7 @@ const SignUP = () => {
 
 
             <TextInput
-              style={[styles.input]}
+              style={[styles.input,{color:COLOR.BLACK}]}
               placeholderTextColor={COLOR.BLACK}
               placeholder="First Name"
               onFocus={() => setIsFirstNameFocused(true)}
@@ -410,14 +418,15 @@ const SignUP = () => {
           </View>
           <PhoneInput
             ref={phoneInput}
-            defaultValue={value}
+            defaultValue={formattedValue}
             defaultCode="DM"
             layout="first"
             onChangeText={(text) => {
-              setValue(text);
+              setFormattedValue(text);
             }}
             onChangeFormattedText={(text) => {
-              setFormattedValue(text);
+              setPhone(text);
+              console.log(text);
             }}
             containerStyle={{
               backgroundColor: COLOR.AuthField,
@@ -442,6 +451,10 @@ const SignUP = () => {
           <TouchableOpacity onPress={handleSignUp} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign up</Text>
           </TouchableOpacity>
+
+          {/* <Text style={{ alignSelf: 'center', color: COLOR.CANCEL_B }}>{errorMsg}</Text> */}
+
+
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>
             <Text style={{ alignSelf: 'center', color: COLOR.BLACK }}>Already have an account? </Text>

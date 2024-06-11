@@ -23,7 +23,7 @@ const WelcomeOnboardScreen = () => {
     return (
         <>
             {showSplash ? (
-               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:COLOR.WHITE }}>
                <ImageBackground source={Splash} style={{height:Screen_Height,width:Screen_Width,justifyContent:'flex-end',paddingBottom:30,paddingHorizontal:30}}>
                  <Text style={{fontSize:30,fontWeight:'bold',color:COLOR.WHITE}}>Welcome to 👋</Text>
                  <Text style={{fontSize:55,fontWeight:'bold',color:COLOR.ORANGECOLOR }}>Freshr</Text>

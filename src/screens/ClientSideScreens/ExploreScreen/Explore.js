@@ -214,7 +214,7 @@ const Explore = () => {
     },
   });
   return (
-    <>
+    <View style={{backgroundColor:COLOR.WHITE}}>
 
       <View style={{ borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, marginHorizontal: 10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK, position: 'absolute', top: 10, zIndex: 1000 }}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>Where do we meet?</Text>
@@ -408,7 +408,7 @@ const Explore = () => {
 
         </RBSheet>
       </View>
-    </>
+    </View>
   )
 
 }

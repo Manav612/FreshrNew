@@ -58,7 +58,7 @@ const ProfessionalHome = () => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            padding: 20,
+            
            
         },
         header: {
@@ -223,7 +223,7 @@ const ProfessionalHome = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width,marginVertical:10,paddingHorizontal:15 }}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
