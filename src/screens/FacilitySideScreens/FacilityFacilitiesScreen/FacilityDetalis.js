@@ -134,7 +134,7 @@ const FacilityDetalis = ({ route }) => {
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-        <TouchableOpacity style={{ height: 50, width: 160, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }}><Text style={{ size: 20, color: COLOR.WHITE }}>Manage seats</Text></TouchableOpacity>
+        <TouchableOpacity style={{ height: 50, width: 160, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.FacilityManageSeatScreen)}><Text style={{ size: 20, color: COLOR.WHITE }}>Manage seats</Text></TouchableOpacity>
         <TouchableOpacity style={{ height: 50, width: 160, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)}><Text style={{ size: 20, color: COLOR.WHITE }}>Edit Facility</Text></TouchableOpacity>
       </View>
 
