@@ -42,7 +42,7 @@ const SignUP = () => {
   const [phone, setPhone] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('');
+  const [searchStylesFor, setGender] = useState('');
   const [pushToken, setPushToken] = useState('test');
   const [isFocus, setIsFocus] = useState(false);
 
@@ -123,11 +123,11 @@ const [errorMsg,setErrorMessage] =useState('')
     return true;
   };
 
-  const fetchData = async (firstName, lastName, email, password, passwordConfirm, gender, phone, pushToken) => {
+  const fetchData = async (firstName, lastName, email, password, passwordConfirm, searchStylesFor, phone, pushToken) => {
     try {
       const res = await axios.post(
         `${BASE_API_URL}/users/signUp`,
-        { firstName, lastName, email, password, passwordConfirm, gender, phone, pushToken }
+        { firstName, lastName, email, password, passwordConfirm, searchStylesFor, phone, pushToken }
       );
       console.log("RESSSS--MMMM", res.data.data);
       console.log("=================>");
@@ -152,7 +152,7 @@ const [errorMsg,setErrorMessage] =useState('')
     const isEmailValid = validateEmail();
     const arePasswordsValid = validatePasswords();
     if (isEmailValid && arePasswordsValid) {
-      fetchData(firstName,lastName, email, password, passwordConfirm,gender,phone,pushToken);
+      fetchData(firstName,lastName, email, password, passwordConfirm,searchStylesFor,phone,pushToken);
     }
   };
 
@@ -407,7 +407,7 @@ const [errorMsg,setErrorMessage] =useState('')
               labelField="label"
               valueField="value"
               placeholder="Select Style"
-              value={gender}
+              value={searchStylesFor}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {

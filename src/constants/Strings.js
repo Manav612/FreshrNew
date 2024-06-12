@@ -57,6 +57,7 @@ export const NavigationScreens = {
     SearchFilterScreen:'SearchFilter Screen',
     BookingHoursScreen:'Booking Hours Screen',
     NearbyYourLocationScreen:'NearbyYourLocation Screen',
+    ClientSettingScreen:'ClientSettingScreen',
     OurProfessionalDetailsScreen:'OurProfessionalDetails Screen',
     CancelbookingScreen:'Cancelbooking Screen',
     EditProfileScreen:'EditProfile Screen',

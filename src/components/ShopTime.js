@@ -4,12 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../constants/Constants';
-import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
+import { NavigationScreens } from '../constants/Strings';
 
 const ShopTime = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [work, setWork] = useState('In salon');
@@ -22,7 +22,7 @@ const ShopTime = () => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [activeTab, setActiveTab] = useState('Delivery');
-const [ShopTime,setShopTime]= useState(false)
+  const [ShopTime, setShopTime] = useState(false);
 
   const [timeData, setTimeData] = useState({
     Monday: { start: '10:00 AM', end: '11:00 PM' },
@@ -40,14 +40,21 @@ const [ShopTime,setShopTime]= useState(false)
   };
 
   const saveTime = () => {
-    setTimeData({
+    const updatedTimeData = {
       ...timeData,
       [selectedDay]: {
         start: startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         end: endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       },
-    });
+    };
+
+    setTimeData(updatedTimeData);
     setModalVisible(false);
+
+    console.log("====------->>>>",updatedTimeData);
+    navigation.navigate(NavigationScreens.ConfirmationForCreateFacilitieScreen, {
+      shopTiming: updatedTimeData
+    });
   };
 
   const onStartChange = (event, selectedDate) => {
@@ -61,7 +68,6 @@ const [ShopTime,setShopTime]= useState(false)
     setShowEndPicker(Platform.OS === 'ios');
     setEndTime(currentDate);
   };
-
 
   const styles = StyleSheet.create({
     inputContainer: {
@@ -114,9 +120,6 @@ const [ShopTime,setShopTime]= useState(false)
     iconStyle: {
       width: 20,
       height: 20,
-    },
-    icon: {
-      marginRight: 10
     },
     dropdownItem: {
       padding: 10,
@@ -248,19 +251,16 @@ const [ShopTime,setShopTime]= useState(false)
     },
   });
 
-
   return (
     <View style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
-    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>Shop Timing</Text>
-        <TouchableOpacity onPress={()=>setShopTime(!ShopTime)} style={{flexDirection:'row',alignItems:'center',justifyContent:'center',gap:10}}>
-        <Text style={{fontWeight: '600', fontSize:18, color: COLOR.BLACK}}>Vacation</Text>
-        <FontAwesome name={ShopTime?"toggle-off":"toggle-on"} size={30} color={COLOR.ORANGECOLOR} />
-
+        <TouchableOpacity onPress={() => setShopTime(!ShopTime)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+          <Text style={{ fontWeight: '600', fontSize: 18, color: COLOR.BLACK }}>Vacation</Text>
+          <FontAwesome name={ShopTime ? "toggle-off" : "toggle-on"} size={30} color={COLOR.ORANGECOLOR} />
         </TouchableOpacity>
+      </View>
 
-    </View>
-     
       <View style={styles.container}>
         {Object.keys(timeData).map((day) => (
           <TouchableOpacity key={day} style={styles.row} onPress={() => openModal(day)}>
@@ -283,7 +283,9 @@ const [ShopTime,setShopTime]= useState(false)
                 />
               ) : (
                 <>
-                  <TouchableOpacity onPress={() => setShowStartPicker(true)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 10, borderRadius: 15 }}><Text  style={{ color: COLOR.WHITE,fontWeight:'bold' }}>{startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => setShowStartPicker(true)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 10, borderRadius: 15 }}>
+                    <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>{startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+                  </TouchableOpacity>
                   {showStartPicker && (
                     <DateTimePicker
                       value={startTime}
@@ -304,7 +306,9 @@ const [ShopTime,setShopTime]= useState(false)
                 />
               ) : (
                 <>
-                  <TouchableOpacity onPress={() => setShowEndPicker(true)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 10, borderRadius: 15 }}><Text style={{ color: COLOR.WHITE,fontWeight:'bold' }}>{endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text></TouchableOpacity>
+                  <TouchableOpacity onPress={() => setShowEndPicker(true)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 10, borderRadius: 15 }}>
+                    <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>{endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+                  </TouchableOpacity>
                   {showEndPicker && (
                     <DateTimePicker
                       value={endTime}
@@ -315,9 +319,12 @@ const [ShopTime,setShopTime]= useState(false)
                   )}
                 </>
               )}
-              <TouchableOpacity onPress={saveTime} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 10 ,borderRadius:15}}><Text  style={{ color: COLOR.WHITE,fontWeight:'bold' }}>Save</Text></TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalVisible(false)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.CANCEL_B, marginVertical: 10,borderRadius:15 }}><Text  style={{ color: COLOR.WHITE,fontWeight:'bold' }}>Cancel</Text></TouchableOpacity>
-
+              <TouchableOpacity onPress={saveTime} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 10, borderRadius: 15 }}>
+                <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(false)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.CANCEL_B, marginVertical: 10, borderRadius: 15 }}>
+                <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Cancel</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -325,9 +332,9 @@ const [ShopTime,setShopTime]= useState(false)
 
       <View style={{ height: 100 }} />
     </View>
-  )
+  );
 }
 
-export default ShopTime
+export default ShopTime;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

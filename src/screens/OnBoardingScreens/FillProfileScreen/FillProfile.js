@@ -152,6 +152,7 @@ const FillProfile = () => {
         enableRotationGesture: true,
         showCropGuidelines: false,
         compressImageQuality: 0.9,
+        
       }).then(image => {
         setImageModalVisible(false);
         setImageUri(image.path);

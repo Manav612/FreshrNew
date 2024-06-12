@@ -34,6 +34,7 @@ import BookAppointmentScreen from '../../components/OrderComponents/BookAppointm
 import OurProfessionalDetails from '../../components/OrderComponents/OurProfessionalDetails';
 import PaymentMethod from '../../components/OrderComponents/PaymentScreen/PaymentMethod';
 import BookingHoursScreen from '../../components/OrderComponents/BookAppointment/BookingHoursScreen';
+import ClientSettingScreen from '../../components/ClientSideComponents/ClientSettingScreen';
 
 
 
@@ -55,6 +56,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.MassageScreen} component={Massage} />
             <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
             <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
+            <Stack.Screen name={NavigationScreens.ClientSettingScreen} component={ClientSettingScreen} />
 
             <Stack.Screen name={NavigationScreens.OurProfessionalDetailsScreen} component={OurProfessionalDetails} />
 
@@ -71,11 +73,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.BookingHoursScreen} component={BookingHoursScreen} />
             <Stack.Screen name={NavigationScreens.InboxScreen} component={Inbox} />
             <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
-            <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
            
-            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
-            <Stack.Screen name={NavigationScreens.SecurityScreen} component={Security} />
-            <Stack.Screen name={NavigationScreens.PrivacyPolicyScreen} component={PrivacyPolicy} />
             <Stack.Screen name={NavigationScreens.PaymentMethodScreen} component={PaymentMethod} />
 
             <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} />

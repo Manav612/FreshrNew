@@ -255,7 +255,7 @@ const ProfessionalSettingScreen = () => {
                 </View>
             </View>
 
-            <View style={{ marginBottom: 20 }}>
+            {/* <View style={{ marginBottom: 20 }}>
 
                 <Text style={{ fontSize: 16, color: COLOR.BLACK, fontWeight: 'bold' }}>Pro</Text>
                 <View>
@@ -277,7 +277,7 @@ const ProfessionalSettingScreen = () => {
                         <AntDesign name="right" size={20} color={COLOR.BLACK} />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </View> */}
             <View style={{ marginBottom: 20 }}>
 
                 <Text style={{ fontSize: 16, color: COLOR.BLACK, fontWeight: 'bold' }}>Support</Text>

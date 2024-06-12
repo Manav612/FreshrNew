@@ -15,7 +15,7 @@ import { Image } from 'react-native-svg';
 import { barber } from '../../constants/Icons';
 import { NavigationScreens } from '../../constants/Strings';
 
-const FacilitySettingScreen = () => {
+const ClientSettingScreen = () => {
     const navigation = useNavigation()
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -269,10 +269,10 @@ const FacilitySettingScreen = () => {
                     </TouchableOpacity>
                     <View style={{ backgroundColor: COLOR.BLACK_30, height: 1, marginVertical: 10 }} />
 
-                    <TouchableOpacity onPress={()=>navigation.navigate(NavigationScreens.ProfessionalBottomTab)} style={{ justifyContent: 'space-between', alignItems: 'center', width: Screen_Width * 0.88, height: 50, flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={()=>navigation.navigate(NavigationScreens.FacilityBottomTab)} style={{ justifyContent: 'space-between', alignItems: 'center', width: Screen_Width * 0.88, height: 50, flexDirection: 'row' }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 20 }}>
                             <AntDesign name="swap" size={20} color={COLOR.BLACK} />
-                            <Text style={{ color: COLOR.BLACK }}>Switch to Professional</Text>
+                            <Text style={{ color: COLOR.BLACK }}>Become a host</Text>
                         </View>
                         <AntDesign name="right" size={20} color={COLOR.BLACK} />
                     </TouchableOpacity>
@@ -336,4 +336,4 @@ const FacilitySettingScreen = () => {
         </ScrollView>
     )
 }
-export default FacilitySettingScreen
+export default ClientSettingScreen

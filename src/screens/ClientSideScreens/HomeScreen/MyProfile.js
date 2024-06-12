@@ -249,6 +249,7 @@ import { SetThemeMode } from '../../../redux/ThemeAction';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FastImage from 'react-native-fast-image';
 
 const MyProfile = () => {
 
@@ -293,44 +294,44 @@ const MyProfile = () => {
 
   const handleSwitchToProfessionals = async () => {
     try {
-        const token = await AsyncStorage.getItem("AuthToken");
-        console.log("==========>",token);
-        const config = {
-            headers: { 
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        const res = await axios.post(`${BASE_API_URL}/users/becomeSpecialist`,{},config)
-        console.log("Response data:", res.data);
-
-        if (res.data) {
-            navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+      const token = await AsyncStorage.getItem("AuthToken");
+      console.log("==========>", token);
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
+      };
+
+      const res = await axios.post(`${BASE_API_URL}/users/becomeSpecialist`, {}, config)
+      console.log("Response data:", res.data);
+
+      if (res.data) {
+        navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+      }
     } catch (error) {
-        console.error("Error:", error);
+      console.error("Error:", error);
     }
-};
+  };
   const handleSwitchToHost = async () => {
     try {
-        const token = await AsyncStorage.getItem("AuthToken");
-        console.log("==========>",token);
-        const config = {
-            headers: { 
-                'Authorization': `Bearer ${token}`
-            }
-        };
-
-        const res = await axios.post(`${BASE_API_URL}/users/becomeHost`,{},config)
-        console.log("Response data:", res.data);
-
-        if (res.data) {
-            navigation.navigate(NavigationScreens.FacilityPrivacyAndPolicyScreen);
+      const token = await AsyncStorage.getItem("AuthToken");
+      console.log("==========>", token);
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
+      };
+
+      const res = await axios.post(`${BASE_API_URL}/users/becomeHost`, {}, config)
+      console.log("Response data:", res.data);
+
+      if (res.data) {
+        navigation.navigate(NavigationScreens.FacilityPrivacyAndPolicyScreen);
+      }
     } catch (error) {
-        console.error("Error:", error);
+      console.error("Error:", error);
     }
-};
+  };
 
 
 
@@ -343,7 +344,9 @@ const MyProfile = () => {
           </View>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Profile</Text>
         </View>
-        {/* <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} /> */}
+        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ClientSettingScreen)}>
+          <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+        </TouchableOpacity>
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View

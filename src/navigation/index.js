@@ -62,7 +62,7 @@ const NavigationHandler = () => {
                 headerShown: false
             }}>
 
-                {/* <Stack.Screen name={NavigationScreens.SplashScreen} component={SplashScreen} />
+                <Stack.Screen name={NavigationScreens.SplashScreen} component={SplashScreen} />
                 <Stack.Screen name={NavigationScreens.WelcomeOnboardScreen} component={WelcomeOnboardScreen} />
                 <Stack.Screen name={NavigationScreens.ProceedWithoutScreen} component={ProceedWithout} />
                 <Stack.Screen name={NavigationScreens.SignUpScreen} component={SignUP} />
@@ -75,7 +75,7 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.FillProfileScreen} component={FillProfile} />
                 <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
                 <Stack.Screen name={NavigationScreens.ProfessionalPrivacyAndPolicyScreen} component={ProfessionalPrivacyAndPolicy} />
-                <Stack.Screen name={NavigationScreens.ProfessionalConnectStripeScreen} component={ProfessionalConnectStripeScreen} /> */}
+                <Stack.Screen name={NavigationScreens.ProfessionalConnectStripeScreen} component={ProfessionalConnectStripeScreen} />
                 <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        
                 <Stack.Screen name={NavigationScreens.ProfessionalBottomTab} component={ProfessionalBottomTab} />        
                 <Stack.Screen name={NavigationScreens.FacilityBottomTab} component={FacilityBottomTab} />        

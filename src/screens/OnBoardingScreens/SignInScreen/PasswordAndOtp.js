@@ -70,7 +70,7 @@ console.log("========  otp =======>>>",otp);
     const handleSignIn = async () => {
         try {
             const res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email,otp:otp,sessionId:sessionId });
-            console.log("Response data:", res.data);
+            console.log("Response data ======:", res.data.data);
             
             if(res.data){
                 Alert.alert('Sign In  Successfully')
