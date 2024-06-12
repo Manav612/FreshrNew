@@ -6,7 +6,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../constants/Constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
-import { NavigationScreens } from '../constants/Strings';
 
 const ShopTime = () => {
   const navigation = useNavigation();
@@ -51,9 +50,9 @@ const ShopTime = () => {
     setTimeData(updatedTimeData);
     setModalVisible(false);
 
-    console.log("====------->>>>",updatedTimeData);
-    navigation.navigate(NavigationScreens.ConfirmationForCreateFacilitieScreen, {
-      shopTiming: updatedTimeData
+    navigation.navigate('ConfirmationForCreateFacilitie', {
+      start: updatedTimeData[selectedDay].start,
+      end: updatedTimeData[selectedDay].end,
     });
   };
 
