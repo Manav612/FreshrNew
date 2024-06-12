@@ -25,6 +25,7 @@ import ProfessionalPrivacyAndPolicy from '../screens/ProfessionalScreens/Profess
 import FacilityConnectStripe from '../screens/FacilitySideScreens/OnBoardingScreens/FacilityConnectStripe';
 import ProfessionalConnectStripeScreen from '../screens/ProfessionalScreens/ProfessionalConnectStripeScreen/ProfessionalConnectStripeScreen';
 import PasswordAndOtp from '../screens/OnBoardingScreens/SignInScreen/PasswordAndOtp';
+import ProceedWithout from '../screens/OnBoardingScreens/WelcomeOnboardScreen/ProceedWithout';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -63,6 +64,7 @@ const NavigationHandler = () => {
 
                 <Stack.Screen name={NavigationScreens.SplashScreen} component={SplashScreen} />
                 <Stack.Screen name={NavigationScreens.WelcomeOnboardScreen} component={WelcomeOnboardScreen} />
+                <Stack.Screen name={NavigationScreens.ProceedWithoutScreen} component={ProceedWithout} />
                 <Stack.Screen name={NavigationScreens.SignUpScreen} component={SignUP} />
                 <Stack.Screen name={NavigationScreens.SignInScreen} component={SignIn} />
                 <Stack.Screen name={NavigationScreens.PasswordAndOtpScreen} component={PasswordAndOtp} />
