@@ -69,7 +69,8 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.ReviewsDetailScreen} component={ReviewsDetail} />
             <Stack.Screen name={NavigationScreens.BookAppointmentScreen} component={BookAppointmentScreen} />
             <Stack.Screen name={NavigationScreens.BookingHoursScreen} component={BookingHoursScreen} />
-
+            <Stack.Screen name={NavigationScreens.InboxScreen} component={Inbox} />
+            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
             <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
            
             <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
@@ -77,7 +78,6 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.PrivacyPolicyScreen} component={PrivacyPolicy} />
             <Stack.Screen name={NavigationScreens.PaymentMethodScreen} component={PaymentMethod} />
 
-            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
             <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} />
             <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} />
 
@@ -104,13 +104,16 @@ const MyBookingStack = () => {
         </Stack.Navigator>
     );
 };
-const InboxStack = () => {
+const ProfileStack = () => {
     return (
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name={NavigationScreens.InboxScreen} component={Inbox} />
-            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
+            
+            <Stack.Screen name={NavigationScreens.MyProfileScreen} component={MyProfile} />
+            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+            <Stack.Screen name={NavigationScreens.SecurityScreen} component={Security} />
+            <Stack.Screen name={NavigationScreens.PrivacyPolicyScreen} component={PrivacyPolicy} />
         </Stack.Navigator>
     );
 };
@@ -152,9 +155,9 @@ const Screens = [
     },
     {
         name: NavigationScreens.InboxScreen + " " + NavigationScreens.HomeTab,
-        title: "Inbox",
-        component: InboxStack,
-        icon: InboxIcon,
+        title: "Profile",
+        component: ProfileStack,
+        icon: UserIcon,
     },
 ]
 export default BottomTab = ({ route }) => {

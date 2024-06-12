@@ -23,7 +23,7 @@ const Explore = () => {
   // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const mapStyle = [
     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-    { elementType: 'labels.texztroke', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
     {
       featureType: 'administrative.locality',
       elementType: 'labels.text.fill',
@@ -168,6 +168,12 @@ const Explore = () => {
     </TouchableOpacity>
   );
   const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    mapStyle: {
+      flex: 1,
+    },
     CategoryContainer: {
       borderWidth: 2,
       borderColor: COLOR.ORANGECOLOR,
@@ -212,9 +218,10 @@ const Explore = () => {
       justifyContent: 'space-between',
       paddingHorizontal: 10,
     },
+   
   });
   return (
-    <View style={{backgroundColor:COLOR.WHITE}}>
+    <>
 
       <View style={{ borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, marginHorizontal: 10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK, position: 'absolute', top: 10, zIndex: 1000 }}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>Where do we meet?</Text>
@@ -248,6 +255,7 @@ const Explore = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
         initialRegion={{
@@ -256,57 +264,23 @@ const Explore = () => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        customMapStyle={mapStyle}>
+        customMapStyle={mapStyle}
+      >
         <Marker
           draggable
           coordinate={{
             latitude: 19.0760,
             longitude: 72.8777,
           }}
-          onDragEnd={
-            (e) => alert(JSON.stringify(e.nativeEvent.coordinate))
-          }
+          onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
           title={'Test Marker'}
           description={'This is a description of the marker'}
         />
       </MapView>
+    </View>
 
       <View style={{}}>
-        {/* <RBSheet
-            ref={(ref) => (refRBSheet.current[0] = ref)}
-
-            height={Screen_Height * 0.50}
-            customStyles={{
-
-              wrapper: {
-                backgroundColor:COLOR.BLACK_40,
-              },
-              container: {
-                backgroundColor: COLOR.WHITE,
-                borderRadius: 40,
-                borderBottomRightRadius: 0,
-                borderBottomLeftRadius: 0,
-                elevation: 10,
-                shadowColor: COLOR.BLACK,
-              },
-              draggableIcon: {
-                backgroundColor: COLOR.BLACK,
-              },
-            }}
-            customModalProps={{
-              animationType: 'slide',
-              statusBarTranslucent: true,
-            }}
-            customAvoidingViewProps={{
-              enabled: false,
-            }}>
-            <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-              <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                <Text style={{ fontWeight: '600', fontSize: 25 }}>Details</Text>
-              </View>
-            </View>
-
-          </RBSheet> */}
+        
         <RBSheet
           ref={(ref) => (refRBSheet.current[0] = ref)}
 
@@ -408,7 +382,7 @@ const Explore = () => {
 
         </RBSheet>
       </View>
-    </View>
+    </>
   )
 
 }
