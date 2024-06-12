@@ -18,7 +18,7 @@ const SplashScreen = () => {
   useEffect(() => {
     GetFromStorage()
     const timer = setTimeout(() => {
-      navigation.navigate(NavigationScreens.WelcomeOnboardScreen);
+      navigation.navigate(NavigationScreens.ProceedWithoutScreen);
     }, 3000);
     return () => clearTimeout(timer);
 

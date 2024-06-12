@@ -7,6 +7,7 @@ import Onboarding from 'react-native-onboarding-swiper';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
+import { NavigationScreens } from '../../../constants/Strings';
 const WelcomeOnboardScreen = () => {
     const [showSplash, setShowSplash] = useState(true);
     const theme = useSelector(state => state.ThemeReducer);
@@ -33,8 +34,8 @@ const WelcomeOnboardScreen = () => {
             ) : (
                 <Onboarding
                 bottomBarColor={COLOR.ORANGECOLOR}
-                onDone={() => navigation.navigate('Sign Up Screen')}
-                onSkip={() => navigation.navigate('Sign Up Screen')}
+                onDone={() => navigation.navigate(NavigationScreens.ProceedWithoutScreen)}
+                onSkip={() => navigation.navigate(NavigationScreens.ProceedWithoutScreen)}
                 // onDone={() => navigation.navigate('Home Tab')}
                 // onSkip={() => navigation.navigate('Home Tab')}
                 

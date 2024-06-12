@@ -27,6 +27,7 @@ export const NavigationScreens = {
     OurPackageDetailScreen:'OurPackageDetail Screen',
     VerificationScreen: 'Verification Screen',
     WelcomeOnboardScreen: 'Welcome Onboard Screen',
+    ProceedWithoutScreen:'ProceedWithoutScreen',
     HomeScreen: 'Home Screen',
     OTPScreen:'OTPScreen',
     OurGalleryScreen:'OurGallery Screen',
