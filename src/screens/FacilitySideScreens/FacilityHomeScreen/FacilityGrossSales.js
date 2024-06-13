@@ -74,7 +74,7 @@ const FacilityGrossSales = () => {
             flexDirection: 'row'
         },
         dropdown: {
-            height: 40,
+            height: 30,
             width: 150,
             backgroundColor: COLOR.AuthField,
             borderRadius: 10,

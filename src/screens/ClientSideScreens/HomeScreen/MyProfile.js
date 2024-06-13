@@ -348,23 +348,22 @@ const MyProfile = () => {
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
         </TouchableOpacity>
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ alignItems: 'center',flexDirection:'row',gap:20 }}>
         <View
           style={{
             backgroundColor: COLOR.BLACK_30,
-            height: 150,
-            width: 150,
+            height: 60,
+            width: 60,
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 100,
-            marginBottom: 25
           }}
         >
           <TouchableOpacity
             style={{
               backgroundColor: COLOR.ORANGECOLOR,
-              width: 30,
-              height: 30,
+              width: 20,
+              height: 20,
               borderRadius: 5,
               justifyContent: 'center',
               alignItems: 'center',
@@ -373,13 +372,15 @@ const MyProfile = () => {
               bottom: 0
             }}
           >
-            <MaterialIcons name="edit" size={26} color={COLOR.WHITE} />
+            <MaterialIcons name="edit" size={20} color={COLOR.WHITE} />
           </TouchableOpacity>
         </View>
+        <View>
         <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>Daniel Austin</Text>
         <Text style={{ fontSize: 18, color: COLOR.GRAY }}>daniel_austin@yourdomain.com</Text>
+        </View>
       </View>
-      <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} />
+      {/* <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} /> */}
       <FlatList
         data={ProfileData1}
         keyExtractor={(item, index) => index.toString()}
@@ -495,7 +496,7 @@ const MyProfile = () => {
               <TouchableOpacity onPress={() => { handleResetPress1(); refRBSheet.current[0].close() }} style={{ backgroundColor: resetSelected ? COLOR.ORANGECOLOR : COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 15, fontWeight: '700', color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { handleApplyPress2(); navigation.navigate('Welcome Onboard Screen'); refRBSheet.current[0].close() }} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+              <TouchableOpacity onPress={() => { handleApplyPress2(); navigation.navigate(NavigationScreens.SplashScreen); refRBSheet.current[0].close() }} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Yes,Logout</Text>
               </TouchableOpacity>
             </View>
