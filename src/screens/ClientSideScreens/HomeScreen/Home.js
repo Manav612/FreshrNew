@@ -51,11 +51,8 @@ const Home = () => {
 
   return (
     <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
-      <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+      <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-          <View style={{ width: 50, backgroundColor: COLOR.ORANGECOLOR, height: 50, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 40 }}>F</Text>
-          </View>
           <View>
             <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>{greeting}, Manav</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -69,11 +66,11 @@ const Home = () => {
           <Ionicons name="chatbubble-ellipses-outline" size={30} color={COLOR.BLACK} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Notification Screen')}>
-            <AntDesign name="hearto" size={30} color={COLOR.BLACK} />
+            <Ionicons name="notifications-outline" size={30} color={COLOR.BLACK} />
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK }}>
+      <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE,marginHorizontal:2,marginBottom:10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK }}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Where do we meet?</Text>
         <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
           <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>

@@ -44,7 +44,7 @@ const NotificationScreen = () => {
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
             ListHeaderComponent={
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', marginBottom: 10,backgroundColor:COLOR.WHITE }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between',alignItems:'center', marginBottom: 10}}>
                     <TouchableOpacity onPress={()=>navigation.goBack()}>
                         <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
                     </TouchableOpacity>

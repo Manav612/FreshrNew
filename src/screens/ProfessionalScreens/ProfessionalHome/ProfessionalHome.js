@@ -58,7 +58,7 @@ const ProfessionalHome = () => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            
+            paddingVertical:5
            
         },
         header: {
@@ -123,9 +123,12 @@ const ProfessionalHome = () => {
         overviewBox: {
             width: '48%',
             padding: 15,
-            backgroundColor: COLOR.WHITE,
+            backgroundColor:COLOR.WHITE,
             borderRadius: 20,
-            marginVertical: 5
+            margin:2,
+            elevation:2,
+            shadowColor:COLOR.BLACK,
+            
         },
         overviewBoxTitle: {
             fontSize: 16,
@@ -190,7 +193,7 @@ const ProfessionalHome = () => {
             padding: 10
         },
         dropdown: {
-            height: 40,
+            height: 25,
             width: 150,
             backgroundColor: COLOR.AuthField,
             borderRadius: 10,
@@ -223,7 +226,7 @@ const ProfessionalHome = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width,marginVertical:10,paddingHorizontal:15 }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width,paddingHorizontal:15 }}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
@@ -248,7 +251,7 @@ const ProfessionalHome = () => {
                     padding: 20,
                     backgroundColor:COLOR.WHITE,
                     borderRadius: 20,
-
+                    margin:2,
                     elevation:2,
                     shadowColor:COLOR.BLACK,
                     alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
