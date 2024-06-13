@@ -14,7 +14,7 @@ import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationScreens } from '../../../constants/Strings';
-const PasswordAndOtp = ({route}) => {
+const PasswordAndOtp = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation()
@@ -24,13 +24,13 @@ const PasswordAndOtp = ({route}) => {
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
     const [otp, setOtp] = useState('');
-const [sessionId,setSessionId]=useState()
+    const [sessionId, setSessionId] = useState()
     const handleOtpChange = (newOtp) => {
         setOtp(newOtp);
     };
 
     const handleOtpSubmit = () => {
-      getOTP()
+        getOTP()
     };
     const handlePasswordChange = (text) => {
         setPassword(text);
@@ -50,33 +50,34 @@ const [sessionId,setSessionId]=useState()
         setRememberMe(!rememberMe);
     };
 
-const {email} = route.params;
-console.log("===============>>>",email);
-console.log("========  otp =======>>>",otp);
+    const { email } = route.params;
+    console.log("===============>>>", email);
+    console.log("========  otp =======>>>", otp);
     const getOTP = async () => {
         try {
             const res = await axios.post(`${BASE_API_URL}/users/otpsend`, { email: email });
             console.log("Response data:", res.data);
-            
-            if(res.data){
+
+            if (res.data) {
+                await AsyncStorage.setItem("AuthToken", res.data.data.token.toString());
                 await AsyncStorage.setItem("Session_Id", res.data.data.sessionId.toString());
                 setSessionId(res.data.data.sessionId)
                 Alert.alert('Otp Sent Successfully')
-              }
+            }
         } catch (error) {
             console.error("Error:", error);
         }
     };
     const handleSignIn = async () => {
         try {
-            const res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email,otp:otp,sessionId:sessionId });
+            const res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId, password: password });
             console.log("Response data ======:", res.data.data);
-            
-            if(res.data){
-                Alert.alert('Sign In  Successfully')
-        navigation.navigate(NavigationScreens.HomeTab);
 
-              }
+            if (res.data) {
+                Alert.alert('Sign In  Successfully')
+                navigation.navigate(NavigationScreens.HomeTab);
+
+            }
         } catch (error) {
             console.error("Error:", error);
         }
@@ -122,7 +123,7 @@ console.log("========  otp =======>>>",otp);
         },
     });
     return (
-        <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width,backgroundColor:COLOR.WHITE }}>
+        <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width, backgroundColor: COLOR.WHITE }}>
             <View style={{ margin: 20 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
@@ -153,34 +154,34 @@ console.log("========  otp =======>>>",otp);
                         <Text style={{ color: COLOR.BLACK, fontSize: 20 }}>OR</Text>
                         <View style={{ height: 1, backgroundColor: COLOR.BLACK, width: Screen_Width * 0.3 }} />
                     </View>
-                    <View style={{marginVertical:15}}>
-                    <Text style={{ color: COLOR.BLACK, fontSize: 20,marginBottom:10 }}>Enter Otp</Text>
-                    
-                    <OtpTextInput
-                        handleTextChange={handleOtpChange}
-                        handleSubmit={handleOtpSubmit}
-                        tintColor={COLOR.ORANGECOLOR}
-                        offTintColor={COLOR.LIGHTGRAY}
-                        containerStyle={styles.otpContainer}
-                        textInputStyle={styles.otpInput}
-                        inputCount={6}
-                    />
-                    <TouchableOpacity  onPress={handleOtpSubmit} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
-                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Get OTP</Text>
-                    </TouchableOpacity>
+                    <View style={{ marginVertical: 15 }}>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter Otp</Text>
+
+                        <OtpTextInput
+                            handleTextChange={handleOtpChange}
+                            handleSubmit={handleOtpSubmit}
+                            tintColor={COLOR.ORANGECOLOR}
+                            offTintColor={COLOR.LIGHTGRAY}
+                            containerStyle={styles.otpContainer}
+                            textInputStyle={styles.otpInput}
+                            inputCount={6}
+                        />
+                        <TouchableOpacity onPress={handleOtpSubmit} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+                            <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Get OTP</Text>
+                        </TouchableOpacity>
                     </View>
                     {/* <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
                         <Fontisto name={rememberMe ? "checkbox-active" : "checkbox-passive"} size={24} color={COLOR.ORANGECOLOR} style={styles.icon} />
                         <Text style={{ marginLeft: 10, color: COLOR.BLACK }}>Remember me</Text>
                     </TouchableOpacity> */}
-                    {sessionId &&  <TouchableOpacity onPress={handleSignIn} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+                    {sessionId && <TouchableOpacity onPress={handleSignIn} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
                         <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
                     </TouchableOpacity>}
-                   
+
                     <TouchableOpacity onPress={() => navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
                         <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: '500', textAlign: 'center' }}>Forgot the password?</Text>
                     </TouchableOpacity>
-                   
+
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: COLOR.BLACK }}>Don't have an account? </Text>
                         <TouchableOpacity onPress={() => navigation.navigate('Sign Up Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>Sign up</Text></TouchableOpacity>

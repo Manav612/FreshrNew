@@ -132,13 +132,7 @@ const [errorMsg,setErrorMessage] =useState('')
       console.log("RESSSS--MMMM", res.data.data);
       console.log("=================>");
       if (res.data) {
-        await AsyncStorage.setItem("AuthToken", res.data.data.token.toString());
-       
-       
           navigation.navigate(NavigationScreens.EmailVerificationScreen,{email: email});
-        
-       
-        
       }
     } catch (error) {
       console.log("error", error);
