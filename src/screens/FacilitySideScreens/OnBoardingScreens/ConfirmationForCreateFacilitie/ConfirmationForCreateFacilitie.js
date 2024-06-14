@@ -19,18 +19,21 @@ const ConfirmationForCreateFacilitie = () => {
 
     const route = useRoute();
     const { facilityData } = route.params;
+    const galleryImages = facilityData.galleryImageUris
     console.log("========== ====");
     console.log('==== facilityData  ======>', facilityData);
     const shopTimingArray = Object.keys(facilityData.timeData).map(day => ({
         day,
         ...facilityData.timeData[day],
     }));
-    const Images = facilityData.imageUri
-    console.log("======  images ====", Images);
+
+    console.log("======  images ====", galleryImages);
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation()
- 
+
+
+
     const styles = StyleSheet.create({
         inputContainer: {
             flexDirection: 'row',
@@ -82,46 +85,45 @@ const ConfirmationForCreateFacilitie = () => {
         },
     });
 
-    const formData ={
-        closingTime:facilityData.timeData,
-        openingTime:facilityData.timeData,
-        name:facilityData.facilityName,
-        region:'abc',
-        country:facilityData.country,
-        street:facilityData.street,
-        city:facilityData.city,
-        coords:facilityData.rState,
-        address:facilityData.address,
-        postcode:facilityData.postalCode,
-        description:facilityData.description,
-        seatCapacity:"10",
-        availableSeats:facilityData.seatCount,
-        gallery:{
-            "name" :facilityData.imageUri
-        }
+    const formData = {
+        timing: facilityData.timeData,
+        name: facilityData.facilityName,
+        region: 'abc',
+        country: facilityData.country,
+        street: facilityData.street,
+        city: facilityData.city,
+        coords: [facilityData.rState.region.latitude,facilityData.rState.region.longitude],
+        address: facilityData.address,
+        postcode: facilityData.postalCode,
+        description: facilityData.description,
+        seatCapacity: "10",
+        availableSeats: facilityData.seatCount,
+        gallery: galleryImages,
+        coverImage: facilityData.coverImageUri
+
     }
 
     const handleConfirmData = async () => {
         try {
-          const token = await AsyncStorage.getItem("AuthToken");
-          console.log("===== =====>", token);
-          const config = {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          };
-    
-          const res = await axios.post(`${BASE_API_URL}/hosts/host/facilities`, formData, config)
-          console.log("Response --------------------- data:", res.data);
-    if(res.data){ 
-        navigation.navigate(NavigationScreens.FacilityConnectStripeScreen)
+            const token = await AsyncStorage.getItem("AuthToken");
+            console.log("=============>", token);
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
 
-    }
-          
+            const res = await axios.post(`${BASE_API_URL}/hosts/host/facilities`, formData, config)
+            console.log("Response --------------------- data:", res.data);
+            if (res.data) {
+                navigation.navigate(NavigationScreens.FacilityConnectStripeScreen)
+
+            }
+
         } catch (error) {
-          console.error("Error:", error);
+            console.error("Error:", error);
         }
-      };
+    };
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, paddingVertical: 10, backgroundColor: COLOR.WHITE }}>
@@ -144,12 +146,12 @@ const ConfirmationForCreateFacilitie = () => {
                 {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
 
             </View>
-            <View style={styles.input}>
-                <View style={{justifyContent:'space-between',alignItems:'center',flexDirection:'row'}}>
-                <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-                    Longitude: {facilityData?.rState?.region?.longitude}</Text>
-                  <Text  style={{ color: COLOR.BLACK, fontSize: 14 }}>  Latitude: {facilityData?.rState?.region?.latitude}
-                </Text>
+            <View style={{ height: 50, borderRadius: 15, paddingHorizontal: 5, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+                        Longitude: {facilityData?.rState?.region?.longitude}</Text>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>  Latitude: {facilityData?.rState?.region?.latitude}
+                    </Text>
                 </View>
             </View>
 
@@ -269,18 +271,31 @@ const ConfirmationForCreateFacilitie = () => {
                 {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
 
             </View>
-            <FlatList
-                data={Images.map(imageUri => ({ image: { uri: imageUri } }))}
-                showsVerticalScrollIndicator={false}
-                numColumns={3}
-                key={3}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5, marginVertical: 10 }}>
-                        <Image source={item.image} style={{ width: Screen_Width * 0.28, height: Screen_Height * 0.13, borderRadius: 10 }} />
-                    </View>
-                )}
-            />
+            {facilityData.coverImageUri && (
+                <View style={{ marginHorizontal: 5, marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '600', marginBottom: 10 }}>Cover Image</Text>
+
+                    <FastImage source={{ uri: facilityData.coverImageUri }} style={{ width: Screen_Width * 0.28, height: Screen_Height * 0.13, borderRadius: 10 }} />
+
+
+                </View>
+            )}
+            <View style={{ marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>
+
+                <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '600' }}>Gallery</Text>
+
+                <FlatList
+                    data={galleryImages}
+                    renderItem={({ item }) => (
+                        <View style={{ marginHorizontal: 5, marginVertical: 10 }}>
+
+                            <FastImage source={{ uri: item }} style={{ width: Screen_Width * 0.28, height: Screen_Height * 0.13, borderRadius: 10 }} />
+                        </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                    numColumns={3}
+                />
+            </View>
 
             {/* Shop timing */}
             <View style={{ height: 50, borderRadius: 15, paddingHorizontal: 5, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >

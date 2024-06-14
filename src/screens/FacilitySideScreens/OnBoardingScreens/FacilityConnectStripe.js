@@ -77,7 +77,7 @@ const FacilityConnectStripe = () => {
       </View>
   <View style={{justifyContent:'center',alignItems:'center',width:screenWidth,height:Screen_Height*0.6,paddingHorizontal:15}}>
     <FastImage source={ConnectStripeIcon} style={{width:Screen_Width*0.8,height:Screen_Height*0.4}} />
-    <Text style={{color:COLOR.BLACK,fontSize:18,fontWeight:'700',textAlign:'center',width:Screen_Width*0.6}}>Connect to Stripe for seamless and secure payouts. Payouts are received every week.</Text>
+    <Text style={{color:COLOR.BLACK,fontSize:18,fontWeight:'700',textAlign:'center',width:Screen_Width*0.9}}>Connect to Stripe for seamless and secure payouts. Payouts are received every week.</Text>
   </View>
     <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate(NavigationScreens.FacilityBottomTab)}>
    <Text style={styles.buttonText}>Connect to stripe</Text>

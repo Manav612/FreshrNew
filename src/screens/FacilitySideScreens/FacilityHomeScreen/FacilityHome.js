@@ -132,13 +132,16 @@ const FacilityHome = () => {
         overviewRow: {
             flexDirection: 'row',
             justifyContent: 'space-between',
+            paddingHorizontal:2
         },
         overviewBox: {
-            width: '48%',
+            width:Screen_Width*0.44,
             padding: 15,
             backgroundColor: COLOR.WHITE,
             borderRadius: 20,
-            marginVertical: 5
+            marginVertical: 5,
+            elevation:2,
+            shadowColor:COLOR.BLACK
         },
         overviewBoxTitle: {
             fontSize: 16,
@@ -168,6 +171,7 @@ const FacilityHome = () => {
             alignItems: 'center',
             backgroundColor: COLOR.WHITE,
             elevation: 2,
+            marginHorizontal:2,
             shadowColor: COLOR.BLACK,
             borderRadius: 20,
             height: Screen_Height * 0.48,
@@ -203,7 +207,7 @@ const FacilityHome = () => {
             padding: 10
         },
         dropdown: {
-            height: 40,
+            height: 20,
             width: 150,
             backgroundColor: COLOR.AuthField,
             borderRadius: 10,
@@ -237,7 +241,7 @@ const FacilityHome = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height,marginVertical:10, paddingHorizontal: 15,backgroundColor:COLOR.WHITE}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE}}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
@@ -260,7 +264,7 @@ const FacilityHome = () => {
                     padding: 20,
                     backgroundColor: COLOR.WHITE,
                     borderRadius: 20,
-
+                    marginHorizontal:2,
                     elevation: 2,
                     shadowColor: COLOR.BLACK,
                     alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
@@ -313,6 +317,7 @@ const FacilityHome = () => {
               backgroundColor: COLOR.WHITE,
               borderRadius: 20,
               elevation: 2,
+              marginHorizontal:2,
               shadowColor: COLOR.BLACK,
               alignItems: 'center',
               flexDirection: 'row',
@@ -332,7 +337,9 @@ const FacilityHome = () => {
                 </View>
               </>
             ) : (
-              <Text>In Salon</Text>
+              <Text style={{ fontSize: 20,
+                fontWeight: 'bold',
+                color: COLOR.BLACK}}>In Salon</Text>
             )}
             <AntDesign name="down" size={28} color={COLOR.ChartBlue} />
           </TouchableOpacity>

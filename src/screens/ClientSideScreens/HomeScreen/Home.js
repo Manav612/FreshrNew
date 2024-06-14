@@ -16,6 +16,10 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const flatListRef = useRef(null);
   const navigation = useNavigation()
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import FontSize from '../../../constants/FontSize';
 import FastImage from 'react-native-fast-image';
 import { Loader } from '../../../constants/Icons';
 import WelcomeOnboardScreen from '../WelcomeOnboardScreen/WelcomeOnboardScreen';
-import { GetThemeMode } from '../../../constants/AsyncStorage';
+import { GetAuthToken, GetThemeMode } from '../../../constants/AsyncStorage';
 import { SetThemeMode } from '../../../redux/ThemeAction';
 import { NavigationScreens } from '../../../constants/Strings';
 
@@ -17,10 +17,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     GetFromStorage()
-    const timer = setTimeout(() => {
-      navigation.navigate(NavigationScreens.ProceedWithoutScreen);
-    }, 3000);
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
 
   }, []); 
 
@@ -29,6 +26,12 @@ const SplashScreen = () => {
     // const authToken = await GetAuthToken();
     // dispatch(SetAuthToken(authToken));
     dispatch(SetThemeMode(parseInt(await GetThemeMode())));
+
+    const authtoken = await GetAuthToken();
+    console.log(authtoken);
+    const timer = setTimeout(() => {
+      navigation.navigate(authtoken == "" ? NavigationScreens.ProceedWithoutScreen : NavigationScreens.HomeTab);
+    }, 3000);
     // dispatch(SetFontSize(parseInt(await GetFontSize())));
     // if (authToken != '') {
     //   try {

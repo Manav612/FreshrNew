@@ -15,6 +15,9 @@ import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { Filter } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../../Services';
+import axios from 'axios';
 
 
 const Explore = () => {
@@ -112,7 +115,31 @@ const Explore = () => {
   const [applySelected, setApplySelected] = useState(false);
   const [bookmarkStatus, setBookmarkStatus] = useState({});
   const [filteredData, setFilteredData] = useState([]);
+  const [markerData, setMarkerData] = useState([]);
   const [distance, setDistance] = useState(50);
+
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities`, config);
+      console.log("===================");
+      console.log('==================.........', res.data.facilities.facility)
+      setMarkerData(res.data.facilities.facility)
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const openBottomSheet2 = () => {
     refRBSheet.current[0].open();
@@ -218,7 +245,7 @@ const Explore = () => {
       justifyContent: 'space-between',
       paddingHorizontal: 10,
     },
-   
+
   });
   return (
     <>
@@ -256,31 +283,38 @@ const Explore = () => {
         </View>
       </View>
       <View style={styles.container}>
-      <MapView
-        style={styles.mapStyle}
-        initialRegion={{
-          latitude: 19.0760,
-          longitude: 72.8777,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        customMapStyle={mapStyle}
-      >
-        <Marker
-          draggable
-          coordinate={{
+        <MapView
+          style={styles.mapStyle}
+          initialRegion={{
             latitude: 19.0760,
             longitude: 72.8777,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
           }}
-          onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
-          title={'Test Marker'}
-          description={'This is a description of the marker'}
-        />
-      </MapView>
-    </View>
+          customMapStyle={mapStyle}
+        >
+          {
+            markerData.length > 0 && markerData.map((data,i) => {
+             return<Marker
+                // draggable
+                coordinate={{
+                  latitude: data.location.coordinates[0],
+                  longitude: data.location.coordinates[1],
+                }}
+                // onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
+                title={'Test Marker'}
+                description={'This is a description of the marker'}
+                key={i}
+              >
+                 <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
+              </Marker>
+            })
+          }
+        </MapView>
+      </View>
 
       <View style={{}}>
-        
+
         <RBSheet
           ref={(ref) => (refRBSheet.current[0] = ref)}
 

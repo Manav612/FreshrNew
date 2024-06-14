@@ -1,7 +1,7 @@
 
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Dimensions, FlatList, Image, KeyboardAvoidingView, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, FlatList, Image, KeyboardAvoidingView, Modal, PermissionsAndroid, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Media, OnBoard4 } from '../../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
 import { Screen_Height, Screen_Width } from '../../../../constants/Constants';
@@ -56,7 +56,10 @@ const FacilityOnBoardingScreen = () => {
     const ASPECT_RATIO = width / height;
     const [radius, setRadius] = useState(1);
     const mapRef = useRef();
-const [loc,setLoc] = useState()
+    const [loc, setLoc] = useState()
+    const [coverImageUri, setCoverImageUri] = useState(null);
+    const [galleryImageUris, setGalleryImageUris] = useState([]);
+
     const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
     const initialRegion = {
@@ -83,7 +86,7 @@ const [loc,setLoc] = useState()
 
     s = {
         region: {
-            latitude:  23.052524,
+            latitude: 23.052524,
             longitude: 72.6800283,
             latitudeDelta: 0.04,
             longitudeDelta: 0.04,
@@ -158,16 +161,16 @@ const [loc,setLoc] = useState()
                 showCropGuidelines: false,
                 compressImageQuality: 0.9,
                 multiple: true,
-            }).then(image => {
-                setImageModalVisible(false);
-                const imgList = image.map((i) => {
-                    return i.path
-                })
-                setImageUri([...imageUri, ...imgList]);
-            }).catch((e) => {
-                setImageModalVisible(false);
-                console.log(e);
-            })
+            }).then(images => {
+                const selectedImages = images.slice(0, 7); // Limit to 7 images (1 cover + up to 6 gallery)
+                const coverImage = selectedImages.length > 0 ? selectedImages[0].path : null;
+                const galleryImages = selectedImages.slice(1).map(i => i.path);
+
+                setCoverImageUri(coverImage);
+                setGalleryImageUris([...galleryImageUris, ...galleryImages]);
+            }).catch(error => {
+                console.log('Error selecting images:', error);
+            });
         }
     }
 
@@ -230,17 +233,19 @@ const [loc,setLoc] = useState()
     }
 
     const handleUserLocation = () => {
-      
+
 
         Geolocation.getCurrentPosition(
             (pos) => {
 
-                rSetState({ region: {
-                    latitude:  pos.coords.latitude,
-                    longitude: pos.coords.longitude,
-                    latitudeDelta: 0.04,
-                    longitudeDelta: 0.04,
-                }})
+                rSetState({
+                    region: {
+                        latitude: pos.coords.latitude,
+                        longitude: pos.coords.longitude,
+                        latitudeDelta: 0.04,
+                        longitudeDelta: 0.04,
+                    }
+                })
                 _map.current.animateToRegion({
                     ...rState.region,
                     latitude: pos.coords.latitude,
@@ -287,7 +292,14 @@ const [loc,setLoc] = useState()
             fontSize: 12,
             fontWeight: 'bold',
             color: COLOR.BLACK,
-            textAlign: 'center'
+            textAlign: 'center',
+            marginTop: 25
+        },
+
+        ImageLimitText: {
+            fontSize: 14,
+            textAlign: 'center',
+            marginTop: 10,
         },
         imageContainer: { justifyContent: 'center', alignItems: 'center', paddingVertical: 15, paddingHorizontal: 15 },
         imageInnerContainer: {
@@ -365,25 +377,7 @@ const [loc,setLoc] = useState()
             backgroundColor: COLOR.AuthField,
             color: COLOR.BLACK
         },
-        ImageText: {
-            fontSize: 12,
-            fontWeight: 'bold',
-            color: COLOR.BLACK,
-            textAlign: 'center'
-        },
-        imageContainer: { justifyContent: 'center', alignItems: 'center', paddingVertical: 15, paddingHorizontal: 15 },
-        imageInnerContainer: {
-            height: 100,
-            width: 100,
-            borderRadius: 50,
-            backgroundColor: COLOR.ORANGECOLOR,
-            justifyContent: 'center',
-            alignItems: 'center',
-            elevation: 3,
-            shadowColor: COLOR.ORANGECOLOR,
-            position: 'relative',
-            marginBottom: 20
-        },
+
         image: {
             height: 100,
             width: 100,
@@ -487,6 +481,10 @@ const [loc,setLoc] = useState()
     });
 
     const handleNavigation = () => {
+        if (!street || !apartment || !city || !state || !postalCode || !country || !seatCount || !facilityName || !description || !timeData || !imageUri || !rState || !coverImageUri || !galleryImageUris) {
+            Alert.alert('Validation Error', 'Please fill in all fields.');
+            return;
+        }
         const facilityData = {
             street,
             apartment,
@@ -499,7 +497,9 @@ const [loc,setLoc] = useState()
             description,
             timeData,
             imageUri,
-            rState
+            rState,
+            coverImageUri,
+            galleryImageUris
 
         };
         navigation.navigate(NavigationScreens.ConfirmationForCreateFacilitieScreen, { facilityData });
@@ -511,6 +511,7 @@ const [loc,setLoc] = useState()
                 bottomBarColor={COLOR.ORANGECOLOR}
                 onDone={handleNavigation}
                 showSkip={false}
+                swipeEnabled={false}
 
                 containerStyles={{
                     height: Screen_Height * 0.5,
@@ -600,7 +601,7 @@ const [loc,setLoc] = useState()
                                                     <FontAwesome
                                                         name="map-marker"
                                                         size={35}
-                                                        color={COLOR.PINK}                                                    />
+                                                        color={COLOR.PINK} />
                                                 </Marker>
                                             </MapView>
                                             {/* <MapView
@@ -709,6 +710,7 @@ const [loc,setLoc] = useState()
                                                 <TextInput
                                                     style={[styles.halfInput]}
                                                     placeholder="Postal code"
+                                                    keyboardType='number-pad'
                                                     placeholderTextColor={COLOR.BLACK}
                                                     value={postalCode}
                                                     onChangeText={setPostalCode}
@@ -811,42 +813,45 @@ const [loc,setLoc] = useState()
                             </View>
                         ),
                         title: (
-                            <>
+                            <ScrollView showsVerticalScrollIndicator={false}>
                                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
                                     <View />
-                                    <TouchableOpacity onPress={onUploadPress} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.25, height: 40, borderRadius: 20, flexDirection: 'row', gap: 5 }}>
+                                    <TouchableOpacity onPress={onUploadPress} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.25, height: 40, borderRadius: 20, flexDirection: 'row', gap: 5, marginBottom: 15 }}>
                                         <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Add Media</Text>
                                         <FastImage source={Media} style={{ height: 20, width: 20 }} />
                                     </TouchableOpacity>
                                 </View>
-                                {imageUri.length > 0 ? (
-                                    <FlatList
-                                        data={imageUri}
-                                        renderItem={({ item }) => {
-                                            return <Image source={{ uri: item }} style={styles.image} />
-                                        }}
-                                        keyExtractor={({ item, index }) => index}
-                                        numColumns={3}
-                                    />
+                                {coverImageUri && (
+                                    <View style={{ marginHorizontal: 5, marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '600', marginBottom: 10 }}>Cover Image</Text>
 
-                                ) : (
-                                    <Text style={styles.ImageText}>No Image selected</Text>
+                                        <Image source={{ uri: coverImageUri }} style={{ width: Screen_Width * 0.28, height: Screen_Height * 0.13, borderRadius: 10 }} />
+
+
+                                    </View>
                                 )}
-                                <FlatList
-                                    data={Servicesdata3}
-                                    showsVerticalScrollIndicator={false}
-                                    numColumns={3}
-                                    keyExtractor={item => item.id}
-                                    renderItem={({ item }) => (
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10, marginVertical: 10 }}>
-                                            <Image source={item.image} style={{ width: Screen_Width * 0.28, height: Screen_Height * 0.13, borderRadius: 10 }} />
-                                        </View>
-                                    )}
-                                />
-                                {/* <TouchableOpacity style={styles.button}>
-                                    <Text style={styles.buttonText}>Get Started</Text>
-                                </TouchableOpacity> */}
-                            </>
+                                {galleryImageUris.length > 0 ? (
+                                    <View style={{ marginHorizontal: 5, marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>
+
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '600' }}>Gallery</Text>
+
+                                        <FlatList
+                                            data={galleryImageUris}
+                                            renderItem={({ item }) => (
+                                                <View style={{ marginHorizontal: 5, marginVertical: 10 }}>
+
+                                                    <Image source={{ uri: item }} style={{ width: Screen_Width * 0.28, height: Screen_Height * 0.13, borderRadius: 10 }} />
+                                                </View>
+                                            )}
+                                            keyExtractor={(item, index) => index.toString()}
+                                            numColumns={3}
+                                        />
+                                    </View>
+                                ) : (
+                                    <Text style={styles.ImageText}>No Images selected.{'\n'} You can select up to 7 images, 1 for cover image and 6 for gallery</Text>
+                                )}
+                                <View style={{ height: Screen_Height * 0.2 }} />
+                            </ScrollView>
                         ),
                     },
                     {

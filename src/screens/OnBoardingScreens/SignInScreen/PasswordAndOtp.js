@@ -1,5 +1,5 @@
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
@@ -14,6 +14,7 @@ import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationScreens } from '../../../constants/Strings';
+import { StoreAuthToken } from '../../../constants/AsyncStorage';
 const PasswordAndOtp = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -24,7 +25,10 @@ const PasswordAndOtp = ({ route }) => {
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
     const [otp, setOtp] = useState('');
-    const [sessionId, setSessionId] = useState()
+    const [timer, setTimer] = useState(0);
+    const [sessionId, setSessionId] = useState('');
+    const [otpRequested, setOtpRequested] = useState(false);
+
     const handleOtpChange = (newOtp) => {
         setOtp(newOtp);
     };
@@ -51,18 +55,20 @@ const PasswordAndOtp = ({ route }) => {
     };
 
     const { email } = route.params;
-    console.log("===============>>>", email);
-    console.log("========  otp =======>>>", otp);
+    // console.log("===============>>>", email);
+    // console.log("========  otp =======>>>", otp);
+
     const getOTP = async () => {
         try {
             const res = await axios.post(`${BASE_API_URL}/users/otpsend`, { email: email });
             console.log("Response data:", res.data);
 
             if (res.data) {
-                await AsyncStorage.setItem("AuthToken", res.data.data.token.toString());
                 await AsyncStorage.setItem("Session_Id", res.data.data.sessionId.toString());
-                setSessionId(res.data.data.sessionId)
-                Alert.alert('Otp Sent Successfully')
+                setSessionId(res.data.data.sessionId);
+                setTimer(60); // Reset the timer
+                setOtpRequested(true); // Set OTP requested to true
+                Alert.alert('Otp Sent Successfully');
             }
         } catch (error) {
             console.error("Error:", error);
@@ -70,17 +76,42 @@ const PasswordAndOtp = ({ route }) => {
     };
     const handleSignIn = async () => {
         try {
-            const res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId, password: password });
+            let res;
+            if (otp) {
+
+                res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId});
+            } else {
+
+                res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, { email: email, password: password });
+            }
             console.log("Response data ======:", res.data.data);
 
             if (res.data) {
                 Alert.alert('Sign In  Successfully')
+                // await AsyncStorage.setItem("Auth", res.data.data.sessionId.toString());
+await StoreAuthToken( res.data.data.token)
                 navigation.navigate(NavigationScreens.HomeTab);
 
             }
         } catch (error) {
             console.error("Error:", error);
         }
+    };
+
+
+    useEffect(() => {
+        if (timer > 0) {
+            const interval = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [timer]);
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     };
 
     const styles = StyleSheet.create({
@@ -154,8 +185,11 @@ const PasswordAndOtp = ({ route }) => {
                         <Text style={{ color: COLOR.BLACK, fontSize: 20 }}>OR</Text>
                         <View style={{ height: 1, backgroundColor: COLOR.BLACK, width: Screen_Width * 0.3 }} />
                     </View>
-                    <View style={{ marginVertical: 15 }}>
-                        <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter Otp</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: Screen_Width * 0.9 }}>
+                            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter Otp</Text>
+                            <Text style={{ color: COLOR.GRAY, fontSize: 16, marginLeft: 10 }}>{formatTime(timer)}</Text>
+                        </View>
 
                         <OtpTextInput
                             handleTextChange={handleOtpChange}
@@ -166,17 +200,20 @@ const PasswordAndOtp = ({ route }) => {
                             textInputStyle={styles.otpInput}
                             inputCount={6}
                         />
-                        <TouchableOpacity onPress={handleOtpSubmit} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
-                            <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Get OTP</Text>
+                        <TouchableOpacity
+                            onPress={handleOtpSubmit}
+                            style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, width: Screen_Width * 0.9, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}
+                            disabled={timer > 0}
+                        >
+                            <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
+                                {otpRequested ? (timer === 0 ? 'Resend OTP' : 'Get OTP') : 'Get OTP'}
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    {/* <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
-                        <Fontisto name={rememberMe ? "checkbox-active" : "checkbox-passive"} size={24} color={COLOR.ORANGECOLOR} style={styles.icon} />
-                        <Text style={{ marginLeft: 10, color: COLOR.BLACK }}>Remember me</Text>
-                    </TouchableOpacity> */}
-                    {sessionId && <TouchableOpacity onPress={handleSignIn} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+
+                    <TouchableOpacity onPress={handleSignIn} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
                         <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
-                    </TouchableOpacity>}
+                    </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
                         <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, fontWeight: '500', textAlign: 'center' }}>Forgot the password?</Text>
