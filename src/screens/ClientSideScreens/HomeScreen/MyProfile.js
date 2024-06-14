@@ -110,9 +110,6 @@ const MyProfile = () => {
     <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
-          <View style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 30 }}>F</Text>
-          </View>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Profile</Text>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ClientSettingScreen)}>

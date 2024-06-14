@@ -123,7 +123,6 @@ const Explore = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
   const fetchData = async () => {
     try {
       const token = await AsyncStorage.getItem("AuthToken");
@@ -249,7 +248,6 @@ const Explore = () => {
   });
   return (
     <>
-
       <View style={{ borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, marginHorizontal: 10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK, position: 'absolute', top: 10, zIndex: 1000 }}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>Where do we meet?</Text>
         <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
@@ -262,8 +260,8 @@ const Explore = () => {
         </View>
       </View>
 
-      <View style={{ backgroundColor: COLOR.WHITE, borderRadius: 25, elevation: 2, shadowColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.92, marginHorizontal: 15, position: 'absolute', top: 140, zIndex: 1000 }}>
-        <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.80, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
+      <View style={{  borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 5, paddingVertical: 10, elevation: 2, shadowColor: COLOR.BLACK,position: 'absolute', top: 140, zIndex: 1000 }}>
+        <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.84,marginHorizontal:10, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
             <AntDesign name="search1" size={30} color={COLOR.GRAY} />
             <TextInput
@@ -278,7 +276,6 @@ const Explore = () => {
           </View>
           <TouchableOpacity onPress={openBottomSheet2}>
             <FastImage source={Filter} style={{ height: 20, width: 20 }} />
-
           </TouchableOpacity>
         </View>
       </View>
