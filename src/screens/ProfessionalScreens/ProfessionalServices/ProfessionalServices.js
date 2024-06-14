@@ -31,10 +31,13 @@ const [Services, setServices] = useState('View services');
           style={{
             backgroundColor: COLOR.WHITE,
             marginTop: 10,
-            width: Screen_Width * 0.92,
+            width: Screen_Width * 0.9,
+            elevation:3,
+            shadowColor:COLOR.BLACK,
             height: Screen_Height * 0.14,
             alignItems: 'center',
             paddingHorizontal: 20,
+            marginHorizontal:2,
             borderRadius: 10,
             flexDirection: 'row',
           }}>
@@ -52,7 +55,6 @@ const [Services, setServices] = useState('View services');
                 color: COLOR.BLACK,
                 fontSize: 16,
                 fontWeight: '600',
-                paddingRight: 10,
               }}>
               {item.name}
             </Text>
@@ -81,9 +83,6 @@ const [Services, setServices] = useState('View services');
                 }}>
                 {item.price}
               </Text>
-              {/* <TouchableOpacity style={{  height:50, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center' }} onPress={()=>navigation.navigate('Edit ProfileAppointment Screen')}>
-                <Text style={{ textAlign: 'center', fontSize: 14, color: COLOR.WHITE }}>Edit Profile Now</Text>
-              </TouchableOpacity> */}
             </View>
           </View>
         </TouchableOpacity>
@@ -91,22 +90,15 @@ const [Services, setServices] = useState('View services');
       return (
         <View style={styles.content}>
           <View>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-              }}>
               <Text
                 style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>
                 Services
               </Text>
-              {/* <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('Ourpackages Screen')}>See All</Text> */}
-            </View>
             <View
               style={{
-                borderBottomWidth: 1,
-                borderBottomColor: COLOR.BLACK_30,
-                width: Screen_Width * 0.95,
+                
+               backgroundColor:COLOR.BLACK_30,height:1,
+                width: Screen_Width * 0.9,
                 marginVertical: 10,
               }}
             />
@@ -116,7 +108,7 @@ const [Services, setServices] = useState('View services');
               keyExtractor={item => item.id}
               renderItem={renderitem}
             />
-            <RBSheet
+             <RBSheet
               ref={ref => (refRBSheet.current[0] = ref)}
               height={Screen_Height * 0.4}
               customStyles={{
@@ -296,6 +288,7 @@ const [Services, setServices] = useState('View services');
               </View>
             </RBSheet>
           </View>
+
         </View>
       );
     }
@@ -309,10 +302,10 @@ const [Services, setServices] = useState('View services');
     },
 
     content: {
-      flex: 1,
+      height:Screen_Height,
       justifyContent: 'center',
       alignItems: 'center',
-      width: '100%',
+      marginTop:30,
     },
     title: {
       fontSize: 24,
@@ -372,9 +365,7 @@ const [Services, setServices] = useState('View services');
         renderItem={renderitem2}
       />
       {renderContent()}
-      {/* <TouchableOpacity onPress={()=>navigation.navigate('BookAppointment Screen')} style={{ width: Screen_Width * 0.80, height: Screen_Height * 0.05, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center',marginTop:5}}>
-        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
-      </TouchableOpacity> */}
+      
     </ScrollView>
   )
 }

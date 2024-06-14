@@ -40,7 +40,8 @@ const Home = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [activeTab, setActiveTab] = useState('Delivery');
-
+  const [isLocationNameFocused, setIsLocationNameFocused] = useState(false);
+  const [locationName, setLocationName] = useState('mumbai');
 
   const currentHour = new Date().getHours();
   let greeting;
@@ -53,15 +54,33 @@ const Home = () => {
     greeting = 'Good Evening';
   }
 
+  const styles = StyleSheet.create({
+    input: {
+      marginLeft: 5,
+      color: COLOR.BLACK,
+      width:100,
+      fontSize:16,
+      height:38,
+    },
+  });
+
+
   return (
     <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
       <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View>
             <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>{greeting}, Manav</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
               <Entypo name="location-pin" size={15} color={COLOR.BLACK} />
-              <Text style={{ color: COLOR.BLACK }}>Mumbai</Text>
+              <TextInput
+              style={[styles.input,{color:COLOR.BLACK}]}
+              placeholderTextColor={COLOR.BLACK}
+              onFocus={() => setIsLocationNameFocused(true)}
+              onBlur={() => setIsLocationNameFocused(false)}
+              value={locationName}
+              onChangeText={text => setLocationName(text)}
+            />
             </View>
           </View>
         </View>
@@ -154,4 +173,3 @@ const Home = () => {
 
 export default Home
 
-const styles = StyleSheet.create({})
