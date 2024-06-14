@@ -79,7 +79,7 @@ const PasswordAndOtp = ({ route }) => {
             let res;
             if (otp) {
 
-                res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId});
+                res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId });
             } else {
 
                 res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, { email: email, password: password });
@@ -89,7 +89,7 @@ const PasswordAndOtp = ({ route }) => {
             if (res.data) {
                 Alert.alert('Sign In  Successfully')
                 // await AsyncStorage.setItem("Auth", res.data.data.sessionId.toString());
-await StoreAuthToken( res.data.data.token)
+                await StoreAuthToken(res.data.data.token)
                 navigation.navigate(NavigationScreens.HomeTab);
 
             }
@@ -154,15 +154,17 @@ await StoreAuthToken( res.data.data.token)
         },
     });
     return (
-        <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width, backgroundColor: COLOR.WHITE }}>
-            <View style={{ margin: 20 }}>
+        <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width, backgroundColor: COLOR.WHITE,paddingHorizontal:15 }}>
+            
+            <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 10 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 40, color: COLOR.BLACK, fontWeight: '500', marginVertical: '10%' }}>Login to your Account</Text>
+                <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Login to your Account</Text>
+            </View>
 
                 {/* Email Input */}
-                <View style={{ marginTop: Screen_Height * 0.1 }}>
+                <View style={{ height:Screen_Height*0.86,justifyContent:'center' }}>
                     {/* Password Input */}
                     <View style={styles.inputContainer}>
                         <AntDesign name="lock" size={24} color={COLOR.BLACK} style={styles.icon} />
@@ -180,6 +182,10 @@ await StoreAuthToken( res.data.data.token)
                             <Entypo name={showPassword ? "eye-with-line" : "eye"} size={24} color={COLOR.BLACK} style={styles.icon} />
                         </TouchableOpacity>
                     </View>
+                    <TouchableOpacity onPress={handleSignIn} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
+                    </TouchableOpacity>
+
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
                         <View style={{ height: 1, backgroundColor: COLOR.BLACK, width: Screen_Width * 0.3 }} />
                         <Text style={{ color: COLOR.BLACK, fontSize: 20 }}>OR</Text>
@@ -202,17 +208,18 @@ await StoreAuthToken( res.data.data.token)
                         />
                         <TouchableOpacity
                             onPress={handleOtpSubmit}
-                            style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, width: Screen_Width * 0.9, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}
+                            style={{alignSelf:'flex-end',marginVertical:15,paddingHorizontal:5,height:25,backgroundColor:COLOR.ORANGECOLOR,borderRadius:5}}
                             disabled={timer > 0}
                         >
                             <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
                                 {otpRequested ? (timer === 0 ? 'Resend OTP' : 'Get OTP') : 'Get OTP'}
                             </Text>
+                            <View/>
                         </TouchableOpacity>
                     </View>
 
                     <TouchableOpacity onPress={handleSignIn} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
-                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign in</Text>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Verify OTP</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>
@@ -224,7 +231,6 @@ await StoreAuthToken( res.data.data.token)
                         <TouchableOpacity onPress={() => navigation.navigate('Sign Up Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>Sign up</Text></TouchableOpacity>
                     </View>
                 </View>
-            </View>
 
         </ScrollView>
     );

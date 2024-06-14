@@ -111,6 +111,8 @@ const EmailVerificationScreen = ({ route }) => {
     }
   };
 
+  
+
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
@@ -155,17 +157,18 @@ const EmailVerificationScreen = ({ route }) => {
           />
           <TouchableOpacity
             onPress={handleOtpSubmit}
-            style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 15, width: Screen_Width * 0.8, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}
+            style={{ alignSelf: 'flex-end', marginVertical: 15, paddingHorizontal: 5, height: 25, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 5 }}
             disabled={timer > 0}
           >
             <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
               {otpRequested ? (timer === 0 ? 'Resend OTP' : 'Get OTP') : 'Get OTP'}
             </Text>
+            <View />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={handleSignIn}
-          style={{ marginBottom: 10, height: 50, borderRadius: 15, justifyContent: 'center', alignItems: 'center', marginVertical: 15, backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.8 }}
+          style={{ marginBottom: 10, height: 50, borderRadius: 35, justifyContent: 'center', alignItems: 'center', marginVertical: 15, backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.8 }}
         >
           <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Verify Email</Text>
         </TouchableOpacity>

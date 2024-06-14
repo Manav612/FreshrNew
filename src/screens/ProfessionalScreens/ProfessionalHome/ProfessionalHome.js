@@ -159,6 +159,7 @@ const ProfessionalHome = () => {
             alignItems: 'center',
             backgroundColor: COLOR.WHITE,
             elevation: 2,
+            marginHorizontal:2,
             shadowColor: COLOR.BLACK,
             borderRadius: 20,
             height: Screen_Height * 0.48,

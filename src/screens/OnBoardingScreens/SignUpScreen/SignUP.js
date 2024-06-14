@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
@@ -46,13 +46,13 @@ const SignUP = () => {
   const [pushToken, setPushToken] = useState('test');
   const [isFocus, setIsFocus] = useState(false);
 
-const [errorMsg,setErrorMessage] =useState('')
+  const [errorMsg, setErrorMessage] = useState('')
 
 
   const handleEmailChange = (text) => {
     setEmail(text);
     setEmailError('');
-    
+
   };
 
   const handlePasswordChange = (text) => {
@@ -132,7 +132,7 @@ const [errorMsg,setErrorMessage] =useState('')
       console.log("RESSSS--MMMM", res.data.data);
       console.log("=================>");
       if (res.data) {
-          navigation.navigate(NavigationScreens.EmailVerificationScreen,{email: email});
+        navigation.navigate(NavigationScreens.EmailVerificationScreen, { email: email });
       }
     } catch (error) {
       console.log("error", error);
@@ -140,13 +140,13 @@ const [errorMsg,setErrorMessage] =useState('')
     }
   };
 
-  
+
 
   const handleSignUp = () => {
     const isEmailValid = validateEmail();
     const arePasswordsValid = validatePasswords();
     if (isEmailValid && arePasswordsValid) {
-      fetchData(firstName,lastName, email, password, passwordConfirm,searchStylesFor,phone,pushToken);
+      fetchData(firstName, lastName, email, password, passwordConfirm, searchStylesFor, phone, pushToken);
     }
   };
 
@@ -299,20 +299,21 @@ const [errorMsg,setErrorMessage] =useState('')
   });
 
   return (
-    <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width }}>
-      <View style={{ margin: 20 }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
-        </TouchableOpacity>
-        <Text style={{ fontSize: 40, color: COLOR.BLACK, fontWeight: '500', marginVertical: '10%' }}>Create your Account</Text>
-
-        <View>
-        <View style={styles.inputContainer}>
-        <AntDesign name="user" size={22} color={COLOR.BLACK} style={styles.icon} />
+    <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
+      <View style={{}}>
+        <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: 'center',marginVertical:10 }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
+          </TouchableOpacity>
+          <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Create your Account</Text>
+        </View>
+        <View style={{marginTop:15}}>
+          <View style={styles.inputContainer}>
+            <AntDesign name="user" size={22} color={COLOR.BLACK} style={styles.icon} />
 
 
             <TextInput
-              style={[styles.input,{color:COLOR.BLACK}]}
+              style={[styles.input, { color: COLOR.BLACK }]}
               placeholderTextColor={COLOR.BLACK}
               placeholder="First Name"
               onFocus={() => setIsFirstNameFocused(true)}
@@ -322,11 +323,11 @@ const [errorMsg,setErrorMessage] =useState('')
             />
           </View>
           <View style={styles.inputContainer}>
-          <AntDesign name="user" size={22} color={COLOR.BLACK} style={styles.icon} />
+            <AntDesign name="user" size={22} color={COLOR.BLACK} style={styles.icon} />
 
             <TextInput
-            style={[styles.input]}
-            placeholderTextColor={COLOR.BLACK}
+              style={[styles.input]}
+              placeholderTextColor={COLOR.BLACK}
               placeholder="Last Name"
               onFocus={() => setIsLastNameFocused(true)}
               onBlur={() => setIsLastNameFocused(false)}
@@ -450,7 +451,7 @@ const [errorMsg,setErrorMessage] =useState('')
 
 
 
-          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ alignSelf: 'center', color: COLOR.BLACK }}>Already have an account? </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Sign In Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>Sign in</Text></TouchableOpacity>
           </View>

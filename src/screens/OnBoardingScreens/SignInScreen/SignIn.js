@@ -34,7 +34,7 @@ const SignIn = () => {
             console.log("Response data:", res.data.data);
 
             if (res.data) {
-                navigation.navigate(NavigationScreens.PasswordAndOtpScreen,{email:email});
+                navigation.navigate(NavigationScreens.PasswordAndOtpScreen, { email: email });
 
             }
         } catch (error) {
@@ -69,35 +69,37 @@ const SignIn = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width }}>
-            <View style={{ margin: 20 }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width,paddingHorizontal:15 }}>
+
+
+            <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 10 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 40, color: COLOR.BLACK, fontWeight: '500', marginVertical: '10%' }}>Login to your Account</Text>
-
-                {/* Email Input */}
-                <View style={{ marginTop: Screen_Height * 0.15 }}>
-                    <View style={styles.inputContainer}>
-                        <AntDesign name="mail" size={24} color={COLOR.BLACK} style={styles.icon} />
-                        <TextInput
-                            style={[styles.input]}
-                            placeholder="Email"
-                            placeholderTextColor={COLOR.BLACK}
-                            keyboardType="email-address"
-                            value={email}
-                            onChangeText={handleEmailChange}
-                            onFocus={handleEmailFocus}
-                            onBlur={handleEmailBlur}
-                        />
-                    </View>
-
-                    <TouchableOpacity onPress={handleContinuePress} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
-                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Continue</Text>
-                    </TouchableOpacity>
-                </View>
+                <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Login to your Account</Text>
             </View>
-        </ScrollView>
+
+            {/* Email Input */}
+            <View style={{height:Screen_Height*0.87,justifyContent:'center' }}>
+                <View style={styles.inputContainer}>
+                    <AntDesign name="mail" size={24} color={COLOR.BLACK} style={styles.icon} />
+                    <TextInput
+                        style={[styles.input]}
+                        placeholder="Email"
+                        placeholderTextColor={COLOR.BLACK}
+                        keyboardType="email-address"
+                        value={email}
+                        onChangeText={handleEmailChange}
+                        onFocus={handleEmailFocus}
+                        onBlur={handleEmailBlur}
+                    />
+                </View>
+
+                <TouchableOpacity onPress={handleContinuePress} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+                    <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Continue</Text>
+                </TouchableOpacity>
+            </View>
+        </ScrollView >
     );
 };
 
