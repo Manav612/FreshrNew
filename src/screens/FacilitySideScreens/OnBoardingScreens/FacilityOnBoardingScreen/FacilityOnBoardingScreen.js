@@ -710,7 +710,6 @@ const FacilityOnBoardingScreen = () => {
                                                 <TextInput
                                                     style={[styles.halfInput]}
                                                     placeholder="Postal code"
-                                                    keyboardType='number-pad'
                                                     placeholderTextColor={COLOR.BLACK}
                                                     value={postalCode}
                                                     onChangeText={setPostalCode}

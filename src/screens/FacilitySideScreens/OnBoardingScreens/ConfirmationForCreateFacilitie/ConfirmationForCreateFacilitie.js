@@ -14,6 +14,7 @@ import ShopTime from '../../../../components/ShopTime';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../../Services';
 import axios from 'axios';
+import mime from 'mime';
 
 const ConfirmationForCreateFacilitie = () => {
 
@@ -85,14 +86,14 @@ const ConfirmationForCreateFacilitie = () => {
         },
     });
 
-    const formData = {
+    let formData = {
         timing: facilityData.timeData,
         name: facilityData.facilityName,
         region: 'abc',
         country: facilityData.country,
         street: facilityData.street,
         city: facilityData.city,
-        coords: [facilityData.rState.region.latitude,facilityData.rState.region.longitude],
+        coords: [facilityData.rState.region.latitude, facilityData.rState.region.longitude],
         address: facilityData.address,
         postcode: facilityData.postalCode,
         description: facilityData.description,
@@ -112,6 +113,11 @@ const ConfirmationForCreateFacilitie = () => {
                     'Authorization': `Bearer ${token}`
                 }
             };
+            const gallery = formData.gallery.map((data) => {
+                return geneateFile(data);
+            })
+            formData['gallery'] = gallery;
+            console.log(formData['gallery'])
 
             const res = await axios.post(`${BASE_API_URL}/hosts/host/facilities`, formData, config)
             console.log("Response --------------------- data:", res.data);
@@ -124,6 +130,19 @@ const ConfirmationForCreateFacilitie = () => {
             console.error("Error:", error);
         }
     };
+
+    const geneateFile = (img) => {
+        const uri = img;
+        const filename = img.split("/").pop();
+        const match = /\.(\w+)$/.exec(filename);
+        const ext = match?.[1];
+        const file = {
+            uri,
+            name: `image.${ext}`,
+            type: mime.getType(uri)
+        };
+        return file;
+    }
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, paddingVertical: 10, backgroundColor: COLOR.WHITE }}>
