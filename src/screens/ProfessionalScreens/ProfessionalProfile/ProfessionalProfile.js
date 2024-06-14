@@ -391,7 +391,7 @@ const ProfessionalProfile = ({ name }) => {
     },
   });
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height,backgroundColor:COLOR.WHITE }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height }}>
       <View style={{ height: 330 }}>
         <ImageBackground
           source={barber}

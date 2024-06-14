@@ -119,6 +119,7 @@ const ProfessionalHome = () => {
         overviewRow: {
             flexDirection: 'row',
             justifyContent: 'space-between',
+            marginVertical:10
         },
         overviewBox: {
             width: '48%',
