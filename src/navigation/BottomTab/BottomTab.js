@@ -35,6 +35,7 @@ import OurProfessionalDetails from '../../components/OrderComponents/OurProfessi
 import PaymentMethod from '../../components/OrderComponents/PaymentScreen/PaymentMethod';
 import BookingHoursScreen from '../../components/OrderComponents/BookAppointment/BookingHoursScreen';
 import ClientSettingScreen from '../../components/ClientSideComponents/ClientSettingScreen';
+import ProfessionalInfo from '../../screens/ClientSideScreens/HomeScreen/ProfessionalInfo';
 
 
 
@@ -59,6 +60,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.ClientSettingScreen} component={ClientSettingScreen} />
 
             <Stack.Screen name={NavigationScreens.OurProfessionalDetailsScreen} component={OurProfessionalDetails} />
+            <Stack.Screen name={NavigationScreens.ProfessionalInfoScreen} component={ProfessionalInfo} />
 
 
 

@@ -16,6 +16,7 @@ import GalleryScreen from '../components/SalonDetailScreen/GalleryScreen';
 import ReviewScreen from '../components/SalonDetailScreen/ReviewScreen';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import { NavigationScreens } from '../constants/Strings';
 
 const Booking = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -46,7 +47,7 @@ const Booking = ({ route }) => {
 
     const renderItem3 = ({ item }) => (
         <View style={{ alignItems: 'center', marginTop: 10 }}>
-            <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.18, borderRadius: 25, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen,{facilitiesData:facilitiesData})} style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.18, borderRadius: 25, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
                 <Image source={item.image} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
                 <View style={{ alignItems: 'center' }}>
                     <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.title}</Text>
