@@ -112,9 +112,9 @@ const MyProfile = () => {
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Profile</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ClientSettingScreen)}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ClientSettingScreen)}>
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={{ alignItems: 'center',flexDirection:'row',gap:20,marginVertical:5 }}>
         <View
