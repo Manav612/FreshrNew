@@ -24,6 +24,7 @@ import ProfessionalSettingScreen from '../../components/ProfessionalComponents/P
 import ProfessionalViewServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalViewInnerServices';
 import ProfessionalInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalInnerServices';
 import ProfessionalViewInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalViewInnerServices';
+import ProfessionalProfile2 from '../../screens/ProfessionalScreens/ProfessionalProfile2/ProfessionalProfile2';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -37,6 +38,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.TransactionHistoryScreen} component={TransactionHistoryScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
            
         </Stack.Navigator>
     );
@@ -52,6 +54,8 @@ const ServicesStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalInnerServicesScreen} component={ProfessionalInnerServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewInnerServicesScreen} component={ProfessionalViewInnerServices} />
+            <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+
 
         </Stack.Navigator>
     );
@@ -70,6 +74,8 @@ const MyBookingStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
+            <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+
 
 
 

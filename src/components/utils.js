@@ -585,8 +585,44 @@ export const AllCategoryData1=[
     },
     {
       id:6,
+      icon:(<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Tutorial',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:7,
+      icon:(<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Suppoart',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:8,
+      icon:(<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Feedback',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:9,
+      icon:( <Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Terms of Service',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:10,
+      icon:(<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Account Deletion',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:11,
       icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name:'Switch to Client',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:12,
+      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Become to Host',
       icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
    ];

@@ -9,6 +9,7 @@ import { Servicesdata, Servicesdata2 } from '../../../components/utils';
 import { ClockUserIcon } from '../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const ProfessionalServices = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -344,16 +345,16 @@ const [Services, setServices] = useState('View services');
     <ScrollView  style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE }}>
        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 30 }}>F</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Services</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
           <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+          <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
           </TouchableOpacity>
         </View>

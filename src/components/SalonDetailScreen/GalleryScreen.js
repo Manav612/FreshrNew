@@ -8,8 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
 const GalleryScreen = ({facilitiesData}) => {
-    // console.log("========  facilitiesData  ============>", facilitiesData);
-    const galleryImages = facilitiesData.gallery;
+    console.log("========  facilitiesData  ============>", facilitiesData);
+    const galleryImages = facilitiesData?.gallery;
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
 const navigation = useNavigation()
