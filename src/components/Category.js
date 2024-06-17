@@ -35,7 +35,7 @@ const Category = () => {
         }
       };
       const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities`, config);
-      console.log('==================.........', res.data.facilities.facility)
+      // console.log('==================.........', res.data.facilities.facility)
       setFetchedData(res.data.facilities.facility);
     } catch (error) {
       console.error("Error:", error);
@@ -101,7 +101,7 @@ const Category = () => {
 
   const Card = ({ item }) => (
     <View style={styles.CardContainer}>
-      <TouchableOpacity  style={{width:Screen_Width*0.85, flexDirection: 'row', alignItems: 'center',justifyContent:'space-between' }} onPress={() => navigation.navigate('Booking')}>
+      <TouchableOpacity  style={{width:Screen_Width*0.85, flexDirection: 'row', alignItems: 'center',justifyContent:'space-between' }} onPress={() => navigation.navigate('Booking',{facilitiesData:item})}>
        
           <FastImage style={styles.CardImage} source={{uri:item?.coverImage}} />
           <View style={styles.CardContain}>

@@ -294,14 +294,14 @@ export const AllCategoryData1=[
       id:1,
       name:'About Us',
     },
-    {
-      id:2,
-      name:'Services',
-    },
-    {
-      id:3,
-      name:'Package',
-    },
+    // {
+    //   id:2,
+    //   name:'Services',
+    // },
+    // {
+    //   id:3,
+    //   name:'Package',
+    // },
     {
       id:4,
       name:'Gallery',

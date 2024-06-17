@@ -8,7 +8,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { Screen_Height, Screen_Width } from '../constants/Constants';
-import { AllCategory, AllCategoryData, Socialicons, Professional, barberData, data, data2 } from '../components/utils';
+import { AllCategory, AllCategoryData, Socialicons, Professional, barberData, data, data2, ProfileData } from '../components/utils';
 import AboutUsScreen from '../components/SalonDetailScreen/AboutUsScreen';
 import ServicesScreen from '../components/SalonDetailScreen/ServicesScreen';
 import PackageScreen from '../components/SalonDetailScreen/PackageScreen';
@@ -17,58 +17,32 @@ import ReviewScreen from '../components/SalonDetailScreen/ReviewScreen';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
-const Booking = () => {
+const Booking = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [selectedItem, setSelectedItem] = useState('About Us');
     const [isOpen, setIsOpen] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const flatListRef = useRef(null);
     const navigation = useNavigation()
+    const { facilitiesData } = route.params
+    // console.log("========  facilitiesData  ============>", facilitiesData);
+    const galleryImages = facilitiesData.gallery;
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            let nextIndex = activeIndex + 1;
-            if (nextIndex >= barberData.length) {
-                nextIndex = 0;
+        const interval = setInterval(() => {
+            if (currentPage < galleryImages.length - 1) {
+                flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
+                setCurrentPage(currentPage + 1);
+            } else {
+                flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+                setCurrentPage(0);
             }
-            scrollToIndex(nextIndex);
         }, 2000);
 
-        return () => clearInterval(timer);
-    }, [activeIndex]);
+        return () => clearInterval(interval);
+    }, [currentPage, galleryImages.length]);
 
-    const scrollToIndex = (index) => {
-        setActiveIndex(index);
-        flatListRef.current.scrollToIndex({ index: index });
-    };
-
-    const renderItem = ({ item }) => (
-        <ImageBackground source={item.image} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
-                <TouchableOpacity onPress={() => { handleScroll(-1), navigation.goBack() }}>
-                    <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleScroll(1)}>
-                <MaterialCommunityIcons
-                                                name="bookmark-outline"
-                                                size={25}
-                                                color={COLOR.WHITE}
-                                            />
-                </TouchableOpacity>
-            </View>
-            {renderPaginationDots()}
-        </ImageBackground>
-    );
-
-    const renderItem2 = ({ item }) => (
-        <View style={{ alignItems: 'center', marginTop: 10 }}>
-            <TouchableOpacity style={{ backgroundColor: COLOR.ORANGE_80, width: Screen_Width * 0.16, height: Screen_Height * 0.07, borderRadius: 99, marginHorizontal: 5, justifyContent: 'center', alignItems: 'center' }}>
-                <Image source={item.icon} style={{ width: 30, height: 30 }} />
-            </TouchableOpacity>
-            <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.name}</Text>
-        </View>
-    );
 
     const renderItem3 = ({ item }) => (
         <View style={{ alignItems: 'center', marginTop: 10 }}>
@@ -83,38 +57,6 @@ const Booking = () => {
         </View>
     );
 
-
-
-
-    const renderPaginationDots = () => {
-        return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute',
-                    bottom: 10,
-                    left: 0,
-                    right: 0
-                }}
-            >
-                {barberData.map((_, index) => (
-                    <View key={index} style={[styles.dot, activeIndex === index && styles.activeDot]} />
-                ))}
-            </View>
-        );
-    };
-
-    const handleScroll = (direction) => {
-        let nextIndex = activeIndex + direction;
-        if (nextIndex < 0) {
-            nextIndex = data.length - 1;
-        } else if (nextIndex >= data.length) {
-            nextIndex = 0;
-        }
-        scrollToIndex(nextIndex);
-    };
     const AllCategory = ({ item, setSelectedItem }) => (
         <TouchableOpacity
             style={[
@@ -139,15 +81,15 @@ const Booking = () => {
     const renderScreen = () => {
         switch (selectedItem) {
             case 'About Us':
-                return <AboutUsScreen />;
-            case 'Services':
-                return <ServicesScreen />;
-            case 'Package':
-                return <PackageScreen />;
+                return <AboutUsScreen facilitiesData={facilitiesData}  />;
+            // case 'Services':
+            //     return <ServicesScreen facilitiesData={facilitiesData}  />;
+            // case 'Package':
+            //     return <PackageScreen facilitiesData={facilitiesData}  />;
             case 'Gallery':
-                return <GalleryScreen />;
+                return <GalleryScreen facilitiesData={facilitiesData}  />;
             case 'Review':
-                return <ReviewScreen />;
+                return <ReviewScreen facilitiesData={facilitiesData}  />;
             default:
                 return null;
         }
@@ -230,25 +172,56 @@ const Booking = () => {
         },
     });
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
-            <FlatList
-                data={barberData}
-                ref={flatListRef}
-                renderItem={renderItem}
-                style={{ width: Screen_Width }}
-                keyExtractor={item => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled
-                onScroll={(event) => {
-                    const index = Math.round(event.nativeEvent.contentOffset.x / Screen_Width);
-                    setActiveIndex(index);
-                }}
-            />
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
+            <View style={{ borderRadius: 15 }}>
+                <FlatList
+                    ref={flatListRef}
+                    data={galleryImages}
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    onMomentumScrollEnd={(event) => {
+                        const offset = event.nativeEvent.contentOffset.x;
+                        const index = Math.floor(offset / Screen_Width);
+                        setCurrentPage(index);
+                    }}
+                    renderItem={({ item }) => (
+                        <ImageBackground source={{ uri: item }} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
+                                <TouchableOpacity onPress={() => navigation.goBack()}>
+                                    <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <MaterialCommunityIcons
+                                        name="bookmark-outline"
+                                        size={25}
+                                        color={COLOR.WHITE}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </ImageBackground>
+                    )}
+                />
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', bottom: 25, borderRadius: 15 }}>
+                {galleryImages.map((_, index) => (
+                    <View
+                        key={index}
+                        style={{
+                            width: 10,
+                            height: 10,
+                            borderRadius: 5,
+                            backgroundColor: index === currentPage ? COLOR.WHITE : COLOR.ORANGECOLOR,
+                            marginHorizontal: 5,
+                        }}
+                    />
+                ))}
+            </View>
+            
             <View style={{ marginHorizontal: 15 }}>
                 <View style={{ marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Barbarella Inova</Text>
+                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{facilitiesData?.name}</Text>
                         <TouchableOpacity
                             style={{
                                 width: 80,
@@ -264,12 +237,12 @@ const Booking = () => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                   
-                    <View style={{ flexDirection: 'row',justifyContent:'flex-start', alignItems: 'center', marginVertical: 5 }}>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
                         <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
                         <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>4.8(3,279 reviews)</Text>
                     </View>
-                    <TouchableOpacity style={{ flexDirection: 'row',justifyContent:'flex-start', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
 
                         <FastImage source={share} style={{ height: 20, width: 20, marginVertical: 5 }} />
                         <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>Share</Text>
