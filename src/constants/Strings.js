@@ -109,6 +109,7 @@ export const NavigationScreens = {
     FacilityProsaledetailsScreen:'FacilityProsaledetailsScreen',
     FacilityCommissionsplitsScreen:'FacilityCommissionsplitsScreen',
     FacilityNextpayoutScreen:'FacilityNextpayoutScreen',
+    FacilityProfile2Screen:"FacilityProfile2Screen",
     
 }
 

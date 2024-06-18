@@ -73,7 +73,7 @@ const MyProfile = () => {
         }
       };
 
-      const res = await axios.post(`${BASE_API_URL}/users/becomeSpecialist`, {}, config)
+      const res = await axios.post(`${BASE_API_URL}/users/becomeProfessional`, {}, config)
       console.log("Response data:", res.data);
 
       if (res.data) {

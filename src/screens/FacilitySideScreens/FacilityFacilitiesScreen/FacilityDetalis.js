@@ -9,58 +9,23 @@ import ConfirmationForCreateFacilitie from '../OnBoardingScreens/ConfirmationFor
 import { NavigationScreens } from '../../../constants/Strings';
 import { Servicesdata3 } from '../../../components/utils';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+import FastImage from 'react-native-fast-image';
 
 const FacilityDetalis = ({ route }) => {
   const { data } = route.params
-  console.log('=============>', data);
+  console.log('=======        data         ======>', data);
+  const galleryImages = data.gallery;
+  const coverImage = data.coverImage;
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const [street, setStreet] = useState('');
-  const [apartment, setApartment] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [country, setCountry] = useState('');
-  const [seatCount, setSeatCount] = useState(1);
-
-  const [facilityName, setFacilityName] = useState('');
-  const [description, setdescription] = useState('');
-
-  const handleCountPlus = () => {
-    setSeatCount(seatCount + 1)
-  }
-  const handleCountMinus = () => {
-    if (seatCount > 1) {
-      setSeatCount(seatCount - 1);
-    }
-  }
-  const handleStreetChange = (text) => {
-    setStreet(text);
-  };
-  const handleApartmentChange = (text) => {
-    setApartment(text);
-  };
-  const handleCityChange = (text) => {
-    setCity(text);
-  };
-  const handleStateChange = (text) => {
-    setState(text);
-  };
-  const handlePostalCodeChange = (text) => {
-    setPostalCode(text);
-  };
-  const handleCountryChange = (text) => {
-    setCountry(text);
-  };
-  const handleFacilityNameChange = (text) => {
-    setFacilityName(text);
-  };
-  const handleDescriptionChange = (text) => {
-    setdescription(text);
-  };
-
-
+  const coordinates = data?.location?.coordinates;
+  const longitude = coordinates ? coordinates[0] : 'N/A';
+  const latitude = coordinates ? coordinates[1] : 'N/A';
+  const shopTimingArray = Object.keys(data.timing).map((day) => ({
+    day,
+    ...data.timing[day],
+  }));
   const styles = StyleSheet.create({
     inputContainer: {
       flexDirection: 'row',
@@ -71,11 +36,17 @@ const FacilityDetalis = ({ route }) => {
       paddingHorizontal: 5
     },
     input: {
-      backgroundColor: COLOR.AuthField,
-      borderRadius: 15,
-      elevation: 5,
-      shadowColor: COLOR.BLACK,
-      marginVertical: 5
+      height: 50,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          marginHorizontal: 2,
+          marginVertical: 10,
+          backgroundColor: COLOR.AuthField,
+          elevation: 5,
+          shadowColor: COLOR.BLACK,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
     },
     halfInput: {
       backgroundColor: COLOR.AuthField,
@@ -127,267 +98,486 @@ const FacilityDetalis = ({ route }) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />
           </TouchableOpacity>
-          <Text style={styles.HeaderText}>{data.name}</Text>
+          <Text style={styles.HeaderText}>{data?.name}</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-        <TouchableOpacity style={{ height: 50, width: 160, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.FacilityManageSeatScreen)}><Text style={{ size: 20, color: COLOR.WHITE }}>Manage seats</Text></TouchableOpacity>
+        <TouchableOpacity style={{ height: 50, width: 160, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.FacilityManageSeatScreen,{data:data})}><Text style={{ size: 20, color: COLOR.WHITE }}>Manage seats</Text></TouchableOpacity>
         <TouchableOpacity style={{ height: 50, width: 160, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)}><Text style={{ size: 20, color: COLOR.WHITE }}>Edit Facility</Text></TouchableOpacity>
       </View>
 
       {/* location */}
 
-      <View style={{ height: 50, borderRadius: 15, paddingHorizontal: 5, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <View style={{ justifyContent: 'center', alignItems: 'center', height: 25, width: 25, borderWidth: 1, borderRadius: 20 }}>
+      <View
+        style={{
+          height: 50,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          marginHorizontal: 2,
+          marginVertical: 20,
+          backgroundColor: COLOR.AuthField,
+          elevation: 5,
+          shadowColor: COLOR.BLACK,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: 25,
+              width: 25,
+              borderWidth: 1,
+              borderRadius: 20,
+            }}
+          >
             <Text style={{ color: COLOR.BLACK }}>1</Text>
           </View>
           <View>
             <Text style={{ color: COLOR.BLACK }}>Location details</Text>
-            <Text style={{ color: COLOR.BLACK }}>Location of your Facility</Text>
+            <Text style={{ color: COLOR.BLACK }}>
+              Location of your Facility
+            </Text>
           </View>
         </View>
-        <Text style={{ color: COLOR.BLACK }}>Edit</Text>
-
+        {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
       </View>
-
       <View
-        style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View
-          style={{
-            height: 6,
-            width: 6,
-            borderRadius: 50,
-            backgroundColor: COLOR.BLACK,
-          }}></View>
-        <View
-          style={{
-            height: 1,
-            backgroundColor: COLOR.BLACK,
-            width: Screen_Width * 0.88,
-          }}></View>
-        <View
-          style={{
-            height: 6,
-            width: 6,
-            borderRadius: 50,
-            backgroundColor: COLOR.BLACK,
-          }}></View>
+        style={{
+          height: 50,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          marginHorizontal: 2,
+          marginVertical: 20,
+          backgroundColor: COLOR.AuthField,
+          elevation: 5,
+          shadowColor: COLOR.BLACK,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+       
+      <Text style={{ color: 'black', fontSize: 14 }}>
+        Longitude: {longitude}
+      </Text>
+      
+      <Text style={{ color: 'black', fontSize: 14 }}>
+        Latitude: {latitude}
+      </Text>
+    
       </View>
-      <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 10 }}>
-        <View style={{ width: Screen_Width * 0.5 }}>
-          <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Select Location</Text>
-          <Text style={{ color: COLOR.BLACK, fontSize: 10 }}>Please check that your Facility location is shown on Google Maps.</Text>
-        </View>
-        <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.2, height: 40, borderRadius: 20 }}>
-          <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>Find By Map</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ height: 50, borderRadius: 15, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} />
 
       {/* Address */}
-      <View style={{ height: 50, borderRadius: 15, paddingHorizontal: 5, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <View style={{ justifyContent: 'center', alignItems: 'center', height: 25, width: 25, borderWidth: 1, borderRadius: 20 }}>
+      <View
+        style={{
+          height: 50,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          marginHorizontal: 2,
+          marginVertical: 20,
+          backgroundColor: COLOR.AuthField,
+          elevation: 5,
+          shadowColor: COLOR.BLACK,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: 25,
+              width: 25,
+              borderWidth: 1,
+              borderRadius: 20,
+            }}
+          >
             <Text style={{ color: COLOR.BLACK }}>2</Text>
           </View>
           <View>
-            <Text style={{ color: COLOR.BLACK }}>Add Address</Text>
+            <Text style={{ color: COLOR.BLACK }}>Address</Text>
           </View>
         </View>
-        <Text style={{ color: COLOR.BLACK }}>Edit</Text>
-
+        {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
       </View>
 
-
-      <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
         <KeyboardAvoidingView style={{ width: Screen_Width * 0.9 }}>
           <View>
-            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Add Address</Text>
-            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Street</Text>
-            <TextInput
-              style={[styles.input]}
-              placeholder={street}
-              placeholderTextColor={COLOR.BLACK}
-              value={street}
-              onChangeText={handleStreetChange}
-
-            />
-          </View>
-          <View>
-            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite ( Optional)</Text>
-            <TextInput
-              style={[styles.input]}
-              placeholder={apartment}
-              placeholderTextColor={COLOR.BLACK}
-              value={apartment}
-              onChangeText={handleApartmentChange}
-
-            />
-          </View>
-          <View>
-            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>City</Text>
-            <TextInput
-              style={[styles.input]}
-              placeholder={city}
-              placeholderTextColor={COLOR.BLACK}
-              value={city}
-              onChangeText={handleCityChange}
-
-            />
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <View>
-              <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>State / Province</Text>
-              <TextInput
-                style={[styles.halfInput]}
-                placeholder={state}
-                placeholderTextColor={COLOR.BLACK}
-                value={state}
-                onChangeText={handleStateChange}
-
-              />
-            </View>
-            <View>
-              <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Postal code</Text>
-              <TextInput
-                style={[styles.halfInput]}
-                placeholder={postalCode}
-                placeholderTextColor={COLOR.BLACK}
-                value={postalCode}
-                onChangeText={handlePostalCodeChange}
-
-              />
+            <Text
+              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 18 }}
+            >
+              Address
+            </Text>
+            <Text
+              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
+            >
+              Street
+            </Text>
+            <View style={styles.input}>
+              <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+                {data?.street}
+              </Text>
             </View>
           </View>
           <View>
-            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Country/Region</Text>
-            <TextInput
-              style={[styles.input]}
-              placeholder={country}
-              placeholderTextColor={COLOR.BLACK}
-              value={country}
-              onChangeText={handleCountryChange}
-
-            />
+            <Text
+              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
+            >
+              City
+            </Text>
+            <View style={styles.input}>
+              <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+                {data?.city}
+              </Text>
+            </View>
+          </View>
+          <View
+            // style={{
+            //   flexDirection: "row",
+            //   justifyContent: "space-between",
+            //   alignItems: "center",
+            // }}
+          >
+            {/* <View>
+              <Text
+                style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
+              >
+                State / Province
+              </Text>
+              <View style={styles.input}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+                  {data?.state}
+                </Text>
+              </View>
+            </View> */}
+            <View>
+              <Text
+                style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
+              >
+                Postal code
+              </Text>
+              <View style={styles.input}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+                  {data?.postcode}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View>
+            <Text
+              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
+            >
+              Country/Region
+            </Text>
+            <View style={styles.input}>
+              <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+                {data?.country}
+              </Text>
+            </View>
           </View>
         </KeyboardAvoidingView>
-      </View >
+      </View>
 
       {/* name of facility */}
 
-      <View style={{ height: 50, borderRadius: 15, paddingHorizontal: 5, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <View style={{ justifyContent: 'center', alignItems: 'center', height: 25, width: 25, borderWidth: 1, borderRadius: 20 }}>
+      <View
+        style={{
+          height: 50,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          marginHorizontal: 2,
+          marginVertical: 20,
+          backgroundColor: COLOR.AuthField,
+          elevation: 5,
+          shadowColor: COLOR.BLACK,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: 25,
+              width: 25,
+              borderWidth: 1,
+              borderRadius: 20,
+            }}
+          >
             <Text style={{ color: COLOR.BLACK }}>3</Text>
           </View>
           <View>
-            <Text style={{ color: COLOR.BLACK }}>Facility Name / Description</Text>
+            <Text style={{ color: COLOR.BLACK }}>
+              Facility
+            </Text>
           </View>
         </View>
-        <Text style={{ color: COLOR.BLACK }}>Edit</Text>
-
+        {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
       </View>
 
-      <View style={{ width: Screen_Width * 0.91, marginHorizontal: 2 }} >
+      <View style={{ width: Screen_Width * 0.91, marginHorizontal: 2 }}>
+        {/* <View>
+          <Text
+            style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
+          >
+            Facility Name
+          </Text>
+          <View style={styles.input}>
+            <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+              {data?.facilityName}
+            </Text>
+          </View>
+        </View> */}
 
         <View>
-          <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Facility Name</Text>
-          <TextInput
-            style={[styles.input]}
-            placeholder="Name"
-            placeholderTextColor={COLOR.BLACK}
-            value={facilityName}
-            onChangeText={handleFacilityNameChange}
-
-          />
-        </View>
-
-        <View>
-          <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Facility's Description</Text>
-          <TextInput
-            style={[styles.input]}
-            placeholder="description"
-            placeholderTextColor={COLOR.BLACK}
-            value={description}
-            onChangeText={handleDescriptionChange}
-
-          />
+          <Text
+            style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
+          >
+           Description
+          </Text>
+          <View style={styles.input}>
+            <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+              {data?.description}
+            </Text>
+          </View>
         </View>
         <View style={{ width: Screen_Width * 0.6, marginBottom: 10 }}>
-          <Text style={{ color: COLOR.BLACK, fontWeight: 'bold' }}>Set seats number</Text>
-          <Text style={{ color: COLOR.BLACK, fontSize: 12 }}>How many seats do you want to make available here</Text>
+          <Text style={{ color: COLOR.BLACK, fontWeight: "bold" }}>
+          Available seats number
+          </Text>
         </View>
-        <View style={{
-          backgroundColor: COLOR.AuthField,
-          borderRadius: 15,
-          elevation: 5,
-          height: 50,
-          paddingHorizontal: 10,
-          shadowColor: COLOR.BLACK,
-          marginVertical: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-        }}>
-
-          <TouchableOpacity onPress={handleCountMinus}>
-            <AntDesign name="minuscircle" size={24} color={COLOR.ORANGECOLOR} />
-          </TouchableOpacity>
-          <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '700' }}>{seatCount}</Text>
-          <TouchableOpacity onPress={handleCountPlus}>
-            <AntDesign name="pluscircle" size={24} color={COLOR.ORANGECOLOR} />
-          </TouchableOpacity>
-
-
+        <View style={styles.input}>
+          <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+            {data?.availableSeats}
+          </Text>
         </View>
-
       </View>
-
 
       {/* Add media */}
 
-
-      <View style={{ height: 50, borderRadius: 15, paddingHorizontal: 5, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <View style={{ justifyContent: 'center', alignItems: 'center', height: 25, width: 25, borderWidth: 1, borderRadius: 20 }}>
+      <View
+        style={{
+          height: 50,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          marginHorizontal: 2,
+          marginVertical: 20,
+          backgroundColor: COLOR.AuthField,
+          elevation: 5,
+          shadowColor: COLOR.BLACK,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: 25,
+              width: 25,
+              borderWidth: 1,
+              borderRadius: 20,
+            }}
+          >
             <Text style={{ color: COLOR.BLACK }}>4</Text>
           </View>
           <View>
             <Text style={{ color: COLOR.BLACK }}>Add Media</Text>
           </View>
         </View>
-        <Text style={{ color: COLOR.BLACK }}>Edit</Text>
-
+        {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
       </View>
-      <FlatList
-        data={Servicesdata3}
-        showsVerticalScrollIndicator={false}
-        numColumns={3}
-        key={3}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => {
-          return (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5, marginVertical: 10 }}>
-              <Image source={item.image} style={{ width: Screen_Width * 0.28, height: Screen_Height * 0.13, borderRadius: 10 }} />
-            </View>
-          )
+      {coverImage && (
+        <View
+          style={{
+            marginHorizontal: 5,
+            marginVertical: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: COLOR.BLACK,
+              fontSize: 18,
+              fontWeight: "600",
+              marginBottom: 10,
+            }}
+          >
+            Cover Image
+          </Text>
+
+          <FastImage
+            source={{ uri: coverImage }}
+            style={{
+              width: Screen_Width * 0.28,
+              height: Screen_Height * 0.13,
+              borderRadius: 10,
+            }}
+          />
+        </View>
+      )}
+      <View
+        style={{
+          marginVertical: 10,
+          justifyContent: "center",
+          alignItems: "center",
         }}
-      />
+      >
+        <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: "600" }}>
+          Gallery
+        </Text>
+
+        <FlatList
+          data={galleryImages}
+          renderItem={({ item }) => (
+            <View style={{ marginHorizontal: 5, marginVertical: 10 }}>
+              <FastImage
+                source={{ uri: item }}
+                style={{
+                  width: Screen_Width * 0.28,
+                  height: Screen_Height * 0.13,
+                  borderRadius: 10,
+                }}
+              />
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={3}
+        />
+      </View>
 
       {/* Shop timing */}
-      <View style={{ height: 50, borderRadius: 15, paddingHorizontal: 5, marginHorizontal: 2, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <View style={{ justifyContent: 'center', alignItems: 'center', height: 25, width: 25, borderWidth: 1, borderRadius: 20 }}>
+      <View
+        style={{
+          height: 50,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          marginHorizontal: 2,
+          marginVertical: 20,
+          backgroundColor: COLOR.AuthField,
+          elevation: 5,
+          shadowColor: COLOR.BLACK,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              height: 25,
+              width: 25,
+              borderWidth: 1,
+              borderRadius: 20,
+            }}
+          >
             <Text style={{ color: COLOR.BLACK }}>5</Text>
           </View>
           <View>
             <Text style={{ color: COLOR.BLACK }}>Shop Timing</Text>
           </View>
         </View>
-        <Text style={{ color: COLOR.BLACK }}>Edit</Text>
-
+        {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
       </View>
+      {/* <ShopTime /> */}
+      <FlatList
+        data={shopTimingArray}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => {
+          return (
+            <>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: COLOR.BLACK }}>{item.day}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <Text style={{ color: COLOR.BLACK }}>
+                    Start: {item.start}
+                  </Text>
+                  <Text style={{ color: COLOR.BLACK }}>End: {item.end}</Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: COLOR.BLACK,
+                  marginVertical: 5,
+                }}
+              />
+            </>
+          );
+        }}
+      />
+
       {/* <ShopTime /> */}
 
       <View>

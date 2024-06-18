@@ -8,7 +8,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProfessionalProfileData, ProfileData1 } from '../../../components/utils';
+import { FacilityProfileData, ProfessionalProfileData, ProfileData1 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { NavigationScreens } from '../../../constants/Strings';
 import { GetAuthToken, StoreThemeMode } from '../../../constants/AsyncStorage';
@@ -19,7 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 
-const ProfessionalProfile2 = () => {
+const FacilityProfile2 = () => {
 
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
@@ -150,7 +150,7 @@ const ProfessionalProfile2 = () => {
       </View>
       {/* <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} /> */}
       <FlatList
-        data={ProfessionalProfileData}
+        data={FacilityProfileData}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
@@ -167,10 +167,10 @@ const ProfessionalProfile2 = () => {
                   navigation.navigate(NavigationScreens.PrivacyPolicyScreen);
                   break;
                 case 'Switch to Client':
-                  handleSwitchToProfessionals();
+                  navigation.navigate(NavigationScreens.HomeTab);
                   break;
-                case 'Become to Host':
-                  handleSwitchToHost();
+                case 'Switch to Professionals':
+                  handleSwitchToProfessionals();
                   break;
                 default:
                   break;
@@ -276,7 +276,7 @@ const ProfessionalProfile2 = () => {
   )
 }
 
-export default ProfessionalProfile2
+export default FacilityProfile2
 
 const styles = StyleSheet.create({})
 

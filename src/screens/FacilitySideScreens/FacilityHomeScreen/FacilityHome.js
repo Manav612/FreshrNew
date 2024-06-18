@@ -71,7 +71,7 @@ const FacilityHome = () => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-           
+           paddingVertical:10
 
         },
         header: {
@@ -253,7 +253,7 @@ const FacilityHome = () => {
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
 
-                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>
                     </View>

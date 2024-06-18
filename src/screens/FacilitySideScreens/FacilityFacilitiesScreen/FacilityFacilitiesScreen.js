@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, FlatList } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -11,11 +11,35 @@ import { FacilityData } from '../../../components/utils';
 import { Screen_Width } from '../../../constants/Constants';
 import { NavigationScreens } from '../../../constants/Strings';
 import FacilitySettingScreen from '../../../components/FacilityComponents/FacilitySettingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../../Services';
+import axios from 'axios';
 
 const FacilityFacilitiesScreen = () => {
     const navigation = useNavigation();
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const [fetchedData, setFetchedData] = useState([]);
+
+    useEffect(() => {
+        fetchData();
+      }, []);
+    
+      const fetchData = async () => {
+        try {
+          const token = await AsyncStorage.getItem("AuthToken");
+          const config = {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          };
+          const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
+          console.log('========   user facilty   ==========', res.data.data);
+          setFetchedData(res.data.data);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
 
     const styles = StyleSheet.create({
         container: {
@@ -83,7 +107,7 @@ const FacilityFacilitiesScreen = () => {
                         <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <Ionicons name="add-outline" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>
                     </View>
@@ -93,7 +117,7 @@ const FacilityFacilitiesScreen = () => {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 15, marginHorizontal: 15 }}
-                data={FacilityData}
+                data={fetchedData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => {
                     return (
@@ -102,7 +126,7 @@ const FacilityFacilitiesScreen = () => {
                         padding: 20,
                         backgroundColor: COLOR.WHITE,
                         borderRadius: 20,
-
+                        marginHorizontal:2,
                         elevation: 2,
                         shadowColor: COLOR.BLACK,
                         alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
@@ -111,8 +135,8 @@ const FacilityFacilitiesScreen = () => {
                     >
                         <Image source={Hair1} style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }} />
                         <View style={{ width: Screen_Width * 0.5 }}>
-                            <Text style={styles.earningsText}>{item.name}</Text>
-                            <Text style={styles.earningsSubText}>{item.title}</Text>
+                            <Text style={styles.earningsText}>{item?.name}</Text>
+                            <Text style={styles.earningsSubText}>{item?.description}</Text>
                         </View>
                         <TouchableOpacity  style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <AntDesign name="right" size={28} color={COLOR.ChartBlue} />

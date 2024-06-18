@@ -1,27 +1,419 @@
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, FlatList, Button } from 'react-native'
-import React, { useState } from 'react'
+// import {
+//     ScrollView,
+//     StyleSheet,
+//     Text,
+//     View,
+//     TouchableOpacity,
+//     Modal,
+//     TextInput,
+//     FlatList,
+// } from 'react-native';
+// import React, { useEffect, useState } from 'react';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
+// import { useNavigation } from '@react-navigation/native';
+// import { useSelector } from 'react-redux';
+// import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+// import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { BASE_API_URL } from '../../../Services';
+// import axios from 'axios';
+
+// const FacilityManageSeatScreen = ({ route }) => {
+//     const { data } = route.params;
+//     console.log('=======        data  manage       ======>', data);
+//     const navigation = useNavigation();
+//     const theme = useSelector((state) => state.ThemeReducer);
+//     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+//     const [isEditableFocused, setIsEditableFocused] = useState(false);
+//     const [Editable, setEditable] = useState('');
+//     const [fetchedProfList, setFetchedProfList] = useState([]);
+//     const [fetchedProfName, setFetchedProfName] = useState([]);
+//     const [fetchedProfPhone, setFetchedProfPhone] = useState([]);
+//     const [isSeatFilled, setIsSeatFilled] = useState(selectedSeat?.filled || false);
+//     const seatCapacity = data?.seatCapacity || [];
+
+//     useEffect(() => {
+//         fetchData();
+//     }, []);
+
+//     const fetchData = async () => {
+//         try {
+//             const token = await AsyncStorage.getItem('AuthToken');
+//             const config = {
+//                 headers: {
+//                     Authorization: `Bearer ${token}`,
+//                 },
+//             };
+//             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
+//             console.log('========    Proff   ==========', res.data.professional);
+
+//             // Extract emails from the response data
+//             const emailList = res.data.professional.map((prof) => prof.user.email);
+//             console.log('======     emails hkb     ===========', emailList);
+//             const Name = res.data.professional.map((prof) => prof.user.firstName);
+//             console.log('======     name hkb     ===========', Name);
+//             setFetchedProfName(Name)
+//             const Phone = res.data.professional.map((prof) => prof.user.phone);
+//             console.log('======     Phone hkb     ===========', Phone);
+//             setFetchedProfPhone(Phone)
+
+//             setFetchedProfList(emailList);
+//         } catch (error) {
+//             console.error('Error:', error);
+//         }
+//     };
+
+//     const styles = StyleSheet.create({
+//         HeaderView: {
+//             marginVertical: 10,
+//             justifyContent: 'space-between',
+//             alignItems: 'center',
+//             flexDirection: 'row',
+//         },
+//         input: {
+//             flex: 1,
+//             alignSelf: 'center',
+//             fontSize: 16,
+//             color: COLOR.BLACK,
+//         },
+//         seatContainer: {
+//             height: 100,
+//             width: 80,
+//             marginHorizontal: 5,
+//             marginVertical: 5,
+//             backgroundColor: COLOR.LIGHTGRAY,
+//             borderRadius: 15,
+//         },
+//         seatHeader: {
+//             height: 30,
+//             backgroundColor: COLOR.ORANGECOLOR,
+//             borderTopRightRadius: 15,
+//             borderTopLeftRadius: 15,
+//         },
+//         seatHeaderText: {
+//             color: COLOR.BLACK,
+//             fontSize: 18,
+//             textAlign: 'center',
+//         },
+//         seatBody: {
+//             height: 90,
+//             alignItems: 'center',
+//             justifyContent: 'center',
+//         },
+//         modalOverlay: {
+//             flex: 1,
+//             justifyContent: 'center',
+//             alignItems: 'center',
+//             backgroundColor: 'rgba(0, 0, 0, 0.5)',
+//         },
+//         modalContent: {
+//             width: 300,
+//             padding: 20,
+//             backgroundColor: COLOR.WHITE,
+//             borderRadius: 10,
+//         },
+//         modalTitle: {
+//             fontSize: 18,
+//             fontWeight: 'bold',
+//             marginBottom: 10,
+//         },
+//         input2: {
+//             height: 40,
+//             backgroundColor: COLOR.AuthField,
+//             borderRadius: 10,
+//             marginBottom: 10,
+//             paddingHorizontal: 10,
+//         },
+//     });
+
+//     const [seats, setSeats] = useState(
+//         Array.from({ length: seatCapacity }, (_, i) => ({ id: i + 1, filled: i < data.seatassign.length, name: '', phone: '', email: '', commission: '' }))
+//     );
+//     const [selectedSeat, setSelectedSeat] = useState(null);
+//     const [modalVisible, setModalVisible] = useState(false);
+
+//     // New states for email search
+//     const [searchQuery, setSearchQuery] = useState('');
+
+//     const handleSeatPress = (seat) => {
+//         setSelectedSeat(seat);
+//         setModalVisible(true);
+//         setIsSeatFilled(seat.filled);
+//     };
+
+//     const handleSave = () => {
+//         setSeats(seats.map((seat) => (seat.id === selectedSeat.id ? selectedSeat : seat)));
+//         setModalVisible(false);
+//     };
+
+//     const renderSeat = ({ item, index }) => (
+//         <View style={styles.seatContainer}>
+//             <View style={styles.seatHeader}>
+//                 <Text style={styles.seatHeaderText}>{index + 1}</Text>
+//             </View>
+//             <TouchableOpacity style={styles.seatBody} onPress={() => handleSeatPress(item)}>
+//                 <MaterialCommunityIcons
+//                     name={item.filled ? 'sofa-single':'sofa-single-outline'}
+//                     size={40}
+//                     color={COLOR.ORANGECOLOR}
+//                 />
+//             </TouchableOpacity>
+//         </View>
+//     );
+
+//     const handleSearch = (text) => {
+//         setSearchQuery(text);
+//         setFetchedProfList(fetchedProfList.filter((email) => email.toLowerCase().includes(text.toLowerCase())));
+//     };
+
+//     const handleEmailSelect = (email) => {
+//         setSelectedSeat({ ...selectedSeat, email });
+//         setSearchQuery(email);
+//         setFetchedProfList([]);
+//     };
+
+//     return (
+//         <ScrollView
+//             showsVerticalScrollIndicator={false}
+//             style={{
+//                 width: Screen_Width,
+//                 height: Screen_Height,
+//                 paddingHorizontal: 15,
+//                 backgroundColor: COLOR.WHITE,
+//             }}
+//         >
+//             <View style={styles.HeaderView}>
+//                 <View style={{ justifyContent: 'center', alignItems: 'center', gap: 10, flexDirection: 'row' }}>
+//                     <TouchableOpacity onPress={() => navigation.goBack()}>
+//                         <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />
+//                     </TouchableOpacity>
+//                     <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Manage Seat</Text>
+//                 </View>
+//                 <TouchableOpacity
+//                     onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)}
+//                     style={{
+//                         backgroundColor: COLOR.WHITE,
+//                         elevation: 20,
+//                         shadowColor: COLOR.ChartBlue,
+//                         height: 40,
+//                         width: 40,
+//                         justifyContent: 'center',
+//                         alignItems: 'center',
+//                         borderRadius: 5,
+//                     }}
+//                 >
+//                     <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+//                 </TouchableOpacity>
+//             </View>
+//             <View
+//                 style={{
+//                     flexDirection: 'row',
+//                     justifyContent: 'space-between',
+//                     alignItems: 'center',
+//                     marginVertical: 15,
+//                 }}
+//             >
+//                 <Text style={{ color: COLOR.BLACK, fontSize: 15 }}>Set a charges for freelancer</Text>
+//                 <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: 120, borderRadius: 10 }}>
+//                     <TextInput
+//                         style={[styles.input, { color: COLOR.BLACK }]}
+//                         placeholderTextColor={COLOR.BLACK}
+//                         placeholder="Editable Filed"
+//                         onFocus={() => setIsEditableFocused(true)}
+//                         onBlur={() => setIsEditableFocused(false)}
+//                         value={Editable}
+//                         onChangeText={(text) => setEditable(text)}
+//                     />
+//                 </View>
+//             </View>
+//             <View
+//                 style={{
+//                     justifyContent: 'space-between',
+//                     flexDirection: 'row',
+//                     alignItems: 'center',
+//                     marginVertical: 10,
+//                 }}
+//             >
+//                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+//                     <MaterialCommunityIcons name="sofa-single-outline" size={28} color={COLOR.ORANGECOLOR} />
+//                     <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: 'bold' }}>Available</Text>
+//                 </View>
+//                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+//                     <MaterialCommunityIcons name="sofa-single" size={28} color={COLOR.ORANGECOLOR} />
+//                     <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: 'bold' }}>Assigned</Text>
+//                 </View>
+//             </View>
+//             <View style={{ width: Screen_Width, alignSelf: 'center' }}>
+//                 <FlatList
+//                     showsVerticalScrollIndicator={false}
+//                     style={{ marginTop: 15, marginHorizontal: 15 }}
+//                     data={seats.slice(0, seatCapacity)} // Ensure to show only the number of seats based on seatCapacity
+//                     keyExtractor={(item) => item.id.toString()}
+//                     numColumns={4}
+//                     renderItem={renderSeat}
+//                 />
+
+//                 {selectedSeat && (
+//                     <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+//                         <View style={styles.modalOverlay}>
+//                             <View style={styles.modalContent}>
+//                                 <Text style={styles.modalTitle}>Seat {selectedSeat.id} Details</Text>
+//                                 <View style={{justifyContent:'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10}}>
+//                                 <Text style={{color:COLOR.BLACK}}>{fetchedProfName}</Text>
+//                                 </View>
+//                                 <View style={{justifyContent:'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10}}>
+//                                 <Text style={{color:COLOR.BLACK}}>{fetchedProfPhone}</Text>
+//                                 </View>
+                               
+//                                 <TextInput
+//                                     style={[styles.input2, { color: COLOR.BLACK }]}
+//                                     placeholder="Email"
+//                                     placeholderTextColor={COLOR.BLACK}
+//                                     value={searchQuery}
+//                                     onChangeText={handleSearch}
+//                                 />
+//                                 <FlatList
+//                                     data={fetchedProfList}
+//                                     keyExtractor={(item, index) => index.toString()}
+//                                     renderItem={({ item }) => (
+//                                         <TouchableOpacity onPress={() => handleEmailSelect(item)}>
+//                                             <Text
+//                                                 style={{
+//                                                     padding: 10,
+//                                                     backgroundColor: COLOR.LIGHTGRAY,
+//                                                     borderBottomColor: COLOR.DARKGRAY,
+//                                                     borderBottomWidth: 1,
+//                                                 }}
+//                                             >
+//                                                 {item}
+//                                             </Text>
+//                                         </TouchableOpacity>
+//                                     )}
+//                                     style={{ maxHeight: 150, marginBottom: 10 }}
+//                                 />
+//                                 <TextInput
+//                                     style={[styles.input2, { color: COLOR.BLACK }]}
+//                                     placeholder="Commission Split"
+//                                     placeholderTextColor={COLOR.BLACK}
+//                                     value={selectedSeat.commission}
+//                                     onChangeText={(text) => setSelectedSeat({ ...selectedSeat, commission: text })}
+//                                 />
+//                                 <TouchableOpacity
+//                                     onPress={handleSave}
+//                                     style={{
+//                                         width: 255,
+//                                         backgroundColor: COLOR.ORANGECOLOR,
+//                                         height: 40,
+//                                         borderRadius: 10,
+//                                         justifyContent: 'center',
+//                                         alignItems: 'center',
+//                                         marginVertical: 10,
+//                                     }}
+//                                 >
+//                                     <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>{isSeatFilled ? 'Update' : 'Save'}</Text>
+//                                 </TouchableOpacity>
+//                                 <TouchableOpacity
+//                                     onPress={() => setModalVisible(false)}
+//                                     style={{
+//                                         width: 255,
+//                                         backgroundColor: COLOR.ORANGECOLOR,
+//                                         height: 40,
+//                                         borderRadius: 10,
+//                                         justifyContent: 'center',
+//                                         alignItems: 'center',
+//                                     }}
+//                                 >
+//                                     <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Cancel</Text>
+//                                 </TouchableOpacity>
+//                             </View>
+//                         </View>
+//                     </Modal>
+//                 )}
+//             </View>
+//             <View style={{ height: 100 }} />
+//         </ScrollView>
+//     );
+// };
+
+// export default FacilityManageSeatScreen;
+
+
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Modal,
+    TextInput,
+    FlatList,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
-import { ManageSeat, Nextpayout } from '../../../components/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../../Services';
+import axios from 'axios';
 
-const FacilityManageSeatScreen = () => {
+const FacilityManageSeatScreen = ({ route }) => {
+    const { data } = route.params;
+    const facilityId = data.id
+    console.log('=======        data  manage       ======>',data);
     const navigation = useNavigation();
-    const theme = useSelector(state => state.ThemeReducer);
+    const theme = useSelector((state) => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [isEditableFocused, setIsEditableFocused] = useState(false);
     const [Editable, setEditable] = useState('');
-    const [isSeatFilled, setIsSeatFilled] = useState(selectedSeat?.filled || false);
+    const [fetchedProfList, setFetchedProfList] = useState([]);
+    const [fetchedProfName, setFetchedProfName] = useState([]);
+    const [fetchedProfPhone, setFetchedProfPhone] = useState([]);
+    const [isSeatFilled, setIsSeatFilled] = useState(false);
+    const [ProfId, setProfID] = useState(false);
+    const seatCapacity = data?.seatCapacity || [];
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const token = await AsyncStorage.getItem('AuthToken');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
+            console.log('========    Proff   ==========', res.data.professional);
+            const ProfId = res.data.professional.map((prof) => prof.id);
+            console.log("========  profId   =============",ProfId);
+            setProfID(ProfId)
+            const emailList = res.data.professional.map((prof) => prof.user.email);
+            console.log('======     emails hkb     ===========', emailList);
+            const Name = res.data.professional.map((prof) => prof.user.firstName);
+            console.log('======     name hkb     ===========', Name);
+            setFetchedProfName(Name);
+            const Phone = res.data.professional.map((prof) => prof.user.phone);
+            console.log('======     Phone hkb     ===========', Phone);
+            setFetchedProfPhone(Phone);
+
+            setFetchedProfList(emailList);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const styles = StyleSheet.create({
         HeaderView: {
             marginVertical: 10,
             justifyContent: 'space-between',
             alignItems: 'center',
-            flexDirection: 'row'
+            flexDirection: 'row',
         },
         input: {
             flex: 1,
@@ -78,11 +470,14 @@ const FacilityManageSeatScreen = () => {
             paddingHorizontal: 10,
         },
     });
+
     const [seats, setSeats] = useState(
-        Array.from({ length: 20 }, (_, i) => ({ id: i + 1, filled: i < 10, name: '', phone: '', email: '', commission: '' }))
+        Array.from({ length: seatCapacity }, (_, i) => ({ id: i + 1, filled: i < data.seatassign.length, name: '', phone: '', email: '', commission: '' }))
     );
     const [selectedSeat, setSelectedSeat] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handleSeatPress = (seat) => {
         setSelectedSeat(seat);
@@ -90,23 +485,68 @@ const FacilityManageSeatScreen = () => {
         setIsSeatFilled(seat.filled);
     };
 
-    const handleSave = () => {
-        setSeats(seats.map(seat => seat.id === selectedSeat.id ? selectedSeat : seat));
-        setModalVisible(false);
+    const handleSave = async () => {
+        try {
+            const token = await AsyncStorage.getItem('AuthToken');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            };
+            const { commission } = selectedSeat;
+            
+            const data = JSON.stringify({
+                facilityId,
+                proId:ProfId,
+                split: commission,
+            });
+
+            const response = await axios.patch(`${BASE_API_URL}/hosts/host/facilities/assignPro/${facilityId}`, data, config);
+            console.log('Response:', response.data);
+            setSeats(seats.map((seat) => (seat.id === selectedSeat.id ? { ...selectedSeat, filled: true } : seat)));
+            setModalVisible(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     const renderSeat = ({ item, index }) => (
-
         <View style={styles.seatContainer}>
-            <View style={styles.seatHeader}><Text style={styles.seatHeaderText}>{index + 1}</Text></View>
+            <View style={styles.seatHeader}>
+                <Text style={styles.seatHeaderText}>{index + 1}</Text>
+            </View>
             <TouchableOpacity style={styles.seatBody} onPress={() => handleSeatPress(item)}>
-                <MaterialCommunityIcons name={item.filled ? "sofa-single" : "sofa-single-outline"} size={40} color={COLOR.ORANGECOLOR} />
+                <MaterialCommunityIcons
+                    name={item.filled ? 'sofa-single':'sofa-single-outline'}
+                    size={40}
+                    color={COLOR.ORANGECOLOR}
+                />
             </TouchableOpacity>
         </View>
-
     );
+
+    const handleSearch = (text) => {
+        setSearchQuery(text);
+        setFetchedProfList(fetchedProfList.filter((email) => email.toLowerCase().includes(text.toLowerCase())));
+    };
+
+    const handleEmailSelect = (email) => {
+        setSelectedSeat({ ...selectedSeat, email });
+        setSearchQuery(email);
+        setFetchedProfList([]);
+    };
+
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{
+                width: Screen_Width,
+                height: Screen_Height,
+                paddingHorizontal: 15,
+                backgroundColor: COLOR.WHITE,
+            }}
+        >
             <View style={styles.HeaderView}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', gap: 10, flexDirection: 'row' }}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -114,11 +554,30 @@ const FacilityManageSeatScreen = () => {
                     </TouchableOpacity>
                     <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Manage Seat</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)}
+                    style={{
+                        backgroundColor: COLOR.WHITE,
+                        elevation: 20,
+                        shadowColor: COLOR.ChartBlue,
+                        height: 40,
+                        width: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 5,
+                    }}
+                >
                     <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                 </TouchableOpacity>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginVertical: 15,
+                }}
+            >
                 <Text style={{ color: COLOR.BLACK, fontSize: 15 }}>Set a charges for freelancer</Text>
                 <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: 120, borderRadius: 10 }}>
                     <TextInput
@@ -128,11 +587,18 @@ const FacilityManageSeatScreen = () => {
                         onFocus={() => setIsEditableFocused(true)}
                         onBlur={() => setIsEditableFocused(false)}
                         value={Editable}
-                        onChangeText={text => setEditable(text)}
+                        onChangeText={(text) => setEditable(text)}
                     />
                 </View>
             </View>
-            <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+            <View
+                style={{
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginVertical: 10,
+                }}
+            >
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <MaterialCommunityIcons name="sofa-single-outline" size={28} color={COLOR.ORANGECOLOR} />
                     <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: 'bold' }}>Available</Text>
@@ -143,45 +609,51 @@ const FacilityManageSeatScreen = () => {
                 </View>
             </View>
             <View style={{ width: Screen_Width, alignSelf: 'center' }}>
-
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     style={{ marginTop: 15, marginHorizontal: 15 }}
-                    data={seats}
-                    keyExtractor={item => item.id.toString()}
+                    data={seats.slice(0, seatCapacity)}
+                    keyExtractor={(item) => item.id.toString()}
                     numColumns={4}
                     renderItem={renderSeat}
                 />
 
                 {selectedSeat && (
-                    <Modal
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => setModalVisible(false)}
-                    >
+                    <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
                         <View style={styles.modalOverlay}>
                             <View style={styles.modalContent}>
                                 <Text style={styles.modalTitle}>Seat {selectedSeat.id} Details</Text>
-                                <TextInput
-                                    style={[styles.input2, { color: COLOR.BLACK }]}
-                                    placeholder="Name"
-                                    placeholderTextColor={COLOR.BLACK}
-                                    value={selectedSeat.name}
-                                    onChangeText={(text) => setSelectedSeat({ ...selectedSeat, name: text })}
-                                />
-                                <TextInput
-                                    style={[styles.input2, { color: COLOR.BLACK }]}
-                                    placeholder="Phone"
-                                    placeholderTextColor={COLOR.BLACK}
-                                    value={selectedSeat.phone}
-                                    onChangeText={(text) => setSelectedSeat({ ...selectedSeat, phone: text })}
-                                />
+                                <View style={{ justifyContent: 'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10 }}>
+                                    <Text style={{ color: COLOR.BLACK }}>{fetchedProfName}</Text>
+                                </View>
+                                <View style={{ justifyContent: 'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10 }}>
+                                    <Text style={{ color: COLOR.BLACK }}>{fetchedProfPhone}</Text>
+                                </View>
                                 <TextInput
                                     style={[styles.input2, { color: COLOR.BLACK }]}
                                     placeholder="Email"
                                     placeholderTextColor={COLOR.BLACK}
-                                    value={selectedSeat.email}
-                                    onChangeText={(text) => setSelectedSeat({ ...selectedSeat, email: text })}
+                                    value={searchQuery}
+                                    onChangeText={handleSearch}
+                                />
+                                <FlatList
+                                    data={fetchedProfList}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity onPress={() => handleEmailSelect(item)}>
+                                            <Text
+                                                style={{
+                                                    padding: 10,
+                                                    backgroundColor: COLOR.LIGHTGRAY,
+                                                    borderBottomColor: COLOR.DARKGRAY,
+                                                    borderBottomWidth: 1,
+                                                }}
+                                            >
+                                                {item}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )}
+                                    style={{ maxHeight: 150, marginBottom: 10 }}
                                 />
                                 <TextInput
                                     style={[styles.input2, { color: COLOR.BLACK }]}
@@ -190,38 +662,33 @@ const FacilityManageSeatScreen = () => {
                                     value={selectedSeat.commission}
                                     onChangeText={(text) => setSelectedSeat({ ...selectedSeat, commission: text })}
                                 />
-                                {isSeatFilled ? (
-                                    <TouchableOpacity
-                                        onPress={handleSave}
-                                        style={{
-                                            width: 255,
-                                            backgroundColor: COLOR.ORANGECOLOR,
-                                            height: 40,
-                                            borderRadius: 10,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            marginVertical: 10,
-                                        }}
-                                    >
-                                        <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Update</Text>
-                                    </TouchableOpacity>
-                                ) : (
-                                    <TouchableOpacity
-                                        onPress={handleSave}
-                                        style={{
-                                            width: 255,
-                                            backgroundColor: COLOR.ORANGECOLOR,
-                                            height: 40,
-                                            borderRadius: 10,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            marginVertical: 10,
-                                        }}
-                                    >
-                                        <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Save</Text>
-                                    </TouchableOpacity>
-                                )}
-                                <TouchableOpacity onPress={() => setModalVisible(false)} style={{ width: 255, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Cancel</Text></TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={handleSave}
+                                    style={{
+                                        width: 255,
+                                        backgroundColor: COLOR.ORANGECOLOR,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        marginVertical: 10,
+                                    }}
+                                >
+                                    <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>{isSeatFilled ? 'Update' : 'Save'}</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => setModalVisible(false)}
+                                    style={{
+                                        width: 255,
+                                        backgroundColor: COLOR.ORANGECOLOR,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Cancel</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </Modal>
@@ -229,8 +696,8 @@ const FacilityManageSeatScreen = () => {
             </View>
             <View style={{ height: 100 }} />
         </ScrollView>
-    )
-}
+    );
+};
 
-export default FacilityManageSeatScreen
+export default FacilityManageSeatScreen;
 
