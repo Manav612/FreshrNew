@@ -35,7 +35,7 @@ const OurServices = () => {
         </TouchableOpacity>
     );
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10,marginHorizontal:10 }}>
                 <View style={{flexDirection:'row',gap:10}}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -43,9 +43,9 @@ const OurServices = () => {
                 </TouchableOpacity>
                 <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Our Services</Text>
                 </View>
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                     <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <FlatList
                 data={Servicesdata}
@@ -53,9 +53,9 @@ const OurServices = () => {
                 keyExtractor={item => item.id}
                 renderItem={renderitem}
             />
-            <TouchableOpacity onPress={()=>navigation.navigate('BookAppointment Screen')} style={{ width: Screen_Width * 0.80, height: Screen_Height * 0.05, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center', marginTop:10}}>
+            {/* <TouchableOpacity onPress={()=>navigation.navigate('BookAppointment Screen')} style={{ width: Screen_Width * 0.80, height: Screen_Height * 0.05, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center', marginTop:10}}>
                 <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <View style={{height:90}}/>
         </ScrollView>
     )

@@ -15,7 +15,7 @@ const ServiceDetails = ({ route }) => {
   const { name } = route.params;
   console.log("===============", name);
   const navigation = useNavigation();
-  const [selectedOption, setSelectedOption] = useState('Man'); // Initially 'Man' is selected
+  const [selectedOption, setSelectedOption] = useState('Masculine'); // Initially 'Masculine' is selected
   const [selectedItem, setSelectedItem] = useState('');
 
   const handleOptionSelect = (option) => {
@@ -55,16 +55,16 @@ const ServiceDetails = ({ route }) => {
       </View>
       <View style={{ flexDirection: 'row', marginHorizontal: 10, flex: 1, justifyContent: 'center', gap: 10, marginTop: 10 }}>
         <TouchableOpacity
-          style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.45, height: Screen_Height * 0.05, backgroundColor: selectedOption === 'Man' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30 }}
-          onPress={() => handleOptionSelect('Man')}
+          style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.45, height: Screen_Height * 0.05, backgroundColor: selectedOption === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30 }}
+          onPress={() => handleOptionSelect('Masculine')}
         >
-          <Text style={{ color: selectedOption === 'Man' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontSize: 20 }}>Man</Text>
+          <Text style={{ color: selectedOption === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontSize: 16 }}>Masculine</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.45, height: Screen_Height * 0.05, backgroundColor: selectedOption === 'Woman' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30 }}
-          onPress={() => handleOptionSelect('Woman')}
+          style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.45, height: Screen_Height * 0.05, backgroundColor: selectedOption === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30 }}
+          onPress={() => handleOptionSelect('Feminine')}
         >
-          <Text style={{ color: selectedOption === 'Woman' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontSize: 20 }}>Woman</Text>
+          <Text style={{ color: selectedOption === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontSize: 16 }}>Feminine</Text>
         </TouchableOpacity>
       </View>
       <FlatList

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { FlatList, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -14,6 +14,13 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { AllCategoryData } from '../../../components/utils';
 import { share } from '../../../constants/Icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { BASE_API_URL } from '../../../Services';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import ProfessionalAboutUsScreen from '../../../components/ProfessionalSalonDetailScreen/ProfessionalAboutUsScreen';
+import ProfessionalGalleryScreen from '../../../components/ProfessionalSalonDetailScreen/ProfessionalGalleryScreen';
+import ProfessionalReviewScreen from '../../../components/ProfessionalSalonDetailScreen/ProfessionalReviewScreen';
 
 const ProfessionalInfo = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -22,11 +29,39 @@ const ProfessionalInfo = ({ route }) => {
     const [activeTab, setActiveTab] = useState('Delivery');
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
+    const [ProfData, setProfData] = useState('');
+    const [address, setAddress] = useState({
+        Address: '',
+        city: '',
+        state: '',
+        Nearbylandmark: ''
+    });
+    const refRBSheet = useRef(null);
     const flatListRef = useRef(null);
     const navigation = useNavigation();
     const { facilitiesData } = route.params; // Ensure facilitiesData is passed
 
     const galleryImages = facilitiesData?.gallery || [];
+
+    const openBottomSheet = () => {
+        refRBSheet.current.open();
+    };
+
+    const closeBottomSheet = () => {
+        refRBSheet.current.close();
+    };
+
+    const handleSaveAddress = () => {
+        refRBSheet.current.close();
+    };
+
+    const formatAddress = (address) => {
+        const fullAddress = `${address.Address}, ${address.city}, ${address.state}, ${address.Nearbylandmark}`;
+        if (fullAddress.length > 15) {
+            return `${fullAddress.substring(0, 15)}...`;
+        }
+        return fullAddress;
+    };
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -41,6 +76,38 @@ const ProfessionalInfo = ({ route }) => {
 
         return () => clearInterval(interval);
     }, [currentPage, galleryImages.length]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const token = await AsyncStorage.getItem('AuthToken');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
+            console.log('========    Proff   ==========', res.data.professional);
+            setProfData(res?.data?.professional)
+            const ProfId = res.data.professional.map((prof) => prof.id);
+            console.log("========  profId   =============", ProfId);
+            // setProfID(ProfId)
+            const emailList = res.data.professional.map((prof) => prof.user.email);
+            console.log('======     emails hkb     ===========', emailList);
+            const Name = res.data.professional.map((prof) => prof.user.firstName);
+            console.log('======     name hkb     ===========', Name);
+            // setFetchedProfName(Name);
+            const Phone = res.data.professional.map((prof) => prof.user.phone);
+            console.log('======     Phone hkb     ===========', Phone);
+            // setFetchedProfPhone(Phone);
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const AllCategory = ({ item, setSelectedItem }) => (
         <TouchableOpacity
@@ -66,13 +133,15 @@ const ProfessionalInfo = ({ route }) => {
     const renderScreen = () => {
         switch (selectedItem) {
             case 'About Us':
-                return <AboutUsScreen facilitiesData={facilitiesData} />;
-            case 'Services':
-                return <ServicesScreen facilitiesData={facilitiesData} />;
+                return <ProfessionalAboutUsScreen facilitiesData={facilitiesData} ProfData={ProfData} />;
+            // case 'Services':
+            //     return <ServicesScreen facilitiesData={facilitiesData}  />;
+            // case 'Package':
+            //     return <PackageScreen facilitiesData={facilitiesData}  />;
             case 'Gallery':
-                return <GalleryScreen facilitiesData={facilitiesData} />;
+                return <ProfessionalGalleryScreen facilitiesData={facilitiesData} />;
             case 'Review':
-                return <ReviewScreen facilitiesData={facilitiesData} />;
+                return <ProfessionalReviewScreen facilitiesData={facilitiesData} />;
             default:
                 return null;
         }
@@ -236,16 +305,140 @@ const ProfessionalInfo = ({ route }) => {
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-                <View>{renderScreen()}</View>
-                <View style={{ flexDirection: 'row',justifyContent:'space-around',alignItems:'center',marginTop:20}}>
-                    <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 20 }}>
+                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }}onPress={() => {
+        openBottomSheet();
+        setActiveTab('Delivery');
+    }}>
                         <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-                        <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Schedule</Text>
+                    <TouchableOpacity  style={{ width: 150, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+                        <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{height:90}}/>
+                <View>{renderScreen()}</View>
+                <RBSheet
+                    ref={refRBSheet}
+                    height={Screen_Height * 0.7}
+                    customStyles={{
+                        wrapper: {
+                            backgroundColor: COLOR.BLACK_40,
+                        },
+                        container: {
+                            backgroundColor: COLOR.WHITE,
+                            borderRadius: 40,
+                            borderBottomRightRadius: 0,
+                            borderBottomLeftRadius: 0,
+                            elevation: 10,
+                            shadowColor: COLOR.BLACK,
+                        },
+                        draggableIcon: {
+                            backgroundColor: COLOR.BLACK,
+                        },
+                    }}
+                    customModalProps={{
+                        animationType: 'slide',
+                        statusBarTranslucent: true,
+                    }}
+                    customAvoidingViewProps={{
+                        enabled: false,
+                    }}
+                >
+                    <View
+                        style={{
+                            width: Screen_Width,
+                            height:Screen_Height*0.7,
+                            paddingHorizontal: 15,
+                            backgroundColor: COLOR.WHITE,
+                            justifyContent:'space-between'
+                        }}
+                    >
+
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginVertical: 15,
+                            justifyContent: 'space-between',
+                            margin: 10
+                        }}>
+                            <Text style={{ fontSize: 20, color: COLOR.BLACK }}>Add Address</Text>
+                            <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity>
+                        </View>
+
+                        <ScrollView style={{ margin: 10 }}>
+                            <TextInput
+                                placeholder="Address"
+                                value={address.Address}
+                                onChangeText={(text) => setAddress({ ...address, Address: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.GRAY,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                            />
+                            <TextInput
+                                placeholder="City"
+                                value={address.city}
+                                onChangeText={(text) => setAddress({ ...address, city: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.BLACK,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                            />
+                            <TextInput
+                                placeholder="State"
+                                value={address.state}
+                                onChangeText={(text) => setAddress({ ...address, state: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.GRAY,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                            />
+                            <TextInput
+                                placeholder="Nearbylandmark"
+                                value={address.Nearbylandmark}
+                                onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.GRAY,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                                
+                            />
+                        </ScrollView>
+                        <TouchableOpacity
+                            style={{
+                                width: Screen_Width * 0.90,
+                                height: Screen_Height * 0.05,
+                                backgroundColor: COLOR.ORANGECOLOR,
+                                justifyContent: 'center',
+                                borderRadius: 35,
+                                alignSelf: 'center',
+                                marginVertical: 20
+                            }}
+                            onPress={handleSaveAddress}
+                        >
+                            <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
+                                Book Delivery
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </RBSheet>
+                <View style={{ height: 90 }} />
             </View>
         </ScrollView>
     );

@@ -19,11 +19,11 @@ const BookAppointmentScreen = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const navigation = useNavigation()
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectedItem, setSelectedItem] = useState('10:00');
+  const [selectedItem, setSelectedItem] = useState('15:00');
 
   const renderItem3 = ({ item }) => (
-    <View style={{ alignItems: 'center', marginTop: 10 }}>
-      <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.18, borderRadius: 25, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
+    <View style={{ alignItems: 'center', marginVertical: 10 }}>
+      <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.18, borderRadius: 25,shadowColor:COLOR.BLACK,elevation:3, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
         <Image source={item.image} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
         <View style={{ alignItems: 'center' }}>
           <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.title}</Text>
@@ -101,20 +101,10 @@ const BookAppointmentScreen = () => {
       </View>
     </TouchableOpacity>
   );
-  // const Professional = ({item}) => (
-  //   <TouchableOpacity
-  //     style={{marginHorizontal: 13,}}
-  //     onPress={() => setSelectedItem(item.id)}>
 
-  //       <Image
-  //         style={{height:100,width:100}}
-  //         source={item.image}/>
-
-  //   </TouchableOpacity>
-  // );
 
   return (
-    <ScrollView style={{ paddingHorizontal: 15 }}>
+    <ScrollView style={{ paddingHorizontal: 10,backgroundColor:COLOR.WHITE }} showsVerticalScrollIndicator={false}>
       <View
         style={{
           flexDirection: 'row',
@@ -173,7 +163,7 @@ const BookAppointmentScreen = () => {
       />
       <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
         <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK, marginVertical: 10 }}>
-          Select Professional
+          Switch Professional
         </Text>
         <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.ORANGECOLOR, marginVertical: 10 }}>
           See All
@@ -188,7 +178,7 @@ const BookAppointmentScreen = () => {
       />
 
       <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }} onPress={()=>navigation.navigate('PaymentMethod Screen')}>
-        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Continue</Text>
+        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Proceed for payment</Text>
       </TouchableOpacity>
       <View style={{ height: 90 }} />
     </ScrollView>

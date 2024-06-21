@@ -68,6 +68,12 @@ export const NavigationScreens = {
     EReceiptScreen:'EReceiptScreen',
     Booking:'Booking',
 
+    ProfessionalAboutUsScreen:'ProfessionalAboutUsScreen',
+    ProfessionalGalleryScreen:'ProfessionalGalleryScreen',
+    ProfessionalPackageScreen:'ProfessionalPackageScreen',
+    ProfessionalReviewScreen:'ProfessionalReviewScreen',
+    ProfessionalServicesScreen:'ProfessionalServicesScreen',
+
     ProfessionalBottomTab:'ProfessionalBottom Tab',
     ProfessionalHomeScreen:'ProfessionalHome Screen',
     ProfessionalFacilitiesScreen:'ProfessionalFacilities Screen',

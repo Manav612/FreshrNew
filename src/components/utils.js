@@ -779,27 +779,19 @@ export const AllCategoryData1=[
   export const HoursData= [
     {
       id:1,
-      name:'10:00'
+      name:'15:00'
     },
     {
       id:2,
-      name:'01:00'
+      name:'30:00'
     },
     {
       id:3,
-      name:'02:00'
+      name:'45:00'
     },
     {
       id:4,
-      name:'03:00'
-    },
-    {
-      id:5,
-      name:'04:00'
-    },
-    {
-      id:6,
-      name:'05:00'
+      name:'1:00'
     },
    ]
 

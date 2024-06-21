@@ -75,13 +75,13 @@
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
-import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationScreens } from '../../constants/Strings';
+import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 
-const AboutUsScreen = ({ facilitiesData,ProfData }) => {
+const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
     const [showMore, setShowMore] = useState(false);
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -164,14 +164,14 @@ const AboutUsScreen = ({ facilitiesData,ProfData }) => {
                 onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData})}
             >
                 <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
-                    Choose Professional
+                Reserve Now
                 </Text>
             </TouchableOpacity>
         </View>
     );
 };
 
-export default AboutUsScreen;
+export default ProfessionalAboutUsScreen;
 
 const styles = StyleSheet.create({});
 

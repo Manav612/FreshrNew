@@ -26,6 +26,11 @@ import FacilityConnectStripe from '../screens/FacilitySideScreens/OnBoardingScre
 import ProfessionalConnectStripeScreen from '../screens/ProfessionalScreens/ProfessionalConnectStripeScreen/ProfessionalConnectStripeScreen';
 import PasswordAndOtp from '../screens/OnBoardingScreens/SignInScreen/PasswordAndOtp';
 import ProceedWithout from '../screens/OnBoardingScreens/WelcomeOnboardScreen/ProceedWithout';
+import ProfessionalAboutUsScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalAboutUsScreen';
+import ProfessionalGalleryScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalGalleryScreen';
+import ProfessionalPackageScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalPackageScreen';
+import ProfessionalReviewScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalReviewScreen';
+import ProfessionalServicesScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalServicesScreen';
 
 const Stack = createSharedElementStackNavigator();
 
@@ -74,6 +79,12 @@ const NavigationHandler = () => {
                 <Stack.Screen name={NavigationScreens.NewpasswordScreen} component={Newpassword} />
                 <Stack.Screen name={NavigationScreens.FillProfileScreen} component={FillProfile} />
                 <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
+                <Stack.Screen name={NavigationScreens.ProfessionalAboutUsScreen} component={ProfessionalAboutUsScreen} />
+                <Stack.Screen name={NavigationScreens.ProfessionalGalleryScreen} component={ProfessionalGalleryScreen} />
+                <Stack.Screen name={NavigationScreens.ProfessionalPackageScreen} component={ProfessionalPackageScreen} />
+                <Stack.Screen name={NavigationScreens.ProfessionalReviewScreen} component={ProfessionalReviewScreen} />
+                <Stack.Screen name={NavigationScreens.ProfessionalServicesScreen} component={ProfessionalServicesScreen} />
+
                 <Stack.Screen name={NavigationScreens.ProfessionalPrivacyAndPolicyScreen} component={ProfessionalPrivacyAndPolicy} />
                 <Stack.Screen name={NavigationScreens.ProfessionalConnectStripeScreen} component={ProfessionalConnectStripeScreen} />
                 <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        

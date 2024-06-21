@@ -424,7 +424,7 @@ const Home = () => {
             setCurrentPage(index);
           }}
           renderItem={({ item }) => (
-            <View style={{ borderRadius: 15, marginHorizontal: 10 }}>
+            <View style={{ borderRadius: 15, marginHorizontal: 5 }}>
               <FastImage
                 source={item.img}
                 style={{ width: Screen_Width * 0.9, height: 200, resizeMode: 'cover', borderRadius: 15 }}
@@ -441,7 +441,7 @@ const Home = () => {
               width: 10,
               height: 10,
               borderRadius: 5,
-              backgroundColor: index === currentPage ? COLOR.WHITE : COLOR.ORANGECOLOR,
+              backgroundColor: index === currentPage ? COLOR.ORANGECOLOR : COLOR.GRAY,
               marginHorizontal: 5,
             }}
           />
@@ -465,124 +465,126 @@ const Home = () => {
 
 
       <RBSheet
-        ref={refRBSheet}
-        height={Screen_Height * 0.80}
-        customStyles={{
-          wrapper: {
-            backgroundColor: COLOR.BLACK_40,
-          },
-          container: {
-            backgroundColor: COLOR.WHITE,
-            borderRadius: 40,
-            borderBottomRightRadius: 0,
-            borderBottomLeftRadius: 0,
-            elevation: 10,
-            shadowColor: COLOR.BLACK,
-          },
-          draggableIcon: {
-            backgroundColor: COLOR.BLACK,
-          },
-        }}
-        customModalProps={{
-          animationType: 'slide',
-          statusBarTranslucent: true,
-        }}
-        customAvoidingViewProps={{
-          enabled: false,
-        }}
-      >
-        <ScrollView
-          style={{
-            width: Screen_Width,
-            height: 100,
-            paddingHorizontal: 15,
-            backgroundColor: COLOR.WHITE,
-          }}
-        >
-          
-          <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 15,
-              justifyContent:'space-between',
-              margin:10
-            }}>
-          <Text style={{ fontSize: 20, color: COLOR.BLACK }}>Add a Location</Text>
-            <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity> 
-          </View>
-          <View style={{margin:10}}>
-            <TextInput
-              placeholder="Address"
-              value={address.Address}
-              onChangeText={(text) => setAddress({ ...address, Address: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="City"
-              value={address.city}
-              onChangeText={(text) => setAddress({ ...address, city: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.BLACK,
-                borderRadius: 5,
-                padding: 10,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="State"
-              value={address.state}
-              onChangeText={(text) => setAddress({ ...address, state: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="Nearbylandmark"
-              value={address.Nearbylandmark}
-              onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-              keyboardType="numeric"
-            />
-          </View>
-          <TouchableOpacity
-            style={{
-              width: Screen_Width * 0.90,
-              height: Screen_Height * 0.05,
-              backgroundColor: COLOR.ORANGECOLOR,
-              justifyContent: 'center',
-              borderRadius: 35,
-              alignSelf: 'center',
-              marginVertical: 20
-            }}
-            onPress={handleSaveAddress}
-          >
-            <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
-              Save
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </RBSheet>
+                    ref={refRBSheet}
+                    height={Screen_Height * 0.7}
+                    customStyles={{
+                        wrapper: {
+                            backgroundColor: COLOR.BLACK_40,
+                        },
+                        container: {
+                            backgroundColor: COLOR.WHITE,
+                            borderRadius: 40,
+                            borderBottomRightRadius: 0,
+                            borderBottomLeftRadius: 0,
+                            elevation: 10,
+                            shadowColor: COLOR.BLACK,
+                        },
+                        draggableIcon: {
+                            backgroundColor: COLOR.BLACK,
+                        },
+                    }}
+                    customModalProps={{
+                        animationType: 'slide',
+                        statusBarTranslucent: true,
+                    }}
+                    customAvoidingViewProps={{
+                        enabled: false,
+                    }}
+                >
+                    <View
+                        style={{
+                            width: Screen_Width,
+                            height:Screen_Height*0.7,
+                            paddingHorizontal: 15,
+                            backgroundColor: COLOR.WHITE,
+                            justifyContent:'space-between'
+                        }}
+                    >
+
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginVertical: 15,
+                            justifyContent: 'space-between',
+                            margin: 10
+                        }}>
+                            <Text style={{ fontSize: 20, color: COLOR.BLACK }}>Add Address</Text>
+                            <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity>
+                        </View>
+
+                        <ScrollView style={{ margin: 10 }}>
+                            <TextInput
+                                placeholder="Address"
+                                value={address.Address}
+                                onChangeText={(text) => setAddress({ ...address, Address: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.GRAY,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                            />
+                            <TextInput
+                                placeholder="City"
+                                value={address.city}
+                                onChangeText={(text) => setAddress({ ...address, city: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.BLACK,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                            />
+                            <TextInput
+                                placeholder="State"
+                                value={address.state}
+                                onChangeText={(text) => setAddress({ ...address, state: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.GRAY,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                            />
+                            <TextInput
+                                placeholder="Nearbylandmark"
+                                value={address.Nearbylandmark}
+                                onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: COLOR.GRAY,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                    backgroundColor: COLOR.WHITE,
+                                }}
+                               
+                            />
+                        </ScrollView>
+                        <TouchableOpacity
+                            style={{
+                                width: Screen_Width * 0.90,
+                                height: Screen_Height * 0.05,
+                                backgroundColor: COLOR.ORANGECOLOR,
+                                justifyContent: 'center',
+                                borderRadius: 35,
+                                alignSelf: 'center',
+                                marginVertical: 20
+                            }}
+                            onPress={handleSaveAddress}
+                        >
+                            <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
+                                Save Address
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </RBSheet>
       <View style={{ height: 90 }} />
     </ScrollView>
   );

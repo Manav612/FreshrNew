@@ -17,6 +17,9 @@ import ReviewScreen from '../components/SalonDetailScreen/ReviewScreen';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { NavigationScreens } from '../constants/Strings';
+import { BASE_API_URL } from '../Services';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Booking = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -24,6 +27,7 @@ const Booking = ({ route }) => {
     const [selectedItem, setSelectedItem] = useState('About Us');
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
+    const [ProfData, setProfData] = useState('');
     const flatListRef = useRef(null);
     const navigation = useNavigation()
     const { facilitiesData } = route.params
@@ -44,15 +48,45 @@ const Booking = ({ route }) => {
         return () => clearInterval(interval);
     }, [currentPage, galleryImages.length]);
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const token = await AsyncStorage.getItem('AuthToken');
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
+            console.log('========    Proff   ==========', res.data.professional);
+            setProfData(res?.data?.professional)
+            const ProfId = res.data.professional.map((prof) => prof.id);
+            console.log("========  profId   =============",ProfId);
+            // setProfID(ProfId)
+            const emailList = res.data.professional.map((prof) => prof.user.email);
+            console.log('======     emails hkb     ===========', emailList);
+            const Name = res.data.professional.map((prof) => prof.user.firstName);
+            console.log('======     name hkb     ===========', Name);
+            // setFetchedProfName(Name);
+            const Phone = res.data.professional.map((prof) => prof.user.phone);
+            console.log('======     Phone hkb     ===========', Phone);
+            // setFetchedProfPhone(Phone);
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const renderItem3 = ({ item }) => (
-        <View style={{ alignItems: 'center', marginTop: 10 }}>
-            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen,{facilitiesData:facilitiesData})} style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.18, borderRadius: 25, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
-                <Image source={item.image} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
-                <View style={{ alignItems: 'center' }}>
-                    <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>{item.title}</Text>
-                    <Text style={{ color: COLOR.BLACK_40, fontSize: 14 }}>{item.type}</Text>
-                </View>
+        <View style={{ alignItems: 'center',marginVertical:5 }}>
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { facilitiesData: facilitiesData })} style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.15, borderRadius: 15,shadowColor:COLOR.BLACK,elevation:3, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
+                <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
+                
+                    <Text style={{ color: COLOR.BLACK, fontSize: 16,fontWeight:'600' }}>{item?.user?.firstName}</Text>
+               
             </TouchableOpacity>
 
         </View>
@@ -82,15 +116,15 @@ const Booking = ({ route }) => {
     const renderScreen = () => {
         switch (selectedItem) {
             case 'About Us':
-                return <AboutUsScreen facilitiesData={facilitiesData}  />;
+                return <AboutUsScreen facilitiesData={facilitiesData} ProfData={ProfData}/>;
             // case 'Services':
             //     return <ServicesScreen facilitiesData={facilitiesData}  />;
             // case 'Package':
             //     return <PackageScreen facilitiesData={facilitiesData}  />;
             case 'Gallery':
-                return <GalleryScreen facilitiesData={facilitiesData}  />;
+                return <GalleryScreen facilitiesData={facilitiesData} />;
             case 'Review':
-                return <ReviewScreen facilitiesData={facilitiesData}  />;
+                return <ReviewScreen facilitiesData={facilitiesData} />;
             default:
                 return null;
         }
@@ -212,13 +246,13 @@ const Booking = ({ route }) => {
                             width: 10,
                             height: 10,
                             borderRadius: 5,
-                            backgroundColor: index === currentPage ? COLOR.WHITE : COLOR.ORANGECOLOR,
+                            backgroundColor: index === currentPage ? COLOR.ORANGECOLOR : COLOR.GRAY,
                             marginHorizontal: 5,
                         }}
                     />
                 ))}
             </View>
-            
+
             <View style={{ marginHorizontal: 15 }}>
                 <View style={{ marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -239,18 +273,18 @@ const Booking = ({ route }) => {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                         <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
                         <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>4.8(3,279 reviews)</Text>
                     </View>
                     <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
 
-                        <FastImage source={share} style={{ height: 20, width: 20, marginVertical: 5 }} />
+                        <FastImage source={share} style={{ height: 20, width: 20 }} />
                         <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>Share</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 14 }} />
+                <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 10 }} />
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
                     <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Our Professionals</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('OurProfessionalDetails Screen')}>
@@ -258,7 +292,7 @@ const Booking = ({ route }) => {
                     </TouchableOpacity>
                 </View>
                 <FlatList
-                    data={Professional}
+                    data={ProfData}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={item => item.id}
