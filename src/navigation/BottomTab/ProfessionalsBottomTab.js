@@ -25,6 +25,8 @@ import ProfessionalViewServices from '../../screens/ProfessionalScreens/Professi
 import ProfessionalInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalInnerServices';
 import ProfessionalViewInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalViewInnerServices';
 import ProfessionalProfile2 from '../../screens/ProfessionalScreens/ProfessionalProfile2/ProfessionalProfile2';
+import profselectservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectservice';
+import profselectedDetailservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectedDetailservice';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -55,6 +57,9 @@ const ServicesStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalInnerServicesScreen} component={ProfessionalInnerServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewInnerServicesScreen} component={ProfessionalViewInnerServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+            <Stack.Screen name={NavigationScreens.profselectserviceScreen} component={profselectservice} />
+            <Stack.Screen name={NavigationScreens.profselectedDetailserviceScreen} component={profselectedDetailservice} />
+
 
 
         </Stack.Navigator>

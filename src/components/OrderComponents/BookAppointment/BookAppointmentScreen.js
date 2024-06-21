@@ -104,6 +104,7 @@ const BookAppointmentScreen = () => {
 
 
   return (
+    <>
     <ScrollView style={{ paddingHorizontal: 10,backgroundColor:COLOR.WHITE }} showsVerticalScrollIndicator={false}>
       <View
         style={{
@@ -177,12 +178,14 @@ const BookAppointmentScreen = () => {
         renderItem={renderItem3}
       />
 
-      <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }} onPress={()=>navigation.navigate('PaymentMethod Screen')}>
-        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Proceed for payment</Text>
-      </TouchableOpacity>
-      <View style={{ height: 90 }} />
+      
+      <View style={{ height: 160 }} />
+      
     </ScrollView>
-
+    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15,position:'absolute',bottom:90,width:Screen_Width*0.95,marginHorizontal:10 }} onPress={()=>navigation.navigate('PaymentMethod Screen')}>
+    <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Proceed for payment</Text>
+  </TouchableOpacity>
+  </>
   )
 }
 

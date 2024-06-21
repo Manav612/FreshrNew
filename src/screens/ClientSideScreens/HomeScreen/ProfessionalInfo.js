@@ -26,7 +26,7 @@ const ProfessionalInfo = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [selectedItem, setSelectedItem] = useState('About Us');
-    const [activeTab, setActiveTab] = useState('Delivery');
+    const [activeTab, setActiveTab] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [ProfData, setProfData] = useState('');
@@ -305,14 +305,27 @@ const ProfessionalInfo = ({ route }) => {
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 20 }}>
-                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }}onPress={() => {
-        openBottomSheet();
-        setActiveTab('Delivery');
-    }}>
+                <View style={{backgroundColor:COLOR.WHITE,alignSelf:'center',elevation:3,shadowColor:COLOR.BLACK,height:100,width:Screen_Width*0.9,marginVertical:15,borderRadius:25}}>
+                <View style={{justifyContent:'center',alignItems:'center',marginVertical:10}}>
+                   <Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>FreeLancel Mode</Text>
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop:5 }}>
+                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor:COLOR.GREEN, borderRadius: 30, justifyContent: 'center', alignItems: 'center'}} >
+                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>Availabale</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor:COLOR.CANCEL_B, borderRadius: 30, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>UnAvilebale</Text>
+                    </TouchableOpacity>
+                </View>
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => {
+                        openBottomSheet();
+                        setActiveTab('Delivery');
+                    }}>
                         <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  style={{ width: 150, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
                         <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
                     </TouchableOpacity>
                 </View>
@@ -347,10 +360,10 @@ const ProfessionalInfo = ({ route }) => {
                     <View
                         style={{
                             width: Screen_Width,
-                            height:Screen_Height*0.7,
+                            height: Screen_Height * 0.7,
                             paddingHorizontal: 15,
                             backgroundColor: COLOR.WHITE,
-                            justifyContent:'space-between'
+                            justifyContent: 'space-between'
                         }}
                     >
 
@@ -417,7 +430,7 @@ const ProfessionalInfo = ({ route }) => {
                                     marginBottom: 10,
                                     backgroundColor: COLOR.WHITE,
                                 }}
-                                
+
                             />
                         </ScrollView>
                         <TouchableOpacity

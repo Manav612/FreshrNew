@@ -310,43 +310,48 @@ export const AllCategoryData1=[
   export const Servicesdata=[
     {
       id:1,
-      name:'Hair Cut',
-      type:'44 types'
+      name:'Braids',
+      img:Hair1
     },
     {
       id:2,
-      name:'Hair Coloring',
-      type:'12 types'
+      name:'Waves',
+      img:Hair1
     },
     {
       id:3,
-      name:'Hair Wash',
-      type:'8 types'
+      name:'Blowdry',
+      img:Hair1
     },
     {
       id:4,
-      name:'Saving',
-      type:'22 types'
+      name:'Full head design',
+      img:Hair1
     },
     {
       id:5,
-      name:'Skin Care',
-      type:'12 types'
+      name:'General Designs',
+      img:Hair1
     },
     {
       id:6,
-      name:'Hair Dryer',
-      type:'4 types'
+      name:'Buzzcut',
+      img:Hair1
     },
     {
       id:7,
-      name:'Face Make up',
-      type:'18 types'
+      name:'Kids Haircut + Design',
+      img:Hair1
     },
     {
       id:8,
-      name:'Body Massage',
-      type:'20 types'
+      name:'Bazzcut + Beard + Design',
+      img:Hair1
+    },
+    {
+      id:9,
+      name:'Haircut + Beard + Design',
+      img:Hair1
     },
    ];
    export const Servicesdata2=[

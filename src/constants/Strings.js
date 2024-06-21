@@ -97,6 +97,8 @@ export const NavigationScreens = {
     ProfessionalInnerServicesScreen:'ProfessionalInnerServicesScreen',
     ProfessionalConnectStripeScreen:'ProfessionalConnectStripeScreen',
     ProfessionalProfile2Screen:'ProfessionalProfile2Screen',
+    profselectserviceScreen:'profselectserviceScreen',
+    profselectedDetailserviceScreen:'profselectedDetailserviceScreen',
 
     FacilityBottomTab:'FacilityBottomTab',
     FacilityPrivacyAndPolicyScreen:'FacilityPrivacyAndPolicyScreen',
