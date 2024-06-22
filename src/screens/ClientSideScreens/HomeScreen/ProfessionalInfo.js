@@ -3,6 +3,7 @@ import { FlatList, ImageBackground, ScrollView, StyleSheet, Text, TextInput, Tou
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FastImage from 'react-native-fast-image';
@@ -39,7 +40,7 @@ const ProfessionalInfo = ({ route }) => {
     const refRBSheet = useRef(null);
     const flatListRef = useRef(null);
     const navigation = useNavigation();
-    const { facilitiesData } = route.params; // Ensure facilitiesData is passed
+    const { ProfessionalData,facilitiesData } = route.params; // Ensure facilitiesData is passed
 
     const galleryImages = facilitiesData?.gallery || [];
 
@@ -133,15 +134,15 @@ const ProfessionalInfo = ({ route }) => {
     const renderScreen = () => {
         switch (selectedItem) {
             case 'About Us':
-                return <ProfessionalAboutUsScreen facilitiesData={facilitiesData} ProfData={ProfData} />;
+                return <ProfessionalAboutUsScreen facilitiesData={facilitiesData}  ProfData={ProfessionalData} />;
             // case 'Services':
             //     return <ServicesScreen facilitiesData={facilitiesData}  />;
             // case 'Package':
             //     return <PackageScreen facilitiesData={facilitiesData}  />;
             case 'Gallery':
-                return <ProfessionalGalleryScreen facilitiesData={facilitiesData} />;
+                return <ProfessionalGalleryScreen  />;
             case 'Review':
-                return <ProfessionalReviewScreen facilitiesData={facilitiesData} />;
+                return <ProfessionalReviewScreen  />;
             default:
                 return null;
         }
@@ -268,7 +269,7 @@ const ProfessionalInfo = ({ route }) => {
             <View style={{ marginHorizontal: 15 }}>
                 <View style={{ marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{facilitiesData?.name}</Text>
+                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{ProfData?.name}</Text>
                         <TouchableOpacity
                             style={{
                                 width: 80,
@@ -305,20 +306,15 @@ const ProfessionalInfo = ({ route }) => {
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-                <View style={{backgroundColor:COLOR.WHITE,alignSelf:'center',elevation:3,shadowColor:COLOR.BLACK,height:100,width:Screen_Width*0.9,marginVertical:15,borderRadius:25}}>
+                <View style={{backgroundColor:COLOR.WHITE,alignSelf:'center',elevation:3,shadowColor:COLOR.BLACK,height:125,width:Screen_Width*0.9,marginVertical:10,borderRadius:25}}>
                 <View style={{justifyContent:'center',alignItems:'center',marginVertical:10}}>
                    <Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>Freelancer mode</Text>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop:5 }}>
-                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor:COLOR.GREEN, borderRadius: 30, justifyContent: 'center', alignItems: 'center'}} >
-                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>available</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor:COLOR.CANCEL_B, borderRadius: 30, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>unavailable</Text>
-                    </TouchableOpacity>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                <View style={{flexDirection:'row',gap:10}}><Octicons name="dot-fill" size={24} color={COLOR.GREEN} /><Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>available</Text></View>
+                <View style={{flexDirection:'row',gap:10}}><Octicons name="dot-fill" size={24} color={COLOR.CANCEL_B} /><Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>unavailable</Text></View>
                 </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',marginVertical:5 }}>
                     <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => {
                         openBottomSheet();
                         setActiveTab('Delivery');
@@ -329,6 +325,8 @@ const ProfessionalInfo = ({ route }) => {
                         <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
                     </TouchableOpacity>
                 </View>
+                </View>
+                
                 <View>{renderScreen()}</View>
                 <RBSheet
                     ref={refRBSheet}
@@ -381,6 +379,7 @@ const ProfessionalInfo = ({ route }) => {
                         <ScrollView style={{ margin: 10 }}>
                             <TextInput
                                 placeholder="Address"
+                                placeholderTextColor={COLOR.GRAY}
                                 value={address.Address}
                                 onChangeText={(text) => setAddress({ ...address, Address: text })}
                                 style={{
@@ -389,11 +388,13 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
+                                    color:COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
                             />
                             <TextInput
                                 placeholder="City"
+                                placeholderTextColor={COLOR.GRAY}
                                 value={address.city}
                                 onChangeText={(text) => setAddress({ ...address, city: text })}
                                 style={{
@@ -402,11 +403,13 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
+                                    color:COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
                             />
                             <TextInput
                                 placeholder="State"
+                                placeholderTextColor={COLOR.GRAY}
                                 value={address.state}
                                 onChangeText={(text) => setAddress({ ...address, state: text })}
                                 style={{
@@ -415,11 +418,13 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
+                                    color:COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
                             />
                             <TextInput
                                 placeholder="Nearbylandmark"
+                                placeholderTextColor={COLOR.GRAY}
                                 value={address.Nearbylandmark}
                                 onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
                                 style={{
@@ -428,6 +433,7 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
+                                    color:COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
 

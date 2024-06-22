@@ -279,6 +279,7 @@ const FacilityOnBoardingScreen = () => {
             elevation: 5,
             shadowColor: COLOR.BLACK,
             marginVertical: 5,
+            color:COLOR.BLACK,
         },
         halfInput: {
             backgroundColor: COLOR.AuthField,
@@ -287,6 +288,7 @@ const FacilityOnBoardingScreen = () => {
             shadowColor: COLOR.BLACK,
             marginVertical: 5,
             width: Screen_Width * 0.35,
+            color:COLOR.BLACK,
         },
         ImageText: {
             fontSize: 12,
@@ -669,7 +671,7 @@ const FacilityOnBoardingScreen = () => {
                                             <TextInput
                                                 style={[styles.input]}
                                                 placeholder="Street"
-                                                placeholderTextColor={COLOR.BLACK}
+                                                placeholderTextColor={COLOR.GRAY}
                                                 value={street}
                                                 onChangeText={setStreet}
                                             />
@@ -679,7 +681,7 @@ const FacilityOnBoardingScreen = () => {
                                             <TextInput
                                                 style={[styles.input]}
                                                 placeholder="Apartment, Suite"
-                                                placeholderTextColor={COLOR.BLACK}
+                                                placeholderTextColor={COLOR.GRAY}
                                                 value={apartment}
                                                 onChangeText={setApartment}
                                             />
@@ -689,7 +691,7 @@ const FacilityOnBoardingScreen = () => {
                                             <TextInput
                                                 style={[styles.input]}
                                                 placeholder="City"
-                                                placeholderTextColor={COLOR.BLACK}
+                                                placeholderTextColor={COLOR.GRAY}
                                                 value={city}
                                                 onChangeText={setCity}
                                             />
@@ -700,7 +702,7 @@ const FacilityOnBoardingScreen = () => {
                                                 <TextInput
                                                     style={[styles.halfInput]}
                                                     placeholder="State / Province"
-                                                    placeholderTextColor={COLOR.BLACK}
+                                                    placeholderTextColor={COLOR.GRAY}
                                                     value={state}
                                                     onChangeText={setState}
                                                 />
@@ -710,7 +712,7 @@ const FacilityOnBoardingScreen = () => {
                                                 <TextInput
                                                     style={[styles.halfInput]}
                                                     placeholder="Postal code"
-                                                    placeholderTextColor={COLOR.BLACK}
+                                                    placeholderTextColor={COLOR.GRAY}
                                                     value={postalCode}
                                                     onChangeText={setPostalCode}
                                                 />
@@ -721,7 +723,7 @@ const FacilityOnBoardingScreen = () => {
                                             <TextInput
                                                 style={[styles.input]}
                                                 placeholder="Country/Region"
-                                                placeholderTextColor={COLOR.BLACK}
+                                                placeholderTextColor={COLOR.GRAY}
                                                 value={country}
                                                 onChangeText={setCountry}
                                             />

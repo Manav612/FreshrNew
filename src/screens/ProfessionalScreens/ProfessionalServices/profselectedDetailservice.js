@@ -170,7 +170,7 @@ const ProfSelectedDetailService = ({ route }) => {
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>$</Text>
                     <TextInput
-                        placeholderTextColor={COLOR.BLACK}
+                        placeholderTextColor={COLOR.GRAY}
                         style={{ fontSize: 20, color: COLOR.BLACK }}
                         value={price}
                         onChangeText={handlePriceChange}
@@ -195,6 +195,7 @@ const ProfSelectedDetailService = ({ route }) => {
                 />
             </View>
 
+<<<<<<< HEAD
             <TextInput
                 placeholder="Enter description"
                 placeholderTextColor={COLOR.GRAY}
@@ -202,6 +203,18 @@ const ProfSelectedDetailService = ({ route }) => {
                 value={description}
                 onChangeText={setDescription}
                 multiline={true}
+=======
+               <TextInput
+               placeholder={item.description}
+               placeholderTextColor={COLOR.GRAY}
+               style={[styles.input,{color:COLOR.BLACK}]}
+               />
+            <View style={{ marginVertical: 10,flexDirection:'row',justifyContent:'space-between',alignItems:'center' }}>
+            <RadioButton 
+                label="Both"
+                selected={selectedGender === 'both'}
+                onPress={() => setSelectedGender('both')}
+>>>>>>> f4147d78c7472b913f973c77f863999f72f5f0ee
             />
             <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <RadioButton

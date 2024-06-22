@@ -67,7 +67,7 @@ const ProfSelectService = () => {
                     <TextInput
                         placeholder='Search'
                         placeholderTextColor={COLOR.GRAY}
-                        style={{ fontSize: 20, color: COLOR.GRAY, width: 200 }}
+                        style={{ fontSize: 20, color: COLOR.BLACK, width: 200 }}
                         onChangeText={handleSearch}
                         value={searchText}
                     />

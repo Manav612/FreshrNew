@@ -267,7 +267,7 @@ const Explore = () => {
             <TextInput
               placeholder='Search'
               placeholderTextColor={COLOR.GRAY}
-              style={{ fontSize: 20, color: COLOR.GRAY, width: 200 }}
+              style={{ fontSize: 20, color: COLOR.BLACK, width: 200 }}
             // onChangeText={text => {
             //     setSearchText(text);
             //     handleSearch();
