@@ -102,7 +102,7 @@ const ProfessionalEditprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Full Name"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsFirstNameFocused(true)}
                             onBlur={() => setIsFirstNameFocused(false)}
                             value={firstName}
@@ -113,7 +113,7 @@ const ProfessionalEditprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="LastName"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsLastNameFocused(true)}
                             onBlur={() => setIsLastNameFocused(false)}
                             value={lastName}
@@ -124,7 +124,7 @@ const ProfessionalEditprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Bio"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsDobFocused(true)}
                             onBlur={() => setIsDobFocused(false)}
                             value={dob}

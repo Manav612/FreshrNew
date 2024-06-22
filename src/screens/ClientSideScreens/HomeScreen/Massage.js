@@ -120,7 +120,7 @@ const Massage = () => {
           <TextInput
             placeholder='Search'
             placeholderTextColor={COLOR.GRAY}
-            style={{ fontSize: 20, color: COLOR.GRAY,width:250 }}
+            style={{ fontSize: 20, color: COLOR.BLACK,width:250 }}
             onChangeText={text => { setSearchText(text)
               handleSearch();
             }}  

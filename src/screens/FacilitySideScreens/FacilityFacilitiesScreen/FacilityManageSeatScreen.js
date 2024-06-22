@@ -468,6 +468,7 @@ const FacilityManageSeatScreen = ({ route }) => {
             borderRadius: 10,
             marginBottom: 10,
             paddingHorizontal: 10,
+            color:COLOR.BLACK,
         },
     });
 
@@ -582,7 +583,7 @@ const FacilityManageSeatScreen = ({ route }) => {
                 <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: 120, borderRadius: 10 }}>
                     <TextInput
                         style={[styles.input, { color: COLOR.BLACK }]}
-                        placeholderTextColor={COLOR.BLACK}
+                        placeholderTextColor={COLOR.GRAY}
                         placeholder="Editable Filed"
                         onFocus={() => setIsEditableFocused(true)}
                         onBlur={() => setIsEditableFocused(false)}
@@ -632,7 +633,7 @@ const FacilityManageSeatScreen = ({ route }) => {
                                 <TextInput
                                     style={[styles.input2, { color: COLOR.BLACK }]}
                                     placeholder="Email"
-                                    placeholderTextColor={COLOR.BLACK}
+                                    placeholderTextColor={COLOR.GRAY}
                                     value={searchQuery}
                                     onChangeText={handleSearch}
                                 />
@@ -658,7 +659,7 @@ const FacilityManageSeatScreen = ({ route }) => {
                                 <TextInput
                                     style={[styles.input2, { color: COLOR.BLACK }]}
                                     placeholder="Commission Split"
-                                    placeholderTextColor={COLOR.BLACK}
+                                    placeholderTextColor={COLOR.GRAY}
                                     value={selectedSeat.commission}
                                     onChangeText={(text) => setSelectedSeat({ ...selectedSeat, commission: text })}
                                 />

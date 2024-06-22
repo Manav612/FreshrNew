@@ -339,7 +339,7 @@ const FillProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="First Name"
-              placeholderTextColor={COLOR.BLACK_40}
+              placeholderTextColor={COLOR.GRAY}
               onFocus={() => setIsFirstNameFocused(true)}
               onBlur={() => setIsFirstNameFocused(false)}
               value={firstName}
@@ -350,7 +350,7 @@ const FillProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="Last Name"
-              placeholderTextColor={COLOR.BLACK_40}
+              placeholderTextColor={COLOR.GRAY}
               onFocus={() => setIsLastNameFocused(true)}
               onBlur={() => setIsLastNameFocused(false)}
               value={lastName}
@@ -362,7 +362,7 @@ const FillProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="Email"
-              placeholderTextColor={COLOR.BLACK_40}
+              placeholderTextColor={COLOR.GRAY}
               onFocus={() => setIsEmail(true)}
               onBlur={() => setIsEmail(false)}
               value={email}
@@ -374,7 +374,7 @@ const FillProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="Address"
-              placeholderTextColor={COLOR.BLACK_40}
+              placeholderTextColor={COLOR.GRAY}
               value={address}
               onChangeText={text => setAddress(text)}
             />
@@ -383,7 +383,7 @@ const FillProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="Password"
-              placeholderTextColor={COLOR.BLACK_40}
+              placeholderTextColor={COLOR.GRAY}
               secureTextEntry
               value={password}
               onChangeText={text => setPassword(text)}
@@ -393,7 +393,7 @@ const FillProfile = () => {
             <TextInput
               style={styles.input}
               placeholder="Confirm Password"
-              placeholderTextColor={COLOR.BLACK_40}
+              placeholderTextColor={COLOR.GRAY}
               secureTextEntry
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}

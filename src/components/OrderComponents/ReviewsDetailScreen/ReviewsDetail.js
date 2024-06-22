@@ -165,6 +165,7 @@ const ReviewsDetail = () => {
       padding: 10,
       marginBottom: 20,
       textAlign: 'center',
+      color:COLOR.BLACK
     },
     button: {
       backgroundColor: '#f39c12',
@@ -281,6 +282,8 @@ const ReviewsDetail = () => {
          </View>
 
          <TextInput
+         placeholder='Review'
+         placeholderTextColor={COLOR.GRAY}
            style={styles.input}
            value={review}
            onChangeText={setReview}

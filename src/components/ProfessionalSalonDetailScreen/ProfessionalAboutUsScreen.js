@@ -131,6 +131,7 @@ const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
     };
 
     return (
+        <>
         <View style={{ marginTop: 20 }}>
             <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
                 {showFullText ? fullText : truncatedText}
@@ -151,23 +152,27 @@ const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
                     {showMore ? 'Read Less' : 'Read More'}
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-                style={{
-                    width: Screen_Width * 0.80,
-                    height:40,
-                    backgroundColor: COLOR.ORANGECOLOR,
-                    justifyContent: 'center',
-                    borderRadius: 35,
-                    alignSelf: 'center',
-                    marginVertical: 20
-                }}
-                onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData})}
-            >
-                <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
-                Reserve Now
-                </Text>
-            </TouchableOpacity>
+            
         </View>
+        <TouchableOpacity
+        style={{
+            width: Screen_Width * 0.80,
+            height:40,
+            backgroundColor: COLOR.ORANGECOLOR,
+            justifyContent: 'center',
+            borderRadius: 35,
+            alignSelf: 'center',
+            marginVertical: 20,
+            position: 'absolute',
+            top:120
+        }}
+        onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData})}
+    >
+        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
+        Reserve Now
+        </Text>
+    </TouchableOpacity>
+    </>
     );
 };
 

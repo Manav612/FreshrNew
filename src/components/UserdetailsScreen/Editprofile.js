@@ -79,7 +79,7 @@ const Editprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Full Name"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsFullNameFocused(true)}
                             onBlur={() => setIsFullNameFocused(false)}
                             value={fullName}
@@ -90,7 +90,7 @@ const Editprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Nickname"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsNickNameFocused(true)}
                             onBlur={() => setIsNickNameFocused(false)}
                             value={nickName}
@@ -101,7 +101,7 @@ const Editprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Date of Birth"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsDobFocused(true)}
                             onBlur={() => setIsDobFocused(false)}
                             value={dob}
@@ -112,7 +112,7 @@ const Editprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Email"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsEmail(true)}
                             onBlur={() => setIsEmail(false)}
                             value={email}
@@ -216,7 +216,7 @@ const Editprofile = () => {
                         <TextInput
                             style={styles.input}
                             placeholder="Address"
-                            placeholderTextColor={COLOR.BLACK_40}
+                            placeholderTextColor={COLOR.GRAY}
                             onFocus={() => setIsNickNameFocused(true)}
                             onBlur={() => setIsNickNameFocused(false)}
                             value={nickName}

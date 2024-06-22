@@ -86,7 +86,7 @@ const SignIn = () => {
                     <TextInput
                         style={[styles.input]}
                         placeholder="Email"
-                        placeholderTextColor={COLOR.BLACK}
+                        placeholderTextColor={COLOR.GRAY}
                         keyboardType="email-address"
                         value={email}
                         onChangeText={handleEmailChange}

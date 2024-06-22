@@ -77,7 +77,7 @@ const Newpassword = () => {
                     <TextInput
                         style={{ flex: 1, marginLeft: 10, fontSize: 16, color: COLOR.BLACK }}
                         placeholder="Password"
-                        placeholderTextColor={COLOR.BLACK}
+                        placeholderTextColor={COLOR.GRAY}
                         secureTextEntry={!showPassword}
                         value={password}
                         onChangeText={handlePasswordChange}
@@ -92,7 +92,7 @@ const Newpassword = () => {
                     <TextInput
                         style={{ flex: 1, marginLeft: 10, fontSize: 16, color: COLOR.BLACK }}
                         placeholder="Confirm Password"
-                        placeholderTextColor={COLOR.BLACK}
+                        placeholderTextColor={COLOR.GRAY}
                         secureTextEntry={!showPassword}
                         value={confirmPassword}
                         onChangeText={handleConfirmPasswordChange}

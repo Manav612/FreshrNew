@@ -171,7 +171,7 @@ const PasswordAndOtp = ({ route }) => {
                     <TextInput
                         style={[styles.input]}
                         placeholder="Password"
-                        placeholderTextColor={COLOR.BLACK}
+                        placeholderTextColor={COLOR.GRAY}
                         secureTextEntry={!showPassword}
                         value={password}
                         onChangeText={handlePasswordChange}

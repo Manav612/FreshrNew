@@ -162,7 +162,7 @@ const ProfSelectedDetailService = ({ route }) => {
                 <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                     <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>$</Text>
                     <TextInput
-                        placeholderTextColor={COLOR.BLACK}
+                        placeholderTextColor={COLOR.GRAY}
                         style={{ fontSize: 20, color: COLOR.BLACK }}
                         value={price}
                         onChangeText={handlePriceChange}
@@ -189,7 +189,7 @@ const ProfSelectedDetailService = ({ route }) => {
 
                <TextInput
                placeholder={item.description}
-               placeholderTextColor={COLOR.BLACK}
+               placeholderTextColor={COLOR.GRAY}
                style={[styles.input,{color:COLOR.BLACK}]}
                />
             <View style={{ marginVertical: 10,flexDirection:'row',justifyContent:'space-between',alignItems:'center' }}>

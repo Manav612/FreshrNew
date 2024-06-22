@@ -515,6 +515,7 @@ const Home = () => {
           <ScrollView style={{ margin: 10 }}>
             <TextInput
               placeholder="Address"
+              placeholderTextColor={COLOR.GRAY}
               value={address.Address}
               onChangeText={(text) => setAddress({ ...address, Address: text })}
               style={{
@@ -522,12 +523,14 @@ const Home = () => {
                 borderColor: COLOR.GRAY,
                 borderRadius: 5,
                 padding: 10,
+                color:COLOR.BLACK,
                 marginBottom: 10,
                 backgroundColor: COLOR.WHITE,
               }}
             />
             <TextInput
               placeholder="City"
+              placeholderTextColor={COLOR.GRAY}
               value={address.city}
               onChangeText={(text) => setAddress({ ...address, city: text })}
               style={{
@@ -535,12 +538,14 @@ const Home = () => {
                 borderColor: COLOR.BLACK,
                 borderRadius: 5,
                 padding: 10,
+                color:COLOR.BLACK,
                 marginBottom: 10,
                 backgroundColor: COLOR.WHITE,
               }}
             />
             <TextInput
               placeholder="State"
+              placeholderTextColor={COLOR.GRAY}
               value={address.state}
               onChangeText={(text) => setAddress({ ...address, state: text })}
               style={{
@@ -548,12 +553,14 @@ const Home = () => {
                 borderColor: COLOR.GRAY,
                 borderRadius: 5,
                 padding: 10,
+                color:COLOR.BLACK,
                 marginBottom: 10,
                 backgroundColor: COLOR.WHITE,
               }}
             />
             <TextInput
               placeholder="Nearbylandmark"
+              placeholderTextColor={COLOR.GRAY}
               value={address.Nearbylandmark}
               onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
               style={{
@@ -561,6 +568,7 @@ const Home = () => {
                 borderColor: COLOR.GRAY,
                 borderRadius: 5,
                 padding: 10,
+                color:COLOR.BLACK,
                 marginBottom: 10,
                 backgroundColor: COLOR.WHITE,
               }}

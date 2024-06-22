@@ -314,7 +314,7 @@ const SignUP = () => {
 
             <TextInput
               style={[styles.input, { color: COLOR.BLACK }]}
-              placeholderTextColor={COLOR.BLACK}
+              placeholderTextColor={COLOR.GRAY}
               placeholder="First Name"
               onFocus={() => setIsFirstNameFocused(true)}
               onBlur={() => setIsFirstNameFocused(false)}
@@ -327,7 +327,7 @@ const SignUP = () => {
 
             <TextInput
               style={[styles.input]}
-              placeholderTextColor={COLOR.BLACK}
+              placeholderTextColor={COLOR.GRAY}
               placeholder="Last Name"
               onFocus={() => setIsLastNameFocused(true)}
               onBlur={() => setIsLastNameFocused(false)}
@@ -340,7 +340,7 @@ const SignUP = () => {
             <TextInput
               style={[styles.input]}
               placeholder="Email"
-              placeholderTextColor={COLOR.BLACK}
+              placeholderTextColor={COLOR.GRAY}
               keyboardType="email-address"
               value={email}
               onChangeText={handleEmailChange}
@@ -355,7 +355,7 @@ const SignUP = () => {
             <TextInput
               style={[styles.input]}
               placeholder="Password"
-              placeholderTextColor={COLOR.BLACK}
+              placeholderTextColor={COLOR.GRAY}
               secureTextEntry={!showPassword}
               value={password}
               onChangeText={handlePasswordChange}
@@ -373,7 +373,7 @@ const SignUP = () => {
             <TextInput
               style={[styles.input]}
               placeholder="Confirm Password"
-              placeholderTextColor={COLOR.BLACK}
+              placeholderTextColor={COLOR.GRAY}
               secureTextEntry={!showpasswordConfirm}
               value={passwordConfirm}
               onChangeText={handlepasswordConfirmChange}

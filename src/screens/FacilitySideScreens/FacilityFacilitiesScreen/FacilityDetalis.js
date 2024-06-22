@@ -1,4 +1,4 @@
-import { FlatList, Image, ImageBackground, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, ImageBackground, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TexftInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
