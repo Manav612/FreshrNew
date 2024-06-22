@@ -519,7 +519,7 @@ export const AllCategoryData1=[
     {
       id:7,
       icon:(<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Suppoart',
+      name:'Support',
       icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
@@ -593,7 +593,7 @@ export const AllCategoryData1=[
     {
       id:7,
       icon:(<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Suppoart',
+      name:'Support',
       icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
@@ -667,7 +667,7 @@ export const AllCategoryData1=[
     {
       id:7,
       icon:(<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Suppoart',
+      name:'Support',
       icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {

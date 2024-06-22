@@ -307,14 +307,14 @@ const ProfessionalInfo = ({ route }) => {
                 </View>
                 <View style={{backgroundColor:COLOR.WHITE,alignSelf:'center',elevation:3,shadowColor:COLOR.BLACK,height:100,width:Screen_Width*0.9,marginVertical:15,borderRadius:25}}>
                 <View style={{justifyContent:'center',alignItems:'center',marginVertical:10}}>
-                   <Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>FreeLancel Mode</Text>
+                   <Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>Freelancer mode</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop:5 }}>
                     <TouchableOpacity style={{ width: 150, height: 40, backgroundColor:COLOR.GREEN, borderRadius: 30, justifyContent: 'center', alignItems: 'center'}} >
-                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>Availabale</Text>
+                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>available</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ width: 150, height: 40, backgroundColor:COLOR.CANCEL_B, borderRadius: 30, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>UnAvilebale</Text>
+                        <Text style={{ color:COLOR.WHITE, fontWeight: '600' }}>unavailable</Text>
                     </TouchableOpacity>
                 </View>
                 </View>
