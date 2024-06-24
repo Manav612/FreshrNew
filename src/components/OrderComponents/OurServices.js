@@ -1,39 +1,127 @@
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import { useSelector } from 'react-redux';
+import { FlatList, ScrollView, StyleSheet, Text, Image,TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Servicesdata } from '../utils';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationScreens } from '../../constants/Strings';
+import axios from 'axios';
+import { BASE_API_URL } from '../../Services';
+import { SetServiceData } from '../../redux/ServicesData/ServicesDataAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OurServices = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-
+    const dispatch = useDispatch();
+    const fetchedData= useSelector(state=>state.ServicesDataReducer);
+const [selected,setSelected] = useState([])
     const navigation = useNavigation();
+    useEffect(() => {
+        fetchServicesData();
+      }, []);
+    
+      const fetchServicesData = async () => {
+        try {
+          const token = await AsyncStorage.getItem("AuthToken");
+          const config = {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          };
+          const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
+          console.log("=======   fetchhh services  == ========", res.data.data.services);
+          dispatch(SetServiceData(res.data.data.services));
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
 
+      const handleSelect = (item) => {
+        setSelected(prevSelected => {
+            if (prevSelected.includes(item.id)) {
+                return prevSelected.filter(id => id !== item.id);
+            } else {
+                return [...prevSelected, item.id];
+            }
+        });
+    };
+      
     const renderitem = ({ item }) => (
-        <TouchableOpacity style={{
+        <View style={{justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity
+          onPress={() => handleSelect(item)}
+          style={{
             backgroundColor: COLOR.WHITE,
             marginTop: 10,
             width: Screen_Width * 0.92,
-            height: Screen_Height * 0.08,
+            height: Screen_Height * 0.14,
             alignItems: 'center',
-            alignSelf: 'center',
-            justifyContent: 'space-between',
-            paddingHorizontal: 10,
+            justifyContent:'space-between',
+            paddingHorizontal: 20,
             borderRadius: 10,
-            flexDirection: 'row'
-        }} onPress={() => navigation.navigate('ServiceDetails Screen', { name: item.name })}>
-            <Text style={{ color: COLOR.BLACK_40, fontSize: 16 }}>{item.name}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ color: COLOR.BLACK, fontSize: 14, fontWeight: '600', paddingRight: 10 }}>{item.type}</Text>
-                <AntDesign name="caretright" size={14} color={COLOR.ORANGECOLOR} />
+            flexDirection: 'row',
+          }}>
+          <Image
+            style={{
+              width: Screen_Width * 0.22,
+              height: Screen_Height * 0.1,
+              borderRadius: 10,
+            }}
+            source={{uri:item.photo}}
+          />
+          <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5,width:180 }}>
+            <Text
+              style={{
+                color: COLOR.BLACK,
+                fontSize: 16,
+                fontWeight: '600',
+                paddingRight: 10,
+              }}>
+              {item.serviceType?.name}
+            </Text>
+            <Text
+            style={{
+              color: COLOR.BLACK_40,
+              fontSize: 14,
+              fontWeight: '600',
+              paddingRight: 10,
+              width: 170
+            }}>
+            {item.description.length > 40
+              ? `${item.description.slice(0, 40)}...`
+              : item.description}
+          </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: Screen_Width * 0.55,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  color: COLOR.ORANGECOLOR,
+                  fontSize: 16,
+                  fontWeight: '600',
+                  paddingRight: 10,
+                }}>
+                ${item?.price}
+              </Text>
+              {/* <TouchableOpacity style={{  height:50, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center' }} onPress={()=>navigation.navigate('Edit ProfileAppointment Screen')}>
+                <Text style={{ textAlign: 'center', fontSize: 14, color: COLOR.WHITE }}>Edit Profile Now</Text>
+              </TouchableOpacity> */}
             </View>
+          </View>
+          
+          <Fontisto name={selected.includes(item.id) ? 'checkbox-active' : 'checkbox-passive'} size={28} color={COLOR.BLACK} />
+          
         </TouchableOpacity>
+        </View>
     );
     return (
         <>
@@ -50,7 +138,7 @@ const OurServices = () => {
                 </TouchableOpacity> */}
                 </View>
                 <FlatList
-                    data={Servicesdata}
+                    data={fetchedData}
                     showsVerticalScrollIndicator={false}
                     keyExtractor={item => item.id}
                     renderItem={renderitem}

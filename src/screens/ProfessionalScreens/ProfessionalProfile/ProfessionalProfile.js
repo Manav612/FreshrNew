@@ -11,7 +11,7 @@ import {
   Button,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ClockUserIcon2, ClockUserIcon3, GearFineIcon, Hair1, ShareIcon, ShareIcon2, ShareIcon3, barber } from '../../../constants/Icons';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -27,9 +27,15 @@ import PackageScreen from '../../../components/SalonDetailScreen/PackageScreen';
 import { Servicesdata2 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import FastImage from 'react-native-fast-image';
+import { SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../../Services';
+import axios from 'axios';
 
 const ProfessionalProfile = ({ name }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const [showMore, setShowMore] = useState(false);
   const [resetSelected, setResetSelected] = useState(false);
   const [applySelected, setApplySelected] = useState(false);
@@ -38,17 +44,43 @@ const ProfessionalProfile = ({ name }) => {
   const [servicesData, setServicesData] = useState()
   const [activeTab, setActiveTab] = useState('');
   const [activeTab2, setActiveTab2] = useState('');
+  const theme = useSelector(state => state.ThemeReducer);
+  const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const [selectedScreen, setSelectedScreen] = useState('gallery');
+  const [Services, setServices] = useState('View services');
+  const [showFullText, setShowFullText] = useState(false);
+  const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
+  const truncatedText = fullText.slice(0, 100) + '...';
+  const fetchedData= useSelector(state=>state.ServicesDataReducer);
+  console.log("=========  fetchedData      ============",fetchedData);
   const refRBSheet = useRef([]);
   useEffect(() => {
     setServicesData()
   }, [])
-  
+  useEffect(() => {
+    fetchServicesData();
+  }, []);
+
+  const fetchServicesData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
+      console.log("=======   fetchhh services  == ========", res.data.data.services);
+      dispatch(SetServiceData(res.data.data.services));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const openBottomSheet2 = (item, index) => {
     refRBSheet.current[0].open();
     setServicesData(item)
   };
-  const theme = useSelector(state => state.ThemeReducer);
-  const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+ 
 
   const handleResetPress1 = () => {
     setResetSelected(!resetSelected);
@@ -64,16 +96,13 @@ const ProfessionalProfile = ({ name }) => {
     setSelectedTab(tab);
   };
 
-  const [showFullText, setShowFullText] = useState(false);
-  const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
-  const truncatedText = fullText.slice(0, 100) + '...';
+  
 
   const toggleShowFullText = () => {
     setShowFullText(!showFullText);
   };
 
-  const [selectedScreen, setSelectedScreen] = useState('gallery');
-  const [Services, setServices] = useState('View services');
+  
 
   const renderContent = () => {
     if (selectedScreen === 'gallery') {
@@ -102,7 +131,7 @@ const ProfessionalProfile = ({ name }) => {
               height: Screen_Height * 0.1,
               borderRadius: 10,
             }}
-            source={item.image}
+            source={{uri:item.photo}}
           />
           <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5 }}>
             <Text
@@ -112,17 +141,20 @@ const ProfessionalProfile = ({ name }) => {
                 fontWeight: '600',
                 paddingRight: 10,
               }}>
-              {item.name}
+              {item.serviceType?.name}
             </Text>
             <Text
-              style={{
-                color: COLOR.BLACK_40,
-                fontSize: 14,
-                fontWeight: '600',
-                paddingRight: 10,
-              }}>
-              {item.type}
-            </Text>
+            style={{
+              color: COLOR.BLACK_40,
+              fontSize: 14,
+              fontWeight: '600',
+              paddingRight: 10,
+              width: 200
+            }}>
+            {item.description.length > 40
+              ? `${item.description.slice(0, 40)}...`
+              : item.description}
+          </Text>
             <View
               style={{
                 flexDirection: 'row',
@@ -137,7 +169,7 @@ const ProfessionalProfile = ({ name }) => {
                   fontWeight: '600',
                   paddingRight: 10,
                 }}>
-                {item.price}
+                {item?.price}
               </Text>
               {/* <TouchableOpacity style={{  height:50, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', borderRadius: 35, alignSelf: 'center' }} onPress={()=>navigation.navigate('Edit ProfileAppointment Screen')}>
                 <Text style={{ textAlign: 'center', fontSize: 14, color: COLOR.WHITE }}>Edit Profile Now</Text>
@@ -169,7 +201,7 @@ const ProfessionalProfile = ({ name }) => {
               }}
             />
             <FlatList
-              data={servicesToPass}
+              data={fetchedData}
               showsVerticalScrollIndicator={false}
               keyExtractor={item => item.id}
               renderItem={renderitem}

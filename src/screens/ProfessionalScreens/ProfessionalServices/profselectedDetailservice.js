@@ -101,11 +101,12 @@ const ProfSelectedDetailService = ({ route }) => {
             const res = await axios.post(`${BASE_API_URL}/professionals/professional/services`, serviceData, config);
             if (res && res.data) {
                 console.log("Service created successfully:", res.data.data.service);
+            navigation.goBack();
+
                 dispatch(UpdateServiceData(res.data.data.service));
             }
 
             Alert.alert("Success", "Service created successfully");
-            // navigation.goBack();
         } catch (error) {
             console.error("Error creating service:", error.response?.data || error.message);
             Alert.alert("Error", "Failed to create service. Please try again.");
@@ -195,7 +196,6 @@ const ProfSelectedDetailService = ({ route }) => {
                 />
             </View>
 
-<<<<<<< HEAD
             <TextInput
                 placeholder="Enter description"
                 placeholderTextColor={COLOR.GRAY}
@@ -203,18 +203,6 @@ const ProfSelectedDetailService = ({ route }) => {
                 value={description}
                 onChangeText={setDescription}
                 multiline={true}
-=======
-               <TextInput
-               placeholder={item.description}
-               placeholderTextColor={COLOR.GRAY}
-               style={[styles.input,{color:COLOR.BLACK}]}
-               />
-            <View style={{ marginVertical: 10,flexDirection:'row',justifyContent:'space-between',alignItems:'center' }}>
-            <RadioButton 
-                label="Both"
-                selected={selectedGender === 'both'}
-                onPress={() => setSelectedGender('both')}
->>>>>>> f4147d78c7472b913f973c77f863999f72f5f0ee
             />
             <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <RadioButton

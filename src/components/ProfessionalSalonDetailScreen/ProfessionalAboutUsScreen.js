@@ -80,6 +80,7 @@ import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationScreens } from '../../constants/Strings';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
     const [showMore, setShowMore] = useState(false);
@@ -132,7 +133,7 @@ const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
 
     return (
         <>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ }}>
             <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
                 {showFullText ? fullText : truncatedText}
             </Text>
@@ -148,30 +149,13 @@ const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
                 {renderTimings()}
             </View>
             <TouchableOpacity onPress={toggleShowMore}>
-                <Text style={{ color: COLOR.ORANGECOLOR }}>
+                <Text style={{ color: COLOR.ORANGECOLOR,marginBottom:20 }}>
                     {showMore ? 'Read Less' : 'Read More'}
                 </Text>
             </TouchableOpacity>
             
         </View>
-        <TouchableOpacity
-        style={{
-            width: Screen_Width * 0.80,
-            height:40,
-            backgroundColor: COLOR.ORANGECOLOR,
-            justifyContent: 'center',
-            borderRadius: 35,
-            alignSelf: 'center',
-            marginVertical: 20,
-            position: 'absolute',
-            top:120
-        }}
-        onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData})}
-    >
-        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
-        Reserve Now
-        </Text>
-    </TouchableOpacity>
+        
     </>
     );
 };

@@ -13,7 +13,7 @@ import ReviewScreen from '../../../components/SalonDetailScreen/ReviewScreen';
 import ServicesScreen from '../../../components/SalonDetailScreen/ServicesScreen';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
-import { AllCategoryData } from '../../../components/utils';
+import { AllCategoryData, barberData } from '../../../components/utils';
 import { share } from '../../../constants/Icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -22,6 +22,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import ProfessionalAboutUsScreen from '../../../components/ProfessionalSalonDetailScreen/ProfessionalAboutUsScreen';
 import ProfessionalGalleryScreen from '../../../components/ProfessionalSalonDetailScreen/ProfessionalGalleryScreen';
 import ProfessionalReviewScreen from '../../../components/ProfessionalSalonDetailScreen/ProfessionalReviewScreen';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const ProfessionalInfo = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -40,7 +41,8 @@ const ProfessionalInfo = ({ route }) => {
     const refRBSheet = useRef(null);
     const flatListRef = useRef(null);
     const navigation = useNavigation();
-    const { ProfessionalData,facilitiesData } = route.params; // Ensure facilitiesData is passed
+    const { ProfessionalData,ProfDetail, facilitiesData } = route.params; // Ensure facilitiesData is passed
+// console.log("============   ProfDetail ========     6666==========",ProfDetail);
 
     const galleryImages = facilitiesData?.gallery || [];
 
@@ -66,7 +68,7 @@ const ProfessionalInfo = ({ route }) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (currentPage < galleryImages.length - 1) {
+            if (currentPage < barberData.length - 1) {
                 flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
                 setCurrentPage(currentPage + 1);
             } else {
@@ -76,7 +78,7 @@ const ProfessionalInfo = ({ route }) => {
         }, 2000);
 
         return () => clearInterval(interval);
-    }, [currentPage, galleryImages.length]);
+    }, [currentPage, barberData.length]);
 
     useEffect(() => {
         fetchData();
@@ -91,18 +93,18 @@ const ProfessionalInfo = ({ route }) => {
                 },
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
-            console.log('========    Proff   ==========', res.data.professional);
+            // console.log('========    Proff   ==========', res.data.professional);
             setProfData(res?.data?.professional)
             const ProfId = res.data.professional.map((prof) => prof.id);
-            console.log("========  profId   =============", ProfId);
+            // console.log("========  profId   =============", ProfId);
             // setProfID(ProfId)
             const emailList = res.data.professional.map((prof) => prof.user.email);
-            console.log('======     emails hkb     ===========', emailList);
+            // console.log('======     emails hkb     ===========', emailList);
             const Name = res.data.professional.map((prof) => prof.user.firstName);
-            console.log('======     name hkb     ===========', Name);
+            // console.log('======     name hkb     ===========', Name);
             // setFetchedProfName(Name);
             const Phone = res.data.professional.map((prof) => prof.user.phone);
-            console.log('======     Phone hkb     ===========', Phone);
+            // console.log('======     Phone hkb     ===========', Phone);
             // setFetchedProfPhone(Phone);
 
         } catch (error) {
@@ -134,15 +136,15 @@ const ProfessionalInfo = ({ route }) => {
     const renderScreen = () => {
         switch (selectedItem) {
             case 'About Us':
-                return <ProfessionalAboutUsScreen facilitiesData={facilitiesData}  ProfData={ProfessionalData} />;
+                return <ProfessionalAboutUsScreen facilitiesData={facilitiesData} ProfData={ProfessionalData} />;
             // case 'Services':
             //     return <ServicesScreen facilitiesData={facilitiesData}  />;
             // case 'Package':
             //     return <PackageScreen facilitiesData={facilitiesData}  />;
             case 'Gallery':
-                return <ProfessionalGalleryScreen  />;
+                return <ProfessionalGalleryScreen />;
             case 'Review':
-                return <ProfessionalReviewScreen  />;
+                return <ProfessionalReviewScreen />;
             default:
                 return null;
         }
@@ -225,11 +227,12 @@ const ProfessionalInfo = ({ route }) => {
     });
 
     return (
+        <>
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
             <View style={{ borderRadius: 15 }}>
                 <FlatList
                     ref={flatListRef}
-                    data={galleryImages}
+                    data={barberData}
                     horizontal
                     pagingEnabled
                     showsHorizontalScrollIndicator={false}
@@ -239,7 +242,7 @@ const ProfessionalInfo = ({ route }) => {
                         setCurrentPage(index);
                     }}
                     renderItem={({ item }) => (
-                        <ImageBackground source={{ uri: item }} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
+                        <ImageBackground source={item.image} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
                                 <TouchableOpacity onPress={() => navigation.goBack()}>
                                     <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
@@ -253,14 +256,14 @@ const ProfessionalInfo = ({ route }) => {
                 />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', bottom: 25, borderRadius: 15 }}>
-                {galleryImages.map((_, index) => (
+                {barberData.map((_, index) => (
                     <View
                         key={index}
                         style={{
                             width: 10,
                             height: 10,
                             borderRadius: 5,
-                            backgroundColor: index === currentPage ? COLOR.WHITE : COLOR.ORANGECOLOR,
+                            backgroundColor: index === currentPage ? COLOR.ORANGECOLOR : COLOR.GRAY,
                             marginHorizontal: 5,
                         }}
                     />
@@ -269,7 +272,7 @@ const ProfessionalInfo = ({ route }) => {
             <View style={{ marginHorizontal: 15 }}>
                 <View style={{ marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{ProfData?.name}</Text>
+                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{ProfDetail}</Text>
                         <TouchableOpacity
                             style={{
                                 width: 80,
@@ -306,28 +309,29 @@ const ProfessionalInfo = ({ route }) => {
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-                <View style={{backgroundColor:COLOR.WHITE,alignSelf:'center',elevation:3,shadowColor:COLOR.BLACK,height:125,width:Screen_Width*0.9,marginVertical:10,borderRadius:25}}>
-                <View style={{justifyContent:'center',alignItems:'center',marginVertical:10}}>
-                   <Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>Freelancer mode</Text>
+                <View style={{ backgroundColor: COLOR.WHITE, alignSelf: 'center', elevation: 3, shadowColor: COLOR.BLACK, height: 125, width: Screen_Width * 0.9, marginVertical: 10, borderRadius: 25 }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
+                        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Freelancer mode</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row', gap: 10 }}><Octicons name="dot-fill" size={24} color={COLOR.GREEN} /><Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>available</Text></View>
+                        <View style={{ flexDirection: 'row', gap: 10 }}><Octicons name="dot-fill" size={24} color={COLOR.CANCEL_B} /><Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>unavailable</Text></View>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginVertical: 5 }}>
+                        <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => {
+                            openBottomSheet();
+                            setActiveTab('Delivery');
+                        }}>
+                            <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+                            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-                <View style={{flexDirection:'row',gap:10}}><Octicons name="dot-fill" size={24} color={COLOR.GREEN} /><Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>available</Text></View>
-                <View style={{flexDirection:'row',gap:10}}><Octicons name="dot-fill" size={24} color={COLOR.CANCEL_B} /><Text style={{ color:COLOR.BLACK, fontWeight: '600',fontSize:16}}>unavailable</Text></View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',marginVertical:5 }}>
-                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => {
-                        openBottomSheet();
-                        setActiveTab('Delivery');
-                    }}>
-                        <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-                        <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
-                    </TouchableOpacity>
-                </View>
-                </View>
-                
+
                 <View>{renderScreen()}</View>
+               
                 <RBSheet
                     ref={refRBSheet}
                     height={Screen_Height * 0.7}
@@ -388,7 +392,7 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
-                                    color:COLOR.BLACK,
+                                    color: COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
                             />
@@ -403,7 +407,7 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
-                                    color:COLOR.BLACK,
+                                    color: COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
                             />
@@ -418,7 +422,7 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
-                                    color:COLOR.BLACK,
+                                    color: COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
                             />
@@ -433,7 +437,7 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 5,
                                     padding: 10,
                                     marginBottom: 10,
-                                    color:COLOR.BLACK,
+                                    color: COLOR.BLACK,
                                     backgroundColor: COLOR.WHITE,
                                 }}
 
@@ -460,6 +464,30 @@ const ProfessionalInfo = ({ route }) => {
                 <View style={{ height: 90 }} />
             </View>
         </ScrollView>
+        {selectedItem === 'About Us' &&
+         <TouchableOpacity
+         style={{
+             width: Screen_Width * 0.80,
+             height: 40,
+             backgroundColor: COLOR.ORANGECOLOR,
+             justifyContent: 'center',
+             borderRadius: 35,
+             alignSelf: 'center',
+             marginVertical: 20,
+             position: 'absolute',
+             bottom: 80,
+             flexDirection: 'row',
+             alignItems: 'center',
+             gap: 20
+         }}
+         onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen, { ProfDetail: ProfData })}
+     >
+         <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
+             Reserve Now
+         </Text>
+         <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+     </TouchableOpacity>}
+     </>
     );
 };
 

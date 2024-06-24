@@ -1,29 +1,30 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { Servicesdata2 } from '../../../components/utils';
-import { ClockUserIcon } from '../../../constants/Icons';
+import { ClockUserIcon, map } from '../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { NavigationScreens } from '../../../constants/Strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
+import { RemoveOneServiceData, SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
 
 const ProfessionalServices = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [servicesData, setServicesData] = useState();
-  const [servicesToPass, setServicesToPass] = useState(Servicesdata2);
   const [Services, setServices] = useState('View services');
-  const [fetchedData, setFetchedData] = useState([]);
+  const fetchedData= useSelector(state=>state.ServicesDataReducer);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
-
+console.log("==========   servicesData   ===========",servicesData);
   const openBottomSheet2 = (item, index) => {
     refRBSheet.current[0].open();
     setServicesData(item);
@@ -45,8 +46,8 @@ const ProfessionalServices = () => {
         }
       };
       const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
-      console.log("=======   ressss == ========", res.data.data.services);
-      setFetchedData(res.data.data.services);
+      console.log("=======   fetchhh services  == ========", res.data.data.services);
+      dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -62,16 +63,19 @@ const ProfessionalServices = () => {
       };
       console.log('===============   id ==============',id);
       const res = await axios.delete(`${BASE_API_URL}/professionals/professional/services/${id}`, config);
-      console.log("=======   ressss == ========", res.data.data.services);
+      console.log("=======   ressss == ========", res.data);
+      Alert.alert('Service deleted successfully ')
       // Refresh the fetched data after deletion
-      fetchServicesData();
+      dispatch(RemoveOneServiceData(id));
+      // fetchServicesData();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   const renderContent = () => {
-    const renderItem = ({ item, index }) => (
+    const RenderItem = ({ item, index }) => (
+
       <TouchableOpacity
         onPress={() => openBottomSheet2(item, index)}
         style={{
@@ -135,12 +139,14 @@ const ProfessionalServices = () => {
           </View>
         </View>
       </TouchableOpacity>
+
     );
 
+    
     return (
       <View style={styles.content}>
         <View>
-          <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>
+          <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK,marginVertical:10 }}>
             Services
           </Text>
           <View
@@ -155,8 +161,11 @@ const ProfessionalServices = () => {
             data={fetchedData}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item.id}
-            renderItem={renderItem}
+            renderItem={RenderItem}
+            style={{flex:1}}
+            // scrollEnabled={false}
           />
+
           <RBSheet
             ref={ref => (refRBSheet.current[0] = ref)}
             height={Screen_Height * 0.4}
@@ -246,7 +255,7 @@ const ProfessionalServices = () => {
                   onPress={() => {
                     refRBSheet.current[0].close(),
                       setServices('View Services'),
-                      navigation.navigate('ProfessionalViewServicesScreen', {
+                      navigation.navigate(NavigationScreens.ProfessionalViewInnerServicesScreen, {
                         services: servicesData,
                       });
                   }}>
@@ -276,8 +285,11 @@ const ProfessionalServices = () => {
                     marginBottom: 10,
                   }}
                   onPress={() => {
-                    setServices('Edit Services');
-                    refRBSheet.current[0].close();
+                    refRBSheet.current[0].close(),
+                      setServices('Edit Services'),
+                      navigation.navigate(NavigationScreens.professionalEditServiceScreen, {
+                        services: servicesData,
+                      });
                   }}>
                   <Text
                     style={{
@@ -356,10 +368,8 @@ const ProfessionalServices = () => {
       padding: 16,
     },
     content: {
-      height: Screen_Height,
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 30,
     },
     title: {
       fontSize: 24,
@@ -374,7 +384,7 @@ const ProfessionalServices = () => {
   });
 
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
+    <View style={{ width: Screen_Width,flex:1,paddingBottom:250, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Services</Text>
@@ -394,7 +404,8 @@ const ProfessionalServices = () => {
       </TouchableOpacity>
 
       {renderContent()}
-    </ScrollView>
+
+    </View>
   );
 };
 

@@ -27,6 +27,7 @@ import ProfessionalViewInnerServices from '../../screens/ProfessionalScreens/Pro
 import ProfessionalProfile2 from '../../screens/ProfessionalScreens/ProfessionalProfile2/ProfessionalProfile2';
 import profselectservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectservice';
 import profselectedDetailservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectedDetailservice';
+import ProfessionalEditService from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalEditService';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -59,6 +60,7 @@ const ServicesStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
             <Stack.Screen name={NavigationScreens.profselectserviceScreen} component={profselectservice} />
             <Stack.Screen name={NavigationScreens.profselectedDetailserviceScreen} component={profselectedDetailservice} />
+            <Stack.Screen name={NavigationScreens.professionalEditServiceScreen} component={ProfessionalEditService} />
 
 
 

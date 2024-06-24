@@ -99,6 +99,7 @@ export const NavigationScreens = {
     ProfessionalProfile2Screen:'ProfessionalProfile2Screen',
     profselectserviceScreen:'profselectserviceScreen',
     profselectedDetailserviceScreen:'profselectedDetailserviceScreen',
+    professionalEditServiceScreen:'ProfessionalEditServiceScreen',
 
     FacilityBottomTab:'FacilityBottomTab',
     FacilityPrivacyAndPolicyScreen:'FacilityPrivacyAndPolicyScreen',
