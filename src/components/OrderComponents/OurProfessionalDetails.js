@@ -14,10 +14,11 @@ const OurProfessionalDetails = ({route}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const navigation = useNavigation()
-  const {ProfDetail} = route.params
+  const {ProfDetail,facilitiesData} = route.params
+
   const renderItem3 = ({ item }) => (
     <View style={{ alignItems: 'center', marginTop: 10 }}>
-      <TouchableOpacity onPress={()=>navigation.navigate(NavigationScreens.OurServicesScreen)} style={{ width: Screen_Width * 0.88, height: Screen_Height * 0.12, borderRadius: 25, marginHorizontal: 5,paddingHorizontal:10, justifyContent:'space-between',flexDirection:'row', alignItems: 'center',elevation:3,shadowColor:COLOR.BLACK,backgroundColor:COLOR.WHITE }}>
+      <TouchableOpacity onPress={()=>navigation.navigate(NavigationScreens.ProfessionalInfoScreen,{ facilitiesData: facilitiesData,ProfDetail: item.user.firstName })} style={{ width: Screen_Width * 0.88, height: Screen_Height * 0.12, borderRadius: 25, marginHorizontal: 5,paddingHorizontal:10, justifyContent:'space-between',flexDirection:'row', alignItems: 'center',elevation:3,shadowColor:COLOR.BLACK,backgroundColor:COLOR.WHITE }}>
         <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',gap:20}}>
         <FastImage source={barber} style={{ width:80, height:80, borderRadius: 40 }} />
         <View style={{ }}>

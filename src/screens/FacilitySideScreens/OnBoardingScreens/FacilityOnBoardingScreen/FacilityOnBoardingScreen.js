@@ -46,7 +46,6 @@ const FacilityOnBoardingScreen = () => {
     const [showStartPicker, setShowStartPicker] = useState(false);
     const [showEndPicker, setShowEndPicker] = useState(false);
     const [location, setLocation] = useState([])
-
     const [imageUri, setImageUri] = useState([]);
     const [imageModalVisible, setImageModalVisible] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
@@ -279,7 +278,7 @@ const FacilityOnBoardingScreen = () => {
             elevation: 5,
             shadowColor: COLOR.BLACK,
             marginVertical: 5,
-            color:COLOR.BLACK,
+            color: COLOR.BLACK,
         },
         halfInput: {
             backgroundColor: COLOR.AuthField,
@@ -288,7 +287,7 @@ const FacilityOnBoardingScreen = () => {
             shadowColor: COLOR.BLACK,
             marginVertical: 5,
             width: Screen_Width * 0.35,
-            color:COLOR.BLACK,
+            color: COLOR.BLACK,
         },
         ImageText: {
             fontSize: 12,
@@ -545,14 +544,28 @@ const FacilityOnBoardingScreen = () => {
                                     <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width, }}>
 
                                         <GooglePlacesAutocomplete
-                                            placeholder="Enter Location"
+                                        placeholder='Enter Location'
+                                        placeholderTextColor={COLOR.GRAY}
                                             minLength={4}
-                                            styles={{
-                                                container: {
-                                                    height: 100,
+                                            styles={{ 
+                                                textInputContainer: {
+                                                    height:50,
                                                     width: Screen_Width * 0.9,
-                                                    //    backgroundColor:'red'
+                                                    backgroundColor: COLOR.AuthField,
+                                                    borderRadius: 15,
+                                                    elevation: 5,
+                                                    shadowColor: COLOR.BLACK,
+                                                    marginVertical: 10,
+                                                    color:COLOR.BLACK
                                                 },
+                                                textInput: {
+                                                    height: 40,
+                                                    color: COLOR.BLACK,
+                                                    backgroundColor: COLOR.AuthField,
+                                                },
+                                                container:{
+                                                    width: Screen_Width * 0.9,
+                                                }
                                             }}
                                             onPress={(data, details = null) => {
                                                 setRegion({
@@ -606,50 +619,11 @@ const FacilityOnBoardingScreen = () => {
                                                         color={COLOR.PINK} />
                                                 </Marker>
                                             </MapView>
-                                            {/* <MapView
-          ref={_map}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          onRegionChangeComplete={async (e) => {
-            console.log(e);
-            setRegion({ ...e });
-            let l = await Location.reverseGeocodeAsync({
-              "latitude":e.latitude,
-              "longitude":e.longitude
-            })
-            console.log("innnnnnnnnnnnnnnn lllllll----->", l);
-            setLocation(l)
-          }}
-        //   customMapStyle={mapStyles}
-          
-        >
-          <Marker coordinate={region}>
-          {/* <Text>{`${location[0]?.city}, ${location[0]?.street==null?'':location[0]?.street}${location[0]?.postalCode}`}</Text> */}
-
-                                            {/* <FontAwesome
-              name="map-marker"
-              size={35}
-              color={COLOR.ORANGECOLOR}
-            />
-          </Marker>
-          <Circle
-            center={region}
-            radius={radius * 1000}
-            strokeColor={COLOR.ORANGECOLOR}
-            strokeWidth={3}
-            // fillColor={rgba(theme.colors.brand.primary, 0.3)}
-            zIndex={2}
-            
-          />
-        </MapView> */}
                                         </View>
                                     </View>
                                     <View style={{ height: Screen_Height * 0.5 }} />
 
                                 </ScrollView>
-                                {/* <TouchableOpacity style={styles.button}>
-                                    <Text style={styles.buttonText}>Get Started</Text>
-                                </TouchableOpacity> */}
                             </>
                         ),
                     },

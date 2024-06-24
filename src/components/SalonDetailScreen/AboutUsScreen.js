@@ -161,7 +161,7 @@ const AboutUsScreen = ({ facilitiesData,ProfData }) => {
                     alignSelf: 'center',
                     marginVertical: 20
                 }}
-                onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData})}
+                onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData,facilitiesData: facilitiesData})}
             >
                 <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
                     Choose Professional

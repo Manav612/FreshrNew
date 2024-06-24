@@ -9,6 +9,7 @@ import {
   View,
   FlatList,
   Button,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,6 +32,7 @@ import { SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const ProfessionalProfile = ({ name }) => {
   const navigation = useNavigation();
@@ -44,6 +46,8 @@ const ProfessionalProfile = ({ name }) => {
   const [servicesData, setServicesData] = useState()
   const [activeTab, setActiveTab] = useState('');
   const [activeTab2, setActiveTab2] = useState('');
+  const [selectedServiceId, setSelectedServiceId] = useState(null);
+
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [selectedScreen, setSelectedScreen] = useState('gallery');
@@ -76,9 +80,29 @@ const ProfessionalProfile = ({ name }) => {
       console.error("Error:", error);
     }
   };
+  const deleteServicesData = async (id) => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      console.log('===============   id ==============',id);
+      const res = await axios.delete(`${BASE_API_URL}/professionals/professional/services/${id}`, config);
+      console.log("=======   ressss == ========", res.data);
+      Alert.alert('Service deleted successfully ')
+      // Refresh the fetched data after deletion
+      dispatch(RemoveOneServiceData(id));
+      // fetchServicesData();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const openBottomSheet2 = (item, index) => {
     refRBSheet.current[0].open();
-    setServicesData(item)
+    setServicesData(item);
+    setSelectedServiceId(item.id);
   };
  
 
@@ -206,185 +230,195 @@ const ProfessionalProfile = ({ name }) => {
               keyExtractor={item => item.id}
               renderItem={renderitem}
             />
-            <RBSheet
-              ref={ref => (refRBSheet.current[0] = ref)}
-              height={Screen_Height * 0.4}
-              customStyles={{
-                wrapper: {
-                  backgroundColor: COLOR.BLACK_40,
-                },
-                container: {
-                  backgroundColor: COLOR.WHITE,
-                  borderRadius: 40,
-                  borderBottomRightRadius: 0,
-                  borderBottomLeftRadius: 0,
-                  elevation: 10,
-                  shadowColor: COLOR.BLACK,
-                },
-                draggableIcon: {
-                  backgroundColor: COLOR.BLACK,
-                },
-              }}
-              customModalProps={{
-                animationType: 'slide',
-                statusBarTranslucent: true,
-              }}
-              customAvoidingViewProps={{
-                enabled: false,
-              }}>
-              <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                  <View
-                    style={{
-                      width: 30,
-                      height: 3,
-                      backgroundColor: COLOR.BLACK,
-                      marginBottom: 10,
-                    }}
-                  />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: Screen_Width * 0.9,
-                    }}>
-                    <View style={{ width: 30 }} />
-                    <Text
-                      style={{
-                        fontWeight: '600',
-                        fontSize: 25,
-                        color: COLOR.BLACK,
-                      }}>
-                      Services
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => refRBSheet.current[0].close()}>
-                      <AntDesign
-                        name="closecircle"
-                        size={24}
-                        color={COLOR.BLACK}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
+           <RBSheet
+            ref={ref => (refRBSheet.current[0] = ref)}
+            height={Screen_Height * 0.4}
+            customStyles={{
+              wrapper: {
+                backgroundColor: COLOR.BLACK_40,
+              },
+              container: {
+                backgroundColor: COLOR.WHITE,
+                borderRadius: 40,
+                borderBottomRightRadius: 0,
+                borderBottomLeftRadius: 0,
+                elevation: 10,
+                shadowColor: COLOR.BLACK,
+              },
+              draggableIcon: {
+                backgroundColor: COLOR.BLACK,
+              },
+            }}
+            customModalProps={{
+              animationType: 'slide',
+              statusBarTranslucent: true,
+            }}
+            customAvoidingViewProps={{
+              enabled: false,
+            }}>
+            <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <View
                   style={{
-                    backgroundColor: COLOR.LINECOLOR,
-                    width: Screen_Width,
-                    height: 2,
-                    marginVertical: 10,
-                    paddingHorizontal: 10,
+                    width: 30,
+                    height: 3,
+                    backgroundColor: COLOR.BLACK,
+                    marginBottom: 10,
                   }}
                 />
-                <View style={{}}>
-                  <TouchableOpacity
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: Screen_Width * 0.9,
+                  }}>
+                  <View style={{ width: 30 }} />
+                  <Text
                     style={{
-                      height: 50,
-                      backgroundColor:
-                        Services === 'View Services'
-                          ? COLOR.ORANGECOLOR
-                          : COLOR.GULABI,
-                      borderRadius: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: COLOR.ORANGECOLOR,
-                      marginBottom: 10,
-                    }}
-                    onPress={() => {
-                      refRBSheet.current[0].close(),
-                        setServices('View Services'),
-                        navigation.navigate('ProfessionalViewServicesScreen', {
-                          services: servicesData,
-                        })
+                      fontWeight: '600',
+                      fontSize: 25,
+                      color: COLOR.BLACK,
                     }}>
-                    <Text
-                      style={{
-                        color:
-                          Services === 'View Services'
-                            ? COLOR.WHITE
-                            : COLOR.ORANGECOLOR,
-                        fontWeight: '600',
-                      }}>
-                      View Services
-                    </Text>
-                  </TouchableOpacity>
+                    Services
+                  </Text>
                   <TouchableOpacity
-                    style={{
-                      height: 50,
-                      backgroundColor:
-                        Services === 'Edit Services'
-                          ? COLOR.ORANGECOLOR
-                          : COLOR.GULABI,
-                      borderRadius: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: COLOR.ORANGECOLOR,
-                      marginBottom: 10,
-                    }}
-                    onPress={() => { setServices('Edit Services'), refRBSheet.current[0].close() }}>
-                    <Text
-                      style={{
-                        color:
-                          Services === 'Edit Services'
-                            ? COLOR.WHITE
-                            : COLOR.ORANGECOLOR,
-                        fontWeight: '600',
-                      }}>
-                      Edit Services
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      height: 50,
-                      backgroundColor:
-                        Services === 'Delete Services'
-                          ? COLOR.ORANGECOLOR
-                          : COLOR.GULABI,
-                      borderRadius: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: COLOR.ORANGECOLOR,
-                      marginBottom: 10,
-                    }}
-                    onPress={() => { setServices('Delete Services'), refRBSheet.current[0].close() }}>
-                    <Text
-                      style={{
-                        color:
-                          Services === 'Delete Services'
-                            ? COLOR.WHITE
-                            : COLOR.ORANGECOLOR,
-                        fontWeight: '600',
-                      }}>
-                      Delete Services
-                    </Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={{
-                      height: 50,
-                      backgroundColor: COLOR.ChartBlue,
-                      justifyContent: 'center',
-                      borderRadius: 35,
-                      alignItems: 'center',
-                      marginBottom: 10,
-                    }}
                     onPress={() => refRBSheet.current[0].close()}>
-                    <Text
-                      style={{
-                        color: COLOR.WHITE,
-                        fontSize: 16,
-                        fontWeight: '600',
-                      }}>
-                      Cancel
-                    </Text>
+                    <AntDesign
+                      name="closecircle"
+                      size={24}
+                      color={COLOR.BLACK}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
-            </RBSheet>
+              <View
+                style={{
+                  backgroundColor: COLOR.LINECOLOR,
+                  width: Screen_Width,
+                  height: 2,
+                  marginVertical: 10,
+                  paddingHorizontal: 10,
+                }}
+              />
+              <View style={{}}>
+                <TouchableOpacity
+                  style={{
+                    height: 50,
+                    backgroundColor:
+                      Services === 'View Services'
+                        ? COLOR.ORANGECOLOR
+                        : COLOR.GULABI,
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: COLOR.ORANGECOLOR,
+                    marginBottom: 10,
+                  }}
+                  onPress={() => {
+                    refRBSheet.current[0].close(),
+                      setServices('View Services'),
+                      navigation.navigate(NavigationScreens.ProfessionalViewInnerServicesScreen, {
+                        services: servicesData,
+                      });
+                  }}>
+                  <Text
+                    style={{
+                      color:
+                        Services === 'View Services'
+                          ? COLOR.WHITE
+                          : COLOR.ORANGECOLOR,
+                      fontWeight: '600',
+                    }}>
+                    View Services
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    height: 50,
+                    backgroundColor:
+                      Services === 'Edit Services'
+                        ? COLOR.ORANGECOLOR
+                        : COLOR.GULABI,
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: COLOR.ORANGECOLOR,
+                    marginBottom: 10,
+                  }}
+                  onPress={() => {
+                    refRBSheet.current[0].close(),
+                      setServices('Edit Services'),
+                      navigation.navigate(NavigationScreens.professionalEditServiceScreen, {
+                        services: servicesData,
+                      });
+                  }}>
+                  <Text
+                    style={{
+                      color:
+                        Services === 'Edit Services'
+                          ? COLOR.WHITE
+                          : COLOR.ORANGECOLOR,
+                      fontWeight: '600',
+                    }}>
+                    Edit Services
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    height: 50,
+                    backgroundColor:
+                      Services === 'Delete Services'
+                        ? COLOR.ORANGECOLOR
+                        : COLOR.GULABI,
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: COLOR.ORANGECOLOR,
+                    marginBottom: 10,
+                  }}
+                  onPress={() => {
+                    deleteServicesData(selectedServiceId);
+                    setServices('Delete Services');
+                    refRBSheet.current[0].close();
+                  }}>
+                  <Text
+                    style={{
+                      color:
+                        Services === 'Delete Services'
+                          ? COLOR.WHITE
+                          : COLOR.ORANGECOLOR,
+                      fontWeight: '600',
+                    }}>
+                    Delete Services
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    height: 50,
+                    backgroundColor: COLOR.ChartBlue,
+                    justifyContent: 'center',
+                    borderRadius: 35,
+                    alignItems: 'center',
+                    marginBottom: 10,
+                  }}
+                  onPress={() => refRBSheet.current[0].close()}>
+                  <Text
+                    style={{
+                      color: COLOR.WHITE,
+                      fontSize: 16,
+                      fontWeight: '600',
+                    }}>
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </RBSheet>
           </View>
         </View>
       );

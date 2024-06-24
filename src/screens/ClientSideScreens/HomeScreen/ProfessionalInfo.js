@@ -480,7 +480,7 @@ const ProfessionalInfo = ({ route }) => {
              alignItems: 'center',
              gap: 20
          }}
-         onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen, { ProfDetail: ProfData })}
+         onPress={() => navigation.navigate(NavigationScreens.OurServicesScreen)}
      >
          <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
              Reserve Now
