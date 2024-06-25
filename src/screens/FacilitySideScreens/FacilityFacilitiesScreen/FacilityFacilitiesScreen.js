@@ -20,7 +20,9 @@ const FacilityFacilitiesScreen = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [fetchedData, setFetchedData] = useState([]);
-console.log("===========   fetchedData      =============",fetchedData);
+  const [user, setUser] = useState('');
+
+// console.log("===========   fetchedData      =============",fetchedData);
     useEffect(() => {
 
         fetchData();
@@ -36,12 +38,33 @@ console.log("===========   fetchedData      =============",fetchedData);
             }
           };
           const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
-          console.log('========  user facilty   ============', res.data.data);
+          console.log('========  user facilty   =============', res.data.data);
           setFetchedData(res.data.data);
         } catch (error) {
           console.error("Error:", error);
         }
       };
+
+      useEffect(()=>{
+        getUserInfo()
+       },[])
+     
+       const getUserInfo = async () => {
+         try {
+           const token = await AsyncStorage.getItem("AuthToken");
+           const config = {
+             headers: {
+               'Authorization': `Bearer ${token}`
+             }
+           };
+           const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+           console.log('========  user ID   ===========', res.data.data.user)
+           setUser(res.data.data.user);
+         } catch (error) {
+           console.error("Error:", error);
+         }
+       };
+    
 
     const styles = StyleSheet.create({
         container: {
@@ -101,8 +124,8 @@ console.log("===========   fetchedData      =============",fetchedData);
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                         <Image style={styles.avatar} source={barber} />
                         <View>
-                            <Text style={styles.name}>Nathan Alexander</Text>
-                            <Text style={styles.role}>Senior Barber</Text>
+                            <Text style={styles.name}>{user?.firstName}{' '}{user?.lastName}</Text>
+                            {/* <Text style={styles.role}>Senior Barber</Text> */}
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>

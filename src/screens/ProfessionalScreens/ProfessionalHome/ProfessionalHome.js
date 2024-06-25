@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { useSelector } from 'react-redux';
@@ -15,6 +15,9 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { ClockUserIcon, GearFineIcon, barber } from '../../../constants/Icons';
 import { NavigationScreens } from '../../../constants/Strings';
 import FastImage from 'react-native-fast-image';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../../Services';
+import axios from 'axios';
 
 
 const ProfessionalHome = () => {
@@ -45,15 +48,35 @@ const ProfessionalHome = () => {
         { value: 600, label: 'Sep' },
         { value: 900, label: 'Oct' },
     ];
-
     const [selectedYear, setSelectedYear] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
+    const [user, setUser] = useState('');
 
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 50 }, (_, i) => ({
         label: (currentYear - i).toString(),
         value: currentYear - i,
     }));
+
+    useEffect(()=>{
+        getUserInfo()
+       },[])
+     
+       const getUserInfo = async () => {
+         try {
+           const token = await AsyncStorage.getItem("AuthToken");
+           const config = {
+             headers: {
+               'Authorization': `Bearer ${token}`
+             }
+           };
+           const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+           console.log('========  user ID   ===========', res.data.data.user)
+           setUser(res.data.data.user);
+         } catch (error) {
+           console.error("Error:", error);
+         }
+       };
 
     const styles = StyleSheet.create({
         container: {
@@ -234,8 +257,7 @@ const ProfessionalHome = () => {
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                         <Image style={styles.avatar} source={barber} />
                         <View>
-                            <Text style={styles.name}>Nathan Alexander</Text>
-                            <Text style={styles.role}>Senior Barber</Text>
+                            <Text style={styles.name}>{user?.firstName}{' '}{user?.lastName}</Text>
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>

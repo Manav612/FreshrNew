@@ -14,12 +14,17 @@ import { BASE_API_URL } from '../../Services';
 import { SetServiceData } from '../../redux/ServicesData/ServicesDataAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const OurServices = () => {
+const OurServices = ({route}) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const dispatch = useDispatch();
-    const fetchedData= useSelector(state=>state.ServicesDataReducer);
+    const {SelectedProf} = route.params
+    console.log("==============    SelectedProf    ===    ===========",SelectedProf);
+    const selectedProfId = SelectedProf._id
+    console.log("==========    selectedProfId     =================",selectedProfId);
+   
 const [selected,setSelected] = useState([])
+const [fetchedServices,setFetchedServices] = useState([])
     const navigation = useNavigation();
     useEffect(() => {
         fetchServicesData();
@@ -33,9 +38,9 @@ const [selected,setSelected] = useState([])
               'Authorization': `Bearer ${token}`
             }
           };
-          const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
-          console.log("=======   fetchhh services  == ========", res.data.data.services);
-          dispatch(SetServiceData(res.data.data.services));
+          const res = await axios.get(`${BASE_API_URL}/professionals/professional/${selectedProfId}`, config);
+          console.log("=======   fetchhh services  == ========",res.data.data.Professional.services);
+          setFetchedServices(res.data.data.Professional.services)
         } catch (error) {
           console.error("Error:", error);
         }
@@ -72,7 +77,7 @@ const [selected,setSelected] = useState([])
               height: Screen_Height * 0.1,
               borderRadius: 10,
             }}
-            source={{uri:item.photo}}
+            source={{uri:item?.photo}}
           />
           <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5,width:180 }}>
             <Text
@@ -138,9 +143,8 @@ const [selected,setSelected] = useState([])
                 </TouchableOpacity> */}
                 </View>
                 <FlatList
-                    data={fetchedData}
+                    data={fetchedServices}
                     showsVerticalScrollIndicator={false}
-                    keyExtractor={item => item.id}
                     renderItem={renderitem}
                 />
 

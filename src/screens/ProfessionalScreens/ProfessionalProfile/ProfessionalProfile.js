@@ -55,6 +55,7 @@ const ProfessionalProfile = ({ name }) => {
   const [selectedScreen, setSelectedScreen] = useState('gallery');
   const [Services, setServices] = useState('View services');
   const [showFullText, setShowFullText] = useState(false);
+  const [user, setUser] = useState(false);
   const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
   const truncatedText = fullText.slice(0, 100) + '...';
   const fetchedData= useSelector(state=>state.ServicesDataReducer);
@@ -71,6 +72,26 @@ const ProfessionalProfile = ({ name }) => {
     setRefreshing(true);
     fetchServicesData().then(() => setRefreshing(false));
   }, []);
+
+  useEffect(()=>{
+    getUserInfo()
+   },[])
+ 
+   const getUserInfo = async () => {
+     try {
+       const token = await AsyncStorage.getItem("AuthToken");
+       const config = {
+         headers: {
+           'Authorization': `Bearer ${token}`
+         }
+       };
+       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+       console.log('========  user ID   ===========', res.data.data.user)
+       setUser(res.data.data.user);
+     } catch (error) {
+       console.error("Error:", error);
+     }
+   };
 
   const fetchServicesData = async () => {
     try {
@@ -543,7 +564,8 @@ const ProfessionalProfile = ({ name }) => {
           alignItems: 'center',
         }}>
         <Text style={{ color: COLOR.BLACK, fontSize: 25, fontWeight: 'bold' }}>
-          Kathryn Murphy
+        {user?.firstName}{' '}{user?.lastName}
+
         </Text>
         <Text style={{ color: COLOR.GRAY }}>
           Hair Stylist at{' '}

@@ -359,6 +359,7 @@ import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const FacilityManageSeatScreen = ({ route }) => {
     const { data } = route.params;
@@ -606,7 +607,7 @@ const FacilityManageSeatScreen = ({ route }) => {
                     <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Manage Seat</Text>
                 </View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate(NavigationScreens.FacilitySettingScreen)}
+                    onPress={() => navigation.navigate(NavigationScreens.FacilityProfile2Screen)}
                     style={{
                         backgroundColor: COLOR.WHITE,
                         elevation: 20,

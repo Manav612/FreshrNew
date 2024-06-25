@@ -88,7 +88,7 @@ const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation();
     const [showFullText, setShowFullText] = useState(false);
-    const fullText = facilitiesData.description;
+    const fullText = facilitiesData?.description;
     const truncatedText = fullText.slice(0, 30) + '...';
 
     const toggleShowFullText = () => {

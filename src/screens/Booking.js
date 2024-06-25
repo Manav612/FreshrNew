@@ -61,7 +61,7 @@ const Booking = ({ route }) => {
                 },
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
-            // console.log('========    Proff   ==========', res.data.professional);
+            console.log('========    Proff   ==========', res.data.professional);
             setProfData(res?.data?.professional)
             const ProfId = res.data.professional.map((prof) => prof.id);
             // console.log("========  profId   =============",ProfId);
@@ -82,7 +82,7 @@ const Booking = ({ route }) => {
 
     const renderItem3 = ({ item }) => (
         <View style={{ alignItems: 'center',marginVertical:5 }}>
-            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { facilitiesData: facilitiesData,ProfDetail: item.user.firstName })} style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.15, borderRadius: 15,shadowColor:COLOR.BLACK,elevation:3, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { facilitiesData: facilitiesData,ProfDetail: item })} style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.25, height: Screen_Height * 0.15, borderRadius: 15,shadowColor:COLOR.BLACK,elevation:3, marginHorizontal: 5, justifyContent: 'space-evenly', alignItems: 'center' }}>
                 <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
                 
                     <Text style={{ color: COLOR.BLACK, fontSize: 16,fontWeight:'600' }}>{item?.user?.firstName}</Text>
@@ -287,7 +287,7 @@ const Booking = ({ route }) => {
                 <View style={{ borderBottomWidth: 1, borderBottomColor: COLOR.BLACK_30, width: Screen_Width * 0.95, marginVertical: 10 }} />
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
                     <Text style={{ fontSize: 24, color: COLOR.BLACK }}>Our Professionals</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData})}>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.OurProfessionalDetailsScreen,{ProfDetail:ProfData,facilitiesData: facilitiesData})}>
                         <Text style={{ fontSize: 18, color: COLOR.ORANGECOLOR, fontWeight: '600' }}>See All</Text>
                     </TouchableOpacity>
                 </View>

@@ -42,7 +42,7 @@ const ProfessionalInfo = ({ route }) => {
     const flatListRef = useRef(null);
     const navigation = useNavigation();
     const { ProfessionalData,ProfDetail, facilitiesData } = route.params; // Ensure facilitiesData is passed
-// console.log("============   ProfDetail ========     6666==========",ProfDetail);
+// console.log("============   ProfDetail ======== 6666==========",ProfDetail);
 
     const galleryImages = facilitiesData?.gallery || [];
 
@@ -80,37 +80,37 @@ const ProfessionalInfo = ({ route }) => {
         return () => clearInterval(interval);
     }, [currentPage, barberData.length]);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
-    const fetchData = async () => {
-        try {
-            const token = await AsyncStorage.getItem('AuthToken');
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
-            // console.log('========    Proff   ==========', res.data.professional);
-            setProfData(res?.data?.professional)
-            const ProfId = res.data.professional.map((prof) => prof.id);
-            // console.log("========  profId   =============", ProfId);
-            // setProfID(ProfId)
-            const emailList = res.data.professional.map((prof) => prof.user.email);
-            // console.log('======     emails hkb     ===========', emailList);
-            const Name = res.data.professional.map((prof) => prof.user.firstName);
-            // console.log('======     name hkb     ===========', Name);
-            // setFetchedProfName(Name);
-            const Phone = res.data.professional.map((prof) => prof.user.phone);
-            // console.log('======     Phone hkb     ===========', Phone);
-            // setFetchedProfPhone(Phone);
+    // const fetchData = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('AuthToken');
+    //         const config = {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         };
+    //         const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
+    //         // console.log('========    Proff   ==========', res.data.professional);
+    //         setProfData(res?.data?.professional)
+    //         const ProfId = res.data.professional.map((prof) => prof.id);
+    //         // console.log("========  profId   =============", ProfId);
+    //         // setProfID(ProfId)
+    //         const emailList = res.data.professional.map((prof) => prof.user.email);
+    //         // console.log('======     emails hkb     ===========', emailList);
+    //         const Name = res.data.professional.map((prof) => prof.user.firstName);
+    //         // console.log('======     name hkb     ===========', Name);
+    //         // setFetchedProfName(Name);
+    //         const Phone = res.data.professional.map((prof) => prof.user.phone);
+    //         // console.log('======     Phone hkb     ===========', Phone);
+    //         // setFetchedProfPhone(Phone);
 
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // };
 
     const AllCategory = ({ item, setSelectedItem }) => (
         <TouchableOpacity
@@ -272,7 +272,7 @@ const ProfessionalInfo = ({ route }) => {
             <View style={{ marginHorizontal: 15 }}>
                 <View style={{ marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{ProfDetail}</Text>
+                        <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{ProfDetail?.user?.firstName}</Text>
                         <TouchableOpacity
                             style={{
                                 width: 80,
@@ -480,7 +480,7 @@ const ProfessionalInfo = ({ route }) => {
              alignItems: 'center',
              gap: 20
          }}
-         onPress={() => navigation.navigate(NavigationScreens.OurServicesScreen)}
+         onPress={() => navigation.navigate(NavigationScreens.OurServicesScreen,{SelectedProf:ProfDetail})}
      >
          <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
              Reserve Now

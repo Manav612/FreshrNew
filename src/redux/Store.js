@@ -3,6 +3,7 @@ import RootReducer from "./RootReducer";
 
 const Store = configureStore({
     reducer: RootReducer,
+    
 })
 
 export default Store;

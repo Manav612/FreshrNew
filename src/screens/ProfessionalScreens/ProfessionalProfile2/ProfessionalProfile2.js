@@ -30,6 +30,7 @@ const ProfessionalProfile2 = () => {
   const [toggleStatus, setToggleStatus] = useState({});
   const [resetSelected, setResetSelected] = useState(false);
   const [applySelected, setApplySelected] = useState(false);
+  const [user, setUser] = useState('');
 
   const handleResetPress1 = () => {
     setResetSelected(!resetSelected);
@@ -62,6 +63,29 @@ const ProfessionalProfile2 = () => {
     dispatch(SetThemeMode(theme))
     console.log("====== theme =", theme);
   };
+
+
+  useEffect(()=>{
+    getUserInfo()
+   },[])
+ 
+ 
+   const getUserInfo = async () => {
+     try {
+       const token = await AsyncStorage.getItem("AuthToken");
+       const config = {
+         headers: {
+           'Authorization': `Bearer ${token}`
+         }
+       };
+       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+       console.log('========  user ID   ==========', res.data.data.user)
+       setUser(res.data.data.user);
+     } catch (error) {
+       console.error("Error:", error);
+     }
+   };
+
 
   const handleSwitchToProfessionals = async () => {
     try {
@@ -144,8 +168,8 @@ const ProfessionalProfile2 = () => {
           </TouchableOpacity>
         </View>
         <View>
-        <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>Daniel Austin</Text>
-        <Text style={{ fontSize: 18, color: COLOR.GRAY }}>daniel_austin@yourdomain.com</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>{user?.firstName}{' '}{user?.lastName}</Text>
+        <Text style={{ fontSize: 18, color: COLOR.GRAY }}>{user?.email}</Text>
         </View>
       </View>
       {/* <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} /> */}

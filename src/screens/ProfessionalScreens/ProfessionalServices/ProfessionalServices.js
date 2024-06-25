@@ -26,7 +26,7 @@ const ProfessionalServices = () => {
   const fetchedData= useSelector(state=>state.ServicesDataReducer);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
 console.log("==========   servicesData   ===========",servicesData);
-console.log("==========   F3etch Data   ===========",fetchedData);
+console.log("==========   F3etch Data   ========",fetchedData);
   const openBottomSheet2 = (item, index) => {
     refRBSheet.current[0].open();
     setServicesData(item);
@@ -54,7 +54,7 @@ console.log("==========   F3etch Data   ===========",fetchedData);
         }
       };
       const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
-      console.log("=========   fetchhh services  == ========", res.data.data.services);
+      console.log("=========   fetchhh services  ========", res.data.data.services);
       dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
       console.error("Error:", error);

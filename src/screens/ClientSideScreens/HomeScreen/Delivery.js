@@ -116,7 +116,6 @@ const Delivery = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-  const [activeTab, setActiveTab] = useState('Delivery');
 
 
   const currentHour = new Date().getHours();
@@ -133,25 +132,7 @@ const Delivery = () => {
   const styles = StyleSheet.create({
   });
 
-  const openBottomSheet = () => {
-    refRBSheet.current.open();
-  };
-
-  const closeBottomSheet = () => {
-    refRBSheet.current.close();
-  };
-
-  const handleSaveAddress = () => {
-    refRBSheet.current.close();
-  };
-
-  const formatAddress = (address) => {
-    const fullAddress = `${address.Address}, ${address.city}, ${address.state}, ${address.Nearbylandmark}`;
-    if (fullAddress.length > 15) {
-      return `${fullAddress.substring(0, 15)}...`;
-    }
-    return fullAddress;
-  };
+ 
 
 
   return (
@@ -211,142 +192,14 @@ const Delivery = () => {
       </View>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', marginVertical: 10 }}>
         <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Professional</Text>
-        <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text>
+        {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.Booking)} ><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity> */}
       </View>
       <View style={{ marginVertical: 10 }}>
         <Category />
       </View>
 
 
-      <RBSheet
-        ref={refRBSheet}
-        height={Screen_Height * 0.7}
-        customStyles={{
-          wrapper: {
-            backgroundColor: COLOR.BLACK_40,
-          },
-          container: {
-            backgroundColor: COLOR.WHITE,
-            borderRadius: 40,
-            borderBottomRightRadius: 0,
-            borderBottomLeftRadius: 0,
-            elevation: 10,
-            shadowColor: COLOR.BLACK,
-          },
-          draggableIcon: {
-            backgroundColor: COLOR.BLACK,
-          },
-        }}
-        customModalProps={{
-          animationType: 'slide',
-          statusBarTranslucent: true,
-        }}
-        customAvoidingViewProps={{
-          enabled: false,
-        }}
-      >
-        <View
-          style={{
-            width: Screen_Width,
-            height: Screen_Height * 0.7,
-            paddingHorizontal: 15,
-            backgroundColor: COLOR.WHITE,
-            justifyContent: 'space-between'
-          }}
-        >
-
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 15,
-            justifyContent: 'space-between',
-            margin: 10
-          }}>
-            <Text style={{ fontSize: 20, color: COLOR.BLACK }}>Add Address</Text>
-            <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity>
-          </View>
-
-          <ScrollView style={{ margin: 10 }}>
-            <TextInput
-              placeholder="Address"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.Address}
-              onChangeText={(text) => setAddress({ ...address, Address: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="City"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.city}
-              onChangeText={(text) => setAddress({ ...address, city: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.BLACK,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="State"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.state}
-              onChangeText={(text) => setAddress({ ...address, state: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="Nearbylandmark"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.Nearbylandmark}
-              onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-
-            />
-          </ScrollView>
-          <TouchableOpacity
-            style={{
-              width: Screen_Width * 0.90,
-              height: Screen_Height * 0.05,
-              backgroundColor: COLOR.ORANGECOLOR,
-              justifyContent: 'center',
-              borderRadius: 35,
-              alignSelf: 'center',
-              marginVertical: 20
-            }}
-            onPress={handleSaveAddress}
-          >
-            <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
-              Save Address
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </RBSheet>
+     
       <View style={{ height: 90 }} />
     </ScrollView>
   );

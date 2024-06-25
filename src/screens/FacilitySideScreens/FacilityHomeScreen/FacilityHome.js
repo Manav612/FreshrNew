@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity,FlatList,Modal } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { useSelector } from 'react-redux';
@@ -17,6 +17,9 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { FacilityData } from '../../../components/utils';
 
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { BASE_API_URL } from '../../../Services';
 
 const FacilityHome = () => {
     const navigation = useNavigation();
@@ -24,9 +27,31 @@ const FacilityHome = () => {
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [user, setUser] = useState('');
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+
+
+  useEffect(()=>{
+    getUserInfo()
+   },[])
+ 
+   const getUserInfo = async () => {
+     try {
+       const token = await AsyncStorage.getItem("AuthToken");
+       const config = {
+         headers: {
+           'Authorization': `Bearer ${token}`
+         }
+       };
+       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+       console.log('========  user ID   ===========', res.data.data.user)
+       setUser(res.data.data.user);
+     } catch (error) {
+       console.error("Error:", error);
+     }
+   };
 
   const handleItemSelect = (item) => {
     setSelectedItem(item);
@@ -247,8 +272,8 @@ const FacilityHome = () => {
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                         <Image style={styles.avatar} source={barber} />
                         <View>
-                            <Text style={styles.name}>Nathan Alexander</Text>
-                            <Text style={styles.role}>Senior Barber</Text>
+                            <Text style={styles.name}>{user?.firstName}{' '}{user?.lastName}</Text>
+                            {/* <Text style={styles.role}>Senior Barber</Text> */}
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>

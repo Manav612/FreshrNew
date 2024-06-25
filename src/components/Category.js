@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity,RefreshControl } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { data2 } from './utils';
@@ -16,6 +16,7 @@ const Category = () => {
   const [selectedItem, setSelectedItem] = useState('All');
   const [fetchedData, setFetchedData] = useState([]);
   const [bookmarkStatus, setBookmarkStatus] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
 
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -24,6 +25,11 @@ const Category = () => {
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData().then(() => setRefreshing(false));
   }, []);
 
   const fetchData = async () => {
@@ -35,7 +41,7 @@ const Category = () => {
         }
       };
       const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities`, config);
-      // console.log('==================.........', res.data.facilities.facility)
+      console.log('====================.........', res.data.facilities.facility)
       setFetchedData(res.data.facilities.facility);
     } catch (error) {
       console.error("Error:", error);
@@ -134,7 +140,10 @@ const Category = () => {
   );
 
   return (
-    <View>
+    <View
+       refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
         <FlatList
           data={filteredData}
