@@ -36,6 +36,8 @@ import PaymentMethod from '../../components/OrderComponents/PaymentScreen/Paymen
 import BookingHoursScreen from '../../components/OrderComponents/BookAppointment/BookingHoursScreen';
 import ClientSettingScreen from '../../components/ClientSideComponents/ClientSettingScreen';
 import ProfessionalInfo from '../../screens/ClientSideScreens/HomeScreen/ProfessionalInfo';
+import Delivery from '../../screens/ClientSideScreens/HomeScreen/Delivery';
+import Salon from '../../screens/ClientSideScreens/HomeScreen/Salon';
 
 
 
@@ -49,6 +51,8 @@ const HomeStack = () => {
         }}>
 
             <Stack.Screen name={NavigationScreens.HomeScreen} component={Home} />
+            <Stack.Screen name={NavigationScreens.DeliveryScreen} component={Delivery} />
+            <Stack.Screen name={NavigationScreens.SalonScreen} component={Salon} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />
             <Stack.Screen name={NavigationScreens.MyBookMarkScreen} component={MyBookMarkScreen} />
             <Stack.Screen name={NavigationScreens.HaircutScreen} component={Haircuts} />

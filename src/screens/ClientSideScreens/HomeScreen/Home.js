@@ -232,6 +232,8 @@ import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import Delivery from './Delivery';
+import Salon from './Salon';
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -250,81 +252,81 @@ const Home = () => {
   });
   const refRBSheet = useRef(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentPage < ProfileData.length - 1) {
-        flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
-        setCurrentPage(currentPage + 1);
-      } else {
-        flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-        setCurrentPage(0);
-      }
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [currentPage, ProfileData.length]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (currentPage < ProfileData.length - 1) {
+  //       flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
+  //       setCurrentPage(currentPage + 1);
+  //     } else {
+  //       flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+  //       setCurrentPage(0);
+  //     }
+  //   }, 2000);
+  //   return () => clearInterval(interval);
+  // }, [currentPage, ProfileData.length]);
 
-  useEffect(() => {
-    checkLocationPermission();
-  }, []);
+  // useEffect(() => {
+  //   checkLocationPermission();
+  // }, []);
 
-  const checkLocationPermission = async () => {
-    const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-    if (permissionStatus !== RESULTS.GRANTED) {
-      const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-      if (result === RESULTS.GRANTED) {
-        getLocation();
-      }
-    } else {
-      getLocation();
-    }
-  };
+  // const checkLocationPermission = async () => {
+  //   const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+  //   if (permissionStatus !== RESULTS.GRANTED) {
+  //     const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+  //     if (result === RESULTS.GRANTED) {
+  //       getLocation();
+  //     }
+  //   } else {
+  //     getLocation();
+  //   }
+  // };
 
-  const getLocation = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-        fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
-        fetchDataForSalon(position.coords.latitude, position.coords.longitude);
-      },
-      (error) => {
-        console.error("Error:", error);
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
-  };
+  // const getLocation = () => {
+  //   Geolocation.getCurrentPosition(
+  //     (position) => {
+  //       setLatitude(position.coords.latitude);
+  //       setLongitude(position.coords.longitude);
+  //       fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
+  //       fetchDataForSalon(position.coords.latitude, position.coords.longitude);
+  //     },
+  //     (error) => {
+  //       console.error("Error:", error);
+  //     },
+  //     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+  //   );
+  // };
 
-  const fetchDataForDelivery = async (lat, lng) => {
-    try {
-      const token = await AsyncStorage.getItem("AuthToken");
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/delivery/1/1000/`, config);
-      console.log('========    delivery           ==========.........', res.data.data);
-      // setFetchedData(res.data.facilities.facility);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  // const fetchDataForDelivery = async (lat, lng) => {
+  //   try {
+  //     const token = await AsyncStorage.getItem("AuthToken");
+  //     const config = {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     };
+  //     const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/delivery/1/1000/`, config);
+  //     console.log('========    delivery           ==========.........', res.data.data);
+  //     // setFetchedData(res.data.facilities.facility);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
-  const fetchDataForSalon = async (lat, lng) => {
-    try {
-      const token = await AsyncStorage.getItem("AuthToken");
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/salon/1/1000/male`, config);
-      console.log('============    salon     ======.........', res.data.data);
-      // setFetchedData(res.data.facilities.facility);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  // const fetchDataForSalon = async (lat, lng) => {
+  //   try {
+  //     const token = await AsyncStorage.getItem("AuthToken");
+  //     const config = {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     };
+  //     const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/salon/1/1000/male`, config);
+  //     console.log('============    salon     ======.........', res.data.data);
+  //     // setFetchedData(res.data.facilities.facility);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -401,198 +403,9 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </View>
+{activeTab === 'Delivery' ? <Delivery/> : <Salon/>
+}
 
-      <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
-        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }} >
-          <AntDesign name="search1" size={30} color={COLOR.GRAY} />
-          <Text style={{ fontSize: 20, color: COLOR.GRAY }} >Search</Text>
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')}>
-          <FastImage source={Filter} style={{ height: 20, width: 20 }} />
-        </TouchableOpacity>
-      </TouchableOpacity>
-      <View style={{ marginVertical: 10, borderRadius: 15 }}>
-        <FlatList
-          ref={flatListRef}
-          data={ProfileData}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={(event) => {
-            const offset = event.nativeEvent.contentOffset.x;
-            const index = Math.floor(offset / Screen_Width);
-            setCurrentPage(index);
-          }}
-          renderItem={({ item }) => (
-            <View style={{ borderRadius: 15, marginHorizontal: 5 }}>
-              <FastImage
-                source={item.img}
-                style={{ width: Screen_Width * 0.9, height: 200, resizeMode: 'cover', borderRadius: 15 }}
-              />
-            </View>
-          )}
-        />
-      </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'center', bottom: 25, borderRadius: 15 }}>
-        {ProfileData.map((_, index) => (
-          <View
-            key={index}
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              backgroundColor: index === currentPage ? COLOR.ORANGECOLOR : COLOR.GRAY,
-              marginHorizontal: 5,
-            }}
-          />
-        ))}
-      </View>
-      <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
-      <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center' }}>
-        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Location</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('NearbyYourLocation Screen')} ><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity>
-      </View>
-      <View style={{ marginVertical: 10 }}>
-        <Category />
-      </View>
-      <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', marginVertical: 10 }}>
-        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Professional</Text>
-        <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text>
-      </View>
-      <View style={{ marginVertical: 10 }}>
-        <Category />
-      </View>
-
-
-      <RBSheet
-        ref={refRBSheet}
-        height={Screen_Height * 0.7}
-        customStyles={{
-          wrapper: {
-            backgroundColor: COLOR.BLACK_40,
-          },
-          container: {
-            backgroundColor: COLOR.WHITE,
-            borderRadius: 40,
-            borderBottomRightRadius: 0,
-            borderBottomLeftRadius: 0,
-            elevation: 10,
-            shadowColor: COLOR.BLACK,
-          },
-          draggableIcon: {
-            backgroundColor: COLOR.BLACK,
-          },
-        }}
-        customModalProps={{
-          animationType: 'slide',
-          statusBarTranslucent: true,
-        }}
-        customAvoidingViewProps={{
-          enabled: false,
-        }}
-      >
-        <View
-          style={{
-            width: Screen_Width,
-            height: Screen_Height * 0.7,
-            paddingHorizontal: 15,
-            backgroundColor: COLOR.WHITE,
-            justifyContent: 'space-between'
-          }}
-        >
-
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 15,
-            justifyContent: 'space-between',
-            margin: 10
-          }}>
-            <Text style={{ fontSize: 20, color: COLOR.BLACK }}>Add Address</Text>
-            <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity>
-          </View>
-
-          <ScrollView style={{ margin: 10 }}>
-            <TextInput
-              placeholder="Address"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.Address}
-              onChangeText={(text) => setAddress({ ...address, Address: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="City"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.city}
-              onChangeText={(text) => setAddress({ ...address, city: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.BLACK,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="State"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.state}
-              onChangeText={(text) => setAddress({ ...address, state: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="Nearbylandmark"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.Nearbylandmark}
-              onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-
-            />
-          </ScrollView>
-          <TouchableOpacity
-            style={{
-              width: Screen_Width * 0.90,
-              height: Screen_Height * 0.05,
-              backgroundColor: COLOR.ORANGECOLOR,
-              justifyContent: 'center',
-              borderRadius: 35,
-              alignSelf: 'center',
-              marginVertical: 20
-            }}
-            onPress={handleSaveAddress}
-          >
-            <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
-              Save Address
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </RBSheet>
       <View style={{ height: 90 }} />
     </ScrollView>
   );
