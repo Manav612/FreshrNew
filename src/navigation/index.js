@@ -54,11 +54,11 @@ const NavigationHandler = () => {
                         screen_class: currentRouteName,
                     };
                     console.log("Current Screen : ", currentScreen);
-                    dispatch(setActiveScreen(currentScreen.screen_name));
-                    await analytics().logScreenView({
-                        screen_name: currentRouteName,
-                        screen_class: currentRouteName,
-                    }).catch((e) => { console.log("Error : ", e) });
+                    // dispatch(setActiveScreen(currentScreen.screen_name));
+                    // await analytics().logScreenView({
+                    //     screen_name: currentRouteName,
+                    //     screen_class: currentRouteName,
+                    // }).catch((e) => { console.log("Error : ", e) });
                 }
                 routeNameRef.current = currentRouteName;
             }}

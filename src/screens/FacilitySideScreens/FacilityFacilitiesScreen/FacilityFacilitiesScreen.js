@@ -20,10 +20,12 @@ const FacilityFacilitiesScreen = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [fetchedData, setFetchedData] = useState([]);
-
+console.log("===========   fetchedData      =============",fetchedData);
     useEffect(() => {
+
         fetchData();
       }, []);
+ 
     
       const fetchData = async () => {
         try {
@@ -34,7 +36,7 @@ const FacilityFacilitiesScreen = () => {
             }
           };
           const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
-          console.log('========   user facilty   ==========', res.data.data);
+          console.log('========  user facilty   ============', res.data.data);
           setFetchedData(res.data.data);
         } catch (error) {
           console.error("Error:", error);
@@ -135,7 +137,7 @@ const FacilityFacilitiesScreen = () => {
                     >
                         <Image source={Hair1} style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }} />
                         <View style={{ width: Screen_Width * 0.5 }}>
-                            <Text style={styles.earningsText}>{item?.name}</Text>
+                            <Text style={styles.earningsText}>{item.name}</Text>
                             <Text style={styles.earningsSubText}>{item?.description}</Text>
                         </View>
                         <TouchableOpacity  style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>

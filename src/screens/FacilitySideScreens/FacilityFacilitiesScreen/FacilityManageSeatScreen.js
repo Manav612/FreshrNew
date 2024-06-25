@@ -370,16 +370,38 @@ const FacilityManageSeatScreen = ({ route }) => {
     const [isEditableFocused, setIsEditableFocused] = useState(false);
     const [Editable, setEditable] = useState('');
     const [fetchedProfList, setFetchedProfList] = useState([]);
-    const [fetchedProfName, setFetchedProfName] = useState([]);
-    const [fetchedProfPhone, setFetchedProfPhone] = useState([]);
+    const [fetchedProfName, setFetchedProfName] = useState();
+    const [ profEmail,setProfEmail] = useState()
+    const [fetchedProfPhone, setFetchedProfPhone] = useState();
+    const [ProfId, setProfID] = useState();
     const [isSeatFilled, setIsSeatFilled] = useState(false);
-    const [ProfId, setProfID] = useState(false);
+    const [ assignedseats,setassignedseat] = useState([])
+    const [ proflist,setProflist] = useState([])
     const seatCapacity = data?.seatCapacity || [];
 
     useEffect(() => {
+        console.log("Asssss",seatCapacity);
         fetchData();
+        fetchseatdata()
     }, []);
 
+    const fetchseatdata =async()=>{
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            };
+            const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/assignPro/${facilityId}`, config);
+            console.log('========   use =============', res.data.facility.seatassign);
+            // setFetchedData(res.data.data);
+            setassignedseat(res.data.facility.seatassign)
+          } catch (error) {
+            console.error("Error:", error);
+          }
+       
+      }
     const fetchData = async () => {
         try {
             const token = await AsyncStorage.getItem('AuthToken');
@@ -390,23 +412,22 @@ const FacilityManageSeatScreen = ({ route }) => {
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
             console.log('========    Proff   ==========', res.data.professional);
-            const ProfId = res.data.professional.map((prof) => prof.id);
-            console.log("========  profId   =============",ProfId);
-            setProfID(ProfId)
+        
+    
             const emailList = res.data.professional.map((prof) => prof.user.email);
             console.log('======     emails hkb     ===========', emailList);
-            const Name = res.data.professional.map((prof) => prof.user.firstName);
-            console.log('======     name hkb     ===========', Name);
-            setFetchedProfName(Name);
-            const Phone = res.data.professional.map((prof) => prof.user.phone);
-            console.log('======     Phone hkb     ===========', Phone);
-            setFetchedProfPhone(Phone);
+         
+ 
+            setProflist(res.data.professional);
+            console.log('======     name hkb     ===========', fetchedProfName);
+
 
             setFetchedProfList(emailList);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error:', error.message);
         }
     };
+    console.log();
 
     const styles = StyleSheet.create({
         HeaderView: {
@@ -473,7 +494,7 @@ const FacilityManageSeatScreen = ({ route }) => {
     });
 
     const [seats, setSeats] = useState(
-        Array.from({ length: seatCapacity }, (_, i) => ({ id: i + 1, filled: i < data.seatassign.length, name: '', phone: '', email: '', commission: '' }))
+        Array.from({ length: seatCapacity }, (_, i) => ( { id: i + 1, filled: i < data.seatassign.length, firstName: '', phone: '', email: '', commission: '' }))
     );
     const [selectedSeat, setSelectedSeat] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -481,10 +502,18 @@ const FacilityManageSeatScreen = ({ route }) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSeatPress = (seat) => {
+        console.log("Asdasdas",seat);
+        if (seat.filled) {
+            setProfEmail(seat.email)
+            setFetchedProfPhone(seat.phone)
+            setFetchedProfName(seat.firstName)
+            setProfID(seat._id)
+        }
         setSelectedSeat(seat);
         setModalVisible(true);
         setIsSeatFilled(seat.filled);
     };
+ 
 
     const handleSave = async () => {
         try {
@@ -501,18 +530,30 @@ const FacilityManageSeatScreen = ({ route }) => {
                 facilityId,
                 proId:ProfId,
                 split: commission,
+                
             });
+
+            console.log("===========   res data     =============",data);
 
             const response = await axios.patch(`${BASE_API_URL}/hosts/host/facilities/assignPro/${facilityId}`, data, config);
             console.log('Response:', response.data);
             setSeats(seats.map((seat) => (seat.id === selectedSeat.id ? { ...selectedSeat, filled: true } : seat)));
             setModalVisible(false);
+           {seats.length === 0 &&
+            (
+            setProfEmail(),
+        setFetchedProfPhone(),
+        setFetchedProfName(),
+        setProfID()
+            )
+           }
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
     const renderSeat = ({ item, index }) => (
+ 
         <View style={styles.seatContainer}>
             <View style={styles.seatHeader}>
                 <Text style={styles.seatHeaderText}>{index + 1}</Text>
@@ -529,14 +570,23 @@ const FacilityManageSeatScreen = ({ route }) => {
 
     const handleSearch = (text) => {
         setSearchQuery(text);
-        setFetchedProfList(fetchedProfList.filter((email) => email.toLowerCase().includes(text.toLowerCase())));
+        setFetchedProfList(proflist.filter((email) => email.toLowerCase().includes(text.toLowerCase())));
     };
 
-    const handleEmailSelect = (email) => {
-        setSelectedSeat({ ...selectedSeat, email });
+    const handleEmailSelect = (email,firstName,phone) => {
+        setSelectedSeat({ ...selectedSeat, email,firstName,phone });
         setSearchQuery(email);
         setFetchedProfList([]);
     };
+    const handleselectprofessional =(data)=>{
+        handleEmailSelect(data.email,data.firstName,data.phone)
+        setProfEmail(data.email)
+        setFetchedProfPhone(data.phone)
+        setFetchedProfName(data.firstName)
+        setProfID(data._id)
+
+
+    }
 
     return (
         <ScrollView
@@ -625,10 +675,10 @@ const FacilityManageSeatScreen = ({ route }) => {
                             <View style={styles.modalContent}>
                                 <Text style={styles.modalTitle}>Seat {selectedSeat.id} Details</Text>
                                 <View style={{ justifyContent: 'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10 }}>
-                                    <Text style={{ color: COLOR.BLACK }}>{fetchedProfName}</Text>
+                                    <Text style={{ color: COLOR.BLACK }}>Name : {fetchedProfName}</Text>
                                 </View>
                                 <View style={{ justifyContent: 'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10 }}>
-                                    <Text style={{ color: COLOR.BLACK }}>{fetchedProfPhone}</Text>
+                                    <Text style={{ color: COLOR.BLACK }}>Phone : {fetchedProfPhone}</Text>
                                 </View>
                                 <TextInput
                                     style={[styles.input2, { color: COLOR.BLACK }]}
@@ -638,10 +688,10 @@ const FacilityManageSeatScreen = ({ route }) => {
                                     onChangeText={handleSearch}
                                 />
                                 <FlatList
-                                    data={fetchedProfList}
+                                    data={proflist}
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item }) => (
-                                        <TouchableOpacity onPress={() => handleEmailSelect(item)}>
+                                        <TouchableOpacity onPress={() => handleselectprofessional(item.user)}>
                                             <Text
                                                 style={{
                                                     padding: 10,
@@ -650,9 +700,10 @@ const FacilityManageSeatScreen = ({ route }) => {
                                                     borderBottomWidth: 1,
                                                 }}
                                             >
-                                                {item}
+                                                {item.user.email}
                                             </Text>
                                         </TouchableOpacity>
+                                        
                                     )}
                                     style={{ maxHeight: 150, marginBottom: 10 }}
                                 />

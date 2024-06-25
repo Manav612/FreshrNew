@@ -107,7 +107,7 @@ const MyProfile = () => {
 
 
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Profile</Text>
@@ -153,6 +153,8 @@ const MyProfile = () => {
         data={ProfileData1}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
+        style={{flex:1}}
+        scrollEnabled={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={{ width: Screen_Width * 0.90, height: 60, borderRadius: 15, marginVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}
             onPress={() => {

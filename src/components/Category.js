@@ -140,6 +140,8 @@ const Category = () => {
           data={filteredData}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item._id}
+          style={{flex:1}}
+          scrollEnabled={false}
           renderItem={({ item }) => <Card item={item} />}
         />
       </View>

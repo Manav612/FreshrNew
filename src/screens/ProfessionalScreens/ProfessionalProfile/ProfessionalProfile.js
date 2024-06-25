@@ -10,6 +10,7 @@ import {
   FlatList,
   Button,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +29,7 @@ import PackageScreen from '../../../components/SalonDetailScreen/PackageScreen';
 import { Servicesdata2 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import FastImage from 'react-native-fast-image';
-import { SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
+import { RemoveOneServiceData, SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
@@ -47,6 +48,7 @@ const ProfessionalProfile = ({ name }) => {
   const [activeTab, setActiveTab] = useState('');
   const [activeTab2, setActiveTab2] = useState('');
   const [selectedServiceId, setSelectedServiceId] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -63,6 +65,11 @@ const ProfessionalProfile = ({ name }) => {
   }, [])
   useEffect(() => {
     fetchServicesData();
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchServicesData().then(() => setRefreshing(false));
   }, []);
 
   const fetchServicesData = async () => {
@@ -216,6 +223,7 @@ const ProfessionalProfile = ({ name }) => {
               </Text>
               {/* <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('Ourpackages Screen')}>See All</Text> */}
             </View>
+            
             <View
               style={{
                 borderBottomWidth: 1,
@@ -229,6 +237,8 @@ const ProfessionalProfile = ({ name }) => {
               showsVerticalScrollIndicator={false}
               keyExtractor={item => item.id}
               renderItem={renderitem}
+              style={{flex:1}}
+             scrollEnabled={false}
             />
            <RBSheet
             ref={ref => (refRBSheet.current[0] = ref)}
@@ -457,7 +467,9 @@ const ProfessionalProfile = ({ name }) => {
     },
   });
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height }}  refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <View style={{ height: 330 }}>
         <ImageBackground
           source={barber}

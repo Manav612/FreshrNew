@@ -1,4 +1,4 @@
-import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View,RefreshControl } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -21,6 +21,7 @@ const ProfessionalServices = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [servicesData, setServicesData] = useState();
+  const [refreshing, setRefreshing] = useState(false);
   const [Services, setServices] = useState('View services');
   const fetchedData= useSelector(state=>state.ServicesDataReducer);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
@@ -38,6 +39,12 @@ console.log("==========   F3etch Data   ===========",fetchedData);
     fetchServicesData();
   }, []);
 
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchServicesData().then(() => setRefreshing(false));
+  }, []);
+
   const fetchServicesData = async () => {
     try {
       const token = await AsyncStorage.getItem("AuthToken");
@@ -47,7 +54,7 @@ console.log("==========   F3etch Data   ===========",fetchedData);
         }
       };
       const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
-      console.log("=======   fetchhh services  == ========", res.data.data.services);
+      console.log("=========   fetchhh services  == ========", res.data.data.services);
       dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
       console.error("Error:", error);
@@ -164,7 +171,9 @@ console.log("==========   F3etch Data   ===========",fetchedData);
             keyExtractor={item => item.id}
             renderItem={RenderItem}
             style={{flex:1}}
-            // scrollEnabled={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
 
           <RBSheet
@@ -385,7 +394,10 @@ console.log("==========   F3etch Data   ===========",fetchedData);
   });
 
   return (
-    <View style={{ width: Screen_Width,flex:1,paddingBottom:250, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
+    <View
+    style={{ width: Screen_Width, flex: 1, paddingBottom: 250, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}
+    
+  >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Services</Text>

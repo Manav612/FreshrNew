@@ -108,7 +108,8 @@ const ProfileStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalEditProfileScreen} component={ProfessionalEditprofile} />
             <Stack.Screen name={NavigationScreens.ProfessionalSecurityScreen} component={ProfessionalSecurity} />
             <Stack.Screen name={NavigationScreens.ProfessionalPrivacyPolicyScreen} component={ProfessionalPrivacyPolicy} />
-            <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewInnerServicesScreen} component={ProfessionalViewInnerServices} />
+
             <Stack.Screen name={NavigationScreens.professionalEditServiceScreen} component={ProfessionalEditService} />
 
         </Stack.Navigator>
