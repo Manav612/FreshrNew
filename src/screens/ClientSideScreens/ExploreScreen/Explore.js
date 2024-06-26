@@ -282,12 +282,12 @@ const Explore = () => {
       <View style={styles.container}>
         <MapView
           style={styles.mapStyle}
-          initialRegion={{
-            latitude: 19.0760,
-            longitude: 72.8777,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
+          // initialRegion={{
+          //   latitude: 19.0760,
+          //   longitude: 72.8777,
+          //   latitudeDelta: 0.0922,
+          //   longitudeDelta: 0.0421,
+          // }}
           customMapStyle={mapStyle}
         >
           {

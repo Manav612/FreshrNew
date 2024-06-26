@@ -59,7 +59,7 @@ const FacilityOnBoardingScreen = () => {
     const [loc, setLoc] = useState()
     const [coverImageUri, setCoverImageUri] = useState(null);
     const [galleryImageUris, setGalleryImageUris] = useState([]);
-    const [formattedAddress,setFormattedAddress] = useState('')
+    const [formattedAddress, setFormattedAddress] = useState('')
     const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
     const initialRegion = {
@@ -274,12 +274,12 @@ const FacilityOnBoardingScreen = () => {
     const getAddressFromCoordinates = async (latitude, longitude) => {
         try {
             Geocoder.from(latitude, longitude)
-            .then(json => {
+                .then(json => {
                     var addressComponent = json;
-                // console.log(json.results[0]?.formatted_address);
-                setFormattedAddress(json.results[0]?.formatted_address)
-            })
-            .catch(error => console.warn(error));
+                    // console.log(json.results[0]?.formatted_address);
+                    setFormattedAddress(json.results[0]?.formatted_address)
+                })
+                .catch(error => console.warn(error));
         } catch (error) {
             console.log('Error retrieving address:', error);
         }
@@ -503,12 +503,7 @@ const FacilityOnBoardingScreen = () => {
     });
 
     const handleNavigation = () => {
-        if (!apartment || !seatCount || !facilityName || !description || !timeData || !imageUri || !rState || !coverImageUri || !galleryImageUris || !formattedAddress) {
-            Alert.alert('Validation Error', 'Please fill in all fields.');
-            return;
-        }
-        const facilityData = {
-            apartment,
+        const requiredFields = {
             seatCount,
             facilityName,
             description,
@@ -518,11 +513,28 @@ const FacilityOnBoardingScreen = () => {
             coverImageUri,
             galleryImageUris,
             formattedAddress
-
         };
+
+        const emptyFields = Object.entries(requiredFields)
+            .filter(([_, value]) => !value)
+            .map(([key]) => key);
+
+        if (emptyFields.length > 0) {
+            const missingFieldsMessage = emptyFields.join(', ');
+            Alert.alert(
+                'Validation Error',
+                `Please fill in the following fields: ${missingFieldsMessage}`
+            );
+            return;
+        }
+
+        const facilityData = {
+            apartment,
+            ...requiredFields
+        };
+
         navigation.navigate(NavigationScreens.ConfirmationForCreateFacilitieScreen, { facilityData });
     };
-
     return (
         <>
             <Onboarding
@@ -560,7 +572,7 @@ const FacilityOnBoardingScreen = () => {
                                     </View>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width, }}>
 
-                                        <GooglePlacesAutocomplete
+                                        {/* <GooglePlacesAutocomplete
                                         placeholder='Enter Location'
                                         placeholderTextColor={COLOR.GRAY}
                                             minLength={4}
@@ -617,7 +629,82 @@ const FacilityOnBoardingScreen = () => {
                                                 location: `${region.latitude}, ${region.longitude}`,
                                             }}
 
+                                        /> */}
+                                        <GooglePlacesAutocomplete
+                                            placeholder='Enter Location'
+                                            minLength={4}
+                                            styles={{
+                                               
+                                                textInput: {
+                                                    height: 50,
+                                                    width: Screen_Width * 0.9,
+                                                    backgroundColor: COLOR.WHITE,
+                                                    borderRadius: 15,
+                                                    elevation: 5,
+                                                    shadowColor: COLOR.BLACK,
+                                                    marginVertical: 10,
+                                                    color:COLOR.BLACK
+                                                },
+                                                container: {
+                                                    width: Screen_Width * 0.9,
+                                                },
+                                                predefinedPlacesDescription: {
+                                                    color: COLOR.WHITE,
+                                                },
+                                                description: {
+                                                    color: COLOR.WHITE,
+                                                },
+                                                row: {
+                                                    backgroundColor: COLOR.DarkBackground,
+                                                },
+                                                separator: {
+                                                    backgroundColor: COLOR.GRAY,
+                                                    height: 1,
+                                                },
+                                            }}
+                                            onPress={(data, details = null) => {
+                                                setRegion({
+                                                    latitude: details.geometry.location.lat,
+                                                    longitude: details.geometry.location.lng,
+                                                    latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
+                                                    longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
+                                                });
+                                                console.log(data, details);
+                                                _map.current?.animateToRegion(
+                                                    {
+                                                        latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
+                                                        longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
+                                                        latitude: details.geometry.location.lat,
+                                                        longitude: details.geometry.location.lng,
+                                                    },
+                                                );
+                                            }}
+                                            autoFocus={false}
+                                            listViewDisplayed={false}
+                                            keepResultsAfterBlur={false}
+                                            returnKeyType={"default"}
+                                            fetchDetails={true}
+                                            GooglePlacesDetailsQuery={{
+                                                rankby: "distance",
+                                            }}
+                                            query={{
+                                                key: "AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU",
+                                                language: "en",
+                                                radius: 30000,
+                                                location: `${region.latitude}, ${region.longitude}`,
+                                            }}
+                                            
                                         />
+                                        <View style={{ width: Screen_Width * 0.88 }}>
+                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite (optional)</Text>
+                                            <TextInput
+                                                style={[styles.input]}
+                                                placeholder="Apartment, Suite"
+                                                placeholderTextColor={COLOR.GRAY}
+                                                value={apartment}
+                                                onChangeText={setApartment}
+                                            />
+                                        </View>
                                         <View style={{ height: Screen_Height * 0.3, width: Screen_Width * 0.88, borderRadius: 15, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} >
 
                                             <MapView
@@ -645,35 +732,7 @@ const FacilityOnBoardingScreen = () => {
                             </>
                         ),
                     },
-                    {
-                        backgroundColor: COLOR.WHITE,
-                        image: (
-                            <View>
-                                <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 24, textAlign: 'center', padding: 5 }}>Add Facility</Text>
-                                <Image source={OnBoard4} style={{ width: Screen_Width, height: Screen_Height * 0.24, resizeMode: 'stretch' }} />
-                            </View>
-                        ),
-                        title: (
-                            <ScrollView showsVerticalScrollIndicator={false}>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
-                                    <KeyboardAvoidingView style={{ width: Screen_Width * 0.88 }}>
-                                        <View>
-                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite</Text>
-                                            <TextInput
-                                                style={[styles.input]}
-                                                placeholder="Apartment, Suite"
-                                                placeholderTextColor={COLOR.GRAY}
-                                                value={apartment}
-                                                onChangeText={setApartment}
-                                            />
-                                        </View>
-                                        
-                                    </KeyboardAvoidingView>
-                                </View>
-                                <View style={{ height: Screen_Height * 0.5 }} />
-                            </ScrollView>
-                        ),
-                    },
+
                     {
                         backgroundColor: COLOR.WHITE,
                         image: (

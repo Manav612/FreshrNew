@@ -280,7 +280,7 @@ const ConfirmationForCreateFacilitie = () => {
           borderRadius: 15,
           paddingHorizontal: 5,
           marginHorizontal: 2,
-          marginVertical: 20,
+          marginVertical: 10,
           backgroundColor: COLOR.AuthField,
           elevation: 5,
           shadowColor: COLOR.BLACK,
@@ -289,21 +289,23 @@ const ConfirmationForCreateFacilitie = () => {
           alignItems: "center",
         }}
       >
-        <View
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-          }}
-        >
+       
           <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-            Longitude: {facilityData?.rState?.region?.longitude}
+            Longitude: {
+              String(facilityData?.rState?.region?.longitude).length > 10
+                ? String(facilityData?.rState?.region?.longitude).slice(0, 10) + '...'
+                : facilityData?.rState?.region?.longitude
+            }
           </Text>
           <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
             {" "}
-            Latitude: {facilityData?.rState?.region?.latitude}
+            Latitude: {
+              String(facilityData?.rState?.region?.latitude).length > 10
+                ? String(facilityData?.rState?.region?.latitude).slice(0, 10) + '...'
+                : facilityData?.rState?.region?.latitude
+            }
           </Text>
-        </View>
+       
       </View>
 
       {/* Address */}
@@ -368,7 +370,7 @@ const ConfirmationForCreateFacilitie = () => {
               borderRadius: 15,
               elevation: 5,
               height: 100,
-              justifyContent:'flex-start',
+              justifyContent: 'flex-start',
               padding: 10,
               shadowColor: COLOR.BLACK,
               marginVertical: 5,
@@ -379,7 +381,7 @@ const ConfirmationForCreateFacilitie = () => {
               </Text>
             </View>
           </View>
-          
+
 
         </KeyboardAvoidingView>
       </View>
@@ -617,6 +619,8 @@ const ConfirmationForCreateFacilitie = () => {
       <FlatList
         data={shopTimingArray}
         keyExtractor={(item, index) => index.toString()}
+        style={{ flex: 1 }}
+        scrollEnabled={false}
         renderItem={({ item }) => {
           return (
             <>
