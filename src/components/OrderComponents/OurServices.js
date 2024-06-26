@@ -146,6 +146,8 @@ const [fetchedServices,setFetchedServices] = useState([])
                     data={fetchedServices}
                     showsVerticalScrollIndicator={false}
                     renderItem={renderitem}
+                    style={{flex:1}}
+                    scrollEnabled={false}
                 />
 
                 <View style={{ height: 170 }} />

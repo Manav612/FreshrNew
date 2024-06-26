@@ -5,6 +5,7 @@ import NavigationHandler from './src/navigation';
 import Store from './src/redux/Store';
 import { SetThemeMode } from './src/redux/ThemeAction';
 import Toast from 'react-native-toast-message';
+import Geocoder from 'react-native-geocoding';
 
 const customTextProps = {
   style: {
@@ -12,7 +13,7 @@ const customTextProps = {
   },
 };
 const App = () => {
-  
+  Geocoder.init("AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU");
   return <NavigationHandler/>;
 };
 

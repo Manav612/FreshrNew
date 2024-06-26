@@ -116,7 +116,7 @@ const Booking = ({ route }) => {
     const renderScreen = () => {
         switch (selectedItem) {
             case 'About Us':
-                return <AboutUsScreen facilitiesData={facilitiesData} ProfData={ProfData}/>;
+                return <AboutUsScreen facilitiesData={facilitiesData} ProfData={ProfData} />;
             // case 'Services':
             //     return <ServicesScreen facilitiesData={facilitiesData}  />;
             // case 'Package':

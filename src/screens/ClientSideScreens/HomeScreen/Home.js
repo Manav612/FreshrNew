@@ -34,6 +34,7 @@ const Home = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [fetchedData, setFetchedData] = useState('');
 
   const [address, setAddress] = useState({
     Address: '',
@@ -189,7 +190,27 @@ const Home = () => {
     }
     return fullAddress;
   };
+  useEffect(() => {
 
+    fetchData();
+  }, []);
+
+
+  const fetchData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
+      console.log('========  user facilty   =============', res.data.data);
+      setFetchedData(res.data.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}

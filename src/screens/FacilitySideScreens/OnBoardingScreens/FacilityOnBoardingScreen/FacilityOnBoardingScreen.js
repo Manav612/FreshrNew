@@ -22,6 +22,7 @@ import Geolocation from 'react-native-geolocation-service'
 import MapView, { Circle, Marker } from 'react-native-maps';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import GetLocation from 'react-native-get-location'
+import Geocoder from 'react-native-geocoding';
 
 const FacilityOnBoardingScreen = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -58,7 +59,7 @@ const FacilityOnBoardingScreen = () => {
     const [loc, setLoc] = useState()
     const [coverImageUri, setCoverImageUri] = useState(null);
     const [galleryImageUris, setGalleryImageUris] = useState([]);
-
+    const [formattedAddress,setFormattedAddress] = useState('')
     const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
     const initialRegion = {
@@ -263,6 +264,26 @@ const FacilityOnBoardingScreen = () => {
         requestLocationPermission();
     }, [])
 
+    const onValueChanged = (region) => {
+        rSetState({ region: region });
+        getAddressFromCoordinates(
+            parseFloat(JSON.stringify(region.latitude)),
+            parseFloat(JSON.stringify(region.longitude))
+        )
+    }
+    const getAddressFromCoordinates = async (latitude, longitude) => {
+        try {
+            Geocoder.from(latitude, longitude)
+            .then(json => {
+                    var addressComponent = json;
+                // console.log(json.results[0]?.formatted_address);
+                setFormattedAddress(json.results[0]?.formatted_address)
+            })
+            .catch(error => console.warn(error));
+        } catch (error) {
+            console.log('Error retrieving address:', error);
+        }
+    };
     const styles = StyleSheet.create({
         inputContainer: {
             flexDirection: 'row',
@@ -482,17 +503,12 @@ const FacilityOnBoardingScreen = () => {
     });
 
     const handleNavigation = () => {
-        if (!street || !apartment || !city || !state || !postalCode || !country || !seatCount || !facilityName || !description || !timeData || !imageUri || !rState || !coverImageUri || !galleryImageUris) {
+        if (!apartment || !seatCount || !facilityName || !description || !timeData || !imageUri || !rState || !coverImageUri || !galleryImageUris || !formattedAddress) {
             Alert.alert('Validation Error', 'Please fill in all fields.');
             return;
         }
         const facilityData = {
-            street,
             apartment,
-            city,
-            state,
-            postalCode,
-            country,
             seatCount,
             facilityName,
             description,
@@ -500,7 +516,8 @@ const FacilityOnBoardingScreen = () => {
             imageUri,
             rState,
             coverImageUri,
-            galleryImageUris
+            galleryImageUris,
+            formattedAddress
 
         };
         navigation.navigate(NavigationScreens.ConfirmationForCreateFacilitieScreen, { facilityData });
@@ -574,19 +591,19 @@ const FacilityOnBoardingScreen = () => {
                                                     latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
                                                     longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
                                                 });
-                                                mapRef.current?.animateToRegion(
+                                                console.log(data,details);
+                                                _map.current?.animateToRegion(
                                                     {
                                                         latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
                                                         longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
                                                         latitude: details.geometry.location.lat,
                                                         longitude: details.geometry.location.lng,
                                                     },
-                                                    1000
                                                 );
                                             }}
                                             autoFocus={false}
                                             listViewDisplayed={false}
-                                            keepResultsAfterBlur={true}
+                                            keepResultsAfterBlur={false}
                                             returnKeyType={"default"}
                                             fetchDetails={true}
                                             GooglePlacesDetailsQuery={{
@@ -594,7 +611,7 @@ const FacilityOnBoardingScreen = () => {
                                             }}
 
                                             query={{
-                                                key: "AIzaSyCOv8bKnTUh_03fuq11mXQPBEx9-TF3bWE",
+                                                key: "AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU",
                                                 language: "en",
                                                 radius: 30000,
                                                 location: `${region.latitude}, ${region.longitude}`,
@@ -610,6 +627,7 @@ const FacilityOnBoardingScreen = () => {
                                                 initialRegion={rState.region}
                                                 showsUserLocation={true}
                                                 rotateEnabled={false}
+                                                onRegionChangeComplete={onValueChanged}
                                             >
                                                 <Marker coordinate={rState.region}>
 
@@ -640,18 +658,7 @@ const FacilityOnBoardingScreen = () => {
                                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', width: Screen_Width, paddingHorizontal: 15 }}>
                                     <KeyboardAvoidingView style={{ width: Screen_Width * 0.88 }}>
                                         <View>
-                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Add Address</Text>
-                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Street</Text>
-                                            <TextInput
-                                                style={[styles.input]}
-                                                placeholder="Street"
-                                                placeholderTextColor={COLOR.GRAY}
-                                                value={street}
-                                                onChangeText={setStreet}
-                                            />
-                                        </View>
-                                        <View>
-                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite ( Optional)</Text>
+                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite</Text>
                                             <TextInput
                                                 style={[styles.input]}
                                                 placeholder="Apartment, Suite"
@@ -660,51 +667,7 @@ const FacilityOnBoardingScreen = () => {
                                                 onChangeText={setApartment}
                                             />
                                         </View>
-                                        <View>
-                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>City</Text>
-                                            <TextInput
-                                                style={[styles.input]}
-                                                placeholder="City"
-                                                placeholderTextColor={COLOR.GRAY}
-                                                value={city}
-                                                onChangeText={setCity}
-                                            />
-                                        </View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <View>
-                                                <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>State / Province</Text>
-                                                <TextInput
-                                                    style={[styles.halfInput]}
-                                                    placeholder="State / Province"
-                                                    placeholderTextColor={COLOR.GRAY}
-                                                    value={state}
-                                                    onChangeText={setState}
-                                                />
-                                            </View>
-                                            <View>
-                                                <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Postal code</Text>
-                                                <TextInput
-                                                    style={[styles.halfInput]}
-                                                    placeholder="Postal code"
-                                                    placeholderTextColor={COLOR.GRAY}
-                                                    value={postalCode}
-                                                    onChangeText={setPostalCode}
-                                                />
-                                            </View>
-                                        </View>
-                                        <View>
-                                            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Country/Region</Text>
-                                            <TextInput
-                                                style={[styles.input]}
-                                                placeholder="Country/Region"
-                                                placeholderTextColor={COLOR.GRAY}
-                                                value={country}
-                                                onChangeText={setCountry}
-                                            />
-                                        </View>
-                                        {/* <TouchableOpacity style={styles.button}>
-                                            <Text style={styles.buttonText}>Get Started</Text>
-                                        </TouchableOpacity> */}
+                                        
                                     </KeyboardAvoidingView>
                                 </View>
                                 <View style={{ height: Screen_Height * 0.5 }} />

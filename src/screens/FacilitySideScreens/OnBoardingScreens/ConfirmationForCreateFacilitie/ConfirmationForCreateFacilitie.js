@@ -41,7 +41,7 @@ const ConfirmationForCreateFacilitie = () => {
   const galleryImages = facilityData.galleryImageUris;
   const coverImage = facilityData.coverImageUri;
   console.log("========== ====");
-  console.log("==== facilityData  ======>", facilityData);
+  console.log("==== facilityData  =======>", facilityData);
   const shopTimingArray = Object.keys(facilityData.timeData).map((day) => ({
     day,
     ...facilityData.timeData[day],
@@ -110,7 +110,7 @@ const ConfirmationForCreateFacilitie = () => {
 
       const token = await AsyncStorage.getItem("AuthToken");
       console.log("=============>", token);
-      
+
       galleryImages.map((data, i) => {
         formData.append("gallery", geneateFile(data, i));
       });
@@ -131,7 +131,7 @@ const ConfirmationForCreateFacilitie = () => {
         },
         data: formData
       };
-     
+
       const uploadRes = await axios(config)
         .catch((e) => {
           console.error(e);
@@ -143,16 +143,18 @@ const ConfirmationForCreateFacilitie = () => {
 
         params["timing"] = facilityData.timeData;
         params["name"] = facilityData.facilityName;
-        params["region"] = "abc";
-        params["country"] = facilityData.country;
-        params["street"] = facilityData.street;
-        params["city"] = facilityData.city;
+        // params["region"] = "abc";
+        // params["country"] = facilityData.country;
+        // params["street"] = facilityData.street;
+        // params["city"] = facilityData.city;
         params["coords"] = [
           facilityData.rState.region.latitude,
           facilityData.rState.region.longitude,
         ];
         params["address"] = facilityData.address;
-        params["postcode"] = facilityData.postalCode;
+        params["formattedAddress"] = facilityData.formattedAddress;
+        params["apartment"] = facilityData.apartment;
+        // params["postcode"] = facilityData.postalCode;
         params["description"] = facilityData.description;
         params["seatCapacity"] = 10;
         params["availableSeats"] = facilityData.seatCount;
@@ -166,7 +168,7 @@ const ConfirmationForCreateFacilitie = () => {
           },
           data: params
         };
-       
+
         const res = await axios(db_config)
           .catch((e) => {
             console.error(e);
@@ -174,8 +176,8 @@ const ConfirmationForCreateFacilitie = () => {
         console.log("Res :", res?.data);
 
       }
-      
-      if(formData){
+
+      if (formData) {
         navigation.navigate(NavigationScreens.FacilityConnectStripeScreen)
       }
     } catch (error) {
@@ -361,85 +363,24 @@ const ConfirmationForCreateFacilitie = () => {
             >
               Address
             </Text>
-            <Text
-              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
-            >
-              Street
-            </Text>
-            <View style={styles.input}>
+            <View style={{
+              backgroundColor: COLOR.AuthField,
+              borderRadius: 15,
+              elevation: 5,
+              height: 100,
+              justifyContent:'flex-start',
+              padding: 10,
+              shadowColor: COLOR.BLACK,
+              marginVertical: 5,
+            }}>
               <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-                {facilityData?.street}
+                {facilityData?.apartment} , {facilityData?.formattedAddress}
+
               </Text>
             </View>
           </View>
-          <View>
-            <Text
-              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
-            >
-              Apartment, Suite ( Optional)
-            </Text>
-            <View style={styles.input}>
-              <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-                {facilityData?.apartment}
-              </Text>
-            </View>
-          </View>
-          <View>
-            <Text
-              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
-            >
-              City
-            </Text>
-            <View style={styles.input}>
-              <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-                {facilityData?.city}
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <View>
-              <Text
-                style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
-              >
-                State / Province
-              </Text>
-              <View style={styles.input}>
-                <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-                  {facilityData?.state}
-                </Text>
-              </View>
-            </View>
-            <View>
-              <Text
-                style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
-              >
-                Postal code
-              </Text>
-              <View style={styles.input}>
-                <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-                  {facilityData?.postalCode}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View>
-            <Text
-              style={{ color: COLOR.BLACK, fontWeight: "bold", fontSize: 14 }}
-            >
-              Country/Region
-            </Text>
-            <View style={styles.input}>
-              <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-                {facilityData?.country}
-              </Text>
-            </View>
-          </View>
+          
+
         </KeyboardAvoidingView>
       </View>
 
