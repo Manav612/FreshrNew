@@ -285,7 +285,7 @@ const SearchFilter = () => {
                     customAvoidingViewProps={{
                         enabled: false,
                     }}>
-                    <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+                    <View style={{ paddingHorizontal: 5, marginVertical: 10 }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                             <View style={{ width: 30, height: 3, backgroundColor: COLOR.BLACK, marginBottom: 10 }} />
                             <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',width:Screen_Width*0.9}}>

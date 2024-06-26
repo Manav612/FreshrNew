@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity,RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { data2 } from './utils';
@@ -23,6 +23,8 @@ const Category = () => {
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const navigation = useNavigation();
 
+
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -41,7 +43,7 @@ const Category = () => {
         }
       };
       const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities`, config);
-      console.log('====================.........', res.data.facilities.facility)
+      console.log('=====================.........', res.data.facilities.facility)
       setFetchedData(res.data.facilities.facility);
     } catch (error) {
       console.error("Error:", error);
@@ -80,14 +82,14 @@ const Category = () => {
     },
     CardContainer: {
       elevation: 3,
-      shadowColor:COLOR.BLACK,
+      shadowColor: COLOR.BLACK,
       backgroundColor: COLOR.WHITE,
       borderRadius: 25,
       height: Screen_Height * 0.14,
       width: Screen_Width * 0.9,
       justifyContent: 'center',
       alignItems: 'center',
-      marginHorizontal:2,
+      marginHorizontal: 2,
       marginVertical: 10,
     },
     CardImage: {
@@ -98,58 +100,62 @@ const Category = () => {
     },
     CardContain: {
       height: 90,
-      width:Screen_Width*0.5,
+      width: Screen_Width * 0.5,
       paddingVertical: 5,
       justifyContent: 'center',
-      
+
     },
   });
 
   const Card = ({ item }) => (
     <View style={styles.CardContainer}>
-      <TouchableOpacity  style={{width:Screen_Width*0.85, flexDirection: 'row', alignItems: 'center',justifyContent:'space-between' }} onPress={() => navigation.navigate('Booking',{facilitiesData:item})}>
-       
-          <FastImage style={styles.CardImage} source={{uri:item?.coverImage}} />
-          <View style={styles.CardContain}>
-            <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>
-              {item?.name}
-            </Text>
-            <Text style={{ color:COLOR.BLACK_70 }}>{item?.description}</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <View style={{ flexDirection: 'row' }}>
-                <MaterialCommunityIcons name="map-marker" size={18} color={COLOR.ORANGECOLOR} />
-                  <Text style={{ color: COLOR.BLACK }}>{item?.location.coordinates[0]},{item?.location.coordinates[1]}</Text>
-              </View>
-              {/* <View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity style={{ width: Screen_Width * 0.85, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => navigation.navigate('Booking', { facilitiesData: item })}>
+
+        <FastImage style={styles.CardImage} source={{ uri: item?.coverImage }} />
+        <View style={styles.CardContain}>
+          <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>
+            {item?.name}
+          </Text>
+          <Text style={{ color: COLOR.BLACK_70 }}>{item?.description}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row' }}>
+              <MaterialCommunityIcons name="map-marker" size={18} color={COLOR.ORANGECOLOR} />
+              <Text style={{ color: COLOR.BLACK }}>
+                {item?.formattedAddress && item.formattedAddress.length > 40
+                  ? `${item.formattedAddress.slice(0, 40)}...`
+                  : item?.formattedAddress}
+              </Text>
+            </View>
+            {/* <View style={{ flexDirection: 'row' }}>
                 <MaterialCommunityIcons name="star-half-full" size={18} color={COLOR.ORANGECOLOR} />
                 <Text style={{ color: 'black' }}>{item.rating}</Text>
               </View> */}
-            </View>
           </View>
-          <TouchableOpacity onPress={() => { toggleBookmark(item.id) }}>
-            <View style={{ height: 90, width: 30 }}>
-              <MaterialCommunityIcons
-                name={bookmarkStatus[item.id] ? "bookmark" : "bookmark-outline"}
-                size={25}
-                color={COLOR.ORANGECOLOR}
-              />
-            </View>
-          </TouchableOpacity>
+        </View>
+        <TouchableOpacity onPress={() => { toggleBookmark(item.id) }}>
+          <View style={{ height: 90, width: 30 }}>
+            <MaterialCommunityIcons
+              name={bookmarkStatus[item.id] ? "bookmark" : "bookmark-outline"}
+              size={25}
+              color={COLOR.ORANGECOLOR}
+            />
+          </View>
+        </TouchableOpacity>
       </TouchableOpacity>
     </View>
   );
 
   return (
     <View
-       refreshControl={
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    }>
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={{ marginVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
         <FlatList
           data={filteredData}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item._id}
-          style={{flex:1}}
+          style={{ flex: 1 }}
           scrollEnabled={false}
           renderItem={({ item }) => <Card item={item} />}
         />
