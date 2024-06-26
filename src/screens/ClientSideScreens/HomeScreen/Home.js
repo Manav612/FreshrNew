@@ -1,5 +1,5 @@
 
-import { ScrollView, StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity ,RefreshControl} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, FlatList,PermissionsAndroid, Image, TextInput, TouchableOpacity, RefreshControl, Dimensions } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
@@ -7,35 +7,35 @@ import { Scale, Screen_Height, Screen_Width } from '../../../constants/Constants
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Filter } from '../../../constants/Icons';
-import { ProfileData } from '../../../components/utils';
-
 import { useNavigation } from '@react-navigation/native';
-import Category from '../../../components/Category';
-import FastImage from 'react-native-fast-image';
 import { NavigationScreens } from '../../../constants/Strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
-import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Delivery from './Delivery';
 import Salon from './Salon';
+import MapView, { Circle, Marker } from 'react-native-maps';
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import Geocoder from 'react-native-geocoding';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Home = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const flatListRef = useRef(null);
+
   const navigation = useNavigation();
-  const [data, setData] = useState(null);
   const [user, setUser] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
+  const [apartment, setApartment] = useState('');
+
   const [refreshing, setRefreshing] = useState(false);
   const [fetchedData, setFetchedData] = useState('');
-
+  const { width, height } = Dimensions.get("window");
+  const ASPECT_RATIO = width / height;
+    const [radius, setRadius] = useState(1);
+    const mapRef = useRef();
+    const [loc, setLoc] = useState()
+    const [formattedAddress, setFormattedAddress] = useState('')
+    
   const [address, setAddress] = useState({
     Address: '',
     city: '',
@@ -44,87 +44,106 @@ const Home = () => {
   });
   const refRBSheet = useRef(null);
 
-  
+  const [region, setRegion] = useState(initialRegion);
+  const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
+  const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+  const initialRegion = {
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: LATITUDE_DELTA * Number(1 / 15),
+    longitudeDelta: LONGITUDE_DELTA * Number(1 / 15),
+  };
+  const _map = useRef(null);
+  s = {
+    region: {
+      latitude: 23.052524,
+      longitude: 72.6800283,
+      latitudeDelta: 0.04,
+      longitudeDelta: 0.04,
+    }
+  }
+  const [rState, rSetState] = useState(s);
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+        const locationPermissionStatus = await Geolocation.requestAuthorization(
+            'whenInUse',
+        );
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (currentPage < ProfileData.length - 1) {
-  //       flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
-  //       setCurrentPage(currentPage + 1);
-  //     } else {
-  //       flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-  //       setCurrentPage(0);
-  //     }
-  //   }, 2000);
-  //   return () => clearInterval(interval);
-  // }, [currentPage, ProfileData.length]);
+        const locationGranted = locationPermissionStatus === 'granted' || locationPermissionStatus === 'restricted';
 
-  // useEffect(() => {
-  //   checkLocationPermission();
-  // }, []);
+        if (locationGranted) {
+            handleUserLocation();
+            return true;
+        }
+    } else {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                handleUserLocation();
+            } else {
+                requestLocationPermission();
+            }
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+}
 
-  // const checkLocationPermission = async () => {
-  //   const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-  //   if (permissionStatus !== RESULTS.GRANTED) {
-  //     const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-  //     if (result === RESULTS.GRANTED) {
-  //       getLocation();
-  //     }
-  //   } else {
-  //     getLocation();
-  //   }
-  // };
+const handleUserLocation = () => {
+    Geolocation.getCurrentPosition(
+        (pos) => {
 
-  // const getLocation = () => {
-  //   Geolocation.getCurrentPosition(
-  //     (position) => {
-  //       setLatitude(position.coords.latitude);
-  //       setLongitude(position.coords.longitude);
-  //       fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
-  //       fetchDataForSalon(position.coords.latitude, position.coords.longitude);
-  //     },
-  //     (error) => {
-  //       console.error("Error:", error);
-  //     },
-  //     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-  //   );
-  // };
+            rSetState({
+                region: {
+                    latitude: pos.coords.latitude,
+                    longitude: pos.coords.longitude,
+                    latitudeDelta: 0.04,
+                    longitudeDelta: 0.04,
+                }
+            })
+            _map.current.animateToRegion({
+                ...rState.region,
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude,
+            })
+        },
+        (error) => {
+            // See error code charts below.
+            console.warn("Error " + error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, }
+    );
+}
 
-  // const fetchDataForDelivery = async (lat, lng) => {
-  //   try {
-  //     const token = await AsyncStorage.getItem("AuthToken");
-  //     const config = {
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`
-  //       }
-  //     };
-  //     const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/delivery/1/1000/`, config);
-  //     console.log('========    delivery           ==========.........', res.data.data);
-  //     // setFetchedData(res.data.facilities.facility);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
+useEffect(() => {
+    requestLocationPermission();
+}, [])
 
-  // const fetchDataForSalon = async (lat, lng) => {
-  //   try {
-  //     const token = await AsyncStorage.getItem("AuthToken");
-  //     const config = {
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`
-  //       }
-  //     };
-  //     const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/salon/1/1000/male`, config);
-  //     console.log('============    salon     ======.........', res.data.data);
-  //     // setFetchedData(res.data.facilities.facility);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
-
-  useEffect(()=>{
-   getUserInfo()
-  },[])
+const onValueChanged = (region) => {
+    rSetState({ region: region });
+    getAddressFromCoordinates(
+        parseFloat(JSON.stringify(region.latitude)),
+        parseFloat(JSON.stringify(region.longitude))
+    )
+}
+const getAddressFromCoordinates = async (latitude, longitude) => {
+    try {
+        Geocoder.from(latitude, longitude)
+            .then(json => {
+                var addressComponent = json;
+                console.log(json.results[0]?.formatted_address);
+                // setFormattedAddress(json.results[0]?.formatted_address)
+            })
+            .catch(error => console.warn(error));
+    } catch (error) {
+        console.log('Error retrieving address:', error);
+    }
+};
+  useEffect(() => {
+    getUserInfo()
+  }, [])
 
 
   const getUserInfo = async () => {
@@ -166,21 +185,20 @@ const Home = () => {
   }
 
   const styles = StyleSheet.create({
+    input: {
+      backgroundColor: COLOR.AuthField,
+      borderRadius: 15,
+      elevation: 5,
+      shadowColor: COLOR.BLACK,
+      marginVertical: 5,
+      color: COLOR.BLACK,
+  },
   });
 
   const openBottomSheet = () => {
     refRBSheet.current.open();
   };
 
-  const closeBottomSheet = () => {
-    refRBSheet.current.close();
-  };
-
-  const handleSaveAddress = () => {
-    refRBSheet.current.close();
-  };
-
-  
   const fullName = `${user?.firstName} ${user?.lastName}`.trim();
   const displayName = fullName.length > 15 ? `${fullName.slice(0, 15)}...` : fullName;
   const formatAddress = (address) => {
@@ -212,9 +230,10 @@ const Home = () => {
     }
   };
 
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}
-    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -248,9 +267,9 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </View>
-{activeTab === 'Delivery' ? <Delivery/> : <Salon/>
-}
-<RBSheet
+      {activeTab === 'Delivery' ? <Delivery /> : <Salon />
+      }
+      <RBSheet
         ref={refRBSheet}
         height={Screen_Height * 0.7}
         customStyles={{
@@ -277,106 +296,100 @@ const Home = () => {
           enabled: false,
         }}
       >
-        <View
-          style={{
-            width: Screen_Width,
-            height: Screen_Height * 0.7,
-            paddingHorizontal: 15,
-            backgroundColor: COLOR.WHITE,
-            justifyContent: 'space-between'
-          }}
-        >
-
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 15,
-            justifyContent: 'space-between',
-            margin: 10
-          }}>
-            <Text style={{ fontSize: 20, color: COLOR.BLACK }}>Add Address</Text>
-            <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity>
-          </View>
-
-          <ScrollView style={{ margin: 10 }}>
-            <TextInput
-              placeholder="Address"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.Address}
-              onChangeText={(text) => setAddress({ ...address, Address: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
+        <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width, }}>
+          <GooglePlacesAutocomplete
+            placeholder='Enter Location'
+            minLength={4}
+            styles={{
+              textInput: {
+                height: 50,
+                width: Screen_Width * 0.9,
                 backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="City"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.city}
-              onChangeText={(text) => setAddress({ ...address, city: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.BLACK,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="State"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.state}
-              onChangeText={(text) => setAddress({ ...address, state: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-            />
-            <TextInput
-              placeholder="Nearbylandmark"
-              placeholderTextColor={COLOR.GRAY}
-              value={address.Nearbylandmark}
-              onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
-              style={{
-                borderWidth: 1,
-                borderColor: COLOR.GRAY,
-                borderRadius: 5,
-                padding: 10,
-                color:COLOR.BLACK,
-                marginBottom: 10,
-                backgroundColor: COLOR.WHITE,
-              }}
-
-            />
-          </ScrollView>
-          <TouchableOpacity
-            style={{
-              width: Screen_Width * 0.90,
-              height: Screen_Height * 0.05,
-              backgroundColor: COLOR.ORANGECOLOR,
-              justifyContent: 'center',
-              borderRadius: 35,
-              alignSelf: 'center',
-              marginVertical: 20
+                borderRadius: 15,
+                elevation: 5,
+                shadowColor: COLOR.BLACK,
+                marginVertical: 10,
+                color: COLOR.BLACK
+              },
+              container: {
+                width: Screen_Width * 0.9,
+              },
+              predefinedPlacesDescription: {
+                color: COLOR.WHITE,
+              },
+              description: {
+                color: COLOR.WHITE,
+              },
+              row: {
+                backgroundColor: COLOR.DarkBackground,
+              },
+              separator: {
+                backgroundColor: COLOR.GRAY,
+                height: 1,
+              },
             }}
-            onPress={handleSaveAddress}
-          >
-            <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
-              Save Address
-            </Text>
-          </TouchableOpacity>
+            onPress={(data, details = null) => {
+              setRegion({
+                latitude: details.geometry.location.lat,
+                longitude: details.geometry.location.lng,
+                latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
+                longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
+              });
+              console.log(data, details);
+              _map.current?.animateToRegion(
+                {
+                  latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
+                  longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
+                  latitude: details.geometry.location.lat,
+                  longitude: details.geometry.location.lng,
+                },
+              );
+            }}
+            autoFocus={false}
+            listViewDisplayed={false}
+            keepResultsAfterBlur={false}
+            returnKeyType={"default"}
+            fetchDetails={true}
+            GooglePlacesDetailsQuery={{
+              rankby: "distance",
+            }}
+            query={{
+              key: "AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU",
+              language: "en",
+              radius: 30000,
+              location: `${region?.latitude}, ${region?.longitude}`,
+            }}
+
+          />
+          <View style={{ width: Screen_Width * 0.88 }}>
+            <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite (optional)</Text>
+            <TextInput
+              style={[styles.input]}
+              placeholder="Apartment, Suite"
+              placeholderTextColor={COLOR.GRAY}
+              value={apartment}
+              onChangeText={setApartment}
+            />
+          </View>
+          <View style={{ height: Screen_Height * 0.3, width: Screen_Width * 0.88, borderRadius: 15, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} >
+            <MapView
+              ref={_map}
+              // provider={PROVIDER_GOOGLE}
+              style={{ flex: 1, borderRadius: 7, overflow: 'hidden' }}
+              initialRegion={rState.region}
+              showsUserLocation={true}
+              rotateEnabled={false}
+              onRegionChangeComplete={onValueChanged}
+            >
+              <Marker coordinate={rState.region}>
+
+                <FontAwesome
+                  name="map-marker"
+                  size={35}
+                  color={COLOR.PINK} />
+              </Marker>
+            </MapView>
+          </View>
         </View>
       </RBSheet>
       <View style={{ height: 90 }} />

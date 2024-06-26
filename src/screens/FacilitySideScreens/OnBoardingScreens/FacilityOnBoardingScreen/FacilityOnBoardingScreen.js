@@ -634,7 +634,6 @@ const FacilityOnBoardingScreen = () => {
                                             placeholder='Enter Location'
                                             minLength={4}
                                             styles={{
-                                               
                                                 textInput: {
                                                     height: 50,
                                                     width: Screen_Width * 0.9,
