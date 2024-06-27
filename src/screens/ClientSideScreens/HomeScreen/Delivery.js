@@ -6,7 +6,7 @@ import { Scale, Screen_Height, Screen_Width } from '../../../constants/Constants
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Filter } from '../../../constants/Icons';
+import { Filter, barber } from '../../../constants/Icons';
 import { ProfileData } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
@@ -33,6 +33,22 @@ const Delivery = () => {
   const [error, setError] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [ProfData, setProfData] = useState('');
+  const theme = useSelector(state => state.ThemeReducer);
+  const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
+
+
+  const currentHour = new Date().getHours();
+  let greeting;
+
+  if (currentHour >= 5 && currentHour < 12) {
+    greeting = 'Good Morning';
+  } else if (currentHour >= 12 && currentHour < 18) {
+    greeting = 'Good Afternoon';
+  } else {
+    greeting = 'Good Evening';
+  }
   const [address, setAddress] = useState({
     Address: '',
     city: '',
@@ -117,21 +133,39 @@ const Delivery = () => {
     }
   };
 
-  const theme = useSelector(state => state.ThemeReducer);
-  const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('AuthToken');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
+      console.log('========    Proff   ==========', res.data.professional);
+      setProfData(res?.data?.professional)
+      const ProfId = res.data.professional.map((prof) => prof.id);
+      // console.log("========  profId   =============",ProfId);
+      // setProfID(ProfId)
+      const emailList = res.data.professional.map((prof) => prof.user.email);
+      // console.log('======     emails hkb     ===========', emailList);
+      const Name = res.data.professional.map((prof) => prof.user.firstName);
+      // console.log('======     name hkb     ===========', Name);
+      // setFetchedProfName(Name);
+      const Phone = res.data.professional.map((prof) => prof.user.phone);
+      // console.log('======     Phone hkb     ===========', Phone);
+      // setFetchedProfPhone(Phone);
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
 
-  const currentHour = new Date().getHours();
-  let greeting;
-
-  if (currentHour >= 5 && currentHour < 12) {
-    greeting = 'Good Morning';
-  } else if (currentHour >= 12 && currentHour < 18) {
-    greeting = 'Good Afternoon';
-  } else {
-    greeting = 'Good Evening';
-  }
 
   const styles = StyleSheet.create({
     CategoryContainer: {
@@ -144,17 +178,17 @@ const Delivery = () => {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 10,
-  },
-  selectedItem: {
-    backgroundColor: COLOR.ORANGECOLOR,
-},
-Categorytext: {
-  fontWeight: '500',
-  color: COLOR.ORANGECOLOR,
-},
-SelectedCategorytext: {
-  color: COLOR.WHITE,
-},
+    },
+    selectedItem: {
+      backgroundColor: COLOR.ORANGECOLOR,
+    },
+    Categorytext: {
+      fontWeight: '500',
+      color: COLOR.ORANGECOLOR,
+    },
+    SelectedCategorytext: {
+      color: COLOR.WHITE,
+    },
   });
 
   const refRBSheet = useRef([]);
@@ -170,54 +204,54 @@ SelectedCategorytext: {
   const [activeTab2, setActiveTab2] = useState('Masculine');
   const AllCategory = ({ item }) => (
     <TouchableOpacity
-        style={[
-            styles.CategoryContainer,
-            selectedItem === item.id && styles.selectedItem,
-        ]}
-        onPress={() => setSelectedItem(item.id)}>
-        <View
-            style={{
-                marginHorizontal: 13,
-            }}>
-
-            <Text
-                style={[
-                    styles.Categorytext,
-                    selectedItem === item.id && styles.SelectedCategorytext,
-                ]}>
-                {item.text.length > 10 ? item.text.substring(0, 10) + '...' : item.text}
-            </Text>
-        </View>
-    </TouchableOpacity>
-);
-const Rating = ({ item }) => (
-  <TouchableOpacity
       style={[
-          styles.CategoryContainer,
-          selectedItem1 === item.id && styles.selectedItem,
+        styles.CategoryContainer,
+        selectedItem === item.id && styles.selectedItem,
+      ]}
+      onPress={() => setSelectedItem(item.id)}>
+      <View
+        style={{
+          marginHorizontal: 13,
+        }}>
+
+        <Text
+          style={[
+            styles.Categorytext,
+            selectedItem === item.id && styles.SelectedCategorytext,
+          ]}>
+          {item.text.length > 10 ? item.text.substring(0, 10) + '...' : item.text}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+  const Rating = ({ item }) => (
+    <TouchableOpacity
+      style={[
+        styles.CategoryContainer,
+        selectedItem1 === item.id && styles.selectedItem,
       ]}
       onPress={() => setSelectedItem1(item.id)}>
       <View
-          style={{
-              marginHorizontal: 13,
-              flexDirection: 'row',
-              gap: 5,
-          }}>
-          <MaterialCommunityIcons
-              name="star"
-              size={18}
-              color={selectedItem1 === item.id ? COLOR.WHITE : COLOR.ORANGECOLOR}
-          />
-          <Text
-              style={[
-                  styles.Categorytext,
-                  selectedItem1 === item.id && styles.SelectedCategorytext,
-              ]}>
-              {item.text}
-          </Text>
+        style={{
+          marginHorizontal: 13,
+          flexDirection: 'row',
+          gap: 5,
+        }}>
+        <MaterialCommunityIcons
+          name="star"
+          size={18}
+          color={selectedItem1 === item.id ? COLOR.WHITE : COLOR.ORANGECOLOR}
+        />
+        <Text
+          style={[
+            styles.Categorytext,
+            selectedItem1 === item.id && styles.SelectedCategorytext,
+          ]}>
+          {item.text}
+        </Text>
       </View>
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
@@ -270,12 +304,30 @@ const Rating = ({ item }) => (
       </View>
       <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', marginVertical: 10 }}>
-        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Facilities</Text>
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Professional</Text>
         {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.Booking)} ><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity> */}
       </View>
-      <View style={{ marginVertical: 10 }}>
-        <Category />
-      </View>
+      <FlatList
+        data={ProfData}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={item => item.id}
+        style={{ flex: 1 }}
+        scrollEnabled={false}
+        renderItem={({ item }) => {
+          return (
+
+            <View style={{ alignItems: 'center', marginVertical: 5 }}>
+              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.9, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", justifyContent: 'flex-start', gap: 30, alignItems: 'center' }}>
+                <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
+
+                <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
+
+              </TouchableOpacity>
+
+            </View>
+          )
+        }}
+      />
       <View style={{}}>
         <RBSheet
           ref={(ref) => (refRBSheet.current[0] = ref)}
