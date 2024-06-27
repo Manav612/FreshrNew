@@ -87,54 +87,54 @@ const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation();
-    const [showFullText, setShowFullText] = useState(false);
-    const fullText = facilitiesData?.description;
-    const truncatedText = fullText.slice(0, 30) + '...';
+    // const [showFullText, setShowFullText] = useState(false);
+    // const fullText = facilitiesData?.description;
+    // const truncatedText = fullText.slice(0, 30) + '...';
 
-    const toggleShowFullText = () => {
-        setShowFullText(!showFullText);
-    };
+    // const toggleShowFullText = () => {
+    //     setShowFullText(!showFullText);
+    // };
 
-    const formatTime = (time) => {
-        const [hours, minutes] = time.split(':');
-        // const period = hours >= 12 ? 'PM' : 'AM';
-        const formattedHours = hours % 12 || 12;
-        return `${formattedHours}:${minutes}`;
-    };
+    // const formatTime = (time) => {
+    //     const [hours, minutes] = time.split(':');
+    //     // const period = hours >= 12 ? 'PM' : 'AM';
+    //     const formattedHours = hours % 12 || 12;
+    //     return `${formattedHours}:${minutes}`;
+    // };
 
-    const getCurrentDay = () => {
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const today = new Date();
-        return days[today.getDay()];
-    };
+    // const getCurrentDay = () => {
+    //     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    //     const today = new Date();
+    //     return days[today.getDay()];
+    // };
 
-    const currentDay = getCurrentDay();
+    // const currentDay = getCurrentDay();
 
-    const renderTimings = () => {
-        if (showMore) {
-            return Object.entries(facilitiesData.timing).map(([day, time]) => (
-                <Text style={{ fontSize: 16, color: COLOR.BLACK }} key={day}>
-                    {`${day} : ${formatTime(time.start)} - ${formatTime(time.end)}`}
-                </Text>
-            ));
-        } else {
-            const currentDayTiming = facilitiesData.timing[currentDay];
-            return (
-                <Text style={{ fontSize: 16, color: COLOR.BLACK }}>
-                    {`${currentDay} : ${formatTime(currentDayTiming.start)} - ${formatTime(currentDayTiming.end)}`}
-                </Text>
-            );
-        }
-    };
+    // const renderTimings = () => {
+    //     if (showMore) {
+    //         return Object.entries(facilitiesData.timing).map(([day, time]) => (
+    //             <Text style={{ fontSize: 16, color: COLOR.BLACK }} key={day}>
+    //                 {`${day} : ${formatTime(time.start)} - ${formatTime(time.end)}`}
+    //             </Text>
+    //         ));
+    //     } else {
+    //         const currentDayTiming = facilitiesData.timing[currentDay];
+    //         return (
+    //             <Text style={{ fontSize: 16, color: COLOR.BLACK }}>
+    //                 {`${currentDay} : ${formatTime(currentDayTiming.start)} - ${formatTime(currentDayTiming.end)}`}
+    //             </Text>
+    //         );
+    //     }
+    // };
 
-    const toggleShowMore = () => {
-        setShowMore(!showMore);
-    };
+    // const toggleShowMore = () => {
+    //     setShowMore(!showMore);
+    // };
 
     return (
         <>
         <View style={{ }}>
-            <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+            {/* <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
                 {showFullText ? fullText : truncatedText}
             </Text>
             <TouchableOpacity onPress={toggleShowFullText}>
@@ -152,7 +152,7 @@ const ProfessionalAboutUsScreen = ({ facilitiesData,ProfData }) => {
                 <Text style={{ color: COLOR.ORANGECOLOR,marginBottom:20 }}>
                     {showMore ? 'Read Less' : 'Read More'}
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             
         </View>
         

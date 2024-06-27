@@ -39,6 +39,7 @@ import ProfessionalInfo from '../../screens/ClientSideScreens/HomeScreen/Profess
 import Delivery from '../../screens/ClientSideScreens/HomeScreen/Delivery';
 import Salon from '../../screens/ClientSideScreens/HomeScreen/Salon';
 import AddAddress from '../../screens/ClientSideScreens/HomeScreen/AddAddress';
+import FacilityList from '../../components/FacilityComponents/FacilityList';
 
 
 
@@ -64,6 +65,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
             <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
             <Stack.Screen name={NavigationScreens.ClientSettingScreen} component={ClientSettingScreen} />
+            <Stack.Screen name={NavigationScreens.FacilityListScreen} component={FacilityList} />
 
             <Stack.Screen name={NavigationScreens.OurProfessionalDetailsScreen} component={OurProfessionalDetails} />
             <Stack.Screen name={NavigationScreens.ProfessionalInfoScreen} component={ProfessionalInfo} />

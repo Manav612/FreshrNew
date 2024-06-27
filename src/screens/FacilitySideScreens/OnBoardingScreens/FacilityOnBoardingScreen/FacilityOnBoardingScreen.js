@@ -651,10 +651,10 @@ const FacilityOnBoardingScreen = () => {
                                                     color: COLOR.WHITE,
                                                 },
                                                 description: {
-                                                    color: COLOR.WHITE,
+                                                    color: COLOR.BLACK,
                                                 },
                                                 row: {
-                                                    backgroundColor: COLOR.DarkBackground,
+                                                    backgroundColor: COLOR.AuthField,
                                                 },
                                                 separator: {
                                                     backgroundColor: COLOR.GRAY,
