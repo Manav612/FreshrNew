@@ -38,6 +38,7 @@ import ClientSettingScreen from '../../components/ClientSideComponents/ClientSet
 import ProfessionalInfo from '../../screens/ClientSideScreens/HomeScreen/ProfessionalInfo';
 import Delivery from '../../screens/ClientSideScreens/HomeScreen/Delivery';
 import Salon from '../../screens/ClientSideScreens/HomeScreen/Salon';
+import AddAddress from '../../screens/ClientSideScreens/HomeScreen/AddAddress';
 
 
 
@@ -51,6 +52,7 @@ const HomeStack = () => {
         }}>
 
             <Stack.Screen name={NavigationScreens.HomeScreen} component={Home} />
+            <Stack.Screen name={NavigationScreens.AddAddressScreen} component={AddAddress} />
             <Stack.Screen name={NavigationScreens.DeliveryScreen} component={Delivery} />
             <Stack.Screen name={NavigationScreens.SalonScreen} component={Salon} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />

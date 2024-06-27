@@ -29,6 +29,7 @@ export const NavigationScreens = {
     WelcomeOnboardScreen: 'Welcome Onboard Screen',
     ProceedWithoutScreen:'ProceedWithoutScreen',
     HomeScreen: 'Home Screen',
+    AddAddressScreen: 'AddAddressScreen',
     DeliveryScreen:'DeliveryScreen',
     SalonScreen:'SalonScreen',
     OTPScreen:'OTPScreen',
