@@ -10,8 +10,9 @@ import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { Successful } from '../../../constants/Icons';
 
-const PaymentMethod = () => {
+const PaymentMethod = ({route}) => {
     const navigation = useNavigation();
+    const {services} = route.params
     const [bookmarkStatus, setBookmarkStatus] = useState(false);
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -46,7 +47,7 @@ const PaymentMethod = () => {
 
                 <View style={{ alignSelf: 'center', position: 'absolute', bottom: 0 }}>
                    
-                    <TouchableOpacity onPress={()=>navigation.navigate('ReviewSummary Screen')} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15, width: Screen_Width * 0.90 }}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('ReviewSummary Screen',{services:services})} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15, width: Screen_Width * 0.90 }}>
                         <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '800' }}>Continue</Text>
                     </TouchableOpacity>
                 </View>

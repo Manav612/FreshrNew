@@ -152,7 +152,11 @@ const [fetchedServices,setFetchedServices] = useState([])
 
                 <View style={{ height: 170 }} />
             </ScrollView>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15, position: 'absolute', bottom: 90, width: Screen_Width * 0.95, marginHorizontal: 10 }} onPress={() => navigation.navigate(NavigationScreens.BookAppointmentScreen)}>
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15, position: 'absolute', bottom: 90, width: Screen_Width * 0.95, marginHorizontal: 10 }} 
+            onPress={() =>  
+            navigation.navigate(NavigationScreens.BookAppointmentScreen,{services:selected})
+           
+            }>
                 <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Choose a time</Text>
             </TouchableOpacity>
         </>

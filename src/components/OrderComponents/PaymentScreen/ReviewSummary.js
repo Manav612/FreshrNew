@@ -9,17 +9,43 @@ import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import Modal from "react-native-modal";
 import FastImage from 'react-native-fast-image';
 import { Successful } from '../../../constants/Icons';
+import { BASE_API_URL } from '../../../Services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const ReviewSummary = () => {
+const ReviewSummary = ({route}) => {
 
     const navigation = useNavigation()
     const theme = useSelector(state => state.ThemeReducer);
+    const {services} = route.params;
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
     const [isModalVisible, setModalVisible] = useState(false);
 
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
+    const toggleModal = async () => {
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            console.log("==========>", token);
+            const config = {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+
+            };
+            const data = {
+                 "professionalTravelDistance":"30"
+            }
+      
+            const res = await axios.post(`${BASE_API_URL}/orders/checkout-session/${services}/null/60`, data, config)
+            console.log("Response data:", res.data);
+      
+            if (res.data) {
+                setModalVisible(!isModalVisible);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+     
     };
     return (
         <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
