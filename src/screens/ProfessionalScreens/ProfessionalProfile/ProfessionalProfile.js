@@ -692,9 +692,6 @@ padding:30,
   };
 
 
-  if (stories?.length == 0) {
-    return null; // or a loading indicator
-  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height }} refreshControl={

@@ -18,7 +18,8 @@ import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
-
+import Geolocation from 'react-native-geolocation-service';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 const MyProfile = () => {
 
   const navigation = useNavigation();
@@ -31,6 +32,11 @@ const MyProfile = () => {
   const [resetSelected, setResetSelected] = useState(false);
   const [applySelected, setApplySelected] = useState(false);
   const [user, setUser] = useState('');
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
 
   const handleResetPress1 = () => {
     setResetSelected(!resetSelected);
@@ -52,6 +58,8 @@ const MyProfile = () => {
   const openItemBottomSheet = (index) => {
     refRBSheet.current[index + 1].open();
   };
+
+  
 
   useEffect(() => {
     console.log("==== theme from storage  =====", theme);
@@ -84,26 +92,95 @@ const MyProfile = () => {
        console.error("Error:", error);
      }
    };
-  const handleSwitchToProfessionals = async () => {
+
+   useEffect(() => {
+    checkLocationPermission();
+  }, []);
+
+  const checkLocationPermission = async () => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
-      console.log("==========>", token);
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+      if (permissionStatus !== RESULTS.GRANTED) {
+        const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+        if (result === RESULTS.GRANTED) {
+          getLocation();
+        } else {
+          setError('Location permission denied');
         }
-      };
-
-      const res = await axios.post(`${BASE_API_URL}/users/becomeProfessional`, {}, config)
-      console.log("Response data:", res.data);
-
-      if (res.data) {
-        navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+      } else {
+        getLocation();
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (err) {
+      setError('Error checking location permission');
+      console.error(err);
     }
   };
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const newLatitude = position.coords.latitude;
+        const newLongitude = position.coords.longitude;
+        console.log('Coordinates obtained:', { latitude: newLatitude, longitude: newLongitude });
+        setLatitude(newLatitude);
+        setLongitude(newLongitude);
+      },
+      (error) => {
+        setError('Error getting location');
+        console.error("Geolocation error:", error);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+
+
+const handleSwitchToProfessionals = async () => {
+  if (latitude === null || longitude === null) {
+    setError('Location not available');
+    console.log('Attempt to switch with no coordinates =======:', { latitude, longitude });
+    return;
+  }
+
+  console.log('Attempting to switch with coordinates:', { latitude, longitude });
+
+  setIsLoading(true);
+  setError(null);
+
+  try {
+    const token = await AsyncStorage.getItem("AuthToken");
+    if (!token) {
+      throw new Error('No auth token found');
+    }
+
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    console.log('Sending request with coordinates:', { coords: [latitude, longitude] });
+
+    const res = await axios.post(
+      `${BASE_API_URL}/users/becomeProfessional`, 
+      { coords: [latitude, longitude] }, 
+      config
+    );
+
+    console.log("Response data:", res.data);
+
+    if (res.data) {
+      navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+    }
+  } catch (error) {
+    setError('Error switching to professional mode');
+    console.error("Error during switch:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+
   const handleSwitchToHost = async () => {
     try {
       const token = await AsyncStorage.getItem("AuthToken");

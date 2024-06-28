@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity, RefreshControl } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
@@ -33,7 +33,10 @@ const Delivery = () => {
   const [error, setError] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [ProfData, setProfData] = useState('');
+  const [bookmarkStatus, setBookmarkStatus] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+
+  const [FetchedDeliveryData, setFetchedDeliveryData] = useState([]);
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
@@ -56,6 +59,41 @@ const Delivery = () => {
     Nearbylandmark: ''
   });
   const [distance, setDistance] = useState(50);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    AddFavData(),fetchDataForDelivery(),fetchDataForSalon().then(() => setRefreshing(false));
+  }, []);
+  const toggleBookmark = async (itemId) => {
+    try {
+      await AddFavData(itemId);
+      setBookmarkStatus(prevState => ({
+        ...prevState,
+        [itemId]: !prevState[itemId]
+      }));
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      // Optionally, show an error message to the user
+    }
+  };
+
+  const AddFavData = async (itemId) => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+            // console.log("==========>", token);
+            const config = {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+
+            };
+      const res = await axios.post(`${BASE_API_URL}/users/favorites`, { professional:itemId },config);
+      console.log("================= add fav data ======================", res.data.data);
+      return res.data; // Return the response data
+    } catch (error) {
+      console.error("Error:", error);
+      throw error; // Rethrow the error to handle it in the calling function
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -108,10 +146,10 @@ const Delivery = () => {
         headers: {
           'Authorization': `Bearer ${token}`
         }
-      };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/delivery/1/1000/`, config);
-      console.log('========    delivery           ==========.........', res.data.data);
-      // setFetchedData(res.data.facilities.facility);
+      }
+      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/`, config);
+      console.log('========    delivery  ============', res.data.data.professionals);
+      setFetchedDeliveryData(res.data.data.professionals);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -125,7 +163,7 @@ const Delivery = () => {
           'Authorization': `Bearer ${token}`
         }
       };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/salon/1/1000/male`, config);
+      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/male`, config);
       console.log('============    salon     ======.........', res.data.data);
       // setFetchedData(res.data.facilities.facility);
     } catch (error) {
@@ -134,36 +172,37 @@ const Delivery = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    AddFavData()
+    // fetchData();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const token = await AsyncStorage.getItem('AuthToken');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
-      console.log('========    Proff   ==========', res.data.professional);
-      setProfData(res?.data?.professional)
-      const ProfId = res.data.professional.map((prof) => prof.id);
-      // console.log("========  profId   =============",ProfId);
-      // setProfID(ProfId)
-      const emailList = res.data.professional.map((prof) => prof.user.email);
-      // console.log('======     emails hkb     ===========', emailList);
-      const Name = res.data.professional.map((prof) => prof.user.firstName);
-      // console.log('======     name hkb     ===========', Name);
-      // setFetchedProfName(Name);
-      const Phone = res.data.professional.map((prof) => prof.user.phone);
-      // console.log('======     Phone hkb     ===========', Phone);
-      // setFetchedProfPhone(Phone);
+  // const fetchData = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('AuthToken');
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     };
+  //     const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
+  //     console.log('========    Proff   ==========', res.data.professional);
+  //     setProfData(res?.data?.professional)
+  //     const ProfId = res.data.professional.map((prof) => prof.id);
+  //     // console.log("========  profId   =============",ProfId);
+  //     // setProfID(ProfId)
+  //     const emailList = res.data.professional.map((prof) => prof.user.email);
+  //     // console.log('======     emails hkb     ===========', emailList);
+  //     const Name = res.data.professional.map((prof) => prof.user.firstName);
+  //     // console.log('======     name hkb     ===========', Name);
+  //     // setFetchedProfName(Name);
+  //     const Phone = res.data.professional.map((prof) => prof.user.phone);
+  //     // console.log('======     Phone hkb     ===========', Phone);
+  //     // setFetchedProfPhone(Phone);
 
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
 
 
 
@@ -254,9 +293,12 @@ const Delivery = () => {
   );
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}
+    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    
+    >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
-        <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width*0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
+        <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width * 0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }} >
             <AntDesign name="search1" size={30} color={COLOR.GRAY} />
             <Text style={{ fontSize: 20, color: COLOR.GRAY }} >Search Professionals</Text>
@@ -308,7 +350,7 @@ const Delivery = () => {
         {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.Booking)} ><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity> */}
       </View>
       <FlatList
-        data={ProfData}
+        data={FetchedDeliveryData}
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
         style={{ flex: 1 }}
@@ -316,12 +358,22 @@ const Delivery = () => {
         renderItem={({ item }) => {
           return (
 
-            <View style={{ alignItems: 'center', marginVertical: 5 }}>
-              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ backgroundColor: COLOR.WHITE, width: Screen_Width * 0.9, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", justifyContent: 'flex-start', gap: 30, alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3 }}>
+              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", justifyContent: 'flex-start', gap: 30, alignItems: 'center' }}>
                 <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
-
-                <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
-
+                <View>
+                  <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
+                  {/* <Text style={{ color: COLOR.BLACK, fontSize: 13, }}>{item?.distance}km</Text> */}
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
+                <View style={{ height: 90, width: 30 }}>
+                  <MaterialCommunityIcons
+                    name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
+                    size={25}
+                    color={COLOR.ORANGECOLOR}
+                  />
+                </View>
               </TouchableOpacity>
 
             </View>

@@ -14,7 +14,7 @@ import ServicesScreen from '../../../components/SalonDetailScreen/ServicesScreen
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { AllCategoryData, barberData } from '../../../components/utils';
-import { barber, share } from '../../../constants/Icons';
+import { barber, barber2, share } from '../../../constants/Icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
@@ -27,6 +27,8 @@ import Category from '../../../components/Category';
 import OrderRequest from '../../../components/ProfessionalComponents/OrderRequest';
 
 const ProfessionalInfo = ({ route }) => {
+    const { ProfessionalData, ProfDetail, facilitiesData } = route.params; // Ensure facilitiesData is passed
+
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [selectedItem, setSelectedItem] = useState('About Us');
@@ -34,6 +36,10 @@ const ProfessionalInfo = ({ route }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [ProfData, setProfData] = useState('');
+    console.log("============   ProfDetail ======== 6666==========",ProfDetail.stories);
+
+    const [stories, setStories] = useState(ProfDetail.stories);
+
     const [address, setAddress] = useState({
         Address: '',
         city: '',
@@ -42,9 +48,9 @@ const ProfessionalInfo = ({ route }) => {
     });
     const refRBSheet = useRef(null);
     const flatListRef = useRef(null);
+
     const navigation = useNavigation();
-    const { ProfessionalData, ProfDetail, facilitiesData } = route.params; // Ensure facilitiesData is passed
-    // console.log("============   ProfDetail ======== 6666==========",ProfDetail);
+    
     const [modalVisible, setModalVisible] = useState(false);
 
     const order = {
@@ -75,18 +81,22 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (currentPage < barberData.length - 1) {
-                flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
-                setCurrentPage(currentPage + 1);
-            } else {
-                flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-                setCurrentPage(0);
-            }
-        }, 2000);
-
-        return () => clearInterval(interval);
-    }, [currentPage, barberData.length]);
+        if (stories.length != 0) {
+            const interval = setInterval(() => {
+                if (currentPage < stories.length - 1) {
+                    flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
+                    setCurrentPage(currentPage + 1);
+                } else {
+                    flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+                    setCurrentPage(0);
+                }
+            }, 2000);
+    
+            return () => clearInterval(interval);
+        }
+     
+    
+    }, [currentPage, stories.length]);
 
     // useEffect(() => {
     //     fetchData();
@@ -242,10 +252,24 @@ const ProfessionalInfo = ({ route }) => {
     return (
         <>
             <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
+                {stories.length == 0 ?
+                 <ImageBackground source={ barber} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
+                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
+                     <TouchableOpacity onPress={() => navigation.goBack()}>
+                         <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
+                     </TouchableOpacity>
+                     <TouchableOpacity>
+                         <MaterialCommunityIcons name="bookmark-outline" size={25} color={COLOR.WHITE} />
+                     </TouchableOpacity>
+                 </View>
+             </ImageBackground>
+                
+                :(
+                    <>
                 <View style={{ borderRadius: 15 }}>
                     <FlatList
                         ref={flatListRef}
-                        data={barberData}
+                        data={stories}
                         horizontal
                         pagingEnabled
                         showsHorizontalScrollIndicator={false}
@@ -255,7 +279,7 @@ const ProfessionalInfo = ({ route }) => {
                             setCurrentPage(index);
                         }}
                         renderItem={({ item }) => (
-                            <ImageBackground source={item.image} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
+                            <ImageBackground source={stories.length == 0 ? barber2 :{uri:item.resource}} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
                                     <TouchableOpacity onPress={() => navigation.goBack()}>
                                         <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
@@ -269,7 +293,7 @@ const ProfessionalInfo = ({ route }) => {
                     />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', bottom: 25, borderRadius: 15 }}>
-                    {barberData.map((_, index) => (
+                    {stories.map((_, index) => (
                         <View
                             key={index}
                             style={{
@@ -281,7 +305,10 @@ const ProfessionalInfo = ({ route }) => {
                             }}
                         />
                     ))}
-                </View>
+                </View></>)
+}
+
+               
                 {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Button title="Show Order" onPress={() => setModalVisible(true)} />
                     <OrderRequest
