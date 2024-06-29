@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
@@ -30,15 +30,20 @@ const SignIn = () => {
 
     const fetchData = async (email) => {
         try {
+            // Make a POST request to check the email
             const res = await axios.post(`${BASE_API_URL}/users/emailcheck`, { email: email });
-            console.log("Response data:", res.data.data);
+            
+            // Log the entire response data
+            console.log("Response data:", res.status);
 
-            if (res.data) {
+            // Check if the request was successful
+            if (res.data.status === "success") {
                 navigation.navigate(NavigationScreens.PasswordAndOtpScreen, { email: email });
-
+            } else {
+                Alert.alert(res.data.message)
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error during email check:", error);
         }
     };
 
@@ -94,7 +99,7 @@ const SignIn = () => {
                         onBlur={handleEmailBlur}
                     />
                 </View>
-
+                
                 <TouchableOpacity onPress={handleContinuePress} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
                     <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Continue</Text>
                 </TouchableOpacity>

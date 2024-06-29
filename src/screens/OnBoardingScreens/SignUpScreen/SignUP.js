@@ -14,8 +14,8 @@ import { BASE_API_URL } from '../../../Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Dropdown } from 'react-native-element-dropdown';
 import PhoneInput from 'react-native-phone-number-input';
-import Toast from 'react-native-toast-message';
 import { NavigationScreens } from '../../../constants/Strings';
+import Snackbar from 'react-native-snackbar'
 
 
 const SignUP = () => {
@@ -129,11 +129,17 @@ const SignUP = () => {
         `${BASE_API_URL}/users/signUp`,
         { firstName, lastName, email, password, passwordConfirm, searchStylesFor, phone, pushToken }
       );
-      console.log("RESSSS--MMMM", res.data.data);
-      console.log("=================>");
-      if (res.data) {
+     
+      console.log("Response data:", res.status);
+
+      // Check if the request was successful
+      if (res.data.status === "success") {
         navigation.navigate(NavigationScreens.EmailVerificationScreen, { email: email });
+
+      } else {
+          Alert.alert(res.data.message)
       }
+     
     } catch (error) {
       console.log("error", error);
       // setErrorMessage(error,)

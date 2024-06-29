@@ -88,6 +88,15 @@ const Delivery = () => {
             };
       const res = await axios.post(`${BASE_API_URL}/users/favorites`, { professional:itemId },config);
       console.log("================= add fav data ======================", res.data.data);
+      console.log("Response data:", res.status);
+
+            // Check if the request was successful
+            if (res.data.status === "success") {
+              Alert.alert(res.data.message)
+                
+            } else {
+                Alert.alert(res.data.message)
+              }
       return res.data; // Return the response data
     } catch (error) {
       console.error("Error:", error);

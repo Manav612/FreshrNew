@@ -38,10 +38,15 @@ const ReviewSummary = ({route}) => {
       
             const res = await axios.post(`${BASE_API_URL}/orders/checkout-session/${services}/null/60`, data, config)
             console.log("Response data:", res.data);
-      
-            if (res.data) {
+            console.log("Response data:", res.status);
+
+            // Check if the request was successful
+            if (res.data.status === "success") {
                 setModalVisible(!isModalVisible);
+            } else {
+                Alert.alert(res.data.message)
             }
+            
           } catch (error) {
             console.error("Error:", error);
           }
