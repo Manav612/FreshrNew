@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { OnBoard1 } from '../../constants/Icons';
 import { Screen_Width } from '../../constants/Constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../Services';
+import axios from 'axios';
 
 const Completed = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -13,55 +16,100 @@ const Completed = () => {
 
     const [selectedReceipt, setSelectedReceipt] = useState(null);
 
-    const Completeds = [
-        { id: 1, title: 'Dec 22, 2024 - 10:00 AM', Name: 'Lighthouse Barbers', Text: '5010 Hudson Plaza', Avelebal: 'Services', SBT: 'Quiff Haircut, Thin Shaving,Aloe Vera,Shampoo Hair Wash' },
-        { id: 2, title: 'Nov 20, 2024 - 13:00 pM', Name: 'Quinaatura Salon', Text: '7892 Prairieview Avenue', Avelebal: 'Services', SBT: 'Undercut Haircut, Regular Shaving,Shampoo Hair Wash' },
-        { id: 3, title: 'Oct 18, 2024 - 16:00 PM', Name: 'Luxuriate Barber', Text: '0496 8th Street', Avelebal: 'Services', SBT: 'Quiff Haircut, Thin Shaving,Aloe Vera,Shampoo Hair Wash' },
-        { id: 4, title: 'May 12, 2024 - 12:00 AM', Name: 'Jelly Salon', Text: 'Uma Chokadi, Baroda', Avelebal: 'Services', SBT: 'Quiff Haircut, Regular Shaving,Shampoo Hair Wash' },
-        { id: 5, title: 'Jun 26, 2024 - 11:00 pM', Name: 'Ajanta Barbers', Text: 'Rk Prime,Rajkot', Avelebal: 'Services', SBT: 'Quiff Haircut, Thin Shaving,Aloe Vera,Shampoo Hair Wash' },
-    ];
+    
+
+    const [refreshing, setRefreshing] = useState(false);
+    const [FetchedData, setFetchedData] = useState([]);
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        fetchData().then(() => setRefreshing(false));
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/user/orders/COMPLETED`, config);
+            console.log('==========   order  List   ===========', res.data.data.orders)
+            setFetchedData(res.data.data.orders)
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const handleResetPress = (id) => {
         setSelectedReceipt(id);
     }
 
     const renderItem = ({ item }) => (
-        <View style={{ backgroundColor: COLOR.WHITE, borderRadius: 10, paddingHorizontal: 20, marginVertical: 5 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',marginVertical:10}}>
+     
+        <View
+        refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+            style={{ backgroundColor: COLOR.WHITE, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3, borderRadius: 10, paddingHorizontal: 20, marginVertical: 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
                 <View>
-                <Text style={{ fontSize: 14, color: COLOR.BLACK}}>{item.title}</Text>
+                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt.slice(0,10)}</Text>
                 </View>
                 <View style={{ backgroundColor: COLOR.GREEN, width: 75, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>Completed</Text></View>
+
+               
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10 }} />
             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
-
-                <View style={{ height: 65, width: 65, backgroundColor: item.color, borderRadius: 99, alignItems: 'center', justifyContent: 'center' }}>
-                    <Image source={OnBoard1} style={{ width: 90, height: 100, resizeMode: 'cover', borderRadius: 10 }} />
+                <View style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>
+                        {item.professional.user.firstName} {item.professional.user.lastName}
+                    </Text>
                 </View>
-                <View style={{ flex: 1, marginLeft: 20 }}>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>{item.Name}</Text>
-                    <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>{item.Text}</Text>
-                    <Text style={{ fontSize: 15, color: COLOR.GRAY, marginVertical: 2 }}>{item.Avelebal}:</Text>
-                    <Text style={{ fontSize: 15, color: COLOR.ORANGECOLOR, marginVertical: 2 }}>{item.SBT}</Text>
-                </View>
-            </View >
+            </View>
+            <FlatList
+                data={item.services}
+                keyExtractor={(service, index) => index.toString()}
+                renderItem={({ item: service }) => (
+                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                        <View style={{ height: 65, width: 65, backgroundColor: COLOR.LINECOLOR, borderRadius: 99, alignItems: 'center', justifyContent: 'center' }}>
+                            <FastImage source={{ uri: service.photo }} resizeMode='contain' style={{ width: 90, height: 100, borderRadius: 10 }} />
+                        </View>
+                        <View style={{ flex: 1, marginLeft: 20 }}>
+                            <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>{service.serviceType.name}</Text>
+                            <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>{service.serviceType.category}</Text>
+                            <Text style={{ fontSize: 15, color: COLOR.ORANGECOLOR, marginVertical: 2 }}>{service.serviceType.description}</Text>
+                        </View>
+                    </View>
+                )}
+            />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
                 <TouchableOpacity onPress={() => handleResetPress(item.id)} style={{ backgroundColor: selectedReceipt === item.id ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width: Screen_Width * 0.75, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
                     <Text style={{ fontSize: 18, fontWeight: '700', color: selectedReceipt === item.id ? COLOR.WHITE : COLOR.ORANGECOLOR }}>View E-Receipt </Text>
                 </TouchableOpacity>
             </View>
+           
         </View>
     );
 
     return (
+        <>
         <FlatList
             showsVerticalScrollIndicator={false}
-            style={{ marginTop: 15, marginHorizontal: 15 }}
-            data={Completeds}
+            style={{ marginTop: 15, marginHorizontal: 15,flex:1 }}
+            data={FetchedData}
+            scrollEnabled={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
         />
+        <View style={{height:100}}/>
+
+        </>
     )
 }
 

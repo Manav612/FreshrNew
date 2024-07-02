@@ -1,9 +1,9 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { NavigationScreens } from '../constants/Strings';
+import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {NavigationScreens} from '../constants/Strings';
 import BottomTab from './BottomTab/BottomTab';
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
-import { useDispatch } from 'react-redux';
+import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
+import {useDispatch} from 'react-redux';
 import SplashScreen from '../screens/OnBoardingScreens/SplashScreen/SplashScreen';
 import WelcomeOnboardScreen from '../screens/OnBoardingScreens/WelcomeOnboardScreen/WelcomeOnboardScreen';
 import SignUP from '../screens/OnBoardingScreens/SignUpScreen/SignUP';
@@ -31,73 +31,146 @@ import ProfessionalGalleryScreen from '../components/ProfessionalSalonDetailScre
 import ProfessionalPackageScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalPackageScreen';
 import ProfessionalReviewScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalReviewScreen';
 import ProfessionalServicesScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalServicesScreen';
+import NearbyYourLocation from '../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
 
 const Stack = createSharedElementStackNavigator();
 
 const NavigationHandler = () => {
-    const routeNameRef = React.useRef();
-    const navigationRef = React.useRef();
-    const dispatch = useDispatch();
-    return (
-        <NavigationContainer
-            ref={navigationRef}
-            onReady={() => {
-                routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-            }}
-            onStateChange={async () => {
-                const previousRouteName = routeNameRef.current;
-                const currentRouteName = navigationRef.current.getCurrentRoute().name;
+  const routeNameRef = React.useRef();
+  const navigationRef = React.useRef();
+  const dispatch = useDispatch();
 
-                if (previousRouteName !== currentRouteName) {
-                    const currentScreen = {
-                        screen_name: currentRouteName,
-                        screen_class: currentRouteName,
-                    };
-                    console.log("Current Screen : ", currentScreen);
-                    // dispatch(setActiveScreen(currentScreen.screen_name));
-                    // await analytics().logScreenView({
-                    //     screen_name: currentRouteName,
-                    //     screen_class: currentRouteName,
-                    // }).catch((e) => { console.log("Error : ", e) });
-                }
-                routeNameRef.current = currentRouteName;
-            }}
-        >
-            <Stack.Navigator screenOptions={{
-                headerShown: false
-            }}>
+  return (
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => {
+        routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+      }}
+      onStateChange={async () => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
-                <Stack.Screen name={NavigationScreens.SplashScreen} component={SplashScreen} />
-                <Stack.Screen name={NavigationScreens.WelcomeOnboardScreen} component={WelcomeOnboardScreen} />
-                <Stack.Screen name={NavigationScreens.ProceedWithoutScreen} component={ProceedWithout} />
-                <Stack.Screen name={NavigationScreens.SignUpScreen} component={SignUP} />
-                <Stack.Screen name={NavigationScreens.SignInScreen} component={SignIn} />
-                <Stack.Screen name={NavigationScreens.PasswordAndOtpScreen} component={PasswordAndOtp} />
-                <Stack.Screen name={NavigationScreens.EmailVerificationScreen} component={EmailVerificationScreen} />
-                <Stack.Screen name={NavigationScreens.ForgotPasswordScreen} component={ForgotPassword} />
-                <Stack.Screen name={NavigationScreens.OTPScreen} component={otp} />
-                <Stack.Screen name={NavigationScreens.NewpasswordScreen} component={Newpassword} />
-                <Stack.Screen name={NavigationScreens.FillProfileScreen} component={FillProfile} />
-                <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
-                <Stack.Screen name={NavigationScreens.ProfessionalAboutUsScreen} component={ProfessionalAboutUsScreen} />
-                <Stack.Screen name={NavigationScreens.ProfessionalGalleryScreen} component={ProfessionalGalleryScreen} />
-                <Stack.Screen name={NavigationScreens.ProfessionalPackageScreen} component={ProfessionalPackageScreen} />
-                <Stack.Screen name={NavigationScreens.ProfessionalReviewScreen} component={ProfessionalReviewScreen} />
-                <Stack.Screen name={NavigationScreens.ProfessionalServicesScreen} component={ProfessionalServicesScreen} />
+        if (previousRouteName !== currentRouteName) {
+          const currentScreen = {
+            screen_name: currentRouteName,
+            screen_class: currentRouteName,
+          };
+          console.log('Current Screen : ', currentScreen);
+          // dispatch(setActiveScreen(currentScreen.screen_name));
+          // await analytics().logScreenView({
+          //     screen_name: currentRouteName,
+          //     screen_class: currentRouteName,
+          // }).catch((e) => { console.log("Error : ", e) });
+        }
+        routeNameRef.current = currentRouteName;
+      }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen
+          name={NavigationScreens.SplashScreen}
+          component={SplashScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.WelcomeOnboardScreen}
+          component={WelcomeOnboardScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProceedWithoutScreen}
+          component={ProceedWithout}
+        />
+        <Stack.Screen
+          name={NavigationScreens.SignUpScreen}
+          component={SignUP}
+        />
+        <Stack.Screen
+          name={NavigationScreens.SignInScreen}
+          component={SignIn}
+        />
+        <Stack.Screen
+          name={NavigationScreens.PasswordAndOtpScreen}
+          component={PasswordAndOtp}
+        />
+        <Stack.Screen
+          name={NavigationScreens.EmailVerificationScreen}
+          component={EmailVerificationScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ForgotPasswordScreen}
+          component={ForgotPassword}
+        />
+        <Stack.Screen name={NavigationScreens.OTPScreen} component={otp} />
+        <Stack.Screen
+          name={NavigationScreens.NewpasswordScreen}
+          component={Newpassword}
+        />
+        <Stack.Screen
+          name={NavigationScreens.FillProfileScreen}
+          component={FillProfile}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalScheduleScreen}
+          component={ProfessionalScheduleScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalAboutUsScreen}
+          component={ProfessionalAboutUsScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalGalleryScreen}
+          component={ProfessionalGalleryScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalPackageScreen}
+          component={ProfessionalPackageScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalReviewScreen}
+          component={ProfessionalReviewScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalServicesScreen}
+          component={ProfessionalServicesScreen}
+        />
 
-                <Stack.Screen name={NavigationScreens.ProfessionalPrivacyAndPolicyScreen} component={ProfessionalPrivacyAndPolicy} />
-                <Stack.Screen name={NavigationScreens.ProfessionalConnectStripeScreen} component={ProfessionalConnectStripeScreen} />
-                <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />        
-                <Stack.Screen name={NavigationScreens.ProfessionalBottomTab} component={ProfessionalBottomTab} />        
-                <Stack.Screen name={NavigationScreens.FacilityBottomTab} component={FacilityBottomTab} />        
-                <Stack.Screen name={NavigationScreens.FacilityPrivacyAndPolicyScreen} component={FacilityPrivacyAndPolicy} />        
-                <Stack.Screen name={NavigationScreens.FacilityOnBoardingScreen} component={FacilityOnBoardingScreen} />        
-                <Stack.Screen name={NavigationScreens.ConfirmationForCreateFacilitieScreen} component={ConfirmationForCreateFacilitie} />        
-                <Stack.Screen name={NavigationScreens.FacilityConnectStripeScreen} component={FacilityConnectStripe} />        
-                <Stack.Screen name={NavigationScreens.Booking} component={Booking} />        
-            </Stack.Navigator>
-        </NavigationContainer >
-    );
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalPrivacyAndPolicyScreen}
+          component={ProfessionalPrivacyAndPolicy}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalConnectStripeScreen}
+          component={ProfessionalConnectStripeScreen}
+        />
+        <Stack.Screen name={NavigationScreens.HomeTab} component={BottomTab} />
+        <Stack.Screen
+          name={NavigationScreens.ProfessionalBottomTab}
+          component={ProfessionalBottomTab}
+        />
+        <Stack.Screen
+          name={NavigationScreens.FacilityBottomTab}
+          component={FacilityBottomTab}
+        />
+        <Stack.Screen
+          name={NavigationScreens.FacilityPrivacyAndPolicyScreen}
+          component={FacilityPrivacyAndPolicy}
+        />
+        <Stack.Screen
+          name={NavigationScreens.FacilityOnBoardingScreen}
+          component={FacilityOnBoardingScreen}
+        />
+        <Stack.Screen
+          name={NavigationScreens.ConfirmationForCreateFacilitieScreen}
+          component={ConfirmationForCreateFacilitie}
+        />
+        <Stack.Screen
+          name={NavigationScreens.FacilityConnectStripeScreen}
+          component={FacilityConnectStripe}
+        />
+        <Stack.Screen name={NavigationScreens.Booking} component={Booking} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default NavigationHandler;

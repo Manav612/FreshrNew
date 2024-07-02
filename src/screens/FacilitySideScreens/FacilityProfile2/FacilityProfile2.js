@@ -195,7 +195,8 @@ const FacilityProfile2 = () => {
                   navigation.navigate(NavigationScreens.HomeTab);
                   break;
                 case 'Switch to Professionals':
-                  handleSwitchToProfessionals();
+                  navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+                  
                   break;
                 default:
                   break;

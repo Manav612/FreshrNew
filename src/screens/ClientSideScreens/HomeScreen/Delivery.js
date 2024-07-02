@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity, RefreshControl } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity, RefreshControl, Alert } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
@@ -92,7 +92,7 @@ const Delivery = () => {
 
             // Check if the request was successful
             if (res.data.status === "success") {
-              Alert.alert(res.data.message)
+              Alert.alert("success",res.data.message)
                 
             } else {
                 Alert.alert(res.data.message)
@@ -372,7 +372,7 @@ const Delivery = () => {
                 <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
                 <View>
                   <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
-                  {/* <Text style={{ color: COLOR.BLACK, fontSize: 13, }}>{item?.distance}km</Text> */}
+                  <Text style={{ color: COLOR.BLACK, fontSize: 13, }}>{item?.distance}km</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => toggleBookmark(item._id)}>

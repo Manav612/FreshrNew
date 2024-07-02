@@ -14,11 +14,12 @@ const EReceipt = () => {
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
 
   return (
+    <>
     <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
         <View style={{ alignItems: 'center', flexDirection: 'row', gap: 20 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="arrowleft" size={30} color="black"/>
+            <AntDesign name="arrowleft" size={30} color="black" />
           </TouchableOpacity>
           <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>E-Receipt</Text>
         </View>
@@ -28,7 +29,7 @@ const EReceipt = () => {
           color={COLOR.BLACK}
         />
       </View>
-      <View style={{marginTop:'25%'}}>
+      <View style={{ marginTop: '25%' }}>
         <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 15 }}>
           <Text style={{ color: COLOR.GRAY, fontSize: 18 }}>Barber/Salon</Text>
           <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 18 }}>Barbarella lnova</Text>
@@ -73,23 +74,31 @@ const EReceipt = () => {
           </View>
         </View>
       </View>
-      <TouchableOpacity
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 50,
-                    borderRadius: 35,
-                    backgroundColor: COLOR.ORANGECOLOR,
-                    marginVertical:10
-                }}
-            >
-                 <Text style={{ color: COLOR.WHITE, fontSize: 20, fontWeight: '500' }}>
-                    Download E-Receipt
-                </Text>
-            </TouchableOpacity>
-            <View style={{height:90}}/>
+      
+      
+      <View style={{ height: 90 }} />
 
     </ScrollView>
+    <TouchableOpacity
+    style={{
+      width: Screen_Width * 0.80,
+      height: 50,
+      backgroundColor: COLOR.ORANGECOLOR,
+      justifyContent: 'center',
+      borderRadius: 35,
+      alignSelf: 'center',
+      marginVertical: 20,
+      position: 'absolute',
+      bottom: 80,
+      alignItems: 'center',
+      gap: 20
+    }}
+  >
+    <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
+      Download E-Receipt
+    </Text>
+  </TouchableOpacity>
+  </>
   )
 }
 

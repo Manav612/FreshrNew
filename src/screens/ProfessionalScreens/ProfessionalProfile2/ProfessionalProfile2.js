@@ -193,10 +193,11 @@ const ProfessionalProfile2 = () => {
                   navigation.navigate(NavigationScreens.PrivacyPolicyScreen);
                   break;
                 case 'Switch to Client':
-                  handleSwitchToProfessionals();
+                  navigation.navigate(NavigationScreens.HomeTab)
                   break;
                 case 'Become to Host':
-                  handleSwitchToHost();
+                  navigation.navigate(NavigationScreens.FacilityPrivacyAndPolicyScreen)
+                  
                   break;
                 default:
                   break;

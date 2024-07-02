@@ -40,6 +40,8 @@ import Delivery from '../../screens/ClientSideScreens/HomeScreen/Delivery';
 import Salon from '../../screens/ClientSideScreens/HomeScreen/Salon';
 import AddAddress from '../../screens/ClientSideScreens/HomeScreen/AddAddress';
 import FacilityList from '../../components/FacilityComponents/FacilityList';
+import ReserveNowServices from '../../components/OrderComponents/ReserveNowServices';
+import LiveTrackingClientSide from '../../components/ClientSideComponents/LiveTrackingClientSide';
 
 
 
@@ -73,6 +75,7 @@ const HomeStack = () => {
 
 
             <Stack.Screen name={NavigationScreens.OurServicesScreen} component={OurServices} />
+            <Stack.Screen name={NavigationScreens.ReserveNowServicesScreen} component={ReserveNowServices} />
             <Stack.Screen name={NavigationScreens.ServiceDetailsScreen} component={ServiceDetails} />
 
             <Stack.Screen name={NavigationScreens.OurpackagesScreen} component={Ourpackages} />
@@ -85,6 +88,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
            
             <Stack.Screen name={NavigationScreens.PaymentMethodScreen} component={PaymentMethod} />
+            <Stack.Screen name={NavigationScreens.LiveTrackingClientSideScreen} component={LiveTrackingClientSide} />
 
             <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} />
             <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} />

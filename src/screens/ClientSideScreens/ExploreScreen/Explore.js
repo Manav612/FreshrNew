@@ -18,6 +18,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
+import Geolocation from 'react-native-geolocation-service';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 
 const Explore = () => {
@@ -115,15 +117,76 @@ const Explore = () => {
   const [applySelected, setApplySelected] = useState(false);
   const [bookmarkStatus, setBookmarkStatus] = useState({});
   const [filteredData, setFilteredData] = useState([]);
-  const [markerData, setMarkerData] = useState([]);
+  const [MarkerDataFordelivery, setMarkerDataFordelivery] = useState([]);
+  const [MarkerDataForSalon, setMarkerDataForSalon] = useState([]);
   const [distance, setDistance] = useState(50);
-
-
-
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [position, setPosition] = useState();
   useEffect(() => {
-    fetchData();
+    checkLocationPermission();
   }, []);
-  const fetchData = async () => {
+  useEffect(() => {
+    Geolocation.getCurrentPosition((pos) => {
+      const crd = pos.coords;
+      setPosition({
+        latitude: crd.latitude,
+        longitude: crd.longitude,
+        latitudeDelta: 0.0421,
+        longitudeDelta: 0.0421,
+      });
+    })
+  }, []);
+
+  const checkLocationPermission = async () => {
+    const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    if (permissionStatus !== RESULTS.GRANTED) {
+      const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+      if (result === RESULTS.GRANTED) {
+        getLocation();
+      }
+    } else {
+      getLocation();
+    }
+  };
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+        fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
+        fetchDataForSalon(position.coords.latitude, position.coords.longitude);
+      },
+      (error) => {
+        console.error("Error:", error);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+
+  const fetchDataForDelivery = async (lat, lng) => {
+    setIsLoading(true);
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/`, config);
+      console.log('========    delivery  ============', res.data.data.professionals);
+      setMarkerDataFordelivery(res.data.data.professionals);
+    } catch (error) {
+      console.error("Error fetching delivery data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const fetchDataForSalon = async (lat, lng) => {
+    setIsLoading(true);
     try {
       const token = await AsyncStorage.getItem("AuthToken");
       const config = {
@@ -131,13 +194,28 @@ const Explore = () => {
           'Authorization': `Bearer ${token}`
         }
       };
-      const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities`, config);
-      console.log("===================");
-      console.log('==================.........', res.data.facilities.facility)
-      setMarkerData(res.data.facilities.facility)
+      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/male`, config);
+      console.log('============    salon     ======.........', res.data.data.facilities);
+      setMarkerDataForSalon(res.data.data.facilities);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error fetching salon data:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleDeliverySide = () => {
+    if (latitude && longitude) {
+      fetchDataForDelivery(latitude, longitude);
+    }
+    setActiveTab('Delivery');
+  };
+  
+  const handleSalonSide = () => {
+    if (latitude && longitude) {
+      fetchDataForSalon(latitude, longitude);
+    }
+    setActiveTab('Salon');
   };
 
   const openBottomSheet2 = () => {
@@ -195,10 +273,11 @@ const Explore = () => {
   );
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      height:Screen_Height*0.62
+
     },
     mapStyle: {
-      flex: 1,
+       height:Screen_Height*0.62
     },
     CategoryContainer: {
       borderWidth: 2,
@@ -248,20 +327,22 @@ const Explore = () => {
   });
   return (
     <>
-      <View style={{ borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, marginHorizontal: 10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK, position: 'absolute', top: 10, zIndex: 1000 }}>
+      <View style={{ backgroundColor: COLOR.WHITE}}>
+
+      <View style={{ borderRadius: 15,width:Screen_Width*0.95, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, padding: 10,}}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>Where do we meet?</Text>
-        <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
-          <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
+        <View style={{ flexDirection: 'row',justifyContent:'space-between', alignItems:'center', marginTop:10 }}>
+          <TouchableOpacity onPress={handleDeliverySide} style={{ width: Screen_Width*0.4, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} >
             <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+          <TouchableOpacity onPress={handleSalonSide} style={{ width: Screen_Width*0.4, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }}   >
             <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <View style={{  borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 5, paddingVertical: 10, elevation: 2, shadowColor: COLOR.BLACK,position: 'absolute', top: 140, zIndex: 1000 }}>
-        <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.84,marginHorizontal:10, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
+      <View style={{  borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE,marginBottom:10 }}>
+        <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.9,marginHorizontal:10, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
             <AntDesign name="search1" size={30} color={COLOR.GRAY} />
             <TextInput
@@ -279,9 +360,19 @@ const Explore = () => {
           </TouchableOpacity>
         </View>
       </View>
+      </View>
       <View style={styles.container}>
         <MapView
           style={styles.mapStyle}
+          initialRegion={position}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          followsUserLocation={true}
+          
+          scrollEnabled={true}
+          zoomEnabled={true}
+          pitchEnabled={true}
+          rotateEnabled={true}
           // initialRegion={{
           //   latitude: 19.0760,
           //   longitude: 72.8777,
@@ -290,23 +381,37 @@ const Explore = () => {
           // }}
           customMapStyle={mapStyle}
         >
-          {
-            markerData.length > 0 && markerData.map((data,i) => {
-             return<Marker
-                // draggable
+          
+             {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
+              <Marker
                 coordinate={{
                   latitude: data.location.coordinates[0],
                   longitude: data.location.coordinates[1],
                 }}
-                // onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
                 title={'Test Marker'}
                 description={'This is a description of the marker'}
                 key={i}
               >
-                 <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
+                <View style={{height:40,width:40,backgroundColor:COLOR.WHITE,justifyContent:'center',alignItems:'center',borderRadius:50}}>
+                <Entypo name="home" size={30} color={COLOR.ORANGECOLOR} />
+                </View>
               </Marker>
-            })
-          }
+            ))}
+            
+            {activeTab === 'Salon' && MarkerDataForSalon.map((data, i) => (
+              <Marker
+                coordinate={{
+                  latitude: data.location.coordinates[0],
+                  longitude: data.location.coordinates[1],
+                }}
+                title={'Test Marker'}
+                description={'This is a description of the marker'}
+                key={i}
+              >
+                <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
+              </Marker>
+            ))}
+           
         </MapView>
       </View>
 

@@ -123,6 +123,7 @@ import { calldata, chatdata } from '../../../components/utils';
 
 const ChatScreen = ({ route }) => {
   const { title } = route.params;
+  
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
@@ -130,6 +131,8 @@ const ChatScreen = ({ route }) => {
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   useEffect(() => {
     // Load initial messages
+    console.log("ddddddd");
+    fetchMessages()
     setMessages([
       {
         _id: 1,
@@ -142,6 +145,29 @@ const ChatScreen = ({ route }) => {
       },
     ]);
   }, []);
+  const fetchMessages = async () => {
+    try {
+      setLoading(true);
+
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+
+      };
+      const res = await axios.get(
+        `${BASE_API_URL}/users/conversations`,
+        config
+      );
+console.log("sssssss",res.data.data);
+      // setChatRooms(res.data.data.conversations);
+      // await getUnreadMessage(res.data.data.conversations);
+      setLoading(false);
+    } catch (err) {
+      handleError(err, setLoading, setError, theme);
+    }
+  };
 
   const onSend = (newMessages = []) => {
     // Add new messages to the chat

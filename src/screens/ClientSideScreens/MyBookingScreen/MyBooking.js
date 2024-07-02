@@ -131,7 +131,7 @@ const renderScreen = () => {
     }
 };
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 ,backgroundColor:COLOR.WHITE}}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 ,backgroundColor:COLOR.WHITE}}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
@@ -139,7 +139,7 @@ const renderScreen = () => {
           </TouchableOpacity>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Booking</Text>
         </View>
-        <AntDesign name="search1" size={30} color={COLOR.GRAY} />
+        {/* <AntDesign name="search1" size={30} color={COLOR.GRAY} /> */}
         {/* <View style={{ flexDirection: 'row', gap: 10 }}>
           <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
         </View> */}

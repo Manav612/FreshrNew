@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {Hair1} from '../../../constants/Icons';
 import {Screen_Height} from '../../../constants/Constants';
@@ -22,6 +22,9 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {calldata, chatdata} from '../../../components/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../../Services';
+import axios from 'axios';
 
 const Inbox = ({navigate}) => {
   const navigation = useNavigation();
@@ -29,6 +32,50 @@ const Inbox = ({navigate}) => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [activeTab, setActiveTab] = useState('Chats');
+
+  useEffect(() => {
+    // Load initial messages
+    console.log("ddddddd");
+    // fetchMessages()
+    const token =  AsyncStorage.getItem("AuthToken");
+
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+
+    };
+console.log(axios.get(
+      `${BASE_API_URL}/users/conversations`,
+      config
+    ))
+
+  }, []);
+//   const fetchMessages = async () => {
+//     // try {
+
+
+//     const token =  AsyncStorage.getItem("AuthToken");
+
+//       const config = {
+//         headers: {
+//           'Authorization': `Bearer ${token}`
+//         }
+
+//       };
+//       const res = await axios.get(
+//         `${BASE_API_URL}/users/conversations`,
+//         config
+//       );
+// console.log("sssssss",res.data.data);
+//       // setChatRooms(res.data.data.conversations);
+//       // await getUnreadMessage(res.data.data.conversations);
+//       // setLoading(false);
+//     // } catch (err) {
+//     //   console.log("Sssssdasdas");
+//     //   // handleError(err, setLoading, setError, theme);
+//     // }
+//   };
 
   const SelectCalls = ({item}) => (
     <TouchableOpacity

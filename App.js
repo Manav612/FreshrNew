@@ -6,6 +6,8 @@ import Store from './src/redux/Store';
 import { SetThemeMode } from './src/redux/ThemeAction';
 import Toast from 'react-native-toast-message';
 import Geocoder from 'react-native-geocoding';
+import socketServices from './src/Services/Socket';
+import { GetAuthToken } from './src/constants/AsyncStorage';
 
 const customTextProps = {
   style: {
@@ -18,6 +20,16 @@ const App = () => {
 };
 
 const WrappedApp = () => {
+  
+  const getToken = async () => {
+    const authToken = await GetAuthToken();
+    authToken!='' && socketServices.initializeSocket(authToken);
+  }
+  
+  useEffect(() => {
+    getToken();
+  }, []);
+
   return (
     <Provider store={Store}>
       <Toast/>

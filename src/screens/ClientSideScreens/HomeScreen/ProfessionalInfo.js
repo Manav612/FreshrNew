@@ -36,21 +36,24 @@ const ProfessionalInfo = ({ route }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [ProfData, setProfData] = useState('');
-    console.log("============   ProfDetail ======== 6666==========",ProfDetail.stories);
+    console.log("============   ProfDetail ======== 6666==========", ProfDetail.stories);
 
     const [stories, setStories] = useState(ProfDetail.stories);
 
     const [address, setAddress] = useState({
-        Address: '',
-        city: '',
+        address1: '',
+        apartment: '',
+        postcode: '',
+        locality: '',
         state: '',
-        Nearbylandmark: ''
+        country: '',
+
     });
     const refRBSheet = useRef(null);
     const flatListRef = useRef(null);
 
     const navigation = useNavigation();
-    
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const order = {
@@ -69,16 +72,12 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     const handleSaveAddress = () => {
+ navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail ,address:address})
+console.log("adasd",address);
         refRBSheet.current.close();
     };
 
-    const formatAddress = (address) => {
-        const fullAddress = `${address.Address}, ${address.city}, ${address.state}, ${address.Nearbylandmark}`;
-        if (fullAddress.length > 15) {
-            return `${fullAddress.substring(0, 15)}...`;
-        }
-        return fullAddress;
-    };
+
 
     useEffect(() => {
         if (stories.length != 0) {
@@ -91,11 +90,11 @@ const ProfessionalInfo = ({ route }) => {
                     setCurrentPage(0);
                 }
             }, 2000);
-    
+
             return () => clearInterval(interval);
         }
-     
-    
+
+
     }, [currentPage, stories.length]);
 
     // useEffect(() => {
@@ -253,62 +252,62 @@ const ProfessionalInfo = ({ route }) => {
         <>
             <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
                 {stories.length == 0 ?
-                 <ImageBackground source={ barber} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
-                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
-                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                         <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
-                     </TouchableOpacity>
-                     <TouchableOpacity>
-                         <MaterialCommunityIcons name="bookmark-outline" size={25} color={COLOR.WHITE} />
-                     </TouchableOpacity>
-                 </View>
-             </ImageBackground>
-                
-                :(
-                    <>
-                <View style={{ borderRadius: 15 }}>
-                    <FlatList
-                        ref={flatListRef}
-                        data={stories}
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        onMomentumScrollEnd={(event) => {
-                            const offset = event.nativeEvent.contentOffset.x;
-                            const index = Math.floor(offset / Screen_Width);
-                            setCurrentPage(index);
-                        }}
-                        renderItem={({ item }) => (
-                            <ImageBackground source={stories.length == 0 ? barber2 :{uri:item.resource}} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
-                                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                                        <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity>
-                                        <MaterialCommunityIcons name="bookmark-outline" size={25} color={COLOR.WHITE} />
-                                    </TouchableOpacity>
-                                </View>
-                            </ImageBackground>
-                        )}
-                    />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', bottom: 25, borderRadius: 15 }}>
-                    {stories.map((_, index) => (
-                        <View
-                            key={index}
-                            style={{
-                                width: 10,
-                                height: 10,
-                                borderRadius: 5,
-                                backgroundColor: index === currentPage ? COLOR.ORANGECOLOR : COLOR.GRAY,
-                                marginHorizontal: 5,
-                            }}
-                        />
-                    ))}
-                </View></>)
-}
+                    <ImageBackground source={barber} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <MaterialCommunityIcons name="bookmark-outline" size={25} color={COLOR.WHITE} />
+                            </TouchableOpacity>
+                        </View>
+                    </ImageBackground>
 
-               
+                    : (
+                        <>
+                            <View style={{ borderRadius: 15 }}>
+                                <FlatList
+                                    ref={flatListRef}
+                                    data={stories}
+                                    horizontal
+                                    pagingEnabled
+                                    showsHorizontalScrollIndicator={false}
+                                    onMomentumScrollEnd={(event) => {
+                                        const offset = event.nativeEvent.contentOffset.x;
+                                        const index = Math.floor(offset / Screen_Width);
+                                        setCurrentPage(index);
+                                    }}
+                                    renderItem={({ item }) => (
+                                        <ImageBackground source={stories.length == 0 ? barber2 : { uri: item.resource }} style={{ width: Screen_Width, resizeMode: 'cover', height: Screen_Height * 0.25, marginRight: 2 }}>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, paddingVertical: 15 }}>
+                                                <TouchableOpacity onPress={() => navigation.goBack()}>
+                                                    <AntDesign name="arrowleft" size={30} color={COLOR.WHITE} />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity>
+                                                    <MaterialCommunityIcons name="bookmark-outline" size={25} color={COLOR.WHITE} />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </ImageBackground>
+                                    )}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', bottom: 25, borderRadius: 15 }}>
+                                {stories.map((_, index) => (
+                                    <View
+                                        key={index}
+                                        style={{
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: 5,
+                                            backgroundColor: index === currentPage ? COLOR.ORANGECOLOR : COLOR.GRAY,
+                                            marginHorizontal: 5,
+                                        }}
+                                    />
+                                ))}
+                            </View></>)
+                }
+
+
                 {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Button title="Show Order" onPress={() => setModalVisible(true)} />
                     <OrderRequest
@@ -382,7 +381,7 @@ const ProfessionalInfo = ({ route }) => {
 
                     <RBSheet
                         ref={refRBSheet}
-                        height={Screen_Height * 0.7}
+                        height={Screen_Height * 0.9}
                         customStyles={{
                             wrapper: {
                                 backgroundColor: COLOR.BLACK_40,
@@ -432,8 +431,8 @@ const ProfessionalInfo = ({ route }) => {
                                 <TextInput
                                     placeholder="Address"
                                     placeholderTextColor={COLOR.GRAY}
-                                    value={address.Address}
-                                    onChangeText={(text) => setAddress({ ...address, Address: text })}
+                                    value={address.address1}
+                                    onChangeText={(text) => setAddress({ ...address, address1: text })}
                                     style={{
                                         borderWidth: 1,
                                         borderColor: COLOR.GRAY,
@@ -445,10 +444,10 @@ const ProfessionalInfo = ({ route }) => {
                                     }}
                                 />
                                 <TextInput
-                                    placeholder="City"
+                                    placeholder="Apartment"
                                     placeholderTextColor={COLOR.GRAY}
-                                    value={address.city}
-                                    onChangeText={(text) => setAddress({ ...address, city: text })}
+                                    value={address.apartment}
+                                    onChangeText={(text) => setAddress({ ...address, apartment: text })}
                                     style={{
                                         borderWidth: 1,
                                         borderColor: COLOR.BLACK,
@@ -458,6 +457,37 @@ const ProfessionalInfo = ({ route }) => {
                                         color: COLOR.BLACK,
                                         backgroundColor: COLOR.WHITE,
                                     }}
+                                />
+                                <TextInput
+                                    placeholder="PostCode"
+                                    placeholderTextColor={COLOR.GRAY}
+                                    value={address.postcode}
+                                    onChangeText={(text) => setAddress({ ...address, postcode: text })}
+                                    style={{
+                                        borderWidth: 1,
+                                        borderColor: COLOR.GRAY,
+                                        borderRadius: 5,
+                                        padding: 10,
+                                        marginBottom: 10,
+                                        color: COLOR.BLACK,
+                                        backgroundColor: COLOR.WHITE,
+                                    }}
+                                />
+                                <TextInput
+                                    placeholder="Locality"
+                                    placeholderTextColor={COLOR.GRAY}
+                                    value={address.locality}
+                                    onChangeText={(text) => setAddress({ ...address, locality: text })}
+                                    style={{
+                                        borderWidth: 1,
+                                        borderColor: COLOR.GRAY,
+                                        borderRadius: 5,
+                                        padding: 10,
+                                        marginBottom: 10,
+                                        color: COLOR.BLACK,
+                                        backgroundColor: COLOR.WHITE,
+                                    }}
+
                                 />
                                 <TextInput
                                     placeholder="State"
@@ -473,12 +503,13 @@ const ProfessionalInfo = ({ route }) => {
                                         color: COLOR.BLACK,
                                         backgroundColor: COLOR.WHITE,
                                     }}
+
                                 />
                                 <TextInput
-                                    placeholder="Nearbylandmark"
+                                    placeholder="Country"
                                     placeholderTextColor={COLOR.GRAY}
-                                    value={address.Nearbylandmark}
-                                    onChangeText={(text) => setAddress({ ...address, Nearbylandmark: text })}
+                                    value={address.country}
+                                    onChangeText={(text) => setAddress({ ...address, country: text })}
                                     style={{
                                         borderWidth: 1,
                                         borderColor: COLOR.GRAY,
@@ -501,7 +532,7 @@ const ProfessionalInfo = ({ route }) => {
                                     alignSelf: 'center',
                                     marginVertical: 20
                                 }}
-                                onPress={handleSaveAddress}
+                                onPress={()=>handleSaveAddress(address)}
                             >
                                 <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
                                     Book Delivery
@@ -528,7 +559,7 @@ const ProfessionalInfo = ({ route }) => {
                         alignItems: 'center',
                         gap: 20
                     }}
-                    onPress={() => navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail })}
+                    onPress={() => navigation.navigate(NavigationScreens.ReserveNowServicesScreen, { SelectedProf: ProfDetail ,address:address})}
                 >
                     <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
                         Reserve Now

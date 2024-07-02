@@ -17,7 +17,7 @@ import { HoursData, Professional, } from '../../utils';
 const BookAppointmentScreen = ({route}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const {services} = route.params
+  const {services,address} = route.params
   const navigation = useNavigation()
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedItem, setSelectedItem] = useState('15:00');
@@ -183,7 +183,7 @@ const BookAppointmentScreen = ({route}) => {
       <View style={{ height: 160 }} />
       
     </ScrollView>
-    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15,position:'absolute',bottom:90,width:Screen_Width*0.95,marginHorizontal:10 }} onPress={()=>navigation.navigate('PaymentMethod Screen',{services:services})}>
+    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15,position:'absolute',bottom:90,width:Screen_Width*0.95,marginHorizontal:10 }} onPress={()=>navigation.navigate('PaymentMethod Screen',{services:services,address:address})}>
     <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Proceed for payment</Text>
   </TouchableOpacity>
   </>
