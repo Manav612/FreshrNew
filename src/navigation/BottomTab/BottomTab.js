@@ -42,6 +42,7 @@ import AddAddress from '../../screens/ClientSideScreens/HomeScreen/AddAddress';
 import FacilityList from '../../components/FacilityComponents/FacilityList';
 import ReserveNowServices from '../../components/OrderComponents/ReserveNowServices';
 import LiveTrackingClientSide from '../../components/ClientSideComponents/LiveTrackingClientSide';
+import SelectDeliveryLocation from '../../screens/ClientSideScreens/HomeScreen/SelectDeliveryLocation';
 
 
 
@@ -56,6 +57,7 @@ const HomeStack = () => {
 
             <Stack.Screen name={NavigationScreens.HomeScreen} component={Home} />
             <Stack.Screen name={NavigationScreens.AddAddressScreen} component={AddAddress} />
+            <Stack.Screen name={NavigationScreens.SelectDeliveryLocationScreen} component={SelectDeliveryLocation} />
             <Stack.Screen name={NavigationScreens.DeliveryScreen} component={Delivery} />
             <Stack.Screen name={NavigationScreens.SalonScreen} component={Salon} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />

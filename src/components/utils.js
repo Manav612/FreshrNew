@@ -7,7 +7,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Screen_Width } from '../constants/Constants';
 
@@ -91,6 +92,15 @@ export const ProfileData = [
     {id: '5', text: '2'},
     {id: '6', text: '1'},
   ];
+
+  export const data5 = [
+    {id: '1', icon:(<Entypo name="home" size={25} color="black" />), title:'Home', distance:'21 km',icon2:(<Entypo name="dots-three-vertical" size={20} color="black" />),text:'Ldrp Hostel,ldrp Hostel,Sector 15,Gandhinagar,Gujarat 382016,india'},
+    {id: '2', icon:(<Entypo name="home" size={25} color="black" />), title:'Manav ', distance:'21 km',icon2:(<Entypo name="dots-three-vertical" size={20} color="black" />),text:'Ldrp Hostel,ldrp Hostel,Sector 15,Gandhinagar,Gujarat 382016,india'},
+    {id: '3', icon:(<FontAwesome name="shopping-bag" size={25} color="black" />), title:'Work ', distance:'21 km',icon2:(<Entypo name="dots-three-vertical" size={20} color="black" />),text:'Ldrp Hostel,ldrp Hostel,Sector 15,Gandhinagar,Gujarat 382016,india'},
+    {id: '4', icon:(<Entypo name="direction" size={25} color="black" />), title:'Other ', distance:'21 km',icon2:(<Entypo name="dots-three-vertical" size={20} color="black" />),text:'Ldrp Hostel,ldrp Hostel,Sector 15,Gandhinagar,Gujarat 382016,india'},
+    {id: '5', icon:(<Entypo name="direction" size={25} color="black" />), title:'Vimal navadiya  ', distance:'21 km',icon2:(<Entypo name="dots-three-vertical" size={20} color="black" />),text:'Ldrp Hostel,ldrp Hostel,Sector 15,Gandhinagar,Gujarat 382016,india'},
+  ];
+
 
   export const data4 = [
     {id: '1', text: '< 1 km'},

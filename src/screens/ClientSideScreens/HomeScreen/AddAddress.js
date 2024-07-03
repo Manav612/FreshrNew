@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, TextInput, TouchableOpacity, FlatList, ScrollView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -9,8 +9,12 @@ import Geocoder from 'react-native-geocoding';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 import { NavigationScreens } from '../../../constants/Strings';
 import { SetAddress } from '../../../redux/AddressAction';
+import { data5 } from '../../../components/utils';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const AddAddress = () => {
   const [apartment, setApartment] = useState('');
@@ -159,16 +163,40 @@ const AddAddress = () => {
       color: COLOR.BLACK,
     },
   });
+  const [selectedItem, setSelectedItem] = useState(null);
+  const refRBSheet = useRef(null);
+  const openBottomSheet = (item) => {
+    setSelectedItem(item);
+    if (refRBSheet.current) {
+      refRBSheet.current.open();
+    }
+  };
+
+  const renderItem = ({ item }) => (
+    <View style={{ marginBottom: 10 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginVertical: 5 }}>
+          <Text>{item.icon}</Text>
+          <Text style={{ color: COLOR.GRAY, fontSize: 16, fontWeight: '900' }}>{item.title}</Text>
+          <Text style={{ color: COLOR.GRAY, fontSize: 16 }}>{item.distance}</Text>
+        </View>
+        <TouchableOpacity onPress={() => openBottomSheet(item)}>
+          <Text>{item.icon2}</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={{ fontSize: 14 }}>{item.text}</Text>
+    </View>
+  );
 
 
-  const onSaveAddress = ()=>{
+  const onSaveAddress = () => {
     try {
 
       Geocoder.from(rState.region.latitude, rState.region.longitude)
         .then(json => {
           var addressComponent = json;
           console.log(json.results[0]?.formatted_address);
-          dispatch(SetAddress((apartment ? `${apartment},`:'')+json.results[0]?.formatted_address));
+          dispatch(SetAddress((apartment ? `${apartment},` : '') + json.results[0]?.formatted_address));
         })
         .catch(error => console.warn(error));
     } catch (error) {
@@ -176,12 +204,12 @@ const AddAddress = () => {
     }
   }
   return (
-    <>
-      <View style={{ width: Screen_Width, height: Screen_Height * 0.05, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
+    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
+      <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Add Address</Text>
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Enter your area or apartment name</Text>
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width, height: 600 }}>
+      <View style={{ justifyContent: 'center', alignItems: 'center', zIndex: 10, height: Screen_Height * 0.4 }}>
         <GooglePlacesAutocomplete
           placeholder='Enter Location'
           minLength={6}
@@ -244,42 +272,85 @@ const AddAddress = () => {
             radius: 30000,
             location: `${region?.latitude}, ${region?.longitude}`,
           }}
-
         />
-        <View style={{ width: Screen_Width * 0.88 }}>
-          <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite (optional)</Text>
-          <TextInput
-            style={[styles.input]}
-            placeholder="Apartment, Suite"
-            placeholderTextColor={COLOR.GRAY}
-            value={apartment}
-            onChangeText={setApartment}
-          />
-        </View>
-        <View style={{ height: Screen_Height * 0.3, width: Screen_Width * 0.88, borderRadius: 15, marginVertical: 10, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} >
-          <MapView
-            ref={_map}
-            // provider={PROVIDER_GOOGLE}
-            style={{ flex: 1, borderRadius: 7, overflow: 'hidden' }}
-            initialRegion={rState.region}
-            showsUserLocation={true}
-            rotateEnabled={false}
-            onRegionChangeComplete={onValueChanged}
-          >
-            <Marker coordinate={rState.region}>
-
-              <FontAwesome
-                name="map-marker"
-                size={35}
-                color={COLOR.PINK} />
-            </Marker>
-          </MapView>
-        </View>
-        <TouchableOpacity style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 10, borderRadius: 15 }} onPress={onSaveAddress}>
-          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Save Address</Text>
-        </TouchableOpacity>
       </View>
-    </>
+      <TouchableOpacity  onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <Entypo name="direction" size={25} color={COLOR.ORANGECOLOR} />
+          <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.ORANGECOLOR }}>Use my current location</Text>
+        </View>
+        <AntDesign name="right" size={20} color={COLOR.GRAY} />
+      </TouchableOpacity>
+      <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 5, }} />
+      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, gap: 10 }}>
+        <AntDesign name="plus" size={25} color={COLOR.ORANGECOLOR} />
+        <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.ORANGECOLOR }}>Add new Address</Text>
+      </TouchableOpacity>
+      <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 5 }} />
+      <View style={{ marginVertical: 10 }}>
+        <Text style={{ fontSize: 16, color: COLOR.GRAY }}>SAVED ADDRESSES</Text>
+        <FlatList
+          data={data5}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          scrollEnabled={false}
+          renderItem={renderItem}
+        />
+      </View>
+
+      <View>
+        <RBSheet
+          ref={refRBSheet}
+          height={Screen_Height * 0.4}
+          customStyles={{
+            wrapper: { backgroundColor: COLOR.BLACK_40 },
+            container: {
+              backgroundColor: COLOR.AuthField,
+              borderTopLeftRadius: 40,
+              borderTopRightRadius: 40,
+              elevation: 10,
+              shadowColor: COLOR.BLACK,
+            },
+            draggableIcon: { backgroundColor: COLOR.BLACK },
+          }}
+          customModalProps={{ animationType: 'slide', statusBarTranslucent: true }}
+          customAvoidingViewProps={{ enabled: false }}
+        >
+          <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ width: 30, height: 3, backgroundColor: COLOR.BLACK, marginBottom: 10 }} />
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: Screen_Width * 0.9 }}>
+                <View style={{ width: 30 }} />
+                <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Address</Text>
+                <TouchableOpacity onPress={() => refRBSheet.current?.close()}>
+                  <AntDesign name="closecircle" size={24} color={COLOR.BLACK} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10 }} />
+
+            {selectedItem && (
+              <View style={{ paddingHorizontal: 10 }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>{selectedItem.title} | <Text style={{ fontSize: 16, color: COLOR.BLACK_70 }}>{selectedItem.text}</Text></Text>
+                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{backgroundColor:COLOR.WHITE,elevation:3,height:50,borderRadius:10,marginVertical:5,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
+                  <Feather name="edit" size={24} color={COLOR.BLACK} />
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{backgroundColor:COLOR.WHITE,elevation:3,height:50,borderRadius:10,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
+                  <FontAwesome name="share-alt" size={24} color={COLOR.BLACK} />
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Share</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{height:50,marginVertical:10,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
+                  <AntDesign name="delete" size={24} color={COLOR.CANCEL_B} />
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.CANCEL_B }}>Delete</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </RBSheet>
+      </View>
+      <View style={{ height: 90 }} />
+    </ScrollView>
   )
 }
 
