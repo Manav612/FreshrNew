@@ -56,7 +56,7 @@ const ProfessionalUpcoming = () => {
   useEffect(() => {
     socketServices.on('payment_Done', data => {
       console.log('==== payment done ======', data);
-      navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen)
+      navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen,{orderData:data})
       closeBottomSheet()
     });
 

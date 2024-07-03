@@ -32,6 +32,7 @@ import ProfessionalPackageScreen from '../components/ProfessionalSalonDetailScre
 import ProfessionalReviewScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalReviewScreen';
 import ProfessionalServicesScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalServicesScreen';
 import NearbyYourLocation from '../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
+import LiveTrackingClientSide from '../components/ClientSideComponents/LiveTrackingClientSide';
 
 
 const Stack = createSharedElementStackNavigator();

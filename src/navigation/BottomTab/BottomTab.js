@@ -42,6 +42,7 @@ import AddAddress from '../../screens/ClientSideScreens/HomeScreen/AddAddress';
 import FacilityList from '../../components/FacilityComponents/FacilityList';
 import ReserveNowServices from '../../components/OrderComponents/ReserveNowServices';
 import LiveTrackingClientSide from '../../components/ClientSideComponents/LiveTrackingClientSide';
+import OrderProcessingScreenClientSide from '../../components/ClientSideComponents/OrderProcessingScreenClientSide';
 
 
 
@@ -89,6 +90,7 @@ const HomeStack = () => {
            
             <Stack.Screen name={NavigationScreens.PaymentMethodScreen} component={PaymentMethod} />
             <Stack.Screen name={NavigationScreens.LiveTrackingClientSideScreen} component={LiveTrackingClientSide} />
+            <Stack.Screen name={NavigationScreens.OrderProcessingScreenClientSideScreen} component={OrderProcessingScreenClientSide} />
 
             <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} />
             <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} />

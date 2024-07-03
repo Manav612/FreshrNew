@@ -20,11 +20,14 @@ import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import socketServices from '../../Services/Socket';
+import { NavigationScreens } from '../../constants/Strings';
 
 
-const LiveTrackingProfSide = () => {
+const LiveTrackingProfSide = ({route}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const {orderData} = route.params
   // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const mapStyle = [
     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
@@ -133,13 +136,42 @@ const LiveTrackingProfSide = () => {
     }
   }
   const [rState, rSetState] = useState(s);
+
+//  const handleRequestStartOrder =()=>{
+//   socketServices.emit('order_update', {
+//     recipient:oderData,
+//   message: {
+//     type: 'Request_To_Start_Order',
+//     data:oderData,
+//   },
+// });
+//  }
+
+const onRequestToStartOrder = ()=>{
+  const id = orderData.message.id;
+  socketServices.emit('order_update', {
+      recipient:id,
+      message: {
+        type: 'Request_To_Start_Order',
+        id:id,
+      },
+    });
+}
+socketServices.on('Accept_To_Process_Order', data => {
+  console.log("ACCEPT Calllllllllllllll : ",data);
+  navigation.navigate(NavigationScreens.OrderProcessingScreenProfSideScreen,{data});
+ });
+
+ socketServices.on('Need_More_Time_To_Process_Order', data => {
+  console.log("Need More Time Call : ",data);
+ });
   const styles = StyleSheet.create({
     container: {
-      height: Screen_Height * 0.4,
+      height: Screen_Height * 0.7,
 
     },
     mapStyle: {
-      height: Screen_Height * 0.4
+      height: Screen_Height * 0.7
     },
     CategoryContainer: {
       borderWidth: 2,
@@ -189,9 +221,9 @@ const LiveTrackingProfSide = () => {
   });
   return (
     <>
-      <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 10, marginVertical: 10 }}>
-        <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Time and Distance</Text>
+      <View style={{ width: Screen_Width, height: Screen_Height * 0.03, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 10, marginVertical: 10 }}>
+        <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={28} color="black" />
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Time and Distance</Text>
       </View>
 
       <View style={styles.container}>
@@ -226,9 +258,10 @@ const LiveTrackingProfSide = () => {
         </MapView>
       </View>
       
-      <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width, height: 150, marginVertical: 20,justifyContent:'space-around',alignItems:'center' }}>
+      <View style={{ width: Screen_Width, height: Screen_Height * 0.15, justifyContent: 'space-around', alignItems: 'center', position: 'absolute', bottom: Screen_Height * 0.23, paddingHorizontal: 15 }}>
+        <View style={{ backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center',borderRadius:15 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.50, height: 80, padding:20 }}>
+            <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopLeftRadius:15 }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>YOU</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
               <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
@@ -236,7 +269,7 @@ const LiveTrackingProfSide = () => {
               <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>11.8 min</Text>
             </View>
           </View>
-          <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.50, height: 80, padding:20 }}>
+          <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopRightRadius:15 }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>Client</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
               <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
@@ -245,14 +278,13 @@ const LiveTrackingProfSide = () => {
             </View>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between',alignItems:'center',gap:20, marginVertical: 10}}>
-          <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>You meetup at in at most</Text>
-          <Text style={{ color: COLOR.ChartBlue, fontSize: 16 }}>33 min</Text>
+            <Text style={{ color: COLOR.WHITE, fontSize: 20,fontWeight:'600',marginVertical:15 }}>You meetup at in at most 33 min</Text>
+            
         </View>
       </View>
-      <View style={{ margin: 20 }}>
-        <TouchableOpacity style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 10, borderRadius: 15 }}>
-          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Request to start order</Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width,position:'absolute',bottom:Screen_Height*0.11 }}>
+        <TouchableOpacity onPress={onRequestToStartOrder}   style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 5, borderRadius: 15 }}>
+          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold',fontSize:18 }}>Request to Start order</Text>
         </TouchableOpacity>
       </View>
 

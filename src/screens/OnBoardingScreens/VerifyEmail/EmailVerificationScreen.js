@@ -10,6 +10,8 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { NavigationScreens } from '../../../constants/Strings';
 import { BASE_API_URL } from '../../../Services';
+import socketServices from '../../../Services/Socket';
+import { StoreAuthToken } from '../../../constants/AsyncStorage';
 
 const EmailVerificationScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -67,7 +69,9 @@ const EmailVerificationScreen = ({ route }) => {
 
       if (res.data) {
         Alert.alert('Verification completed');
-        await AsyncStorage.setItem("AuthToken", res.data.data.token.toString());
+        await StoreAuthToken(res.data.data.token)
+    socketServices.initializeSocket(res.data.data.token);
+        
         navigation.navigate(NavigationScreens.HomeTab);
       }
     } catch (error) {

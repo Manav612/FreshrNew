@@ -20,6 +20,8 @@ import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import socketServices from '../../Services/Socket';
+import { NavigationScreens } from '../../constants/Strings';
 
 
 const LiveTrackingClientSide = () => {
@@ -124,7 +126,8 @@ const LiveTrackingClientSide = () => {
   const [longitude, setLongitude] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState();
-  s = {
+  const [recipientId,setRecipientId]=useState('');
+  const s = {
     region: {
       latitude: 23.052524,
       longitude: 72.6800283,
@@ -133,13 +136,42 @@ const LiveTrackingClientSide = () => {
     }
   }
   const [rState, rSetState] = useState(s);
+    const openBottomSheet = () => {
+      if(refRBSheet.current){
+        refRBSheet.current[0].open();
+      }
+    };
+
+    const handleAccept = () =>{
+      navigation.navigate(NavigationScreens.OrderProcessingScreenClientSideScreen)
+        refRBSheet.current[0].close();
+        socketServices.emit('order_update', {
+          recipient:recipientId,
+          message: {
+            type: 'Accept_To_Process_Order',
+            id:recipientId,
+          },
+        });
+    }
+
+    const handleNeedMoreTime = () =>{
+        refRBSheet.current[0].close();
+        socketServices.emit('order_update', {
+          recipient:recipientId,
+          message: {
+            type: 'Need_More_Time_To_Process_Order',
+            id:recipientId,
+          },
+        });
+    }
+
   const styles = StyleSheet.create({
     container: {
-      height: Screen_Height * 0.4,
+      height: Screen_Height * 0.7,
 
     },
     mapStyle: {
-      height: Screen_Height * 0.4
+      height: Screen_Height * 0.7
     },
     CategoryContainer: {
       borderWidth: 2,
@@ -187,11 +219,17 @@ const LiveTrackingClientSide = () => {
     },
 
   });
+
+  socketServices.on('Request_To_Start_Order', data => {
+    // console.log("Calllllllllllllll : ",data);
+    setRecipientId(data?.message?.id);
+   openBottomSheet()
+  });
   return (
     <>
-      <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 10, marginVertical: 10 }}>
-        <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Time and Distance</Text>
+      <View style={{ width: Screen_Width, height: Screen_Height * 0.03, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 10, marginVertical: 10 }}>
+        <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={28} color="black" />
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Time and Distance</Text>
       </View>
 
       <View style={styles.container}>
@@ -225,36 +263,80 @@ const LiveTrackingClientSide = () => {
           </Marker> */}
         </MapView>
       </View>
-      
-      <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width, height: 150, marginVertical: 20,justifyContent:'space-around',alignItems:'center' }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.50, height: 80, padding:20 }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>YOU</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
-              <AntDesign name="close" size={20} color={COLOR.WHITE} />
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>11.8 min</Text>
+
+      <View style={{ width: Screen_Width, height: Screen_Height * 0.15, justifyContent: 'space-around', alignItems: 'center', position: 'absolute', bottom: Screen_Height * 0.23, paddingHorizontal: 15 }}>
+        <View style={{ backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center',borderRadius:15 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopLeftRadius:15 }}>
+              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>YOU</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
+                <AntDesign name="close" size={20} color={COLOR.WHITE} />
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>11.8 min</Text>
+              </View>
+            </View>
+            <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopRightRadius:15 }}>
+              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>PROFESSIONAL</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
+                <AntDesign name="close" size={20} color={COLOR.WHITE} />
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>10.7 min</Text>
+              </View>
             </View>
           </View>
-          <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.50, height: 80, padding:20 }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>PROFESSIONAL</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
-              <AntDesign name="close" size={20} color={COLOR.WHITE} />
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>10.7 min</Text>
-            </View>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between',alignItems:'center',gap:20, marginVertical: 10}}>
-          <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>You meetup at in at most</Text>
-          <Text style={{ color: COLOR.ChartBlue, fontSize: 16 }}>33 min</Text>
+            <Text style={{ color: COLOR.WHITE, fontSize: 20,fontWeight:'600',marginVertical:15 }}>You meetup at in at most 33 min</Text>
+            
         </View>
       </View>
-      <View style={{ margin: 20 }}>
-        <TouchableOpacity style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 10, borderRadius: 15 }}>
-          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Start order</Text>
-          </TouchableOpacity>
-      </View>
+      {/* <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width,position:'absolute',bottom:Screen_Height*0.11 }}>
+        <TouchableOpacity style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 5, borderRadius: 15 }}>
+          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold',fontSize:18 }}>Start order</Text>
+        </TouchableOpacity>
+      </View> */}
+
+      <RBSheet
+                    ref={(ref) => (refRBSheet.current[0] = ref)}
+                    height={Screen_Height * 0.35}
+                    customStyles={{
+                        wrapper: {
+                            backgroundColor: COLOR.BLACK_40,
+                        },
+                        container: {
+                            backgroundColor: COLOR.WHITE,
+                            borderRadius: 40,
+                            borderBottomRightRadius: 0,
+                            borderBottomLeftRadius: 0,
+                            elevation: 10,
+                            shadowColor: COLOR.BLACK,
+                        },
+                        draggableIcon: {
+                            backgroundColor: COLOR.BLACK,
+                        },
+                    }}
+                    customModalProps={{
+                        animationType: 'slide',
+                        statusBarTranslucent: true,
+                    }}
+                    customAvoidingViewProps={{
+                        enabled: false,
+                    }}>
+                    <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+                        
+                        <View style={{ width: Screen_Width * 0.91, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
+                            <TouchableOpacity
+                             onPress={handleAccept}
+                              style={{ backgroundColor: COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.ORANGECOLOR }}>Accept request</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                            onPress={handleNeedMoreTime}
+                            //  onPress={() => { handleApplyPress2(); navigation.navigate('Cancelbooking Screen'); refRBSheet.current[0].close() }}
+                              style={{ backgroundColor:COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 15, fontWeight: '700', color:  COLOR.ORANGECOLOR }}>Need More time</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </RBSheet>
 
     </>
   )

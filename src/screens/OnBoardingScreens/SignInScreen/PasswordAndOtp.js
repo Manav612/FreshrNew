@@ -15,6 +15,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationScreens } from '../../../constants/Strings';
 import { StoreAuthToken } from '../../../constants/AsyncStorage';
+import socketServices from '../../../Services/Socket';
 const PasswordAndOtp = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -90,6 +91,7 @@ const PasswordAndOtp = ({ route }) => {
                 Alert.alert('Sign In  Successfully')
                 // await AsyncStorage.setItem("Auth", res.data.data.sessionId.toString());
                 await StoreAuthToken(res.data.data.token)
+                socketServices.initializeSocket(res.data.data.token);
                 navigation.navigate(NavigationScreens.HomeTab);
 
             }

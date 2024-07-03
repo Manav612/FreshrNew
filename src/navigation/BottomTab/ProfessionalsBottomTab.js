@@ -29,6 +29,7 @@ import profselectservice from '../../screens/ProfessionalScreens/ProfessionalSer
 import profselectedDetailservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectedDetailservice';
 import ProfessionalEditService from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalEditService';
 import LiveTrackingProfSide from '../../components/ProfessionalComponents/LiveTrackingProfSide';
+import OrderProcessingScreenProfSide from '../../components/ProfessionalComponents/OrderProcessingScreenProfSide';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -84,6 +85,7 @@ const MyBookingStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
             <Stack.Screen name={NavigationScreens.LiveTrackingProfSideScreen} component={LiveTrackingProfSide} />
+            <Stack.Screen name={NavigationScreens.OrderProcessingScreenProfSideScreen} component={OrderProcessingScreenProfSide} />
 
 
 

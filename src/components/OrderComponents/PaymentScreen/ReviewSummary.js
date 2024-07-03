@@ -43,14 +43,14 @@ const ReviewSummary = ({route}) => {
       recipient: OrderData.sender,
       message: {
         type: 'payment_Done',
-        id: OrderData.message.orderDetails,
+        id: OrderData.sender,
       },
     });
     socketServices.emit('order_update', {
       recipient: OrderData.sender,
       message: {
         type: 'payment_Done',
-        id: OrderData.message.orderDetails,
+        id: OrderData.sender,
       },
     });
     navigation.navigate(NavigationScreens.LiveTrackingClientSideScreen);
