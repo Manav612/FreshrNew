@@ -31,6 +31,7 @@ export const NavigationScreens = {
     ProceedWithoutScreen:'ProceedWithoutScreen',
     HomeScreen: 'Home Screen',
     AddAddressScreen: 'AddAddressScreen',
+    SelectDeliveryLocationScreen: 'SelectDeliveryLocationScreen',
     DeliveryScreen:'DeliveryScreen',
     SalonScreen:'SalonScreen',
     OTPScreen:'OTPScreen',
