@@ -2,7 +2,7 @@
 import { ScrollView, StyleSheet, Text, View, FlatList,PermissionsAndroid, Image, TextInput, TouchableOpacity, RefreshControl, Dimensions, Platform } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Scale, Screen_Height, Screen_Width } from '../../../constants/Constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -20,7 +20,8 @@ import MapView, { Circle, Marker } from 'react-native-maps';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Geocoder from 'react-native-geocoding';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { SetAddress } from '../../../redux/AddressAction';
 const Home = () => {
 
   const navigation = useNavigation();
@@ -32,8 +33,8 @@ const Home = () => {
   const { width, height } = Dimensions.get("window");
   const ASPECT_RATIO = width / height;
     const mapRef = useRef();
-    const [formattedAddress, setFormattedAddress] = useState('')
-    
+    const formattedAddress = useSelector(state=>state.AddressReducer);
+    const dispatch = useDispatch();
   // const [address, setAddress] = useState({
   //   Address: '',
   //   city: '',
@@ -99,10 +100,47 @@ const Home = () => {
   //   return fullAddress;
   // };
   useEffect(() => {
-
     fetchData();
+    checkLocationPermission();
   }, []);
 
+  const checkLocationPermission = async () => {
+    const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    if (permissionStatus !== RESULTS.GRANTED) {
+      const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+      if (result === RESULTS.GRANTED) {
+        getLocation();
+      }
+    } else {
+      getLocation();
+    }
+  };
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        getAddressFromCoordinates(position.coords.latitude,position.coords.longitude);
+      },
+      (error) => {
+        console.error("Error:", error);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+
+  const getAddressFromCoordinates = async (latitude, longitude) => {
+    try {
+      Geocoder.from(latitude, longitude)
+        .then(json => {
+          var addressComponent = json;
+          console.log(json.results[0]?.formatted_address);
+          dispatch(SetAddress(json.results[0]?.formatted_address));
+        })
+        .catch(error => console.warn(error));
+    } catch (error) {
+      console.log('Error retrieving address:', error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -127,18 +165,18 @@ const Home = () => {
     
     >
       <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
           <View>
             <Text style={{ color: COLOR.BLACK, fontSize: 17 }}>{greeting}, {displayName}</Text>
-            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row', alignItems: 'center', width: 150, height: 38 }}>
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row', alignItems: 'center',  height: 38,flex:1 }}>
               <Entypo name="location-pin" size={15} color={COLOR.BLACK} />
-              {/* <Text style={{ color: COLOR.BLACK, fontSize: 16 }}>
-                {formatAddress(address)}
-              </Text> */}
+              <Text style={{ color: COLOR.BLACK, fontSize: 16,flex:1 }} numberOfLines={1}>
+                {formattedAddress}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', gap: 10, marginLeft:10,alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)}>
             <Ionicons name="chatbubble-ellipses-outline" size={30} color={COLOR.BLACK} />
           </TouchableOpacity>

@@ -33,6 +33,7 @@ import ProfessionalReviewScreen from '../components/ProfessionalSalonDetailScree
 import ProfessionalServicesScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalServicesScreen';
 import NearbyYourLocation from '../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
 
+
 const Stack = createSharedElementStackNavigator();
 
 const NavigationHandler = () => {
@@ -68,6 +69,7 @@ const NavigationHandler = () => {
         screenOptions={{
           headerShown: false,
         }}>
+        
         <Stack.Screen
           name={NavigationScreens.SplashScreen}
           component={SplashScreen}

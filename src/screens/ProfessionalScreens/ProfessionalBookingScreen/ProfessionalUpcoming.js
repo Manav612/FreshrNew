@@ -56,13 +56,10 @@ const ProfessionalUpcoming = () => {
   useEffect(() => {
     socketServices.on('payment_Done', data => {
       console.log('==== payment done ======', data);
-      setPaymentData(data)
+      navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen)
+      closeBottomSheet()
     });
-  
-    // Clean up the listener when component unmounts
-    return () => {
-      socketServices.off('payment_Done');
-    };
+
   }, []);
 
   socketServices.on('create_order', data => {
@@ -78,11 +75,7 @@ const ProfessionalUpcoming = () => {
     fetchData().then(() => setRefreshing(false));
   }, []);
 
-  const handleStartOrder =()=>{
-    navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen)
-    closeBottomSheet()
-  }
-
+ 
   const fetchData = async () => {
     try {
       const token = await AsyncStorage.getItem('AuthToken');
@@ -659,24 +652,8 @@ const ProfessionalUpcoming = () => {
             <Text style={{fontSize: 48, fontWeight: 'bold'}}>
               {formatTime(timeLeft)}
             </Text>
-            {PaymentData &&
-            <TouchableOpacity
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 50,
-          borderRadius: 35,
-          backgroundColor: COLOR.ORANGECOLOR,
-          marginVertical: 15,
-          
-          width: Screen_Width * 0.95,
-          marginHorizontal: 10,
-        }}
-        onPress={handleStartOrder}>
-        <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: '500'}}>
-          start order request
-        </Text>
-      </TouchableOpacity>}
+
+           
           </View>
         </RBSheet>
     </View>

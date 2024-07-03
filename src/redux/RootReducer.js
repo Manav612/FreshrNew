@@ -7,6 +7,7 @@ import { PromocodeReducer } from './PromocodeReducer'
 import { VersionReducer } from './VersionReducer'
 import { ActiveScreenReducer } from './ActiveScreen/ActiveScreenReducer'
 import { ServicesDataReducer } from "./ServicesData/ServicesDataReducer"
+import { AddressReducer } from "./AddressReducer"
 
 export default rootReducer = combineReducers({
     AuthReducer,
@@ -16,5 +17,6 @@ export default rootReducer = combineReducers({
     VersionReducer,
     PromocodeReducer,
     ActiveScreenReducer,
-    ServicesDataReducer
+    ServicesDataReducer,
+    AddressReducer
 })
