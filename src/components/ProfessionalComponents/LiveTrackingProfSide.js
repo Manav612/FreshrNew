@@ -137,15 +137,7 @@ const LiveTrackingProfSide = ({route}) => {
   }
   const [rState, rSetState] = useState(s);
 
-//  const handleRequestStartOrder =()=>{
-//   socketServices.emit('order_update', {
-//     recipient:oderData,
-//   message: {
-//     type: 'Request_To_Start_Order',
-//     data:oderData,
-//   },
-// });
-//  }
+
 
 const onRequestToStartOrder = ()=>{
   const id = orderData.message.id;
@@ -164,6 +156,7 @@ socketServices.on('Accept_To_Process_Order', data => {
 
  socketServices.on('Need_More_Time_To_Process_Order', data => {
   console.log("Need More Time Call : ",data);
+  setApplySelected(data)
  });
   const styles = StyleSheet.create({
     container: {
@@ -284,7 +277,7 @@ socketServices.on('Accept_To_Process_Order', data => {
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width,position:'absolute',bottom:Screen_Height*0.11 }}>
         <TouchableOpacity onPress={onRequestToStartOrder}   style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 5, borderRadius: 15 }}>
-          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold',fontSize:18 }}>Request to Start order</Text>
+          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold',fontSize:18 }}>{applySelected? "user need 5 more min" :"Request to Start order"}</Text>
         </TouchableOpacity>
       </View>
 

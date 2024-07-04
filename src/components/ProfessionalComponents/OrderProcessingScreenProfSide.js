@@ -3,8 +3,12 @@ import React from 'react'
 import socketServices from '../../Services/Socket';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationScreens } from '../../constants/Strings';
+import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import { useSelector } from 'react-redux';
 
 const OrderProcessingScreenProfSide = ({route}) => {
+    const theme = useSelector(state => state.ThemeReducer);
+  const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation()
 const {data}= route.params;
     const onRequestToEnd = ()=>{
@@ -28,12 +32,11 @@ const {data}= route.params;
     });
 
   return (
-    <View>
-      <Text>OrderProcessingScreenProfSide</Text>
+    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
       <Text>OrderProcessingScreenProfSide</Text>
       <Text>loading.......</Text>
-      <TouchableOpacity onPress={onRequestToEnd}>
-        <Text>Request to end order</Text>
+      <TouchableOpacity onPress={onRequestToEnd} style={{ backgroundColor: COLOR.ORANGECOLOR , height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE  }}>Request to end order</Text>
       </TouchableOpacity>
     </View>
   )

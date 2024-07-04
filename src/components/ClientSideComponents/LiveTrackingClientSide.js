@@ -126,7 +126,7 @@ const LiveTrackingClientSide = () => {
   const [longitude, setLongitude] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState();
-  const [recipientId,setRecipientId]=useState('');
+  const [recipientId, setRecipientId] = useState('');
   const s = {
     region: {
       latitude: 23.052524,
@@ -136,34 +136,36 @@ const LiveTrackingClientSide = () => {
     }
   }
   const [rState, rSetState] = useState(s);
-    const openBottomSheet = () => {
-      if(refRBSheet.current){
-        refRBSheet.current[0].open();
-      }
-    };
-
-    const handleAccept = () =>{
-      navigation.navigate(NavigationScreens.OrderProcessingScreenClientSideScreen)
-        refRBSheet.current[0].close();
-        socketServices.emit('order_update', {
-          recipient:recipientId,
-          message: {
-            type: 'Accept_To_Process_Order',
-            id:recipientId,
-          },
-        });
+  const openBottomSheet = () => {
+    if (refRBSheet.current) {
+      refRBSheet.current[0].open();
     }
+  };
 
-    const handleNeedMoreTime = () =>{
-        refRBSheet.current[0].close();
-        socketServices.emit('order_update', {
-          recipient:recipientId,
-          message: {
-            type: 'Need_More_Time_To_Process_Order',
-            id:recipientId,
-          },
-        });
-    }
+  const handleAccept = () => {
+    setApplySelected('Accept request')
+    navigation.navigate(NavigationScreens.OrderProcessingScreenClientSideScreen)
+    refRBSheet.current[0].close();
+    socketServices.emit('order_update', {
+      recipient: recipientId,
+      message: {
+        type: 'Accept_To_Process_Order',
+        id: recipientId,
+      },
+    });
+  }
+
+  const handleNeedMoreTime = () => {
+    setApplySelected('Need More Time')
+    refRBSheet.current[0].close();
+    socketServices.emit('order_update', {
+      recipient: recipientId,
+      message: {
+        type: 'Need_More_Time_To_Process_Order',
+        id: recipientId,
+      },
+    });
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -223,7 +225,7 @@ const LiveTrackingClientSide = () => {
   socketServices.on('Request_To_Start_Order', data => {
     // console.log("Calllllllllllllll : ",data);
     setRecipientId(data?.message?.id);
-   openBottomSheet()
+    openBottomSheet()
   });
   return (
     <>
@@ -265,9 +267,9 @@ const LiveTrackingClientSide = () => {
       </View>
 
       <View style={{ width: Screen_Width, height: Screen_Height * 0.15, justifyContent: 'space-around', alignItems: 'center', position: 'absolute', bottom: Screen_Height * 0.23, paddingHorizontal: 15 }}>
-        <View style={{ backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center',borderRadius:15 }}>
+        <View style={{ backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 15 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-            <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopLeftRadius:15 }}>
+            <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.45, height: 80, padding: 20, borderTopLeftRadius: 15 }}>
               <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>YOU</Text>
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                 <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
@@ -275,7 +277,7 @@ const LiveTrackingClientSide = () => {
                 <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>11.8 min</Text>
               </View>
             </View>
-            <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopRightRadius:15 }}>
+            <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.45, height: 80, padding: 20, borderTopRightRadius: 15 }}>
               <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>PROFESSIONAL</Text>
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                 <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
@@ -284,8 +286,8 @@ const LiveTrackingClientSide = () => {
               </View>
             </View>
           </View>
-            <Text style={{ color: COLOR.WHITE, fontSize: 20,fontWeight:'600',marginVertical:15 }}>You meetup at in at most 33 min</Text>
-            
+          <Text style={{ color: COLOR.WHITE, fontSize: 20, fontWeight: '600', marginVertical: 15 }}>You meetup at in at most 33 min</Text>
+
         </View>
       </View>
       {/* <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width,position:'absolute',bottom:Screen_Height*0.11 }}>
@@ -295,48 +297,44 @@ const LiveTrackingClientSide = () => {
       </View> */}
 
       <RBSheet
-                    ref={(ref) => (refRBSheet.current[0] = ref)}
-                    height={Screen_Height * 0.35}
-                    customStyles={{
-                        wrapper: {
-                            backgroundColor: COLOR.BLACK_40,
-                        },
-                        container: {
-                            backgroundColor: COLOR.WHITE,
-                            borderRadius: 40,
-                            borderBottomRightRadius: 0,
-                            borderBottomLeftRadius: 0,
-                            elevation: 10,
-                            shadowColor: COLOR.BLACK,
-                        },
-                        draggableIcon: {
-                            backgroundColor: COLOR.BLACK,
-                        },
-                    }}
-                    customModalProps={{
-                        animationType: 'slide',
-                        statusBarTranslucent: true,
-                    }}
-                    customAvoidingViewProps={{
-                        enabled: false,
-                    }}>
-                    <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-                        
-                        <View style={{ width: Screen_Width * 0.91, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-                            <TouchableOpacity
-                             onPress={handleAccept}
-                              style={{ backgroundColor: COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.ORANGECOLOR }}>Accept request</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                            onPress={handleNeedMoreTime}
-                            //  onPress={() => { handleApplyPress2(); navigation.navigate('Cancelbooking Screen'); refRBSheet.current[0].close() }}
-                              style={{ backgroundColor:COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 15, fontWeight: '700', color:  COLOR.ORANGECOLOR }}>Need More time</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </RBSheet>
+        ref={(ref) => (refRBSheet.current[0] = ref)}
+        height={Screen_Height * 0.35}
+        customStyles={{
+          wrapper: {
+            backgroundColor: COLOR.BLACK_40,
+          },
+          container: {
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 40,
+            borderBottomRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            elevation: 10,
+            shadowColor: COLOR.BLACK,
+          },
+          draggableIcon: {
+            backgroundColor: COLOR.BLACK,
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}
+        customAvoidingViewProps={{
+          enabled: false,
+        }}>
+        <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+
+          <View style={{ width: Screen_Width * 0.91, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
+
+            <TouchableOpacity onPress={handleAccept} style={{ backgroundColor: resetSelected ? COLOR.ORANGECOLOR : COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 15, fontWeight: '700', color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Accept request</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleNeedMoreTime} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Need More time</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </RBSheet>
 
     </>
   )
