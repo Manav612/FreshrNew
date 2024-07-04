@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, TextInput, TouchableOpacity, FlatList, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, TextInput, TouchableOpacity, FlatList, ScrollView, Platform, PermissionsAndroid } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -15,6 +15,9 @@ import { NavigationScreens } from '../../../constants/Strings';
 import { SetAddress } from '../../../redux/AddressAction';
 import { data5 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { BASE_API_URL } from '../../../Services';
 
 const AddAddress = () => {
   const [apartment, setApartment] = useState('');
@@ -128,30 +131,30 @@ const AddAddress = () => {
     }
   };
 
-  useEffect(() => {
-    getUserInfo()
-  }, [])
+  // useEffect(() => {
+  //   getUserInfo()
+  // }, [])
 
-  const getUserInfo = async () => {
-    try {
-      const token = await AsyncStorage.getItem("AuthToken");
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-      console.log('========  user ID   ==========', res.data.data.user)
-      setUser(res.data.data.user);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  // const getUserInfo = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem("AuthToken");
+  //     const config = {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     };
+  //     const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+  //     console.log('========  user ID   ==========', res.data.data.user)
+  //     setUser(res.data.data.user);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getUserInfo().then(() => setRefreshing(false));
-  }, []);
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   getUserInfo().then(() => setRefreshing(false));
+  // }, []);
 
   const styles = StyleSheet.create({
     input: {
@@ -209,14 +212,14 @@ const AddAddress = () => {
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
         <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Enter your area or apartment name</Text>
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center', zIndex: 10, height: Screen_Height * 0.4 }}>
+      {/* <View style={{ justifyContent: 'center', alignItems: 'center', zIndex: 10, height: Screen_Height * 0.4 }}> */}
         <GooglePlacesAutocomplete
           placeholder='Enter Location'
-          minLength={6}
+          minLength={2}
           styles={{
             textInput: {
               height: 50,
-              width: Screen_Width * 0.9,
+              marginHorizontal:2,
               backgroundColor: COLOR.WHITE,
               borderRadius: 15,
               elevation: 5,
@@ -225,7 +228,7 @@ const AddAddress = () => {
               color: COLOR.BLACK
             },
             container: {
-              width: Screen_Width * 0.9,
+              
             },
             predefinedPlacesDescription: {
               color: COLOR.BLACK,
@@ -273,7 +276,7 @@ const AddAddress = () => {
             location: `${region?.latitude}, ${region?.longitude}`,
           }}
         />
-      </View>
+      {/* </View> */}
       <TouchableOpacity  onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Entypo name="direction" size={25} color={COLOR.ORANGECOLOR} />
@@ -295,6 +298,7 @@ const AddAddress = () => {
           keyExtractor={item => item.id}
           scrollEnabled={false}
           renderItem={renderItem}
+          style={{flex:1}}
         />
       </View>
 
@@ -332,7 +336,7 @@ const AddAddress = () => {
             {selectedItem && (
               <View style={{ paddingHorizontal: 10 }}>
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>{selectedItem.title} | <Text style={{ fontSize: 16, color: COLOR.BLACK_70 }}>{selectedItem.text}</Text></Text>
-                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{backgroundColor:COLOR.WHITE,elevation:3,height:50,borderRadius:10,marginVertical:5,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
+                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen,refRBSheet.current?.close())} style={{backgroundColor:COLOR.WHITE,elevation:3,height:50,borderRadius:10,marginVertical:5,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
                   <Feather name="edit" size={24} color={COLOR.BLACK} />
                   <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Edit</Text>
                 </TouchableOpacity>

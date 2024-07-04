@@ -30,14 +30,13 @@ const SearchLocation = () => {
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color={COLOR.BLACK} />
         <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Search Location to add address</Text>
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center', zIndex: 10, height: Screen_Height * 0.4 }}>
       <GooglePlacesAutocomplete
           placeholder='Try JP Nagar,Siri Gardenia,etc,'
-          minLength={6}
+          minLength={2}
           styles={{
             textInput: {
               height: 50,
-              width: Screen_Width * 0.9,
+              marginHorizontal:2,
               backgroundColor: COLOR.WHITE,
               borderRadius: 15,
               elevation: 5,
@@ -45,9 +44,7 @@ const SearchLocation = () => {
               marginVertical: 10,
               color: COLOR.BLACK
             },
-            container: {
-              width: Screen_Width * 0.9,
-            },
+            
             predefinedPlacesDescription: {
               color: COLOR.BLACK,
             },
@@ -94,7 +91,7 @@ const SearchLocation = () => {
             location: `${region?.latitude}, ${region?.longitude}`,
           }}
         />
-      </View>
+     
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Entypo name="direction" size={25} color={COLOR.ORANGECOLOR} />
