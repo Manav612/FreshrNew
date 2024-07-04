@@ -199,7 +199,7 @@ const AddAddress = () => {
         .then(json => {
           var addressComponent = json;
           console.log(json.results[0]?.formatted_address);
-          dispatch(SetAddress((apartment ? `${apartment},` : '') + json.results[0]?.formatted_address));
+          dispatch("sssssssss",SetAddress((apartment ? `${apartment},` : '') + json.results[0]?.formatted_address));
         })
         .catch(error => console.warn(error));
     } catch (error) {

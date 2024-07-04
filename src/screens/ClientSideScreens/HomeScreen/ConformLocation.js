@@ -6,16 +6,24 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { NavigationScreens } from '../../../constants/Strings';
 
-const ConformLocation = () => {
+const ConformLocation = ({route}) => {
     const navigation = useNavigation();
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-    const [text, setText] = useState('');
+    const [house, setHouse] = useState('');
+    const [apartment, setApartment] = useState('');
+    const {CurrentAddress}= route.params
+    const handleHouseChange = (text) => {
+        setHouse(text);
+      };
+    
+    const handleApartmentChange = (text) => {
+        setApartment(text);
+      };
+    
 
-    const handleTextChange = (newText) => {
-        setText(newText);
-    };
 
     const styles = StyleSheet.create({
         container: {
@@ -74,23 +82,17 @@ const ConformLocation = () => {
                     size={24}
                     color={COLOR.ORANGECOLOR}
                 />
-                <View style={styles.locationText}>
-                    <Text style={styles.locationTitle}>
-                        New India Colony
-                    </Text>
-                    <Text style={styles.locationSubtitle}>
-                        Ankur Tenament, Nikol, Ahmedabad, Gujarat 380038, India (New India
-                        Colony)
-                    </Text>
-                </View>
+                <Text style={{ color: COLOR.BLACK, fontSize: 16,flex:1 }} numberOfLines={3}>
+                {CurrentAddress}
+              </Text>
             </View>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
                     placeholder="HOUSE/FLAT/BLOCK NO."
                     placeholderTextColor={COLOR.GRAY}
-                    value={text}
-                    onChangeText={handleTextChange}
+                    value={house}
+                    onChangeText={handleHouseChange}
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -98,8 +100,8 @@ const ConformLocation = () => {
                     style={styles.input}
                     placeholder="APARTMENT/ROAD/AREA"
                     placeholderTextColor={COLOR.GRAY}
-                    value={text}
-                    onChangeText={handleTextChange}
+                    value={apartment}
+                    onChangeText={handleApartmentChange}
                 />
             </View>
             <TouchableOpacity
@@ -112,7 +114,9 @@ const ConformLocation = () => {
                 marginHorizontal: 15,
                 marginVertical:10,
               
-              }}>
+              }}
+              onPress={()=>navigation.navigate(NavigationScreens.HomeScreen)}
+              >
                 <Text style={{color:COLOR.WHITE,fontSize:16}}>SAVE AND PROCEED</Text>
             </TouchableOpacity>
         </ScrollView>

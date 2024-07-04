@@ -133,7 +133,7 @@ const Home = () => {
       Geocoder.from(latitude, longitude)
         .then(json => {
           var addressComponent = json;
-          console.log(json.results[0]?.formatted_address);
+          console.log("sssssss",json.results[0]?.formatted_address);
           dispatch(SetAddress(json.results[0]?.formatted_address));
         })
         .catch(error => console.warn(error));

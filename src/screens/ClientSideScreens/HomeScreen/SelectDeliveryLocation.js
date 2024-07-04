@@ -4,101 +4,158 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  Dimensions,
 } from 'react-native';
-import React from 'react';
-import MapView, {Marker} from 'react-native-maps';
+import React, { useState, useEffect, useRef } from 'react';
+import MapView, { Marker } from 'react-native-maps';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { NavigationScreens } from '../../../constants/Strings';
+import Geolocation from 'react-native-geolocation-service';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import Geocoder from 'react-native-geocoding';
+import { SetAddress } from '../../../redux/AddressAction';
 
 const SelectDeliveryLocation = () => {
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const [position, setPosition] = useState();
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const mapStyle = [
-    {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-    {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
     {
       featureType: 'administrative.locality',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'geometry',
-      stylers: [{color: '#263c3f'}],
+      stylers: [{ color: '#263c3f' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#6b9a76'}],
+      stylers: [{ color: '#6b9a76' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry',
-      stylers: [{color: '#38414e'}],
+      stylers: [{ color: '#38414e' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#212a37'}],
+      stylers: [{ color: '#212a37' }],
     },
     {
       featureType: 'road',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#9ca5b3'}],
+      stylers: [{ color: '#9ca5b3' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry',
-      stylers: [{color: '#746855'}],
+      stylers: [{ color: '#746855' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#1f2835'}],
+      stylers: [{ color: '#1f2835' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#f3d19c'}],
+      stylers: [{ color: '#f3d19c' }],
     },
     {
       featureType: 'transit',
       elementType: 'geometry',
-      stylers: [{color: '#2f3948'}],
+      stylers: [{ color: '#2f3948' }],
     },
     {
       featureType: 'transit.station',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'water',
       elementType: 'geometry',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#515c6d'}],
+      stylers: [{ color: '#515c6d' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.stroke',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
   ];
+
+  const { width, height } = Dimensions.get("window");
+  const ASPECT_RATIO = width / height;
+  const mapRef = useRef();
+  const formattedAddress = useSelector(state => state.AddressReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+  
+    checkLocationPermission();
+  }, []);
+
+  const checkLocationPermission = async () => {
+    const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    if (permissionStatus !== RESULTS.GRANTED) {
+      const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+      if (result === RESULTS.GRANTED) {
+        getLocation();
+      }
+    } else {
+      getLocation();
+    }
+  };
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        getAddressFromCoordinates(position.coords.latitude, position.coords.longitude);
+      },
+      (error) => {
+        console.error("Error:", error);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+  const getAddressFromCoordinates = async (latitude, longitude) => {
+    try {
+      Geocoder.from(latitude, longitude)
+        .then(json => {
+          var addressComponent = json;
+          console.log("manavavvvvvvvvvv", json.results[0]?.formatted_address);
+          dispatch(SetAddress(json.results[0]?.formatted_address));
+        })
+        .catch(error => console.warn(error));
+    } catch (error) {
+      console.log('Error retrieving address:', error);
+    }
+  };
 
   const styles = StyleSheet.create({
     container: {
@@ -127,7 +184,7 @@ const SelectDeliveryLocation = () => {
           size={26}
           color="black"
         />
-        <Text style={{fontWeight: '600', fontSize: 20, color: COLOR.BLACK}}>
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>
           Select Delivery Location{' '}
         </Text>
       </View>
@@ -142,7 +199,7 @@ const SelectDeliveryLocation = () => {
           zIndex: 1,
         }}>
         <TouchableOpacity
-        onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)} 
+          onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -151,15 +208,15 @@ const SelectDeliveryLocation = () => {
             borderRadius: 10,
             paddingHorizontal: 15,
             marginHorizontal: 10,
-            height:40,
+            height: 40,
           }}>
           <Text
             style={{
               fontSize: 16,
-              color:COLOR.GRAY,
+              color: COLOR.GRAY,
             }}>
             Search for a building, street name, or area
-            </Text>
+          </Text>
           <MaterialIcons name="search" size={24} color={COLOR.GRAY} />
         </TouchableOpacity>
       </View>
@@ -181,7 +238,17 @@ const SelectDeliveryLocation = () => {
           pitchEnabled={true}
           rotateEnabled={true}
           customMapStyle={mapStyle}
-        />
+        > 
+        {/* <Marker
+          coordinate={{
+            latitude: data.location.coordinates[0],
+            longitude: data.location.coordinates[1],
+          }}
+          title={'Test Marker'}
+          description={'This is a description of the marker'}
+          key={i}
+        ></Marker> */}
+        </MapView>
       </View>
 
       <View
@@ -200,7 +267,7 @@ const SelectDeliveryLocation = () => {
             paddingVertical: 8,
             paddingHorizontal: 12,
           }}>
-          <View style={{marginRight: 8}}>
+          <View style={{ marginRight: 8 }}>
             <MaterialIcons
               name="my-location"
               size={20}
@@ -225,38 +292,31 @@ const SelectDeliveryLocation = () => {
           padding: 12,
           justifyContent: 'space-between',
         }}>
-        <View style={{flexDirection: 'row', alignItems: 'flex-start', flex: 1}}>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start', flex: 1 }}>
           <MaterialIcons
             name="location-on"
             size={24}
             color={COLOR.ORANGECOLOR}
           />
-          <View style={{marginLeft: 12, flex: 1}}>
-            <Text
-              style={{fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK}}>
-              New India Colony
-            </Text>
-            <Text style={{fontSize: 14, color: COLOR.GRAY, marginTop: 4}}>
-              Ankur Tenament, Nikol, Ahmedabad, Gujarat 380038, India (New India
-              Colony)
-            </Text>
-          </View>
+          <Text style={{ color: COLOR.BLACK, fontSize: 16,flex:1 }} numberOfLines={3}>
+                {formattedAddress}
+              </Text>
         </View>
         <TouchableOpacity
-         onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)} 
+          onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)}
           style={{
             backgroundColor: COLOR.AuthField,
             padding: 5,
             borderRadius: 5,
           }}>
-          <Text style={{color: COLOR.ORANGECOLOR, fontWeight: '500'}}>
+          <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>
             CHANGE
           </Text>
         </TouchableOpacity>
       </View>
 
       <TouchableOpacity
-       onPress={() => navigation.navigate(NavigationScreens.ConformLocationScreen)} 
+        onPress={() => navigation.navigate(NavigationScreens.ConformLocationScreen,{CurrentAddress:formattedAddress})}
         style={{
           justifyContent: 'center',
           borderRadius: 10,
@@ -266,7 +326,7 @@ const SelectDeliveryLocation = () => {
           marginHorizontal: 15,
           marginTop: 10,
         }}>
-        <Text style={{color: COLOR.WHITE, fontSize: 18}}>CONFIRM LOCATION</Text>
+        <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>CONFIRM LOCATION</Text>
       </TouchableOpacity>
     </View>
   );
