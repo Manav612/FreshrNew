@@ -32,6 +32,8 @@ export const NavigationScreens = {
     HomeScreen: 'Home Screen',
     AddAddressScreen: 'AddAddressScreen',
     SelectDeliveryLocationScreen: 'SelectDeliveryLocationScreen',
+    SearchLocationScreen: 'SearchLocationScreen',
+    ConformLocationScreen: ' ConformLocationScreen',
     DeliveryScreen:'DeliveryScreen',
     SalonScreen:'SalonScreen',
     OTPScreen:'OTPScreen',

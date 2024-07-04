@@ -14,6 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector} from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+import { NavigationScreens } from '../../../constants/Strings';
 
 const SelectDeliveryLocation = () => {
   const navigation = useNavigation();
@@ -101,10 +102,10 @@ const SelectDeliveryLocation = () => {
 
   const styles = StyleSheet.create({
     container: {
-      height: Screen_Height * 0.55,
+      height: Screen_Height * 0.57,
     },
     mapStyle: {
-      height: Screen_Height * 0.55,
+      height: Screen_Height * 0.57,
     },
   });
 
@@ -141,6 +142,7 @@ const SelectDeliveryLocation = () => {
           zIndex: 1,
         }}>
         <TouchableOpacity
+        onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)} 
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -241,6 +243,7 @@ const SelectDeliveryLocation = () => {
           </View>
         </View>
         <TouchableOpacity
+         onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)} 
           style={{
             backgroundColor: COLOR.AuthField,
             padding: 5,
@@ -253,12 +256,12 @@ const SelectDeliveryLocation = () => {
       </View>
 
       <TouchableOpacity
+       onPress={() => navigation.navigate(NavigationScreens.ConformLocationScreen)} 
         style={{
           justifyContent: 'center',
           borderRadius: 10,
           alignItems: 'center',
-          height: Screen_Height * 0.07,
-          width: Screen_Width * 0.9,
+          height: Screen_Height * 0.05,
           backgroundColor: COLOR.ORANGECOLOR,
           marginHorizontal: 15,
           marginTop: 10,

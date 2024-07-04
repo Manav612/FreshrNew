@@ -44,6 +44,8 @@ import ReserveNowServices from '../../components/OrderComponents/ReserveNowServi
 import LiveTrackingClientSide from '../../components/ClientSideComponents/LiveTrackingClientSide';
 import OrderProcessingScreenClientSide from '../../components/ClientSideComponents/OrderProcessingScreenClientSide';
 import SelectDeliveryLocation from '../../screens/ClientSideScreens/HomeScreen/SelectDeliveryLocation';
+import SearchLocation from '../../screens/ClientSideScreens/HomeScreen/SearchLocation';
+import ConformLocation from '../../screens/ClientSideScreens/HomeScreen/ConformLocation';
 
 
 
@@ -59,6 +61,8 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.HomeScreen} component={Home} />
             <Stack.Screen name={NavigationScreens.AddAddressScreen} component={AddAddress} />
             <Stack.Screen name={NavigationScreens.SelectDeliveryLocationScreen} component={SelectDeliveryLocation} />
+            <Stack.Screen name={NavigationScreens.SearchLocationScreen} component={SearchLocation} />
+            <Stack.Screen name={NavigationScreens.ConformLocationScreen} component={ConformLocation} />
             <Stack.Screen name={NavigationScreens.DeliveryScreen} component={Delivery} />
             <Stack.Screen name={NavigationScreens.SalonScreen} component={Salon} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />
