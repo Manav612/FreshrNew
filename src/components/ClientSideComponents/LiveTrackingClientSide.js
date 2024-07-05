@@ -110,7 +110,7 @@ const LiveTrackingClientSide = () => {
   const [searchText, setSearchText] = useState('');
   const [activeTab, setActiveTab] = useState('Delivery');
   const [activeTab2, setActiveTab2] = useState('Masculine');
-  const refRBSheet = useRef([]);
+  const refRBSheet = useRef();
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItem1, setSelectedItem1] = useState(null);
   const [selectedItem2, setSelectedItem2] = useState(null);
@@ -127,6 +127,8 @@ const LiveTrackingClientSide = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState();
   const [recipientId, setRecipientId] = useState('');
+  const [orderId, setOrderId] = useState('');
+
   const s = {
     region: {
       latitude: 23.052524,
@@ -137,32 +139,33 @@ const LiveTrackingClientSide = () => {
   }
   const [rState, rSetState] = useState(s);
   const openBottomSheet = () => {
-    if (refRBSheet.current) {
-      refRBSheet.current[0].open();
-    }
+      refRBSheet?.current?.open();
   };
 
   const handleAccept = () => {
+    console.log("======= hiiiii acceptttt   =====");
     setApplySelected('Accept request')
     navigation.navigate(NavigationScreens.OrderProcessingScreenClientSideScreen)
-    refRBSheet.current[0].close();
+    refRBSheet?.current?.close();
     socketServices.emit('order_update', {
       recipient: recipientId,
       message: {
         type: 'Accept_To_Process_Order',
         id: recipientId,
+        order_id:orderId,
       },
     });
   }
 
   const handleNeedMoreTime = () => {
     setApplySelected('Need More Time')
-    refRBSheet.current[0].close();
+    refRBSheet?.current?.close();
     socketServices.emit('order_update', {
       recipient: recipientId,
       message: {
         type: 'Need_More_Time_To_Process_Order',
         id: recipientId,
+        order_id:orderId,
       },
     });
   }
@@ -223,8 +226,9 @@ const LiveTrackingClientSide = () => {
   });
 
   socketServices.on('Request_To_Start_Order', data => {
-    // console.log("Calllllllllllllll : ",data);
-    setRecipientId(data?.message?.id);
+    console.log("Calllllllllllllll : ",data);
+    setRecipientId(data?.sender);
+setOrderId(data.message.order_id);
     openBottomSheet()
   });
   return (
@@ -297,7 +301,7 @@ const LiveTrackingClientSide = () => {
       </View> */}
 
       <RBSheet
-        ref={(ref) => (refRBSheet.current[0] = ref)}
+        ref={(ref)=>refRBSheet.current = ref}
         height={Screen_Height * 0.35}
         customStyles={{
           wrapper: {

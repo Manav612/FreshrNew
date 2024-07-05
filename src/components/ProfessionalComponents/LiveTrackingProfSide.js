@@ -27,7 +27,7 @@ import { NavigationScreens } from '../../constants/Strings';
 const LiveTrackingProfSide = ({route}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const {orderData} = route.params
+  const {orderData} = route.params;
   // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const mapStyle = [
     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
@@ -140,12 +140,13 @@ const LiveTrackingProfSide = ({route}) => {
 
 
 const onRequestToStartOrder = ()=>{
-  const id = orderData.message.id;
+  const id = orderData.sender;
   socketServices.emit('order_update', {
       recipient:id,
       message: {
         type: 'Request_To_Start_Order',
-        id:id,
+        id:orderData.message.id,
+        order_id:orderData.message.order_id,
       },
     });
 }

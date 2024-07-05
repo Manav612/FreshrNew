@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { NavigationScreens } from '../../../constants/Strings';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { navigationToReset } from '../../../constants/NavigationController';
 
 const ProfessionalPrivacyAndPolicy = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -165,7 +166,7 @@ const ProfessionalPrivacyAndPolicy = () => {
         </Text>
         <Text style={styles.text}>We do not use cookies?</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate(NavigationScreens.ProfessionalConnectStripeScreen)}>
+      <TouchableOpacity style={styles.button} onPress={()=>navigationToReset(navigation,NavigationScreens.ProfessionalConnectStripeScreen)}>
         <Text style={styles.buttonText}>Accept All</Text>
       </TouchableOpacity>
     </View>

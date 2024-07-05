@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NavigationScreens } from '../../constants/Strings';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { useSelector } from 'react-redux';
+import { navigationToReset } from '../../constants/NavigationController';
 
 const OrderProcessingScreenProfSide = ({route}) => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -12,19 +13,21 @@ const OrderProcessingScreenProfSide = ({route}) => {
     const navigation = useNavigation()
 const {data}= route.params;
     const onRequestToEnd = ()=>{
-        const id = data.message.id;
+      console.log("===========   endddddd orderr   hiiii =========");
+        const id = data.sender;
         socketServices.emit('order_update', {
             recipient:id,
             message: {
                 type: 'Request_To_End_Order',
                 id:id,
+                order_id:data.message.order_id,
             },
         });
     }
 
     socketServices.on('Accept_To_End_Order', data => {
         console.log("ACCEPT END ORDER Calllllllllllllll : ",data);
-        navigation.navigate(NavigationScreens.ProfessionalHomeScreen)
+        navigationToReset(navigation,NavigationScreens.ProfessionalBottomTab)
     });
 
     socketServices.on('Unhappy_To_End_Order', data => {

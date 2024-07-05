@@ -18,6 +18,8 @@ import { BASE_API_URL } from '../../../Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
+import { RemoveAuthToken } from '../../../redux/AuthAction';
+import { navigationToReset } from '../../../constants/NavigationController';
 
 const ProfessionalProfile2 = () => {
 
@@ -41,6 +43,7 @@ const ProfessionalProfile2 = () => {
     setApplySelected(!applySelected);
     setResetSelected(false);
     await AsyncStorage.removeItem("AuthToken");
+    dispatch(RemoveAuthToken());
     navigation.navigate(NavigationScreens.ProceedWithoutScreen)
   };
 
@@ -193,10 +196,10 @@ const ProfessionalProfile2 = () => {
                   navigation.navigate(NavigationScreens.PrivacyPolicyScreen);
                   break;
                 case 'Switch to Client':
-                  navigation.navigate(NavigationScreens.HomeTab)
+                  navigationToReset(navigation,NavigationScreens.HomeTab)
                   break;
                 case 'Become to Host':
-                  navigation.navigate(NavigationScreens.FacilityPrivacyAndPolicyScreen)
+                  navigationToReset(navigation,NavigationScreens.FacilityPrivacyAndPolicyScreen)
                   
                   break;
                 default:

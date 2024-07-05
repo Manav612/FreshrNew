@@ -59,7 +59,7 @@ const Home = () => {
       //   location => location.isSelected
       // );
       // console.log("=============  seleAddressss   ================",selectedAddresses);
-      setAddress(res.data.data.user.searchLocations[0].address);
+      setAddress(res.data.data.user?.searchLocations[0]?.address);
 
     } catch (error) {
       console.error("Error:", error);

@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
@@ -15,11 +15,7 @@ const SignIn = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [isEmailFocused, setIsEmailFocused] = useState(false);
-
-    const handleEmailChange = (text) => {
-        setEmail(text);
-    };
-
+  const [loader,setLoader]=useState('')
     const handleEmailFocus = () => {
         setIsEmailFocused(true);
     };
@@ -28,11 +24,18 @@ const SignIn = () => {
         setIsEmailFocused(false);
     };
 
-    const fetchData = async (email) => {
+    const fetchData = async () => {
+        
         try {
+            if(!email){
+                console.log("Enter Email.");
+                return;
+            }
+            setLoader(true)
             // Make a POST request to check the email
-            const res = await axios.post(`${BASE_API_URL}/users/emailcheck`, { email: email });
-            
+            console.log(`${BASE_API_URL}/users/emailcheck`);
+        axios.post(`${BASE_API_URL}/users/emailcheck`, { email }).then((res)=>{
+            setLoader(false)
             // Log the entire response data
             console.log("Response data:", res.status);
 
@@ -42,13 +45,12 @@ const SignIn = () => {
             } else {
                 Alert.alert(res.data.message)
             }
+            })
+           
         } catch (error) {
+            setLoader(false)
             console.error("Error during email check:", error);
         }
-    };
-
-    const handleContinuePress = () => {
-        fetchData(email);
     };
 
     const styles = StyleSheet.create({
@@ -94,15 +96,17 @@ const SignIn = () => {
                         placeholderTextColor={COLOR.GRAY}
                         keyboardType="email-address"
                         value={email}
-                        onChangeText={handleEmailChange}
+                        onChangeText={setEmail}
                         onFocus={handleEmailFocus}
                         onBlur={handleEmailBlur}
                     />
                 </View>
-                
-                <TouchableOpacity onPress={handleContinuePress} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
+                {loader ?
+                <ActivityIndicator size='large' color={'#000'}/>
+                :
+                <TouchableOpacity onPress={fetchData} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
                     <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Continue</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
         </ScrollView >
     );

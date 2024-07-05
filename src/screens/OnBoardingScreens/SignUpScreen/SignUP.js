@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState, useRef } from 'react';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';

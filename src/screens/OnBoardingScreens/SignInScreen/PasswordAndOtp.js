@@ -1,7 +1,7 @@
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationScreens } from '../../../constants/Strings';
 import { StoreAuthToken } from '../../../constants/AsyncStorage';
 import socketServices from '../../../Services/Socket';
+import { SetAuthToken } from '../../../redux/AuthAction';
 const PasswordAndOtp = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -29,7 +30,7 @@ const PasswordAndOtp = ({ route }) => {
     const [timer, setTimer] = useState(0);
     const [sessionId, setSessionId] = useState('');
     const [otpRequested, setOtpRequested] = useState(false);
-
+    const dispatch =useDispatch();
     const handleOtpChange = (newOtp) => {
         setOtp(newOtp);
     };
@@ -91,6 +92,7 @@ const PasswordAndOtp = ({ route }) => {
                 Alert.alert('Sign In  Successfully')
                 // await AsyncStorage.setItem("Auth", res.data.data.sessionId.toString());
                 await StoreAuthToken(res.data.data.token)
+               dispatch(SetAuthToken(res.data.data.token));
                 socketServices.initializeSocket(res.data.data.token);
                 navigation.navigate(NavigationScreens.HomeTab);
 

@@ -37,18 +37,22 @@ const ProfessionalInfo = ({ route }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [ProfData, setProfData] = useState('');
     console.log("============   ProfDetail ======== 6666==========", ProfDetail.stories);
+    const [user, setUser] = useState('');
+    const [address, setAddress] = useState('');
+    const [cords, setCords] = useState([]);
 
     const [stories, setStories] = useState(ProfDetail.stories);
+    const authToken = useSelector(state => state.AuthReducer);
 
-    const [address, setAddress] = useState({
-        address1: '',
-        apartment: '',
-        postcode: '',
-        locality: '',
-        state: '',
-        country: '',
+    // const [address, setAddress] = useState({
+    //     address1: '',
+    //     apartment: '',
+    //     postcode: '',
+    //     locality: '',
+    //     state: '',
+    //     country: '',
 
-    });
+    // });
     const refRBSheet = useRef(null);
     const flatListRef = useRef(null);
 
@@ -72,8 +76,8 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     const handleSaveAddress = () => {
- navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail ,address:address})
-console.log("adasd",address);
+        navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail,locationData:user.searchLocations[0] })
+        
         refRBSheet.current.close();
     };
 
@@ -97,37 +101,29 @@ console.log("adasd",address);
 
     }, [currentPage, stories.length]);
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-
-    // const fetchData = async () => {
-    //     try {
-    //         const token = await AsyncStorage.getItem('AuthToken');
-    //         const config = {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         };
-    //         const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
-    //         // console.log('========    Proff   ==========', res.data.professional);
-    //         setProfData(res?.data?.professional)
-    //         const ProfId = res.data.professional.map((prof) => prof.id);
-    //         // console.log("========  profId   =============", ProfId);
-    //         // setProfID(ProfId)
-    //         const emailList = res.data.professional.map((prof) => prof.user.email);
-    //         // console.log('======     emails hkb     ===========', emailList);
-    //         const Name = res.data.professional.map((prof) => prof.user.firstName);
-    //         // console.log('======     name hkb     ===========', Name);
-    //         // setFetchedProfName(Name);
-    //         const Phone = res.data.professional.map((prof) => prof.user.phone);
-    //         // console.log('======     Phone hkb     ===========', Phone);
-    //         // setFetchedProfPhone(Phone);
-
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     }
-    // };
+    useEffect(() => {
+        getUserInfo()
+      }, [])
+    
+    
+      const getUserInfo = async () => {
+        try {
+            const config = {
+                headers: {
+                  Authorization: `Bearer ${authToken}`,
+                },
+              };
+          const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+          console.log('========  user ID   ==========', res.data.data.user.searchLocations[0])
+          setUser(res.data.data.user);
+          setCords(res.data.data.user.searchLocations[0])
+          setAddress(res.data.data.user?.searchLocations[0]?.address);
+    
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+    
 
     const AllCategory = ({ item, setSelectedItem }) => (
         <TouchableOpacity
@@ -381,7 +377,7 @@ console.log("adasd",address);
 
                     <RBSheet
                         ref={refRBSheet}
-                        height={Screen_Height * 0.9}
+                        height={Screen_Height * 0.4}
                         customStyles={{
                             wrapper: {
                                 backgroundColor: COLOR.BLACK_40,
@@ -409,10 +405,9 @@ console.log("adasd",address);
                         <View
                             style={{
                                 width: Screen_Width,
-                                height: Screen_Height * 0.7,
+                                height: Screen_Height * 0.4,
                                 paddingHorizontal: 15,
                                 backgroundColor: COLOR.WHITE,
-                                justifyContent: 'space-between'
                             }}
                         >
 
@@ -420,108 +415,19 @@ console.log("adasd",address);
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 marginVertical: 15,
+                                marginBottom:30,
                                 justifyContent: 'space-between',
                                 margin: 10
                             }}>
-                                <Text style={{ fontSize: 20, color: COLOR.BLACK }}>Add Address</Text>
+                                <Text style={{ fontSize: 24, color: COLOR.BLACK,fontWeight:'bold' }}>Add Address</Text>
                                 <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity>
                             </View>
 
-                            <ScrollView style={{ margin: 10 }}>
-                                <TextInput
-                                    placeholder="Address"
-                                    placeholderTextColor={COLOR.GRAY}
-                                    value={address.address1}
-                                    onChangeText={(text) => setAddress({ ...address, address1: text })}
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: COLOR.GRAY,
-                                        borderRadius: 5,
-                                        padding: 10,
-                                        marginBottom: 10,
-                                        color: COLOR.BLACK,
-                                        backgroundColor: COLOR.WHITE,
-                                    }}
-                                />
-                                <TextInput
-                                    placeholder="Apartment"
-                                    placeholderTextColor={COLOR.GRAY}
-                                    value={address.apartment}
-                                    onChangeText={(text) => setAddress({ ...address, apartment: text })}
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: COLOR.BLACK,
-                                        borderRadius: 5,
-                                        padding: 10,
-                                        marginBottom: 10,
-                                        color: COLOR.BLACK,
-                                        backgroundColor: COLOR.WHITE,
-                                    }}
-                                />
-                                <TextInput
-                                    placeholder="PostCode"
-                                    placeholderTextColor={COLOR.GRAY}
-                                    value={address.postcode}
-                                    onChangeText={(text) => setAddress({ ...address, postcode: text })}
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: COLOR.GRAY,
-                                        borderRadius: 5,
-                                        padding: 10,
-                                        marginBottom: 10,
-                                        color: COLOR.BLACK,
-                                        backgroundColor: COLOR.WHITE,
-                                    }}
-                                />
-                                <TextInput
-                                    placeholder="Locality"
-                                    placeholderTextColor={COLOR.GRAY}
-                                    value={address.locality}
-                                    onChangeText={(text) => setAddress({ ...address, locality: text })}
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: COLOR.GRAY,
-                                        borderRadius: 5,
-                                        padding: 10,
-                                        marginBottom: 10,
-                                        color: COLOR.BLACK,
-                                        backgroundColor: COLOR.WHITE,
-                                    }}
-
-                                />
-                                <TextInput
-                                    placeholder="State"
-                                    placeholderTextColor={COLOR.GRAY}
-                                    value={address.state}
-                                    onChangeText={(text) => setAddress({ ...address, state: text })}
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: COLOR.GRAY,
-                                        borderRadius: 5,
-                                        padding: 10,
-                                        marginBottom: 10,
-                                        color: COLOR.BLACK,
-                                        backgroundColor: COLOR.WHITE,
-                                    }}
-
-                                />
-                                <TextInput
-                                    placeholder="Country"
-                                    placeholderTextColor={COLOR.GRAY}
-                                    value={address.country}
-                                    onChangeText={(text) => setAddress({ ...address, country: text })}
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: COLOR.GRAY,
-                                        borderRadius: 5,
-                                        padding: 10,
-                                        marginBottom: 10,
-                                        color: COLOR.BLACK,
-                                        backgroundColor: COLOR.WHITE,
-                                    }}
-
-                                />
-                            </ScrollView>
+                            
+                            <View style={{justifyContent:'center'}}>
+                                <Text style={{fontSize:18, color: COLOR.BLACK,fontWeight:'bold' }} numberOfLines={3}>Current Address :</Text>
+                                <Text style={{fontSize: 16, color: COLOR.BLACK }} numberOfLines={3}>{address}</Text>
+                            </View>
                             <TouchableOpacity
                                 style={{
                                     width: Screen_Width * 0.90,
@@ -532,12 +438,29 @@ console.log("adasd",address);
                                     alignSelf: 'center',
                                     marginVertical: 20
                                 }}
-                                onPress={()=>handleSaveAddress(address)}
+                                onPress={() => handleSaveAddress(address)}
                             >
                                 <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
-                                    Book Delivery
+                                    Continue
                                 </Text>
                             </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    width: Screen_Width * 0.90,
+                                    height: Screen_Height * 0.05,
+                                    backgroundColor: COLOR.ORANGECOLOR,
+                                    justifyContent: 'center',
+                                    borderRadius: 35,
+                                    alignSelf: 'center',
+                                    marginVertical: 20
+                                }}
+                                onPress={() => {navigation.navigate(NavigationScreens.AddAddressScreen),closeBottomSheet()}}
+                            >
+                                <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
+                                    Change Address
+                                </Text>
+                            </TouchableOpacity>
+                            
                         </View>
                     </RBSheet>
                     <View style={{ height: 90 }} />
@@ -559,7 +482,7 @@ console.log("adasd",address);
                         alignItems: 'center',
                         gap: 20
                     }}
-                    onPress={() => navigation.navigate(NavigationScreens.ReserveNowServicesScreen, { SelectedProf: ProfDetail ,address:address})}
+                    onPress={() => navigation.navigate(NavigationScreens.ReserveNowServicesScreen, { SelectedProf: ProfDetail, address: address })}
                 >
                     <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
                         Reserve Now

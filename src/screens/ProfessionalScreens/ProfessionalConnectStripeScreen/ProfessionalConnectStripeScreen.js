@@ -13,6 +13,7 @@ import { ConnectStripeIcon, barber } from '../../../constants/Icons';
 import { NavigationScreens } from '../../../constants/Strings';
 import { screenWidth } from 'react-native-gifted-charts/src/utils';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { navigationToReset } from '../../../constants/NavigationController';
 
 const ProfessionalConnectStripeScreen = () => {
 
@@ -81,7 +82,7 @@ const ProfessionalConnectStripeScreen = () => {
     <FastImage source={ConnectStripeIcon} style={{width:Screen_Width*0.8,height:Screen_Height*0.4}} />
     <Text style={{color:COLOR.BLACK,fontSize:18,fontWeight:'700',textAlign:'center',width:Screen_Width*0.9}}>Connect to Stripe for seamless and secure payouts. Payouts are received every week.</Text>
   </View>
-    <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate(NavigationScreens.ProfessionalBottomTab)}>
+    <TouchableOpacity style={styles.button} onPress={()=>navigationToReset(navigation,NavigationScreens.ProfessionalBottomTab)}>
    <Text style={styles.buttonText}>Connect to stripe</Text>
 </TouchableOpacity>
 </>
