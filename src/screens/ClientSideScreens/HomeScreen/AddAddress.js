@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, TextInput, TouchableOpacity, FlatList, ScrollView, Platform, PermissionsAndroid } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, TextInput, TouchableOpacity, FlatList, ScrollView, Platform, PermissionsAndroid, Alert } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -18,6 +18,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
+import Geolocation from 'react-native-geolocation-service';
 
 const AddAddress = () => {
   const [apartment, setApartment] = useState('');
@@ -28,6 +29,7 @@ const AddAddress = () => {
   const { width, height } = Dimensions.get("window");
   const ASPECT_RATIO = width / height;
   const [radius, setRadius] = useState(1);
+  const [AddressData, setAddressData] = useState([]);
   const [region, setRegion] = useState(initialRegion);
   const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
   const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
@@ -38,6 +40,7 @@ const AddAddress = () => {
     longitudeDelta: LONGITUDE_DELTA * Number(1 / 15),
   };
   const dispatch = useDispatch()
+  const [coordinates, setCoordinates] = useState('');
   const _map = useRef(null);
   s = {
     region: {
@@ -86,23 +89,27 @@ const AddAddress = () => {
   const handleUserLocation = () => {
     Geolocation.getCurrentPosition(
       (pos) => {
+        setCoordinates({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
 
-        rSetState({
-          region: {
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-            latitudeDelta: 0.04,
-            longitudeDelta: 0.04,
-          }
-        })
-        _map.current?.animateToRegion(
-          {
-            latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
-            longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
-            latitude: details.geometry.location.lat,
-            longitude: details.geometry.location.lng,
-          },
-        );
+        // rSetState({
+        //   region: {
+        //     latitude: pos.coords.latitude,
+        //     longitude: pos.coords.longitude,
+        //     latitudeDelta: 0.04,
+        //     longitudeDelta: 0.04,
+        //   }
+        // })
+        // _map.current?.animateToRegion(
+        //   {
+        //     latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
+        //     longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
+        //     latitude: details.geometry.location.lat,
+        //     longitude: details.geometry.location.lng,
+        //   },
+        // );
       },
       (error) => {
         // See error code charts below.
@@ -114,6 +121,7 @@ const AddAddress = () => {
 
   useEffect(() => {
     requestLocationPermission();
+    fetchAddress()
   }, []);
 
   const getAddressFromCoordinates = async (latitude, longitude) => {
@@ -179,105 +187,139 @@ const AddAddress = () => {
     <View style={{ marginBottom: 10 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginVertical: 5 }}>
-          <Text>{item.icon}</Text>
-          <Text style={{ color: COLOR.GRAY, fontSize: 16, fontWeight: '900' }}>{item.title}</Text>
-          <Text style={{ color: COLOR.GRAY, fontSize: 16 }}>{item.distance}</Text>
+          {/* <Text>{item.icon}</Text> */}
+          <Text style={{ color: COLOR.GRAY, fontSize: 16, fontWeight: '900' }}>{item.name}</Text>
+          {/* <Text style={{ color: COLOR.GRAY, fontSize: 16 }}>{item.distance}</Text> */}
         </View>
         <TouchableOpacity onPress={() => openBottomSheet(item)}>
-          <Text>{item.icon2}</Text>
+        <Entypo name="dots-three-vertical" size={20} color={COLOR.BLACK} />
         </TouchableOpacity>
       </View>
-      <Text style={{ fontSize: 14 }}>{item.text}</Text>
+      <Text style={{ fontSize: 14 }}>{item.address}</Text>
     </View>
   );
 
-
-  const onSaveAddress = () => {
+  const fetchAddress = async () => {
     try {
-
-      Geocoder.from(rState.region.latitude, rState.region.longitude)
-        .then(json => {
-          var addressComponent = json;
-          console.log(json.results[0]?.formatted_address);
-          dispatch("sssssssss",SetAddress((apartment ? `${apartment},` : '') + json.results[0]?.formatted_address));
-        })
-        .catch(error => console.warn(error));
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const res = await axios.get(`${BASE_API_URL}/users/address`, config);
+      console.log('=====================.........', res.data.data.searchLocations)
+      setAddressData(res.data.data.searchLocations);
     } catch (error) {
-      console.log('Error retrieving address:', error);
+      console.error("Error:", error);
     }
+  };
+
+  const deleteAddressData = async (id) => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+    
+      console.log('===============   id ==============', id);
+      const res = await axios.delete(`${BASE_API_URL}/users/address`,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        data: {
+          id
+        }
+      }, );
+      console.log("=======   ressss == ========", res.data);
+      if(res.data.status == 'success'){
+        refRBSheet.current?.close()
+        Alert.alert('Address deleted successfully ')
+        fetchAddress()
+      }else{
+        Alert.alert('Something went wrong')
+      }
+     
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleEdit =(selectedItem)=>{
+     navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen,{editData:selectedItem}),
+       refRBSheet.current?.close()
+       
   }
+
   return (
     <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
       <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
         <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Enter your area or apartment name</Text>
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Select Service Location</Text>
       </View>
       {/* <View style={{ justifyContent: 'center', alignItems: 'center', zIndex: 10, height: Screen_Height * 0.4 }}> */}
-        <GooglePlacesAutocomplete
-          placeholder='Enter Location'
-          minLength={2}
-          styles={{
-            textInput: {
-              height: 50,
-              marginHorizontal:2,
-              backgroundColor: COLOR.WHITE,
-              borderRadius: 15,
-              elevation: 5,
-              shadowColor: COLOR.BLACK,
-              marginVertical: 10,
-              color: COLOR.BLACK
-            },
-            container: {
-              
-            },
-            predefinedPlacesDescription: {
-              color: COLOR.BLACK,
-            },
-            description: {
-              color: COLOR.BLACK,
-            },
-            row: {
-              backgroundColor: COLOR.DarkBackground,
-            },
-            separator: {
-              backgroundColor: COLOR.GRAY,
-              height: 1,
-            },
-          }}
-          onPress={(data, details) => {
-            setRegion({
-              latitude: details.geometry.location.lat,
-              longitude: details.geometry.location.lng,
-              latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
-              longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
-            });
-            console.log("=-=-=-=", data);
-            _map.current?.animateToRegion(
-              {
-                latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
-                longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
-                latitude: details.geometry.location.lat,
-                longitude: details.geometry.location.lng,
-              },
-            );
-          }}
-          autoFocus={false}
-          listViewDisplayed={false}
-          keepResultsAfterBlur={false}
-          returnKeyType={"default"}
-          fetchDetails={true}
-          GooglePlacesDetailsQuery={{
-            rankby: "distance",
-          }}
-          query={{
-            key: "AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU",
-            language: "en",
-            radius: 30000,
-            location: `${region?.latitude}, ${region?.longitude}`,
-          }}
-        />
+      <GooglePlacesAutocomplete
+        placeholder='Enter Location'
+        minLength={2}
+        styles={{
+          textInput: {
+            height: 50,
+            marginHorizontal: 2,
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 15,
+            elevation: 5,
+            shadowColor: COLOR.BLACK,
+            marginVertical: 10,
+            color: COLOR.BLACK
+          },
+          container: {
+
+          },
+          predefinedPlacesDescription: {
+            color: COLOR.BLACK,
+          },
+          description: {
+            color: COLOR.BLACK,
+          },
+          row: {
+            backgroundColor: COLOR.DarkBackground,
+          },
+          separator: {
+            backgroundColor: COLOR.GRAY,
+            height: 1,
+          },
+          poweredContainer:{display:'none'}
+        }}
+        onPress={(data, details) => {
+          const coordinates = {
+            lat: details.geometry.location.lat,
+            lng: details.geometry.location.lng,
+          };
+          navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen, { coordinates,isNew:true, });
+          // _map.current?.animateToRegion(
+          //   {
+          //     latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
+          //     longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
+          //     latitude: details.geometry.location.lat,
+          //     longitude: details.geometry.location.lng,
+          //   },
+          // );
+        }}
+        autoFocus={false}
+        listViewDisplayed={false}
+        keepResultsAfterBlur={true}
+        returnKeyType={"default"}
+        fetchDetails={true}
+        disableScroll
+        GooglePlacesDetailsQuery={{
+          rankby: "distance",
+        }}
+        query={{
+          key: "AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU",
+          language: "en",
+          radius: 30000,
+          location: `${region?.latitude}, ${region?.longitude}`,
+        }}
+      />
       {/* </View> */}
-      <TouchableOpacity  onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, justifyContent: 'space-between' }}>
+      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen, { coordinates,isNew:true })} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Entypo name="direction" size={25} color={COLOR.ORANGECOLOR} />
           <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.ORANGECOLOR }}>Use my current location</Text>
@@ -285,20 +327,20 @@ const AddAddress = () => {
         <AntDesign name="right" size={20} color={COLOR.GRAY} />
       </TouchableOpacity>
       <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 5, }} />
-      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, gap: 10 }}>
+      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen,{isNew:true})} style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, gap: 10 }}>
         <AntDesign name="plus" size={25} color={COLOR.ORANGECOLOR} />
         <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.ORANGECOLOR }}>Add new Address</Text>
       </TouchableOpacity>
       <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 5 }} />
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ fontSize: 16, color: COLOR.GRAY }}>SAVED ADDRESSES</Text>
+        <Text style={{ fontSize: 16, color: COLOR.BLACK,fontWeight:'bold' }}>SAVED ADDRESSES</Text>
         <FlatList
-          data={data5}
+          data={AddressData}
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.id}
           scrollEnabled={false}
           renderItem={renderItem}
-          style={{flex:1}}
+          style={{ flex: 1 }}
         />
       </View>
 
@@ -335,16 +377,16 @@ const AddAddress = () => {
 
             {selectedItem && (
               <View style={{ paddingHorizontal: 10 }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>{selectedItem.title} | <Text style={{ fontSize: 16, color: COLOR.BLACK_70 }}>{selectedItem.text}</Text></Text>
-                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen,refRBSheet.current?.close())} style={{backgroundColor:COLOR.WHITE,elevation:3,height:50,borderRadius:10,marginVertical:5,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>{selectedItem.name} | <Text style={{ fontSize: 16, color: COLOR.BLACK_70 }}>{selectedItem.address}</Text></Text>
+                <TouchableOpacity onPress={()=>handleEdit(selectedItem)} style={{ backgroundColor: COLOR.WHITE, elevation: 3, height: 50, borderRadius: 10, marginTop: 15, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 5 }}>
                   <Feather name="edit" size={24} color={COLOR.BLACK} />
                   <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Edit</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{backgroundColor:COLOR.WHITE,elevation:3,height:50,borderRadius:10,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
+                {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SelectDeliveryLocationScreen)} style={{ backgroundColor: COLOR.WHITE, elevation: 3, height: 50, borderRadius: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 5 }}>
                   <FontAwesome name="share-alt" size={24} color={COLOR.BLACK} />
                   <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Share</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{height:50,marginVertical:10,alignItems:'center',flexDirection:'row',justifyContent:'center',gap:5}}>
+                </TouchableOpacity> */}
+                <TouchableOpacity onPress={()=>deleteAddressData(selectedItem.id)} style={{ height: 50, marginVertical: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 5 }}>
                   <AntDesign name="delete" size={24} color={COLOR.CANCEL_B} />
                   <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.CANCEL_B }}>Delete</Text>
                 </TouchableOpacity>

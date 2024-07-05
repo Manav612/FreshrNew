@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  Platform,
+  Modal,
 } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import MapView, { Marker } from 'react-native-maps';
@@ -20,15 +22,32 @@ import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import Geocoder from 'react-native-geocoding';
 import { SetAddress } from '../../../redux/AddressAction';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-const SelectDeliveryLocation = () => {
+const SelectDeliveryLocation = ({ route }) => {
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const [modalVisible, setModalVisible] = useState(false);
+  const editData = route.params?.editData;
+
+  const coordinates = route?.params?.coordinates;
+  const isNew = route?.params?.isNew;
+  const { width, height } = Dimensions.get("window");
+  const ASPECT_RATIO = width / height;
+  const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
+  const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+  const initialRegion = {
+    latitude: editData ? editData.coordinates[0] : coordinates ? coordinates.lat : 37.78825,
+    longitude: editData ? editData.coordinates[1] : coordinates ? coordinates.lng : -122.4324,
+    latitudeDelta: LATITUDE_DELTA * Number(1 / 15),
+    longitudeDelta: LONGITUDE_DELTA * Number(1 / 15),
+  };
+  const [region, setRegion] = useState(initialRegion);
   const [position, setPosition] = useState();
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [address, setAddress] = useState();
+
   const mapStyle = [
     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
     { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
@@ -109,16 +128,18 @@ const SelectDeliveryLocation = () => {
     },
   ];
 
-  const { width, height } = Dimensions.get("window");
-  const ASPECT_RATIO = width / height;
   const mapRef = useRef();
-  const formattedAddress = useSelector(state => state.AddressReducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-  
-    checkLocationPermission();
-  }, []);
+  useEffect(() => { getAddressFromCoordinates(region.latitude, region.longitude) }, [region])
+
+  const onValueChanged = (region) => {
+    setRegion(region);
+    getAddressFromCoordinates(
+      parseFloat(JSON.stringify(region.latitude)),
+      parseFloat(JSON.stringify(region.longitude))
+    )
+  }
 
   const checkLocationPermission = async () => {
     const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
@@ -135,6 +156,19 @@ const SelectDeliveryLocation = () => {
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
+        mapRef.current?.animateToRegion(
+          {
+            ...region,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          },
+        );
+        setRegion({
+          ...region,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        })
+
         getAddressFromCoordinates(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
@@ -149,7 +183,8 @@ const SelectDeliveryLocation = () => {
         .then(json => {
           var addressComponent = json;
           console.log("manavavvvvvvvvvv", json.results[0]?.formatted_address);
-          dispatch(SetAddress(json.results[0]?.formatted_address));
+          setAddress(json.results[0]?.formatted_address);
+          // dispatch(SetAddress(json.results[0]?.formatted_address));
         })
         .catch(error => console.warn(error));
     } catch (error) {
@@ -193,61 +228,100 @@ const SelectDeliveryLocation = () => {
         style={{
           alignSelf: 'center',
           position: 'absolute',
-          top: Screen_Height * 0.14,
-          height: Screen_Height * 0.1,
-          width: Screen_Width * 0.99,
+          top: Screen_Height * 0.1,
+          // height: Screen_Height * 0.1,
+          width: Screen_Width * 0.9,
           zIndex: 1,
         }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            backgroundColor: COLOR.WHITE,
-            borderRadius: 10,
-            paddingHorizontal: 15,
-            marginHorizontal: 10,
-            height: 40,
-          }}>
-          <Text
-            style={{
-              fontSize: 16,
-              color: COLOR.GRAY,
-            }}>
-            Search for a building, street name, or area
-          </Text>
-          <MaterialIcons name="search" size={24} color={COLOR.GRAY} />
-        </TouchableOpacity>
+        <GooglePlacesAutocomplete
+          placeholder='Enter Location to Search address'
+          minLength={2}
+          styles={{
+            textInput: {
+              height: 50,
+              backgroundColor: COLOR.WHITE,
+              borderRadius: 15,
+              elevation: 5,
+              shadowColor: COLOR.BLACK,
+              marginVertical: 10,
+              color: COLOR.BLACK
+            },
+            listView: {
+              // position:'absolute',
+              backgroundColor: COLOR.AuthField,
+              borderRadius: 15,
+            },
+            predefinedPlacesDescription: {
+              color: COLOR.BLACK,
+            },
+            description: {
+              color: COLOR.BLACK,
+            },
+            row: {
+              backgroundColor: COLOR.DarkBackground,
+            },
+            separator: {
+              backgroundColor: COLOR.GRAY,
+              height: 1,
+            },
+            poweredContainer: { display: 'none' }
+          }}
+          onPress={(data, details) => {
+            setRegion({
+              ...region,
+              latitude: details.geometry.location.lat,
+              longitude: details.geometry.location.lng,
+            })
+            mapRef.current?.animateToRegion(
+              {
+                ...region,
+                latitude: details.geometry.location.lat,
+                longitude: details.geometry.location.lng,
+              },
+            );
+          }}
+          autoFocus={false}
+          listViewDisplayed={false}
+          keepResultsAfterBlur={false}
+          returnKeyType={"default"}
+          fetchDetails={true}
+          disableScroll
+          GooglePlacesDetailsQuery={{
+            rankby: "distance",
+          }}
+          query={{
+            key: "AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU",
+            language: "en",
+            radius: 30000,
+            location: `${region?.latitude}, ${region?.longitude}`,
+          }}
+        />
       </View>
 
       <View style={styles.container}>
         <MapView
+          ref={mapRef}
           style={styles.mapStyle}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
+          initialRegion={initialRegion}
           showsUserLocation={true}
-          showsMyLocationButton={true}
+          showsMyLocationButton={false}
           followsUserLocation={true}
           scrollEnabled={true}
           zoomEnabled={true}
           pitchEnabled={true}
           rotateEnabled={true}
           customMapStyle={mapStyle}
-        > 
-        {/* <Marker
-          coordinate={{
-            latitude: data.location.coordinates[0],
-            longitude: data.location.coordinates[1],
-          }}
-          title={'Test Marker'}
-          description={'This is a description of the marker'}
-          key={i}
-        ></Marker> */}
+          onRegionChangeComplete={onValueChanged}
+        >
+          <Marker
+            coordinate={{
+              latitude: region.latitude,
+              longitude: region.longitude,
+            }}
+            title={'Test Marker'}
+            description={'This is a description of the marker'}
+          // key={i}
+          ></Marker>
         </MapView>
       </View>
 
@@ -266,7 +340,9 @@ const SelectDeliveryLocation = () => {
             borderRadius: 10,
             paddingVertical: 8,
             paddingHorizontal: 12,
-          }}>
+          }}
+          onPress={checkLocationPermission}
+        >
           <View style={{ marginRight: 8 }}>
             <MaterialIcons
               name="my-location"
@@ -298,12 +374,12 @@ const SelectDeliveryLocation = () => {
             size={24}
             color={COLOR.ORANGECOLOR}
           />
-          <Text style={{ color: COLOR.BLACK, fontSize: 16,flex:1 }} numberOfLines={3}>
-                {formattedAddress}
-              </Text>
+          <Text style={{ color: COLOR.BLACK, fontSize: 16, flex: 1 }} numberOfLines={3}>
+            {address}
+          </Text>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate(NavigationScreens.SearchLocationScreen)}
+          onPress={() => navigation.goBack()}
           style={{
             backgroundColor: COLOR.AuthField,
             padding: 5,
@@ -316,7 +392,7 @@ const SelectDeliveryLocation = () => {
       </View>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate(NavigationScreens.ConformLocationScreen,{CurrentAddress:formattedAddress})}
+        onPress={() => navigation.navigate(NavigationScreens.ConformLocationScreen, { CurrentAddress: address, coordinates: region, editName:editData ? editData.name : '' ,id:editData ? editData.id : editData ? editData.id:'' })} 
         style={{
           justifyContent: 'center',
           borderRadius: 10,
@@ -328,6 +404,8 @@ const SelectDeliveryLocation = () => {
         }}>
         <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>CONFIRM LOCATION</Text>
       </TouchableOpacity>
+
+
     </View>
   );
 };

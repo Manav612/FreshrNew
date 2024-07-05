@@ -26,7 +26,7 @@ const Home = () => {
 
   const navigation = useNavigation();
   const [user, setUser] = useState('');
-  const [apartment, setApartment] = useState('');
+  const [address, setAddress] = useState('');
   
   const [refreshing, setRefreshing] = useState(false);
   const [fetchedData, setFetchedData] = useState('');
@@ -35,12 +35,7 @@ const Home = () => {
     const mapRef = useRef();
     const formattedAddress = useSelector(state=>state.AddressReducer);
     const dispatch = useDispatch();
-  // const [address, setAddress] = useState({
-  //   Address: '',
-  //   city: '',
-  //   state: '',
-  //   Nearbylandmark: ''
-  // });
+ 
  
   useEffect(() => {
     getUserInfo()
@@ -56,8 +51,16 @@ const Home = () => {
         }
       };
       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-      console.log('========  user ID   ==========', res.data.data.user)
+      console.log('========  user ID   ==========', res.data.data.user.searchLocations[0].address)
       setUser(res.data.data.user);
+      
+      // Filter the addresses to include only those with isSelected: true
+      // const selectedAddresses = res.data.data.user.searchLocations.filter(
+      //   location => location.isSelected
+      // );
+      // console.log("=============  seleAddressss   ================",selectedAddresses);
+      setAddress(res.data.data.user.searchLocations[0].address);
+
     } catch (error) {
       console.error("Error:", error);
     }
@@ -92,13 +95,7 @@ const Home = () => {
 
   const fullName = `${user?.firstName} ${user?.lastName}`.trim();
   const displayName = fullName.length > 15 ? `${fullName.slice(0, 15)}...` : fullName;
-  // const formatAddress = (address) => {
-  //   const fullAddress = `${address.Address}, ${address.city}, ${address.state}, ${address.Nearbylandmark}`;
-  //   if (fullAddress.length > 15) {
-  //     return `${fullAddress.substring(0, 15)}...`;
-  //   }
-  //   return fullAddress;
-  // };
+ 
   useEffect(() => {
     fetchData();
     checkLocationPermission();
@@ -133,7 +130,7 @@ const Home = () => {
       Geocoder.from(latitude, longitude)
         .then(json => {
           var addressComponent = json;
-          console.log("sssssss",json.results[0]?.formatted_address);
+          console.log(json.results[0]?.formatted_address);
           dispatch(SetAddress(json.results[0]?.formatted_address));
         })
         .catch(error => console.warn(error));
@@ -171,7 +168,7 @@ const Home = () => {
             <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row', alignItems: 'center',  height: 38,flex:1 }}>
               <Entypo name="location-pin" size={15} color={COLOR.BLACK} />
               <Text style={{ color: COLOR.BLACK, fontSize: 16,flex:1 }} numberOfLines={1}>
-                {formattedAddress}
+              {address}
               </Text>
             </TouchableOpacity>
           </View>
