@@ -159,8 +159,8 @@ const OurServices = ({route}) => {
       };
 
       const data = {
-        address:locationData,
-        professionalTravelDistance: '30',
+        // address:locationData,
+        // professionalTravelDistance: '30',
       };
       console.log('==============    address    ===    ===========',locationData);
       const serviceIds = selected.map(service => service.id).join(',');

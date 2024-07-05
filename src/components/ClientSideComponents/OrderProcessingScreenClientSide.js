@@ -14,15 +14,15 @@ import { BASE_API_URL } from '../../Services';
 const OrderProcessingScreenClientSide = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const [accept, setAccept] = useState('');  
+  const [accept, setAccept] = useState('');
   const [orderId, setOrderId] = useState('');
 
   const [applySelected, setApplySelected] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [GetOneOrder,setGetOneOrder]=useState('')
+  const [GetOneOrder, setGetOneOrder] = useState('')
   const [rating, setRating] = useState(4);
   const navigation = useNavigation()
-  const authToken = useSelector(state=>state.AuthReducer);
+  const authToken = useSelector(state => state.AuthReducer);
   const [name, setName] = useState('');
   const handleNameChange = (text) => {
     setName(text);
@@ -30,11 +30,11 @@ const OrderProcessingScreenClientSide = () => {
 
   socketServices.on('Request_To_End_Order', data => {
     console.log("END ORDER Calllllllllllllll: ", data);
-    
+
     setAccept(data.sender);
-    
-setOrderId(data.message.order_id);
-getOneOrder(data.message.order_id);
+
+    setOrderId(data.message.order_id);
+    getOneOrder(data.message.order_id);
   });
 
   const onAcceptRequestEnd = () => {
@@ -47,7 +47,7 @@ getOneOrder(data.message.order_id);
       message: {
         type: 'Accept_To_End_Order',
         id: accept,
-        order_id :orderId,
+        order_id: orderId,
       },
     });
   }
@@ -59,7 +59,7 @@ getOneOrder(data.message.order_id);
       message: {
         type: 'Unhappy_To_End_Order',
         id: accept,
-        order_id :orderId,
+        order_id: orderId,
       },
     });
   }
@@ -75,13 +75,13 @@ getOneOrder(data.message.order_id);
           Authorization: `Bearer ${authToken}`,
         },
       };
-        const res = await axios.get(`${BASE_API_URL}/orders/${id}`, config);
-        console.log('===========  our orderrrrr  ==========', res.data.data)
-        setGetOneOrder(res.data.data);
+      const res = await axios.get(`${BASE_API_URL}/orders/${id}`, config);
+      console.log('===========  our orderrrrr  ==========', res.data.data)
+      setGetOneOrder(res.data.data);
     } catch (error) {
-        console.error("Error:", error);
+      console.error("Error:", error);
     }
-};
+  };
 
   const ReviewData = async () => {
     try {
@@ -94,12 +94,12 @@ getOneOrder(data.message.order_id);
 
       let data = {};
 
-      data['professional'] = GetOneOrder.professional;   
-      data['service'] = GetOneOrder.services;    
+      data['professional'] = GetOneOrder.professional;
+      data['service'] = GetOneOrder.services;
       data['facility'] = GetOneOrder.facility || null;
       data['description'] = name;
       data['rating'] = rating;
-      data['reviewType'] = 'client';     
+      data['reviewType'] = 'client';
 
       const res = await axios.post(
         `${BASE_API_URL}/review/`,
@@ -274,7 +274,7 @@ getOneOrder(data.message.order_id);
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => {setModalVisible(false), navigation.navigate(NavigationScreens.HomeScreen)}}
+              onPress={() => { setModalVisible(false), navigation.navigate(NavigationScreens.HomeScreen) }}
             >
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
