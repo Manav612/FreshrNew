@@ -5,11 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import { NavigationScreens } from '../../constants/Strings';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { useSelector } from 'react-redux';
-import { Screen_Width } from '../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import { BASE_API_URL } from '../../Services';
+import FastImage from 'react-native-fast-image';
+import { Loader } from '../../constants/Icons';
 
 const OrderProcessingScreenClientSide = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -209,33 +211,26 @@ const OrderProcessingScreenClientSide = () => {
   });
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Order is Processing</Text>
-
-      <Text>loading.......</Text>
-      {accept && (
-        <>
-          <TouchableOpacity onPress={onAcceptRequestEnd}>
-            <Text>Accept request to end order</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onUnhappyPress}>
-            <Text>unhappy</Text>
-          </TouchableOpacity>
-          <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-
-            <View style={{ width: Screen_Width * 0.91, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-
-              <TouchableOpacity onPress={onAcceptRequestEnd} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Accept request to end order</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={onUnhappyPress} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>unhappy</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+    <View style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ height: Screen_Height * 0.5, width: Screen_Width * 0.8, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, shadowColor: COLOR.BLACK_70, elevation: 2, borderRadius: 15 }}>
+        <Text style={{ fontSize: 24, color: COLOR.BLACK, fontWeight: "800",marginVertical:15}}>Order is Processing</Text>
+        <FastImage
+          style={{ width: 50, height: 50,marginVertical:15}}
+          source={Loader}
+          resizeMode={FastImage.resizeMode.contain}
+        />
+         {accept && (
+           <>
+        <TouchableOpacity onPress={onAcceptRequestEnd} style={{ backgroundColor: COLOR.ChartBlue, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
+          <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Accept request to end order</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onUnhappyPress} style={{ backgroundColor: COLOR.ORANGECOLOR, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Unhappy</Text>
+        </TouchableOpacity>
         </>
-      )
-      }
+         )}
+      </View>
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -263,7 +258,7 @@ const OrderProcessingScreenClientSide = () => {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
-                placeholder="Right Review"
+                placeholder="Write review"
                 placeholderTextColor={COLOR.GRAY}
                 value={name}
                 onChangeText={handleNameChange}

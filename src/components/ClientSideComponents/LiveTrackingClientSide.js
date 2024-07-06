@@ -302,7 +302,7 @@ setOrderId(data.message.order_id);
 
       <RBSheet
         ref={(ref)=>refRBSheet.current = ref}
-        height={Screen_Height * 0.35}
+        height={Screen_Height * 0.28}
         customStyles={{
           wrapper: {
             backgroundColor: COLOR.BLACK_40,
@@ -327,16 +327,15 @@ setOrderId(data.message.order_id);
           enabled: false,
         }}>
         <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-
-          <View style={{ width: Screen_Width * 0.91, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-
-            <TouchableOpacity onPress={handleAccept} style={{ backgroundColor: resetSelected ? COLOR.ORANGECOLOR : COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 15, fontWeight: '700', color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Accept request</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleNeedMoreTime} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Need More time</Text>
-            </TouchableOpacity>
+          <View style={{ width: Screen_Width * 0.91,alignItems:'center', justifyContent:'center', marginVertical: 10 }}>
+           <Text style={{color:COLOR.BLACK,fontSize:24,fontWeight:'bold'}}>Start Order</Text>
           </View>
+            <TouchableOpacity onPress={handleAccept} style={{ backgroundColor:COLOR.ChartBlue, height: 50, borderRadius: 30,alignItems: 'center', justifyContent: 'center',marginVertical:15}}>
+              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Accept request</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleNeedMoreTime} style={{ backgroundColor:COLOR.ORANGECOLOR, height: 50, borderRadius: 30,alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Need More time</Text>
+            </TouchableOpacity>
         </View>
       </RBSheet>
 
