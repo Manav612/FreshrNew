@@ -13,6 +13,7 @@ import { Screen_Height, Screen_Width } from '../../constants/Constants';
 const OrderProcessingScreenProfSide = ({route}) => {
     const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const {data}= route.params
     const navigation = useNavigation()
     const onRequestToEnd = ()=>{
       console.log("===========   endddddd orderr   hiiii =========");
@@ -45,7 +46,7 @@ const OrderProcessingScreenProfSide = ({route}) => {
     source={Loader}
     resizeMode={FastImage.resizeMode.contain}
   />
-  <TouchableOpacity style={{ backgroundColor: COLOR.ChartBlue, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
+  <TouchableOpacity onPress={onRequestToEnd} style={{ backgroundColor: COLOR.ChartBlue, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
     <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Request to end order</Text>
   </TouchableOpacity>
 </View>

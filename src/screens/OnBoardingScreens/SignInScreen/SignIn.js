@@ -150,7 +150,7 @@ const SignIn = () => {
             const response = await axios.post(
                 `${BASE_API_URL}/users/emailcheck`,
                 { email },
-                { timeout: 90000 } // 10 second timeout
+                { timeout: 1000 } // 10 second timeout
             );
 
             if (response.data.status === "success") {
