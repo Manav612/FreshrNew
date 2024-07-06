@@ -47,7 +47,7 @@ const OrderProcessingScreenProfSide = ({route}) => {
     resizeMode={FastImage.resizeMode.contain}
   />
   <TouchableOpacity onPress={onRequestToEnd} style={{ backgroundColor: COLOR.ChartBlue, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
-    <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Request to end order</Text>
+    <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Request order completion</Text>
   </TouchableOpacity>
 </View>
 </View>

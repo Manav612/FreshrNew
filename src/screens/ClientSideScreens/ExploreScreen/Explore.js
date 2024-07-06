@@ -273,11 +273,11 @@ const Explore = () => {
   );
   const styles = StyleSheet.create({
     container: {
-      height:Screen_Height*0.62
+      height:Screen_Height*0.7
 
     },
     mapStyle: {
-       height:Screen_Height*0.62
+       height:Screen_Height*0.7
     },
     CategoryContainer: {
       borderWidth: 2,
@@ -341,7 +341,7 @@ const Explore = () => {
         </View>
       </View>
 
-      <View style={{  borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE,marginBottom:10 }}>
+      {/* <View style={{  borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE,marginBottom:10 }}>
         <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.9,marginHorizontal:10, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
             <AntDesign name="search1" size={30} color={COLOR.GRAY} />
@@ -359,7 +359,7 @@ const Explore = () => {
             <FastImage source={Filter} style={{ height: 20, width: 20 }} />
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
       </View>
       <View style={styles.container}>
         <MapView

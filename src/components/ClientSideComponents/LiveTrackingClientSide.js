@@ -331,10 +331,10 @@ setOrderId(data.message.order_id);
            <Text style={{color:COLOR.BLACK,fontSize:24,fontWeight:'bold'}}>Start Order</Text>
           </View>
             <TouchableOpacity onPress={handleAccept} style={{ backgroundColor:COLOR.ChartBlue, height: 50, borderRadius: 30,alignItems: 'center', justifyContent: 'center',marginVertical:15}}>
-              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Accept request</Text>
+              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Start order</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleNeedMoreTime} style={{ backgroundColor:COLOR.ORANGECOLOR, height: 50, borderRadius: 30,alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Need More time</Text>
+              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Need more time</Text>
             </TouchableOpacity>
         </View>
       </RBSheet>

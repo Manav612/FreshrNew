@@ -278,7 +278,7 @@ socketServices.on('Accept_To_Process_Order', data => {
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width,position:'absolute',bottom:Screen_Height*0.11 }}>
         <TouchableOpacity onPress={onRequestToStartOrder}   style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 5, borderRadius: 15 }}>
-          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold',fontSize:18 }}>{applySelected? "user need 5 more min" :"Request to Start order"}</Text>
+          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold',fontSize:16 }}>{applySelected? "user need 5 more min" :"Professional requesting start order"}</Text>
         </TouchableOpacity>
       </View>
 
