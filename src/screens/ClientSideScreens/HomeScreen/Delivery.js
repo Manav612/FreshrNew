@@ -249,7 +249,7 @@ const Delivery = () => {
     refRBSheet.current[index + 1].open();
   };
   const [activeTab, setActiveTab] = useState('Apply Filter');
-  const [activeTab2, setActiveTab2] = useState('Masculine');
+  const [activeTab1, setActiveTab1] = useState('Both');
   const AllCategory = ({ item }) => (
     <TouchableOpacity
       style={[
@@ -393,7 +393,7 @@ const Delivery = () => {
         <RBSheet
           ref={(ref) => (refRBSheet.current[0] = ref)}
 
-          height={Screen_Height * 0.65}
+          height={Screen_Height * 0.50}
           customStyles={{
 
             wrapper: {
@@ -432,29 +432,57 @@ const Delivery = () => {
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
 
-
-
             <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-              <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Style</Text>
-              <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
-                <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab2 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab2('Masculine') }}>
-                  <Text style={{ color: activeTab2 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
+              <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Styles</Text>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', gap:20, marginVertical: 5 }}>
+                <TouchableOpacity
+                  style={{
+                    width: 100,
+                    height: 40,
+                    backgroundColor: activeTab1 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: COLOR.ORANGECOLOR
+                  }}
+                  onPress={() => setActiveTab1('Masculine')}
+                >
+                  <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab2 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab2('Feminine') }}>
-                  <Text style={{ color: activeTab2 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
+                <TouchableOpacity
+                  style={{
+                    width: 100,
+                    height: 40,
+                    backgroundColor: activeTab1 === 'Both' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: COLOR.ORANGECOLOR
+                  }}
+                  onPress={() => setActiveTab1('Both')}
+                >
+                  <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    width: 100,
+                    height: 40,
+                    backgroundColor: activeTab1 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: COLOR.ORANGECOLOR
+                  }}
+                  onPress={() => setActiveTab1('Feminine')}
+                >
+                  <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-              <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Category</Text>
-              <FlatList
-                data={data}
-                keyExtractor={item => item.id}
-                renderItem={AllCategory}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
+
             <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>Rating</Text>
               <FlatList

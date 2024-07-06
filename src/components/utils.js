@@ -47,11 +47,7 @@ export const ProfileData = [
     image: barber4
   }
 ];
-  export const data = [
-    {id: '1', text: 'All'},
-    {id: '2', text: 'Haircuts'},
-    {id: '3', text: 'Hair Services'},
-  ];
+ 
 
  export const data2 = [
     {
