@@ -1,0 +1,8 @@
+1. npm i react-native-maps
+   https://www.npmjs.com/package/react-native-maps
+
+2. npm i react-native-maps-directions
+   https://www.npmjs.com/package/react-native-maps-directions
+
+3. npm i react-native-geolocation-service
+   https://www.npmjs.com/package/react-native-geolocation-service

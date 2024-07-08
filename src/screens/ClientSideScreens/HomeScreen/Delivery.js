@@ -40,6 +40,7 @@ const Delivery = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
+  const authToken = useSelector(state=>state.AuthReducer);
 
 
   const currentHour = new Date().getHours();
@@ -78,11 +79,10 @@ const Delivery = () => {
 
   const AddFavData = async (itemId) => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
-            // console.log("==========>", token);
+            // console.log("==========>", authToken);
             const config = {
               headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${authToken}`
               }
 
             };
@@ -150,10 +150,9 @@ const Delivery = () => {
 
   const fetchDataForDelivery = async (lat, lng) => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${authToken}`
         }
       }
       const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/`, config);
@@ -166,10 +165,9 @@ const Delivery = () => {
 
   const fetchDataForSalon = async (lat, lng) => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${authToken}`
         }
       };
       const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/male`, config);
@@ -187,10 +185,9 @@ const Delivery = () => {
 
   // const fetchData = async () => {
   //   try {
-  //     const token = await AsyncStorage.getItem('AuthToken');
   //     const config = {
   //       headers: {
-  //         Authorization: `Bearer ${token}`,
+  //         Authorization: `Bearer ${authToken}`,
   //       },
   //     };
   //     const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);

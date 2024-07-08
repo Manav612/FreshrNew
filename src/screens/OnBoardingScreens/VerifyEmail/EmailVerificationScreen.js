@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Alert, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import OtpTextInput from 'react-native-otp-textinput';
 import axios from 'axios';
@@ -12,6 +12,7 @@ import { NavigationScreens } from '../../../constants/Strings';
 import { BASE_API_URL } from '../../../Services';
 import socketServices from '../../../Services/Socket';
 import { StoreAuthToken } from '../../../constants/AsyncStorage';
+import { SetAuthToken } from '../../../redux/AuthAction';
 
 const EmailVerificationScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ const EmailVerificationScreen = ({ route }) => {
   const [timer, setTimer] = useState(0);
   const [sessionId, setSessionId] = useState('');
   const [otpRequested, setOtpRequested] = useState(false);
-
+const dispatch = useDispatch()
   const { email } = route.params;
 
   const styles = StyleSheet.create({
@@ -70,6 +71,7 @@ const EmailVerificationScreen = ({ route }) => {
       if (res.data) {
         Alert.alert('Verification completed');
         await StoreAuthToken(res.data.data.token)
+        dispatch(SetAuthToken(res.data.data.token));
     socketServices.initializeSocket(res.data.data.token);
         
         navigation.navigate(NavigationScreens.HomeTab);
@@ -87,6 +89,7 @@ const EmailVerificationScreen = ({ route }) => {
       if (res.data) {
         Alert.alert('Verification completed');
         await AsyncStorage.setItem("AuthToken", res.data.data.token.toString());
+        dispatch(SetAuthToken(res.data.data.token));
         navigation.navigate(NavigationScreens.HomeTab);
       }
     } catch (error) {

@@ -10,6 +10,7 @@ import WelcomeOnboardScreen from '../WelcomeOnboardScreen/WelcomeOnboardScreen';
 import { GetAuthToken, GetThemeMode } from '../../../constants/AsyncStorage';
 import { SetThemeMode } from '../../../redux/ThemeAction';
 import { NavigationScreens } from '../../../constants/Strings';
+import { SetAuthToken } from '../../../redux/AuthAction';
 
 const SplashScreen = () => {
   const navigation = useNavigation();
@@ -29,6 +30,7 @@ const SplashScreen = () => {
 
     const authtoken = await GetAuthToken();
     console.log(authtoken);
+    dispatch(SetAuthToken(authtoken));
     const timer = setTimeout(() => {
       navigation.navigate(authtoken == "" ? NavigationScreens.ProceedWithoutScreen : NavigationScreens.HomeTab);
     }, 3000);

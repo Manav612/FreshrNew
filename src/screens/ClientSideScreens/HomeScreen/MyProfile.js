@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { RemoveAuthToken } from '../../../redux/AuthAction';
 const MyProfile = () => {
 
   const navigation = useNavigation();
@@ -47,6 +48,7 @@ const MyProfile = () => {
     setApplySelected(!applySelected);
     setResetSelected(false);
     await AsyncStorage.removeItem("AuthToken");
+    dispatch(RemoveAuthToken());
     navigation.navigate(NavigationScreens.ProceedWithoutScreen)
   };
 

@@ -33,6 +33,7 @@ const Booking = ({ route }) => {
     const { facilitiesData } = route.params
     // console.log("========  facilitiesData  ============>", facilitiesData);
     const galleryImages = facilitiesData.gallery;
+    const authToken = useSelector(state=>state.AuthReducer);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -54,10 +55,9 @@ const Booking = ({ route }) => {
 
     const fetchData = async () => {
         try {
-            const token = await AsyncStorage.getItem('AuthToken');
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${authToken}`,
                 },
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);

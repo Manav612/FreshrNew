@@ -9,19 +9,19 @@ import {
   RefreshControl,
   Alert,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useSelector} from 'react-redux';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
-import {OnBoard1} from '../../../constants/Icons';
+import { useSelector } from 'react-redux';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { OnBoard1 } from '../../../constants/Icons';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
-import {useNavigation} from '@react-navigation/native';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BASE_API_URL} from '../../../Services';
+import { BASE_API_URL } from '../../../Services';
 import FastImage from 'react-native-fast-image';
 import socketServices from '../../../Services/Socket';
 import { NavigationScreens } from '../../../constants/Strings';
@@ -39,6 +39,8 @@ const ProfessionalUpcoming = () => {
   const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [PaymentData, setPaymentData] = useState(false);
+  const authToken = useSelector(state => state.AuthReducer);
+  const refRBSheet = useRef();
 
 
   const toggleBookmark = sumit => {
@@ -50,14 +52,15 @@ const ProfessionalUpcoming = () => {
 
   useEffect(() => {
     fetchData();
-   
+
   }, []);
 
   useEffect(() => {
     socketServices.on('payment_Done', data => {
       console.log('==== payment done ======', data);
-      navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen,{orderData:data})
       closeBottomSheet()
+      navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
+
     });
 
   }, []);
@@ -75,13 +78,12 @@ const ProfessionalUpcoming = () => {
     fetchData().then(() => setRefreshing(false));
   }, []);
 
- 
+
   const fetchData = async () => {
     try {
-      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       };
 
@@ -104,7 +106,7 @@ const ProfessionalUpcoming = () => {
         ...pendingRes.data.data.orders,
       ];
 
-      console.log('==========   order  List   ===========', combinedData);
+      // console.log('==========   order  List   ===========', combinedData);
       setFetchedData(combinedData);
     } catch (error) {
       console.error('Error:', error);
@@ -114,10 +116,9 @@ const ProfessionalUpcoming = () => {
   const PutData = async orderId => {
     try {
       // console.log("Order Id : ",orderId);
-      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       };
       const res = await axios.put(
@@ -125,7 +126,7 @@ const ProfessionalUpcoming = () => {
         {},
         config,
       );
-      console.log('===========  milllaaa  ==========',JSON.stringify(res.data.data));
+      console.log('===========  milllaaa  ==========', JSON.stringify(res.data.data));
       if (res.status == 200) {
         // console.log('===========  milllaaa ayush bhai bolte guru  ==========',{
         //   recipient: res.data.data.order.client._id,
@@ -133,15 +134,17 @@ const ProfessionalUpcoming = () => {
         //     paymentKey: res.data.data.order.paymentKey,
         //   },
         // });
+        openBottomSheet()
+
         socketServices.emit('order_update', {
-            recipient: res.data.data.order.client._id,
+          recipient: res.data.data.order.client.id,
           message: {
             type: 'accept_order',
             paymentKey: res.data.data.order.paymentKey,
-            orderDetails:res.data.data.order._id
+            orderDetails: res.data.data.order.client.id,
+            order_id:res.data.data.order._id,
           },
         });
-        openBottomSheet()
       }
       // setFetchedData(res.data.facilities.facility);
     } catch (error) {
@@ -151,10 +154,9 @@ const ProfessionalUpcoming = () => {
   const PutCancelData = async orderId => {
     try {
       // console.log("Order Id : ",orderId);
-      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       };
       const res = await axios.put(
@@ -217,22 +219,22 @@ const ProfessionalUpcoming = () => {
 
 
   const startTimer = () => {
-    if (!isTimerRunning) {
-      const interval = setInterval(() => {
-        setTimeLeft(prevTime => {
-          if (prevTime <= 1) {
-            clearInterval(interval);
-            setIsTimerRunning(false);
-            refRBSheet.current.close();
-            navigation.navigate(NavigationScreens.HomeScreen);
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
-      setTimer(interval);
-      setIsTimerRunning(true);
-    }
+    // if (!isTimerRunning) {
+    //   const interval = setInterval(() => {
+    //     setTimeLeft(prevTime => {
+    //       if (prevTime <= 1) {
+    //         clearInterval(interval);
+    //         setIsTimerRunning(false);
+    //         refRBSheet?.current?.close();
+    //         navigation.navigate(NavigationScreens.ProfessionalHomeScreen);
+    //         return 0;
+    //       }
+    //       return prevTime - 1;
+    //     });
+    //   }, 1000);
+    //   setTimer(interval);
+    //   setIsTimerRunning(true);
+    // }
   };
 
   const stopTimer = () => {
@@ -267,19 +269,18 @@ const ProfessionalUpcoming = () => {
       .padStart(2, '0')}`;
   };
 
-  const refRBSheet = useRef([]);
   const openBottomSheet = () => {
-    refRBSheet.current.open();
+    refRBSheet?.current?.open();
     startTimer();
   };
 
   const closeBottomSheet = () => {
-    refRBSheet.current.close();
+    refRBSheet?.current?.close();
     stopTimer();
   };
-  
 
-  const RenderItem = ({item, onPress, onCancel}) => (
+
+  const RenderItem = ({ item, onPress, onCancel }) => (
     <View
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -301,7 +302,7 @@ const ProfessionalUpcoming = () => {
           marginVertical: 10,
         }}>
         <View>
-          <Text style={{fontSize: 14, color: COLOR.BLACK}}>
+          <Text style={{ fontSize: 14, color: COLOR.BLACK }}>
             {item?.createdAt.slice(0, 10)}
           </Text>
         </View>
@@ -330,7 +331,7 @@ const ProfessionalUpcoming = () => {
           alignItems: 'center',
           paddingVertical: 10,
         }}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Text
             style={{
               fontSize: 25,
@@ -345,8 +346,8 @@ const ProfessionalUpcoming = () => {
       </View>
       <FlatList
         data={item.services}
-        keyExtractor={(service, index) => index.toString()}
-        renderItem={({item: service}) => (
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item: service }) => (
           <View
             style={{
               flexDirection: 'row',
@@ -363,18 +364,18 @@ const ProfessionalUpcoming = () => {
                 justifyContent: 'center',
               }}>
               <FastImage
-                source={{uri: service.photo}}
+                source={{ uri: service.photo }}
                 resizeMode="contain"
-                style={{width: 90, height: 100, borderRadius: 10}}
+                style={{ width: 90, height: 100, borderRadius: 10 }}
               />
             </View>
-            <View style={{flex: 1, marginLeft: 20}}>
+            <View style={{ flex: 1, marginLeft: 20 }}>
               <Text
-                style={{fontSize: 15, color: COLOR.BLACK, marginVertical: 2}}>
+                style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>
                 {service.serviceType.name}
               </Text>
               <Text
-                style={{fontSize: 15, color: COLOR.BLACK, marginVertical: 2}}>
+                style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>
                 {service.serviceType.category}
               </Text>
               <Text
@@ -448,214 +449,70 @@ const ProfessionalUpcoming = () => {
   );
 
   return (
-    <View style={{backgroundColor: COLOR.WHITE}}>
+    <View style={{ backgroundColor: COLOR.WHITE }}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        style={{marginTop: 15, marginHorizontal: 15, flex: 1}}
+        style={{ marginTop: 15, marginHorizontal: 15, flex: 1 }}
         scrollEnabled={false}
         data={FetchedData}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <RenderItem item={item} onPress={PutData} onCancel={PutCancelData} />
         )}
       />
-      {/* <View style={{}}>
-        <RBSheet
-          ref={ref => (refRBSheet.current[0] = ref)}
-          height={Screen_Height * 0.35}
-          customStyles={{
-            wrapper: {
-              backgroundColor: COLOR.BLACK_40,
-            },
-            container: {
-              backgroundColor: COLOR.WHITE,
-              borderRadius: 40,
-              borderBottomRightRadius: 0,
-              borderBottomLeftRadius: 0,
-              elevation: 10,
-              shadowColor: COLOR.BLACK,
-            },
-            draggableIcon: {
-              backgroundColor: COLOR.BLACK,
-            },
-          }}
-          customModalProps={{
-            animationType: 'slide',
-            statusBarTranslucent: true,
-          }}
-          customAvoidingViewProps={{
-            enabled: false,
-          }}>
-          <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <View
-                style={{
-                  width: 30,
-                  height: 3,
-                  backgroundColor: COLOR.BLACK,
-                  marginBottom: 10,
-                }}
-              />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: Screen_Width * 0.9,
-                }}>
-                <View style={{width: 30}} />
-                <Text
-                  style={{fontWeight: '600', fontSize: 25, color: COLOR.BLACK}}>
-                  Cancel Booking
-                </Text>
-                <TouchableOpacity onPress={() => refRBSheet.current[0].close()}>
-                  <AntDesign name="closecircle" size={24} color={COLOR.BLACK} />
-                </TouchableOpacity>
-              </View>
-            </View>
 
-            <View
-              style={{
-                backgroundColor: COLOR.LINECOLOR,
-                width: Screen_Width,
-                height: 2,
-                marginVertical: 10,
-                paddingHorizontal: 10,
-              }}
-            />
-            <View
-              style={{
-                justifyContent: 'center',
-                marginVertical: 10,
-                paddingHorizontal: 30,
-                gap: 10,
-              }}>
-              <Text
-                style={{
-                  color: COLOR.BLACK,
-                  textAlign: 'center',
-                  fontSize: 18,
-                  fontWeight: '800',
-                }}>
-                Are you sure want to cancel your barber/salon booking?
-              </Text>
-              <Text
-                style={{color: COLOR.BLACK, textAlign: 'center', fontSize: 15}}>
-                Only 80% of the money you can refund from your payment according
-                to our policy
-              </Text>
-            </View>
-            <View
-              style={{
-                width: Screen_Width * 0.91,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 10,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  handleResetPress1();
-                  refRBSheet.current[0].close();
-                }}
-                style={{
-                  backgroundColor: resetSelected
-                    ? COLOR.ORANGECOLOR
-                    : COLOR.GULABI,
-                  height: 50,
-                  borderRadius: 30,
-                  width: 170,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontWeight: '700',
-                    color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR,
-                  }}>
-                  Reschedule
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  handleApplyPress2();
-                  navigation.navigate('Cancelbooking Screen');
-                  refRBSheet.current[0].close();
-                }}
-                style={{
-                  backgroundColor: applySelected
-                    ? COLOR.ORANGECOLOR
-                    : COLOR.WHITE,
-                  height: 50,
-                  borderRadius: 30,
-                  width: 170,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontWeight: '700',
-                    color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR,
-                  }}>
-                  Yes, Cancel Booking
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </RBSheet>
-      </View> */}
       <RBSheet
-          ref={refRBSheet}
-          height={Screen_Height * 0.5}
-          customStyles={{
-            wrapper: {
-              backgroundColor: COLOR.BLACK_40,
-            },
-            container: {
-              backgroundColor: COLOR.WHITE,
-              borderRadius: 40,
-              borderBottomRightRadius: 0,
-              borderBottomLeftRadius: 0,
-              elevation: 10,
-              shadowColor: COLOR.BLACK,
-            },
-            draggableIcon: {
-              backgroundColor: COLOR.BLACK,
-            },
-          }}
-          customModalProps={{
-            animationType: 'slide',
-            statusBarTranslucent: true,
-          }}
-          customAvoidingViewProps={{
-            enabled: false,
+        ref={refRBSheet}
+        height={Screen_Height * 0.5}
+        customStyles={{
+          wrapper: {
+            backgroundColor: COLOR.BLACK_40,
+          },
+          container: {
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 40,
+            borderBottomRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            elevation: 10,
+            shadowColor: COLOR.BLACK,
+          },
+          draggableIcon: {
+            backgroundColor: COLOR.BLACK,
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}
+        customAvoidingViewProps={{
+          enabled: false,
+        }}>
+        <View
+          style={{
+            width: Screen_Width,
+            height: Screen_Height * 0.5,
+            paddingHorizontal: 15,
+            backgroundColor: COLOR.WHITE,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <View
+          <Text
             style={{
-              width: Screen_Width,
-              height: Screen_Height * 0.5,
-              paddingHorizontal: 15,
-              backgroundColor: COLOR.WHITE,
-              justifyContent: 'center',
-              alignItems: 'center',
+              fontSize: 20,
+              fontWeight: 'bold',
+              marginBottom: 20,
+              color:COLOR.BLACK,
+              textAlign: 'center',
             }}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: 'bold',
-                marginBottom: 20,
-                textAlign: 'center',
-              }}>
-              Wait while user do the payment
-            </Text>
-            <Text style={{fontSize: 48, fontWeight: 'bold'}}>
-              {formatTime(timeLeft)}
-            </Text>
+           Please wait for client's payment
+          </Text>
+          <Text style={{ fontSize: 48, fontWeight: 'bold' }}>
+            {formatTime(timeLeft)}
+          </Text>
 
-           
-          </View>
-        </RBSheet>
+
+        </View>
+      </RBSheet>
     </View>
   );
 };

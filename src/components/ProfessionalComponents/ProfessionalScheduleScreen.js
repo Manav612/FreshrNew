@@ -252,10 +252,7 @@ const ProfessionalScheduleScreen = () => {
 
   return (
     <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
-      <View style={{ width: Screen_Width, height: Screen_Height * 0.05, flexDirection: 'row', alignItems: 'center', gap: 15, marginVertical: 10 }}>
-        <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
-        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Schedule</Text>
-      </View>
+      
       <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>Work As</Text>
       <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 10 }}>
           <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>

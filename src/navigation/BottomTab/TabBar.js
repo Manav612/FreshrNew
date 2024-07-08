@@ -60,6 +60,8 @@ const TabBar = (props) => {
     const HideTabScreens = [
         NavigationScreens.NotificationScreen + " " + NavigationScreens.HomeTab,
         NavigationScreens.MyBookMarkScreen,
+        NavigationScreens.OrderProcessingScreenClientSideScreen,
+        NavigationScreens.OrderProcessingScreenProfSideScreen
     ]
 
     return (

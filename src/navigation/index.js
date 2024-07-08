@@ -33,6 +33,8 @@ import ProfessionalReviewScreen from '../components/ProfessionalSalonDetailScree
 import ProfessionalServicesScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalServicesScreen';
 import NearbyYourLocation from '../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
 import LiveTrackingClientSide from '../components/ClientSideComponents/LiveTrackingClientSide';
+import OrderProcessingScreenClientSide from '../components/ClientSideComponents/OrderProcessingScreenClientSide';
+import OrderProcessingScreenProfSide from '../components/ProfessionalComponents/OrderProcessingScreenProfSide';
 
 
 const Stack = createSharedElementStackNavigator();
@@ -70,7 +72,6 @@ const NavigationHandler = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        
         <Stack.Screen
           name={NavigationScreens.SplashScreen}
           component={SplashScreen}

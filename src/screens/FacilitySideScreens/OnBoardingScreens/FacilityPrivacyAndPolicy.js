@@ -9,6 +9,7 @@ import { NavigationScreens } from '../../../constants/Strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
+import { navigationToReset } from '../../../constants/NavigationController';
 
 const FacilityPrivacyAndPolicy = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -189,11 +190,11 @@ const FacilityPrivacyAndPolicy = () => {
           <Text style={styles.text}>We do not use cookies?</Text>
         </View>
         {fetchedData.length === 0 ?
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)}>
+          <TouchableOpacity style={styles.button} onPress={() => navigationToReset(navigation,NavigationScreens.FacilityOnBoardingScreen)}>
             <Text style={styles.buttonText}>Accept All</Text>
           </TouchableOpacity>
            :
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(NavigationScreens.FacilityBottomTab)}>
+            <TouchableOpacity style={styles.button} onPress={() => navigationToReset(navigation,NavigationScreens.FacilityBottomTab)}>
             <Text style={styles.buttonText}>Accept All</Text>
           </TouchableOpacity>
           }

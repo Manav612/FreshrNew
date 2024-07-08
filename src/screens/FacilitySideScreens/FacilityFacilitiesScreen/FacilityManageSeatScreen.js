@@ -39,10 +39,9 @@
 
 //     const fetchData = async () => {
 //         try {
-//             const token = await AsyncStorage.getItem('AuthToken');
 //             const config = {
 //                 headers: {
-//                     Authorization: `Bearer ${token}`,
+//                     Authorization: `Bearer ${authToken}`,
 //                 },
 //             };
 //             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
@@ -379,6 +378,7 @@ const FacilityManageSeatScreen = ({ route }) => {
     const [ assignedseats,setassignedseat] = useState([])
     const [ proflist,setProflist] = useState([])
     const seatCapacity = data?.seatCapacity || [];
+    const authToken = useSelector(state=>state.AuthReducer);
 
     useEffect(() => {
         console.log("Asssss",seatCapacity);
@@ -388,10 +388,9 @@ const FacilityManageSeatScreen = ({ route }) => {
 
     const fetchseatdata =async()=>{
         try {
-            const token = await AsyncStorage.getItem("AuthToken");
             const config = {
               headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${authToken}`
               }
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/assignPro/${facilityId}`, config);
@@ -405,10 +404,9 @@ const FacilityManageSeatScreen = ({ route }) => {
       }
     const fetchData = async () => {
         try {
-            const token = await AsyncStorage.getItem('AuthToken');
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${authToken}`,
                 },
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
@@ -518,10 +516,9 @@ const FacilityManageSeatScreen = ({ route }) => {
 
     const handleSave = async () => {
         try {
-            const token = await AsyncStorage.getItem('AuthToken');
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json',
                 },
             };

@@ -31,8 +31,8 @@ const OurServices = ({route}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const dispatch = useDispatch();
-  const {SelectedProf, address} = route.params;
-  // console.log('==============    address    ===    ===========', address);
+  const {SelectedProf, locationData} = route.params;
+ 
   const selectedProfId = SelectedProf._id;
   const [timer, setTimer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
@@ -42,23 +42,25 @@ const OurServices = ({route}) => {
   const refRBSheet = useRef(null);
   const navigation = useNavigation();
 
+  const authToken = useSelector(state=>state.AuthReducer);
+
   const startTimer = () => {
-    if (!isTimerRunning) {
-      const interval = setInterval(() => {
-        setTimeLeft(prevTime => {
-          if (prevTime <= 1) {
-            clearInterval(interval);
-            setIsTimerRunning(false);
-            refRBSheet.current.close();
-            navigation.navigate(NavigationScreens.HomeScreen);
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
-      setTimer(interval);
-      setIsTimerRunning(true);
-    }
+    // if (!isTimerRunning) {
+    //   const interval = setInterval(() => {
+    //     setTimeLeft(prevTime => {
+    //       if (prevTime <= 1) {
+    //         clearInterval(interval);
+    //         setIsTimerRunning(false);
+    //         refRBSheet?.current?.close();
+    //         navigation.navigate(NavigationScreens.HomeScreen);
+    //         return 0;
+    //       }
+    //       return prevTime - 1;
+    //     });
+    //   }, 1000);
+    //   setTimer(interval);
+    //   setIsTimerRunning(true);
+    // }
   };
 
   const stopTimer = () => {
@@ -95,10 +97,9 @@ const OurServices = ({route}) => {
 
   const fetchServicesData = async () => {
     try {
-      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       };
       const res = await axios.get(
@@ -150,24 +151,18 @@ const OurServices = ({route}) => {
 
   const toggleModal = async () => {
     try {
-      const token = await AsyncStorage.getItem('AuthToken');
-      console.log('==========>', token);
+      console.log('==========>', authToken);
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       };
 
       const data = {
+        address:locationData,
         professionalTravelDistance: '30',
-        address1:"shfuhf",
-        postcode: "skjfhksbf",
-        locality: "jhfbebf",
-        country: "kwufhiufb",
-        state: "jwfbjubfjbf",
-        apartment: "hjfvbjubfeub",
       };
-
+      console.log('==============    address    ===    ===========',locationData);
       const serviceIds = selected.map(service => service.id).join(',');
 
       const res = await axios.post(
@@ -202,10 +197,9 @@ const OurServices = ({route}) => {
   const PutCancelData = async orderId => {
     try {
       // console.log("Order Id : ",orderId);
-      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       };
       const res = await axios.put(
@@ -390,7 +384,7 @@ const OurServices = ({route}) => {
           width: Screen_Width * 0.95,
           marginHorizontal: 10,
         }}
-        onPress={()=>PutCancelData}>
+        onPress={PutCancelData}>
         <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: '500'}}>
           Cancel Order
         </Text>
