@@ -361,7 +361,11 @@ const Explore = () => {
         </View>
       </View> */}
       </View>
+      <TouchableOpacity onPress={openBottomSheet2} style={{backgroundColor:COLOR.LIGHTGRAY,borderRadius:5,height:40,width:40,justifyContent:'center',alignItems:'center',position:'absolute',right:70,top:Screen_Height*0.16,zIndex:100}}>
+            <FastImage source={Filter} style={{ height: 20, width: 20 }} />
+          </TouchableOpacity>
       <View style={styles.container}>
+      
         <MapView
           style={styles.mapStyle}
           initialRegion={position}
@@ -381,7 +385,7 @@ const Explore = () => {
           // }}
           customMapStyle={mapStyle}
         >
-          
+         
              {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
               <Marker
                 coordinate={{

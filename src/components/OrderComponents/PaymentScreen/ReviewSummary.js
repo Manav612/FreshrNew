@@ -54,7 +54,7 @@ const ReviewSummary = ({route}) => {
         order_id: OrderData.message.order_id,
       },
     });
-    navigation.navigate(NavigationScreens.LiveTrackingClientSideScreen);
+    navigation.navigate(NavigationScreens.LiveTrackingClientSideScreen,{orderData:OrderData});
   };
 
   return (

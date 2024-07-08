@@ -501,9 +501,10 @@ const ProfessionalUpcoming = () => {
               fontSize: 20,
               fontWeight: 'bold',
               marginBottom: 20,
+              color:COLOR.BLACK,
               textAlign: 'center',
             }}>
-            Wait while user do the payment
+           Please wait for client's payment
           </Text>
           <Text style={{ fontSize: 48, fontWeight: 'bold' }}>
             {formatTime(timeLeft)}

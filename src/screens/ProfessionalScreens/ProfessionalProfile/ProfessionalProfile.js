@@ -35,11 +35,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import { NavigationScreens } from '../../../constants/Strings';
-import ImagePicker from 'react-native-image-crop-picker';4
+import ImagePicker from 'react-native-image-crop-picker'; 4
 import { LinearGradient } from "expo-linear-gradient";
 
 
 import mime from "mime";
+import ProfessionalScheduleScreen from '../../../components/ProfessionalComponents/ProfessionalScheduleScreen';
 
 const ProfessionalProfile = ({ name }) => {
   const navigation = useNavigation();
@@ -59,15 +60,15 @@ const ProfessionalProfile = ({ name }) => {
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const [selectedScreen, setSelectedScreen] = useState('gallery');
+  const [selectedScreen, setSelectedScreen] = useState('My schedule');
   const [Services, setServices] = useState('View services');
   const [showFullText, setShowFullText] = useState(false);
   const [user, setUser] = useState(false);
-  const [story,setStory] = useState()
-  const [ ind,setInd] = useState(0)
-  const [flag,setFlag] = useState(false)
+  const [story, setStory] = useState()
+  const [ind, setInd] = useState(0)
+  const [flag, setFlag] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [stories,setStories] = useState([])
+  const [stories, setStories] = useState([])
   const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
   const truncatedText = fullText.slice(0, 100) + '...';
   const fetchedData = useSelector(state => state.ServicesDataReducer);
@@ -77,9 +78,9 @@ const ProfessionalProfile = ({ name }) => {
     setServicesData()
   }, [])
 
-  
-  const fetchstories = async () =>{
-    try{
+
+  const fetchstories = async () => {
+    try {
 
       const token = await AsyncStorage.getItem("AuthToken");
       const config = {
@@ -87,28 +88,28 @@ const ProfessionalProfile = ({ name }) => {
           'Authorization': `Bearer ${token}`
         }
 
+      }
+      const res = await axios.get(`${BASE_API_URL}/professionals/professional/stories`, config);
+      console.log("asasss=====", res.data.data);
+      setStories(res.data.data.stories)
+
     }
-    const res = await axios.get(`${BASE_API_URL}/professionals/professional/stories`, config);
-    console.log("asasss=====",res.data.data);
-    setStories(res.data.data.stories)
-   
+    catch (error) {
+      console.log("sssss", error);
+    }
   }
-  catch(error){
-console.log("sssss",error);
-  }
-  }
-  
-  
+
+
   useEffect(() => {
-    
+
     fetchstories()
     setServicesData()
     fetchServicesData();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchstories()
-  },[flag])
+  }, [flag])
 
 
 
@@ -117,7 +118,7 @@ console.log("sssss",error);
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % stories.length);
       }, 5000);
-console.log("sdsddss",currentIndex);
+      console.log("sdsddss", currentIndex);
       return () => clearInterval(interval);
     }
   }, [stories]);
@@ -215,10 +216,10 @@ console.log("sdsddss",currentIndex);
 
 
   const renderContent = () => {
-    if (selectedScreen === 'gallery') {
+    if (selectedScreen === 'My schedule') {
       return (
         <View style={styles.content}>
-          <GalleryScreen />
+          <ProfessionalScheduleScreen/>
         </View>
       );
     } else if (selectedScreen === 'services') {
@@ -574,7 +575,7 @@ console.log("sdsddss",currentIndex);
       backgroundColor: COLOR.WHITE,
       borderRadius: 20,
       width: '70%',
-padding:30,
+      padding: 30,
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {
@@ -596,7 +597,7 @@ padding:30,
 
 
   const geneateFile = (img, i) => {
-    console.log("asdasdasd",img);
+    console.log("asdasdasd", img);
     const uri = img;
     const filename = img.split("/").pop();
     const match = /\.(\w+)$/.exec(filename);
@@ -610,52 +611,52 @@ padding:30,
   };
 
   const handleUpload = async () => {
-    
-    try{
+
+    try {
       const formData = new FormData();
 
 
       const token = await AsyncStorage.getItem("AuthToken");
       console.log("=============>", token);
 
-    
-    formData.append(
-      "resource",
-      geneateFile(imageUri, 1)
-    );
-    formData.append(
-      "mediaType","IMAGE"
-      
-    );
 
-    const config = {
-      method: "post",
-      url: `${BASE_API_URL}/professionals/professional/stories/`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-      data: formData
-    };
+      formData.append(
+        "resource",
+        geneateFile(imageUri, 1)
+      );
+      formData.append(
+        "mediaType", "IMAGE"
 
-    const uploadRes = await axios(config)
-    .then(()=>{
-      setModalVisible(false)
-      setImageUri(null)
-      setFlag(!flag)
-    })
-      .catch((e) => {
-        console.error(e);
-      });
-   
+      );
+
+      const config = {
+        method: "post",
+        url: `${BASE_API_URL}/professionals/professional/stories/`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData
+      };
+
+      const uploadRes = await axios(config)
+        .then(() => {
+          setModalVisible(false)
+          setImageUri(null)
+          setFlag(!flag)
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+
       if (uploadRes && uploadRes?.data) {
-        console.log("assss",uploadRes);
+        console.log("assss", uploadRes);
       }
 
 
-  }catch (error) {
-    console.error("Error:", error);
-  }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
 
@@ -675,17 +676,17 @@ padding:30,
     }
   };
   const takePhoto = async () => {
-    let result = await 
-    ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-      console.log(image);
-      setImageModalVisible(false);
-      setImageUri(image.path);
-    });
-    
+    let result = await
+      ImagePicker.openCamera({
+        width: 300,
+        height: 400,
+        cropping: true,
+      }).then(image => {
+        console.log(image);
+        setImageModalVisible(false);
+        setImageUri(image.path);
+      });
+
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
@@ -699,7 +700,7 @@ padding:30,
     }>
       <View style={{ height: 330 }}>
         <ImageBackground
-          source={stories?.length == 0 ? barber :{uri:stories[currentIndex].resource}}
+          source={stories?.length == 0 ? barber : { uri: stories[currentIndex].resource }}
           style={{
             width: Screen_Width,
             height: Screen_Height * 0.3,
@@ -707,7 +708,7 @@ padding:30,
             borderBottomRightRadius: 60,
             paddingHorizontal: 15,
           }}>
-            
+
           <View
             style={{
               flexDirection: 'row',
@@ -758,34 +759,35 @@ padding:30,
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
-                onRequestClose={() => {setImageUri(), setModalVisible(false)}}
+                onRequestClose={() => { setImageUri(), setModalVisible(false) }}
               >
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
-                 
+
                     <TouchableOpacity
-                      style={{position:"absolute",right:10,top:10}}
-                      onPress={() =>{setImageUri(), setModalVisible(false)}}
+                      style={{ position: "absolute", right: 10, top: 10 }}
+                      onPress={() => { setImageUri(), setModalVisible(false) }}
                     >
                       <AntDesign name="closecircleo" size={28} color={COLOR.BLACK} />
                     </TouchableOpacity>
-                  
+
                     {imageUri ?
-                    <></>:
-                    <View style={{   
-                      justifyContent: "space-between",
-                      alignItems: 'center',
-                      marginTop: 10,
-                      paddingHorizontal: 10,}}>
-                      <TouchableOpacity style={{backgroundColor: COLOR.ORANGECOLOR,borderRadius: 20,padding: 10,elevation: 2,marginBottom:10}} onPress={pickImage}><Text style={{color:COLOR.WHITE,fontWeight: 'bold',textAlign: 'center'}}>Gallery</Text></TouchableOpacity>
-                      <TouchableOpacity style={{backgroundColor: COLOR.ORANGECOLOR,borderRadius: 20,padding: 10,elevation: 2}} onPress={takePhoto}><Text style={{color:COLOR.WHITE,fontWeight: 'bold',textAlign: 'center'}}>Take a Photo</Text></TouchableOpacity>
-                   
-                    </View>
-}
-                      { imageUri && 
-            <Image source={{ uri: imageUri }}style={{ width: 200, height: 200,marginTop:10 }} />}
-                    { imageUri &&      <TouchableOpacity style={{marginTop:10,backgroundColor: COLOR.ORANGECOLOR,borderRadius: 20,padding: 10,elevation: 2}} onPress={()=>handleUpload()}><Text style={{color:COLOR.WHITE,fontWeight: 'bold',textAlign: 'center'}}>Add stories</Text></TouchableOpacity>}
-                   
+                      <></> :
+                      <View style={{
+                        justifyContent: "space-between",
+                        alignItems: 'center',
+                        marginTop: 10,
+                        paddingHorizontal: 10,
+                      }}>
+                        <TouchableOpacity style={{ backgroundColor: COLOR.ORANGECOLOR, borderRadius: 20, padding: 10, elevation: 2, marginBottom: 10 }} onPress={pickImage}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold', textAlign: 'center' }}>Gallery</Text></TouchableOpacity>
+                        <TouchableOpacity style={{ backgroundColor: COLOR.ORANGECOLOR, borderRadius: 20, padding: 10, elevation: 2 }} onPress={takePhoto}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold', textAlign: 'center' }}>Take a Photo</Text></TouchableOpacity>
+
+                      </View>
+                    }
+                    {imageUri &&
+                      <Image source={{ uri: imageUri }} style={{ width: 200, height: 200, marginTop: 10 }} />}
+                    {imageUri && <TouchableOpacity style={{ marginTop: 10, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 20, padding: 10, elevation: 2 }} onPress={() => handleUpload()}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold', textAlign: 'center' }}>Add stories</Text></TouchableOpacity>}
+
                   </View>
                 </View>
               </Modal>
@@ -811,21 +813,22 @@ padding:30,
           5.0 (25 Reviews)
         </Text>
       </View>
+
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
           paddingHorizontal: 15,
-          marginVertical: 10,
+          marginVertical: 10
         }}>
         <TouchableOpacity
           style={{
-            width: 150,
+            width: Screen_Width * 0.3,
             height: 50,
             backgroundColor:
-              activeTab === 'Edit Profile' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-            borderRadius: 30,
+              activeTab2 === 'Edit Profile' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+            borderRadius: 15,
             justifyContent: 'center',
             alignItems: 'center',
             borderWidth: 1,
@@ -838,47 +841,12 @@ padding:30,
           <Text
             style={{
               color:
-                activeTab === 'Edit Profile' ? COLOR.WHITE : COLOR.ORANGECOLOR,
+                activeTab2 === 'Edit Profile' ? COLOR.WHITE : COLOR.ORANGECOLOR,
               fontWeight: '600',
             }}>
             Edit Profile
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: 150,
-            height: 50,
-            backgroundColor:
-              activeTab === 'Manage gallery' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-            borderRadius: 30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 1,
-            borderColor: COLOR.ORANGECOLOR,
-          }}
-          onPress={() => {
-            setActiveTab('Manage gallery');
-          }}>
-          <Text
-            style={{
-              color:
-                activeTab === 'Manage gallery'
-                  ? COLOR.WHITE
-                  : COLOR.ORANGECOLOR,
-              fontWeight: '600',
-            }}>
-            Manage gallery
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingHorizontal: 15,
-        }}>
-
         <TouchableOpacity
           style={{
             width: Screen_Width * 0.3,
@@ -902,25 +870,7 @@ padding:30,
           />
           <Text style={{ fontSize: 14, color: activeTab2 === 'Distance' ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Distance</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: Screen_Width * 0.3,
-            height: 50,
-            backgroundColor:
-              activeTab2 === 'My schedule' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-            borderRadius: 15,
-            flexDirection: 'row',
-            gap: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 1,
-            borderColor: COLOR.ORANGECOLOR,
-          }}
-          onPress={() => setActiveTab2('My schedule')
-          }>
-          <FastImage source={activeTab2 === 'My schedule' ? ClockUserIcon3 : ClockUserIcon2} style={{ height: 20, width: 20 }} />
-          <Text style={{ fontSize: 14, color: activeTab2 === 'My schedule' ? COLOR.WHITE : COLOR.ORANGECOLOR }}>My schedule</Text>
-        </TouchableOpacity>
+
         <TouchableOpacity
           style={{
             width: Screen_Width * 0.3,
@@ -963,25 +913,19 @@ padding:30,
             style={{
               width: 100,
               height: 50,
-              backgroundColor:
-                selectedScreen === 'gallery' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+
               borderRadius: 30,
               justifyContent: 'center',
               alignItems: 'center',
               borderWidth: 1,
               borderColor: COLOR.ORANGECOLOR,
+              backgroundColor:
+                selectedScreen === 'My schedule' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+
             }}
-            onPress={() => setSelectedScreen('gallery')}>
-            <Text
-              style={{
-                color:
-                  selectedScreen === 'gallery'
-                    ? COLOR.WHITE
-                    : COLOR.ORANGECOLOR,
-                fontWeight: '600',
-              }}>
-              gallery
-            </Text>
+            onPress={() => setSelectedScreen('My schedule')
+            }>
+            <Text style={{ fontSize: 14, color: selectedScreen === 'My schedule' ? COLOR.WHITE : COLOR.ORANGECOLOR }}>My schedule</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{

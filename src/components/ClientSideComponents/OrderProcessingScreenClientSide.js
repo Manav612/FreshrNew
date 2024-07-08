@@ -219,10 +219,12 @@ const OrderProcessingScreenClientSide = () => {
           source={Loader}
           resizeMode={FastImage.resizeMode.contain}
         />
+        <Text style={{ fontSize: 20 ,color: COLOR.BLACK, fontWeight: "800",marginVertical:15}}>Professional requesting order completion</Text>
+
          {accept && (
            <>
         <TouchableOpacity onPress={onAcceptRequestEnd} style={{ backgroundColor: COLOR.ChartBlue, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
-          <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Accept request to end order</Text>
+          <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Accept complete order</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={onUnhappyPress} style={{ backgroundColor: COLOR.ORANGECOLOR, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Unhappy</Text>

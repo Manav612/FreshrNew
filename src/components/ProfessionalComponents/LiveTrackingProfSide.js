@@ -22,12 +22,13 @@ import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import socketServices from '../../Services/Socket';
 import { NavigationScreens } from '../../constants/Strings';
+import LiveTrackingMap from '../LiveTrackingMap';
 
 
-const LiveTrackingProfSide = ({route}) => {
+const LiveTrackingProfSide = ({ route }) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const {orderData} = route.params;
+  const { orderData } = route.params;
   // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const mapStyle = [
     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
@@ -139,26 +140,26 @@ const LiveTrackingProfSide = ({route}) => {
 
 
 
-const onRequestToStartOrder = ()=>{
-  const id = orderData.sender;
-  socketServices.emit('order_update', {
-      recipient:id,
+  const onRequestToStartOrder = () => {
+    const id = orderData.sender;
+    socketServices.emit('order_update', {
+      recipient: id,
       message: {
         type: 'Request_To_Start_Order',
-        id:orderData.message.id,
-        order_id:orderData.message.order_id,
+        id: orderData.message.id,
+        order_id: orderData.message.order_id,
       },
     });
-}
-socketServices.on('Accept_To_Process_Order', data => {
-  console.log("ACCEPT Calllllllllllllll : ",data);
-  navigation.navigate(NavigationScreens.OrderProcessingScreenProfSideScreen,{data});
- });
+  }
+  socketServices.on('Accept_To_Process_Order', data => {
+    console.log("ACCEPT Calllllllllllllll : ", data);
+    navigation.navigate(NavigationScreens.OrderProcessingScreenProfSideScreen, { data });
+  });
 
- socketServices.on('Need_More_Time_To_Process_Order', data => {
-  console.log("Need More Time Call : ",data);
-  setApplySelected(data)
- });
+  socketServices.on('Need_More_Time_To_Process_Order', data => {
+    console.log("Need More Time Call : ", data);
+    setApplySelected(data)
+  });
   const styles = StyleSheet.create({
     container: {
       height: Screen_Height * 0.7,
@@ -221,7 +222,7 @@ socketServices.on('Accept_To_Process_Order', data => {
       </View>
 
       <View style={styles.container}>
-        <MapView
+        {/* <MapView
           style={styles.mapStyle}
           showsUserLocation={true}
           showsMyLocationButton={true}
@@ -237,8 +238,8 @@ socketServices.on('Accept_To_Process_Order', data => {
             longitudeDelta: 0.0421,
           }}
           customMapStyle={mapStyle}
-        >
-          {/* <Marker
+        > */}
+        {/* <Marker
             // coordinate={{
             //   latitude: data.location.coordinates[0],
             //   longitude: data.location.coordinates[1],
@@ -249,36 +250,52 @@ socketServices.on('Accept_To_Process_Order', data => {
           >
             <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
           </Marker> */}
-        </MapView>
+        {/* </MapView> */}
+        <LiveTrackingMap
+          mapApiKey={'AIzaSyBsKp25cTLoo0gTjNCyzaMrAMXXCfRKoMQ'}
+          onLocationChange={(data) => {
+            const id = orderData.sender;
+            socketServices.emit('order_update', {
+              recipient: id,
+              message: {
+                type: 'Location_ChangeSP',
+                id: orderData.message.id,
+                order_id: orderData.message.order_id,
+                data,
+              },
+            });
+          }}
+          socketType={'Location_ChangeCLI'}
+        />
       </View>
-      
+
       <View style={{ width: Screen_Width, height: Screen_Height * 0.15, justifyContent: 'space-around', alignItems: 'center', position: 'absolute', bottom: Screen_Height * 0.23, paddingHorizontal: 15 }}>
-        <View style={{ backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center',borderRadius:15 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-            <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopLeftRadius:15 }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>YOU</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
-              <AntDesign name="close" size={20} color={COLOR.WHITE} />
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>11.8 min</Text>
+        <View style={{ backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 15 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: Screen_Width * 0.45, height: 80, padding: 20, borderTopLeftRadius: 15 }}>
+              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>YOU</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
+                <AntDesign name="close" size={20} color={COLOR.WHITE} />
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>11.8 min</Text>
+              </View>
+            </View>
+            <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.45, height: 80, padding: 20, borderTopRightRadius: 15 }}>
+              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>Client</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
+                <AntDesign name="close" size={20} color={COLOR.WHITE} />
+                <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>10.7 min</Text>
+              </View>
             </View>
           </View>
-          <View style={{ backgroundColor: COLOR.ChartBlue, width: Screen_Width * 0.45, height: 80, padding: 20,borderTopRightRadius:15 }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>Client</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>28 min</Text>
-              <AntDesign name="close" size={20} color={COLOR.WHITE} />
-              <Text style={{ color: COLOR.WHITE, fontSize: 16 }}>10.7 min</Text>
-            </View>
-          </View>
-        </View>
-            <Text style={{ color: COLOR.WHITE, fontSize: 20,fontWeight:'600',marginVertical:15 }}>You meetup at in at most 33 min</Text>
-            
+          <Text style={{ color: COLOR.WHITE, fontSize: 20, fontWeight: '600', marginVertical: 15 }}>You meetup at in at most 33 min</Text>
+
         </View>
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width,position:'absolute',bottom:Screen_Height*0.11 }}>
-        <TouchableOpacity onPress={onRequestToStartOrder}   style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 5, borderRadius: 15 }}>
-          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold',fontSize:16 }}>{applySelected? "user need 5 more min" :"Professional requesting start order"}</Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width, position: 'absolute', bottom: Screen_Height * 0.11 }}>
+        <TouchableOpacity onPress={onRequestToStartOrder} style={{ width: Screen_Width * 0.9, justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 5, borderRadius: 15 }}>
+          <Text style={{ color: COLOR.WHITE, fontWeight: 'bold', fontSize: 18 }}>{applySelected ? "user need 5 more min" : "Request to Start order"}</Text>
         </TouchableOpacity>
       </View>
 

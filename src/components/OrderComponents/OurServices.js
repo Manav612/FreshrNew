@@ -45,22 +45,22 @@ const OurServices = ({route}) => {
   const authToken = useSelector(state=>state.AuthReducer);
 
   const startTimer = () => {
-    if (!isTimerRunning) {
-      const interval = setInterval(() => {
-        setTimeLeft(prevTime => {
-          if (prevTime <= 1) {
-            clearInterval(interval);
-            setIsTimerRunning(false);
-            refRBSheet?.current?.close();
-            navigation.navigate(NavigationScreens.HomeScreen);
-            return 0;
-          }
-          return prevTime - 1;
-        });
-      }, 1000);
-      setTimer(interval);
-      setIsTimerRunning(true);
-    }
+    // if (!isTimerRunning) {
+    //   const interval = setInterval(() => {
+    //     setTimeLeft(prevTime => {
+    //       if (prevTime <= 1) {
+    //         clearInterval(interval);
+    //         setIsTimerRunning(false);
+    //         refRBSheet?.current?.close();
+    //         navigation.navigate(NavigationScreens.HomeScreen);
+    //         return 0;
+    //       }
+    //       return prevTime - 1;
+    //     });
+    //   }, 1000);
+    //   setTimer(interval);
+    //   setIsTimerRunning(true);
+    // }
   };
 
   const stopTimer = () => {

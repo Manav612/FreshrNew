@@ -22,11 +22,13 @@ import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import socketServices from '../../Services/Socket';
 import { NavigationScreens } from '../../constants/Strings';
+import LiveTrackingMap from '../LiveTrackingMap';
 
 
-const LiveTrackingClientSide = () => {
+const LiveTrackingClientSide = ({route}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const { orderData } = route.params;
   // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const mapStyle = [
     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
@@ -139,7 +141,7 @@ const LiveTrackingClientSide = () => {
   }
   const [rState, rSetState] = useState(s);
   const openBottomSheet = () => {
-      refRBSheet?.current?.open();
+    refRBSheet?.current?.open();
   };
 
   const handleAccept = () => {
@@ -152,7 +154,7 @@ const LiveTrackingClientSide = () => {
       message: {
         type: 'Accept_To_Process_Order',
         id: recipientId,
-        order_id:orderId,
+        order_id: orderId,
       },
     });
   }
@@ -165,7 +167,7 @@ const LiveTrackingClientSide = () => {
       message: {
         type: 'Need_More_Time_To_Process_Order',
         id: recipientId,
-        order_id:orderId,
+        order_id: orderId,
       },
     });
   }
@@ -226,9 +228,9 @@ const LiveTrackingClientSide = () => {
   });
 
   socketServices.on('Request_To_Start_Order', data => {
-    console.log("Calllllllllllllll : ",data);
+    console.log("Calllllllllllllll : ", data);
     setRecipientId(data?.sender);
-setOrderId(data.message.order_id);
+    setOrderId(data.message.order_id);
     openBottomSheet()
   });
   return (
@@ -239,7 +241,7 @@ setOrderId(data.message.order_id);
       </View>
 
       <View style={styles.container}>
-        <MapView
+        {/* <MapView
           style={styles.mapStyle}
           showsUserLocation={true}
           showsMyLocationButton={true}
@@ -255,8 +257,8 @@ setOrderId(data.message.order_id);
             longitudeDelta: 0.0421,
           }}
           customMapStyle={mapStyle}
-        >
-          {/* <Marker
+        > */}
+        {/* <Marker
             // coordinate={{
             //   latitude: data.location.coordinates[0],
             //   longitude: data.location.coordinates[1],
@@ -267,7 +269,23 @@ setOrderId(data.message.order_id);
           >
             <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
           </Marker> */}
-        </MapView>
+        {/* </MapView> */}
+        <LiveTrackingMap
+          mapApiKey={'AIzaSyBsKp25cTLoo0gTjNCyzaMrAMXXCfRKoMQ'}
+          onLocationChange={(data) => {
+            const id = orderData.sender;
+            socketServices.emit('order_update', {
+              recipient: id,
+              message: {
+                type: 'Location_ChangeCLI',
+                id: orderData.message.id,
+                order_id: orderData.message.order_id,
+                data,
+              },
+            });
+          }}
+          socketType={'Location_ChangeSP'}
+        />
       </View>
 
       <View style={{ width: Screen_Width, height: Screen_Height * 0.15, justifyContent: 'space-around', alignItems: 'center', position: 'absolute', bottom: Screen_Height * 0.23, paddingHorizontal: 15 }}>
@@ -301,7 +319,7 @@ setOrderId(data.message.order_id);
       </View> */}
 
       <RBSheet
-        ref={(ref)=>refRBSheet.current = ref}
+        ref={(ref) => refRBSheet.current = ref}
         height={Screen_Height * 0.28}
         customStyles={{
           wrapper: {
@@ -327,15 +345,15 @@ setOrderId(data.message.order_id);
           enabled: false,
         }}>
         <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-          <View style={{ width: Screen_Width * 0.91,alignItems:'center', justifyContent:'center', marginVertical: 10 }}>
-           <Text style={{color:COLOR.BLACK,fontSize:24,fontWeight:'bold'}}>Start Order</Text>
+          <View style={{ width: Screen_Width * 0.91, alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
+            <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: 'bold' }}>Professional requesting start order</Text>
           </View>
-            <TouchableOpacity onPress={handleAccept} style={{ backgroundColor:COLOR.ChartBlue, height: 50, borderRadius: 30,alignItems: 'center', justifyContent: 'center',marginVertical:15}}>
-              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Start order</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleNeedMoreTime} style={{ backgroundColor:COLOR.ORANGECOLOR, height: 50, borderRadius: 30,alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 15, fontWeight: '700', color:COLOR.WHITE}}>Need more time</Text>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={handleAccept} style={{ backgroundColor: COLOR.ChartBlue, height: 50, borderRadius: 30, alignItems: 'center', justifyContent: 'center', marginVertical: 15 }}>
+            <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Start order</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleNeedMoreTime} style={{ backgroundColor: COLOR.ORANGECOLOR, height: 50, borderRadius: 30, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Need more time</Text>
+          </TouchableOpacity>
         </View>
       </RBSheet>
 
