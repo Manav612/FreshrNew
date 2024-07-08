@@ -140,7 +140,7 @@ const AboutUsScreen = ({ facilitiesData,ProfData }) => {
                     {showFullText ? 'Read Less' : 'Read More'}
                 </Text>
             </TouchableOpacity>
-            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginVertical: 10, fontWeight: 'bold' }}>
+            {/* <Text style={{ color: COLOR.BLACK, fontSize: 20, marginVertical: 10, fontWeight: 'bold' }}>
                 Working Hours
             </Text>
             <View>
@@ -150,7 +150,7 @@ const AboutUsScreen = ({ facilitiesData,ProfData }) => {
                 <Text style={{ color: COLOR.ORANGECOLOR }}>
                     {showMore ? 'Read Less' : 'Read More'}
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
                 style={{
                     width: Screen_Width * 0.80,

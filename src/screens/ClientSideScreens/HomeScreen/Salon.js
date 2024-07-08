@@ -221,7 +221,7 @@ const Salon = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
+      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
         <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width * 0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }} >
             <AntDesign name="search1" size={30} color={COLOR.GRAY} />
@@ -231,7 +231,7 @@ const Salon = () => {
         <TouchableOpacity onPress={() => openBottomSheet()} style={{ backgroundColor: COLOR.LIGHTGRAY, elevation: 5, shadowColor: COLOR.BLACK, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
           <FastImage source={Filter} style={{ height: 20, width: 20 }} />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={{ marginVertical: 10, borderRadius: 15 }}>
         <FlatList
           ref={flatListRef}

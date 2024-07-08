@@ -893,12 +893,10 @@ const ProfessionalProfile = ({ name }) => {
         </TouchableOpacity>
       </View>
       <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-
         <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>{showFullText ? fullText : truncatedText}</Text>
         <TouchableOpacity onPress={toggleShowFullText}>
           <Text style={{ color: COLOR.ORANGECOLOR }}>{showFullText ? 'Read Less' : 'Read More'}</Text>
         </TouchableOpacity>
-
       </View>
       <View>
         <View

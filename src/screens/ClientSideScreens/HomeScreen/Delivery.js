@@ -21,6 +21,7 @@ import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import Slider from '@react-native-community/slider';
 import { data, data2, data3 } from '../../../components/utils';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Delivery = () => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -40,7 +41,7 @@ const Delivery = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-  const authToken = useSelector(state=>state.AuthReducer);
+  const authToken = useSelector(state => state.AuthReducer);
 
 
   const currentHour = new Date().getHours();
@@ -62,7 +63,7 @@ const Delivery = () => {
   const [distance, setDistance] = useState(50);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    AddFavData(),fetchDataForDelivery(),fetchDataForSalon().then(() => setRefreshing(false));
+    AddFavData(), fetchDataForDelivery(), fetchDataForSalon().then(() => setRefreshing(false));
   }, []);
   const toggleBookmark = async (itemId) => {
     try {
@@ -79,24 +80,24 @@ const Delivery = () => {
 
   const AddFavData = async (itemId) => {
     try {
-            // console.log("==========>", authToken);
-            const config = {
-              headers: {
-                'Authorization': `Bearer ${authToken}`
-              }
+      // console.log("==========>", authToken);
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
 
-            };
-      const res = await axios.post(`${BASE_API_URL}/users/favorites`, { professional:itemId },config);
+      };
+      const res = await axios.post(`${BASE_API_URL}/users/favorites`, { professional: itemId }, config);
       console.log("================= add fav data ======================", res.data.data);
       console.log("Response data:", res.status);
 
-            // Check if the request was successful
-            if (res.data.status === "success") {
-              Alert.alert("success",res.data.message)
-                
-            } else {
-                Alert.alert(res.data.message)
-              }
+      // Check if the request was successful
+      if (res.data.status === "success") {
+        Alert.alert("success", res.data.message)
+
+      } else {
+        Alert.alert(res.data.message)
+      }
       return res.data; // Return the response data
     } catch (error) {
       console.error("Error:", error);
@@ -300,10 +301,9 @@ const Delivery = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}
-    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
+      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
         <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width * 0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }} >
             <AntDesign name="search1" size={30} color={COLOR.GRAY} />
@@ -313,7 +313,7 @@ const Delivery = () => {
         <TouchableOpacity onPress={() => openBottomSheet()} style={{ backgroundColor: COLOR.LIGHTGRAY, elevation: 5, shadowColor: COLOR.BLACK, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
           <FastImage source={Filter} style={{ height: 20, width: 20 }} />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={{ marginVertical: 10, borderRadius: 15 }}>
         <FlatList
           ref={flatListRef}
@@ -353,7 +353,7 @@ const Delivery = () => {
       <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', marginVertical: 10 }}>
         <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Professional</Text>
-        {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.Booking)} ><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity> */}
+        <TouchableOpacity><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity>
       </View>
       <FlatList
         data={FetchedDeliveryData}
@@ -365,20 +365,30 @@ const Delivery = () => {
           return (
 
             <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3 }}>
-              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", justifyContent: 'flex-start', gap: 30, alignItems: 'center' }}>
-                <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
-                <View>
-                  <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
-                  <Text style={{ color: COLOR.BLACK, fontSize: 13, }}>{item?.distance}km</Text>
+              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, gap: 30, flexDirection: 'row' }}>
+                <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between',gap:5 }}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',width:Screen_Width*0.6 }}>
+                  <View>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
+                    <Text style={{ backgroundColor: COLOR.ORANGECOLOR, fontSize: 15, borderRadius: 10, textAlign: 'center', color: COLOR.WHITE, width: Screen_Width * 0.2,height:25}}>2 services</Text>
+                  </View>
+                  <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
+
+                    <MaterialCommunityIcons
+                      name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
+                      size={25}
+                      color={COLOR.ORANGECOLOR}
+                    />
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
-                <View style={{ height: 90, width: 30 }}>
-                  <MaterialCommunityIcons
-                    name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
-                    size={25}
-                    color={COLOR.ORANGECOLOR}
-                  />
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: Screen_Width * 0.59 }}>
+                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                      <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
+                      <Text style={{ marginLeft: 5, color: COLOR.GRAY }}>4.8</Text>
+                    </View>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 13 }}>{item?.distance}km</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
 
@@ -431,7 +441,7 @@ const Delivery = () => {
 
             <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Styles</Text>
-              <View style={{ flexDirection: 'row', alignSelf: 'center', gap:20, marginVertical: 5 }}>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 20, marginVertical: 5 }}>
                 <TouchableOpacity
                   style={{
                     width: 100,

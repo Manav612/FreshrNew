@@ -330,7 +330,7 @@ const Explore = () => {
       <View style={{ backgroundColor: COLOR.WHITE}}>
 
       <View style={{ borderRadius: 15,width:Screen_Width*0.95, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, padding: 10,}}>
-        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>Where do we meet?</Text>
+        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>where to serve you?</Text>
         <View style={{ flexDirection: 'row',justifyContent:'space-between', alignItems:'center', marginTop:10 }}>
           <TouchableOpacity onPress={handleDeliverySide} style={{ width: Screen_Width*0.4, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} >
             <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>

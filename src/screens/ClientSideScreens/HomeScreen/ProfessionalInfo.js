@@ -43,6 +43,12 @@ const ProfessionalInfo = ({ route }) => {
 
     const [stories, setStories] = useState(ProfDetail.stories);
     const authToken = useSelector(state => state.AuthReducer);
+    const [showFullText, setShowFullText] = useState(false);
+    const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
+    const truncatedText = fullText.slice(0, 100) + '...';
+    const toggleShowFullText = () => {
+        setShowFullText(!showFullText);
+      };
 
     // const [address, setAddress] = useState({
     //     address1: '',
@@ -76,8 +82,8 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     const handleSaveAddress = () => {
-        navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail,locationData:user.searchLocations[0] })
-        
+        navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail, locationData: user.searchLocations[0] })
+
         refRBSheet.current.close();
     };
 
@@ -103,27 +109,27 @@ const ProfessionalInfo = ({ route }) => {
 
     useEffect(() => {
         getUserInfo()
-      }, [])
-    
-    
-      const getUserInfo = async () => {
+    }, [])
+
+
+    const getUserInfo = async () => {
         try {
             const config = {
                 headers: {
-                  Authorization: `Bearer ${authToken}`,
+                    Authorization: `Bearer ${authToken}`,
                 },
-              };
-          const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-          console.log('========  user ID   ==========', res.data.data.user.searchLocations[0])
-          setUser(res.data.data.user);
-          setCords(res.data.data.user.searchLocations[0])
-          setAddress(res.data.data.user?.searchLocations[0]?.address);
-    
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+            console.log('========  user ID   ==========', res.data.data.user.searchLocations[0])
+            setUser(res.data.data.user);
+            setCords(res.data.data.user.searchLocations[0])
+            setAddress(res.data.data.user?.searchLocations[0]?.address);
+
         } catch (error) {
-          console.error("Error:", error);
+            console.error("Error:", error);
         }
-      };
-    
+    };
+
 
     const AllCategory = ({ item, setSelectedItem }) => (
         <TouchableOpacity
@@ -316,7 +322,7 @@ const ProfessionalInfo = ({ route }) => {
                     <View style={{ marginTop: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ fontSize: 24, color: COLOR.BLACK }}>{ProfDetail?.user?.firstName}</Text>
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 style={{
                                     width: 80,
                                     height: 35,
@@ -325,23 +331,29 @@ const ProfessionalInfo = ({ route }) => {
                                     borderRadius: 22
                                 }}
                                 onPress={() => setIsOpen(prevState => !prevState)}
-                            >
-                                <Text style={{ fontSize: 16, color: COLOR.WHITE_80, textAlign: 'center' }}>
+                            > */}
+                            {/* <Text style={{ fontSize: 16, color: COLOR.WHITE_80, textAlign: 'center' }}>
                                     {isOpen ? "Open" : "Close"}
-                                </Text>
+                                </Text> */}
+                            <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <FastImage source={share} style={{ height: 20, width: 20, marginVertical: 5 }} />
+                                <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>Share</Text>
                             </TouchableOpacity>
+                            {/* </TouchableOpacity> */}
                         </View>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ReviewsDetailScreen)} style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
                             <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
                             <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>4.8(3,279 reviews)</Text>
-                        </View>
-                        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <FastImage source={share} style={{ height: 20, width: 20, marginVertical: 5 }} />
-                            <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>Share</Text>
                         </TouchableOpacity>
+                        <View style={{marginVertical: 10 }}>
+                            <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>{showFullText ? fullText : truncatedText}</Text>
+                            <TouchableOpacity onPress={toggleShowFullText}>
+                                <Text style={{ color: COLOR.ORANGECOLOR }}>{showFullText ? 'Read Less' : 'Read More'}</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View>
+                    {/* <View>
                         <FlatList
                             data={AllCategoryData}
                             keyExtractor={(item) => item.id.toString()}
@@ -351,7 +363,7 @@ const ProfessionalInfo = ({ route }) => {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                         />
-                    </View>
+                    </View> */}
                     <View style={{ backgroundColor: COLOR.WHITE, alignSelf: 'center', elevation: 3, shadowColor: COLOR.BLACK, height: 125, width: Screen_Width * 0.9, marginVertical: 10, borderRadius: 25 }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
                             <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Freelancer mode</Text>
@@ -415,18 +427,18 @@ const ProfessionalInfo = ({ route }) => {
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 marginVertical: 15,
-                                marginBottom:30,
+                                marginBottom: 30,
                                 justifyContent: 'space-between',
                                 margin: 10
                             }}>
-                                <Text style={{ fontSize: 24, color: COLOR.BLACK,fontWeight:'bold' }}>Add Address</Text>
+                                <Text style={{ fontSize: 24, color: COLOR.BLACK, fontWeight: 'bold' }}>Add Address</Text>
                                 <TouchableOpacity onPress={closeBottomSheet}><AntDesign name="closecircleo" size={25} color={COLOR.BLACK} /></TouchableOpacity>
                             </View>
 
-                            
-                            <View style={{justifyContent:'center'}}>
-                                <Text style={{fontSize:18, color: COLOR.BLACK,fontWeight:'bold' }} numberOfLines={3}>Current Address :</Text>
-                                <Text style={{fontSize: 16, color: COLOR.BLACK }} numberOfLines={3}>{address}</Text>
+
+                            <View style={{ justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 18, color: COLOR.BLACK, fontWeight: 'bold' }} numberOfLines={3}>Current Address :</Text>
+                                <Text style={{ fontSize: 16, color: COLOR.BLACK }} numberOfLines={3}>{address}</Text>
                             </View>
                             <TouchableOpacity
                                 style={{
@@ -454,13 +466,13 @@ const ProfessionalInfo = ({ route }) => {
                                     alignSelf: 'center',
                                     marginVertical: 20
                                 }}
-                                onPress={() => {navigation.navigate(NavigationScreens.AddAddressScreen),closeBottomSheet()}}
+                                onPress={() => { navigation.navigate(NavigationScreens.AddAddressScreen), closeBottomSheet() }}
                             >
                                 <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.WHITE }}>
                                     Change Address
                                 </Text>
                             </TouchableOpacity>
-                            
+
                         </View>
                     </RBSheet>
                     <View style={{ height: 90 }} />
