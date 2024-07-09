@@ -23,7 +23,7 @@ const SalonProffList = ({ route }) => {
     const [longitude, setLongitude] = useState(null);
     const [bookmarkStatus, setBookmarkStatus] = useState({});
     const [refreshing, setRefreshing] = useState(false);
-    const { FacilityDetail } = route.params
+    const { FacilityDetail } = route?.params
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const authToken = useSelector(state => state.AuthReducer);

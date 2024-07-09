@@ -46,8 +46,7 @@ import OrderProcessingScreenClientSide from '../../components/ClientSideComponen
 import SelectDeliveryLocation from '../../screens/ClientSideScreens/HomeScreen/SelectDeliveryLocation';
 import SearchLocation from '../../screens/ClientSideScreens/HomeScreen/SearchLocation';
 import ConformLocation from '../../screens/ClientSideScreens/HomeScreen/ConformLocation';
-import SalonFacilityList from '../../components/ClientSideComponents/SalonFacilityList';
-import SalonProffList from '../../components/ClientSideComponents/SalonFacilityList';
+import SalonProffList from '../../components/ClientSideComponents/SalonProffList';
 import SalonProfServices from '../../components/ClientSideComponents/SalonProfServices';
 
 
