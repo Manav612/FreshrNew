@@ -10,29 +10,41 @@ import {
   View,
   Alert,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {COLOR_DARK, COLOR_LIGHT} from '../../constants/Colors';
-import {Screen_Height, Screen_Width} from '../../constants/Constants';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Servicesdata} from '../utils';
-import {useNavigation} from '@react-navigation/native';
-import {NavigationScreens} from '../../constants/Strings';
+import { Servicesdata } from '../utils';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationScreens } from '../../constants/Strings';
 import axios from 'axios';
-import {BASE_API_URL} from '../../Services';
-import {SetServiceData} from '../../redux/ServicesData/ServicesDataAction';
+import { BASE_API_URL } from '../../Services';
+import { SetServiceData } from '../../redux/ServicesData/ServicesDataAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import socketServices from '../../Services/Socket';
 
-const OurServices = ({route}) => {
+const OurServices = ({ route }) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const dispatch = useDispatch();
-  const {SelectedProf, locationData} = route.params;
- 
+  const { SelectedProf, locationData, facilitiesData } = route.params;
+  const coordinates = route.params.coorinates;
+  console.log("==============   selected facilitiiiiii   ==============", facilitiesData);
+  // console.log("==============   selected coordinates   ==============", coordinates);
+  // const location = facilitiesData?.formattedAddress
+  const facilitiesInfo = {
+
+    coordinates: [
+      facilitiesData?.location?.coordinates[0],
+      facilitiesData?.location?.coordinates[1]
+    ],
+    address: facilitiesData?.formattedAddress,
+  };
+  console.log("======  facilitiesInfo   ========", facilitiesInfo);
   const selectedProfId = SelectedProf._id;
   const [timer, setTimer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
@@ -42,7 +54,7 @@ const OurServices = ({route}) => {
   const refRBSheet = useRef(null);
   const navigation = useNavigation();
 
-  const authToken = useSelector(state=>state.AuthReducer);
+  const authToken = useSelector(state => state.AuthReducer);
 
   const startTimer = () => {
     // if (!isTimerRunning) {
@@ -75,10 +87,10 @@ const OurServices = ({route}) => {
     fetchServicesData();
     socketServices.on('accept_order', data => {
       console.log(
-        '====  Order Accepted ======',data,
+        '====  Order Accepted ======', data,
       );
       closeBottomSheet()
-      navigation.navigate(NavigationScreens.PaymentMethodScreen,{data:data});
+      navigation.navigate(NavigationScreens.PaymentMethodScreen, { data: data });
     });
     return () => {
       if (timer) {
@@ -159,10 +171,10 @@ const OurServices = ({route}) => {
       };
 
       const data = {
-        address:locationData,
+        address: facilitiesData === undefined ? locationData : facilitiesInfo,
         professionalTravelDistance: '30',
       };
-      console.log('==============    address    ===    ===========',locationData);
+      console.log('==============  book now  donneeeeeee    ===    ===========', data);
       const serviceIds = selected.map(service => service.id).join(',');
 
       const res = await axios.post(
@@ -220,8 +232,8 @@ const OurServices = ({route}) => {
     }
   };
 
-  const renderitem = ({item}) => (
-    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+  const renderitem = ({ item }) => (
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <TouchableOpacity
         onPress={() => handleSelect(item)}
         style={{
@@ -241,10 +253,10 @@ const OurServices = ({route}) => {
             height: Screen_Height * 0.1,
             borderRadius: 10,
           }}
-          source={{uri: item?.photo}}
+          source={{ uri: item?.photo }}
         />
         <View
-          style={{flexDirection: 'column', marginLeft: 15, gap: 5, width: 180}}>
+          style={{ flexDirection: 'column', marginLeft: 15, gap: 5, width: 180 }}>
           <Text
             style={{
               color: COLOR.BLACK,
@@ -309,11 +321,11 @@ const OurServices = ({route}) => {
             marginVertical: 10,
             marginHorizontal: 10,
           }}>
-          <View style={{flexDirection: 'row', gap: 10}}>
+          <View style={{ flexDirection: 'row', gap: 10 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
             </TouchableOpacity>
-            <Text style={{fontSize: 24, color: COLOR.BLACK}}>
+            <Text style={{ fontSize: 24, color: COLOR.BLACK }}>
               Select Services
             </Text>
           </View>
@@ -322,7 +334,7 @@ const OurServices = ({route}) => {
           data={fetchedServices}
           showsVerticalScrollIndicator={false}
           renderItem={renderitem}
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           scrollEnabled={false}
         />
         <RBSheet
@@ -369,31 +381,33 @@ const OurServices = ({route}) => {
               }}>
               Wait while your order is accepted
             </Text>
-            <Text style={{fontSize: 48, fontWeight: 'bold'}}>
+            <Text style={{ fontSize: 48, fontWeight: 'bold' }}>
               {formatTime(timeLeft)}
             </Text>
             <TouchableOpacity
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 50,
-          borderRadius: 35,
-          backgroundColor: COLOR.ORANGECOLOR,
-          marginVertical: 15,
-          
-          width: Screen_Width * 0.95,
-          marginHorizontal: 10,
-        }}
-        onPress={PutCancelData}>
-        <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: '500'}}>
-          Cancel Order
-        </Text>
-      </TouchableOpacity>
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 50,
+                borderRadius: 35,
+                backgroundColor: COLOR.ORANGECOLOR,
+                marginVertical: 15,
+
+                width: Screen_Width * 0.95,
+                marginHorizontal: 10,
+              }}
+              onPress={PutCancelData}>
+              <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
+                Cancel Order
+              </Text>
+            </TouchableOpacity>
           </View>
         </RBSheet>
 
-        <View style={{height: 170}} />
+        <View style={{ height: 170 }} />
       </ScrollView>
+
+
       <TouchableOpacity
         style={{
           justifyContent: 'center',
@@ -409,10 +423,11 @@ const OurServices = ({route}) => {
         }}
         onPress={handleBookNow}
         disabled={selected.length === 0}>
-        <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: '500'}}>
+        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
           Book now
         </Text>
       </TouchableOpacity>
+
     </>
   );
 };

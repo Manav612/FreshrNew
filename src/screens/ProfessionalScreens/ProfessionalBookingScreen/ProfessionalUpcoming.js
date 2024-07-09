@@ -113,9 +113,9 @@ const ProfessionalUpcoming = () => {
     }
   };
 
-  const PutData = async orderId => {
+  const PutData = async (orderId, coordinates) => {
     try {
-      // console.log("Order Id : ",orderId);
+      // console.log("Order Id : ",coordinates);
       const config = {
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -142,7 +142,8 @@ const ProfessionalUpcoming = () => {
             type: 'accept_order',
             paymentKey: res.data.data.order.paymentKey,
             orderDetails: res.data.data.order.client.id,
-            order_id:res.data.data.order._id,
+            order_id: res.data.data.order._id,
+            coordinates: coordinates,
           },
         });
       }
@@ -423,7 +424,7 @@ const ProfessionalUpcoming = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => onPress(item.id)}
+          onPress={() => onPress(item.id,item?.address?.coordinates)}
           style={{
             backgroundColor: item.applySelected
               ? COLOR.ORANGECOLOR
@@ -501,10 +502,10 @@ const ProfessionalUpcoming = () => {
               fontSize: 20,
               fontWeight: 'bold',
               marginBottom: 20,
-              color:COLOR.BLACK,
+              color: COLOR.BLACK,
               textAlign: 'center',
             }}>
-           Please wait for client's payment
+            Please wait for client's payment
           </Text>
           <Text style={{ fontSize: 48, fontWeight: 'bold' }}>
             {formatTime(timeLeft)}

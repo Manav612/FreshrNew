@@ -33,6 +33,8 @@ const Salon = () => {
   const [error, setError] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [FetchedsSalonData, setFetchedSalonData] = useState([]);
+
   const [address, setAddress] = useState({
     Address: '',
     city: '',
@@ -40,7 +42,7 @@ const Salon = () => {
     Nearbylandmark: ''
   });
   const [distance, setDistance] = useState(50);
-
+  const authToken = useSelector(state => state.AuthReducer);
   useEffect(() => {
     const interval = setInterval(() => {
       if (currentPage < ProfileData.length - 1) {
@@ -75,7 +77,7 @@ const Salon = () => {
       (position) => {
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
-        fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
+        // fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
         fetchDataForSalon(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
@@ -85,33 +87,18 @@ const Salon = () => {
     );
   };
 
-  const fetchDataForDelivery = async (lat, lng) => {
-    try {
-      const token = await AsyncStorage.getItem("AuthToken");
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/delivery/1/1000/`, config);
-      console.log('========    delivery           ==========.........', res.data.data);
-      // setFetchedData(res.data.facilities.facility);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+
 
   const fetchDataForSalon = async (lat, lng) => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${authToken}`
         }
       };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/female/female/salon/1/1000/male`, config);
-      console.log('============    salon     ======.........', res.data.data);
-      // setFetchedData(res.data.facilities.facility);
+      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lng},${lat}/unit/mi/all/all/all/all/1/1000/all`, config);
+      console.log('============    salon     ======', res.data.data.facilities);
+      setFetchedSalonData(res.data.data.facilities);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -119,7 +106,6 @@ const Salon = () => {
 
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
 
 
   const currentHour = new Date().getHours();
@@ -271,10 +257,39 @@ const Salon = () => {
       <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center' }}>
         <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Location</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('NearbyYourLocation Screen')} ><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity>
       </View>
       <View style={{ marginVertical: 10 }}>
-        <Category />
+      <FlatList
+        data={FetchedsSalonData}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={item => item.id}
+        style={{ flex: 1 }}
+        scrollEnabled={false}
+        renderItem={({ item }) => {
+          return (
+
+            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3 }}>
+              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", justifyContent: 'flex-start', gap: 30, alignItems: 'center' }}>
+                <Image source={{uri:item.coverImage}} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
+                <View>
+                  <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.name}</Text>
+                  <Text style={{ color: COLOR.BLACK, fontSize: 13, }}>{item?.description}</Text>
+                </View>
+              </TouchableOpacity>
+              {/* <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
+                <View style={{ height: 90, width: 30 }}>
+                  <MaterialCommunityIcons
+                    name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
+                    size={25}
+                    color={COLOR.ORANGECOLOR}
+                  />
+                </View>
+              </TouchableOpacity> */}
+
+            </View>
+          )
+        }}
+      />
       </View>
       <View style={{}}>
         <RBSheet

@@ -46,6 +46,9 @@ import OrderProcessingScreenClientSide from '../../components/ClientSideComponen
 import SelectDeliveryLocation from '../../screens/ClientSideScreens/HomeScreen/SelectDeliveryLocation';
 import SearchLocation from '../../screens/ClientSideScreens/HomeScreen/SearchLocation';
 import ConformLocation from '../../screens/ClientSideScreens/HomeScreen/ConformLocation';
+import SalonFacilityList from '../../components/ClientSideComponents/SalonFacilityList';
+import SalonProffList from '../../components/ClientSideComponents/SalonFacilityList';
+import SalonProfServices from '../../components/ClientSideComponents/SalonProfServices';
 
 
 
@@ -75,6 +78,8 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
             <Stack.Screen name={NavigationScreens.ClientSettingScreen} component={ClientSettingScreen} />
             <Stack.Screen name={NavigationScreens.FacilityListScreen} component={FacilityList} />
+            <Stack.Screen name={NavigationScreens.SalonProffListScreen} component={SalonProffList} />
+            <Stack.Screen name={NavigationScreens.SalonProfServicesScreen} component={SalonProfServices} />
 
             <Stack.Screen name={NavigationScreens.OurProfessionalDetailsScreen} component={OurProfessionalDetails} />
             <Stack.Screen name={NavigationScreens.ProfessionalInfoScreen} component={ProfessionalInfo} />

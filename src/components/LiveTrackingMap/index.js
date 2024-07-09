@@ -16,8 +16,8 @@ const LiveTrackingMap = ({
     mapApiKey,
     onLocationChange,
     socketType,
+    staticCoordinate,
 }) => {
-
     const mapRef = useRef();
     const markerRef = useRef();
     const markerRefDestny = useRef();
@@ -143,7 +143,7 @@ const LiveTrackingMap = ({
             const { latitude, longitude, heading } = await getCurrentLocation();
             animate(latitude, longitude);
 
-            console.log(`Current Location : ${latitude}, ${longitude}`);
+            // console.log(`Current Location : ${latitude}, ${longitude}`);
             onLocationChange({ latitude, longitude });
             updateState({
                 heading: heading,
@@ -161,7 +161,7 @@ const LiveTrackingMap = ({
 
     const getDestinationLocation = (latitude, longitude) => {
 
-        console.log(`Destination Location : ${latitude}, ${longitude}`);
+        // console.log(`Destination Location : ${latitude}, ${longitude}`);
 
         animateDestny(latitude, longitude);
 
@@ -221,14 +221,14 @@ const LiveTrackingMap = ({
         })
     }
 
-   useEffect(()=>{
-    socketServices.on(socketType, data => {
-        console.log("Location Socket Call: ", data);
-        const { latitude, longitude } = data.message.data;
-        getDestinationLocation(latitude, longitude);
-    });
+    useEffect(() => {
+        socketServices.on(socketType, data => {
+            // console.log("Location Socket Call: ", data);
+            const { latitude, longitude } = data.message.data;
+            getDestinationLocation(latitude, longitude);
+        });
 
-   },[])
+    }, [])
     return (
         <View style={styles.Container}>
             <View style={styles.Container}>
@@ -241,7 +241,6 @@ const LiveTrackingMap = ({
                         longitudeDelta: LONGITUDE_DELTA,
                     }}
                     provider='google'
-                    showsUserLocation={true}
                     showsMyLocationButton={true}
                     followsUserLocation={true}
                     scrollEnabled={true}
@@ -250,6 +249,24 @@ const LiveTrackingMap = ({
                     rotateEnabled={true}
                     customMapStyle={mapStyle}
                 >
+
+                    {
+                        staticCoordinate && staticCoordinate.length > 0 &&
+                        <Marker
+                            coordinate={{
+                                latitude: staticCoordinate[0],
+                                longitude: staticCoordinate[1],
+                            }}
+                            title={'Static Marker'}
+                            tracksViewChanges={false}
+                        >
+                            <Icon
+                                size={40}
+                                name='location'
+                                color={'#fff000'}
+                            />
+                        </Marker>
+                    }
 
                     <Marker.Animated
                         ref={markerRef}
@@ -282,14 +299,17 @@ const LiveTrackingMap = ({
                         </Marker.Animated>
                     }
 
-                    {/* {
-                        Object.keys(destinationLoc).length > 0 &&
+                    {
+                        staticCoordinate && staticCoordinate.length > 0 &&
                         <MapViewDirections
                             origin={curLoc}
-                            destination={destinationLoc}
+                            destination={{
+                                latitude: staticCoordinate[0],
+                                longitude: staticCoordinate[1],
+                            }}
                             apikey={mapApiKey}
-                            strokeWidth={6}
-                            strokeColor="red"
+                            strokeWidth={3}
+                            strokeColor="#0000ff"
                             optimizeWaypoints={true}
                             onStart={(params) => {
                                 console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
@@ -311,7 +331,41 @@ const LiveTrackingMap = ({
                                 // console.log('GOT AN ERROR');
                             }}
                         />
-                    } */}
+                    }
+
+{
+                        staticCoordinate && staticCoordinate.length > 0 && Object.keys(destinationLoc).length > 0 &&
+                        <MapViewDirections
+                            origin={destinationLoc}
+                            destination={{
+                                latitude: staticCoordinate[0],
+                                longitude: staticCoordinate[1],
+                            }}
+                            apikey={mapApiKey}
+                            strokeWidth={3}
+                            strokeColor="#ff0000"
+                            optimizeWaypoints={true}
+                            onStart={(params) => {
+                                console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+                            }}
+                            onReady={result => {
+                                console.log(`Distance: ${result.distance} km`)
+                                console.log(`Duration: ${result.duration} min.`)
+                                fetchTime(result.distance, result.duration),
+                                    mapRef.current.fitToCoordinates(result.coordinates, {
+                                        edgePadding: {
+                                            // right: 30,
+                                            // bottom: 300,
+                                            // left: 30,
+                                            // top: 100,
+                                        },
+                                    });
+                            }}
+                            onError={(errorMessage) => {
+                                // console.log('GOT AN ERROR');
+                            }}
+                        />
+                    }
                 </MapView>
 
             </View>

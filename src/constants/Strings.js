@@ -68,6 +68,8 @@ export const NavigationScreens = {
     NearbyYourLocationScreen:'NearbyYourLocation Screen',
     ClientSettingScreen:'ClientSettingScreen',
     FacilityListScreen:'FacilityListScreen',
+    SalonProffListScreen:'SalonProffListScreen',
+    SalonProfServicesScreen:'SalonProfServicesScreen',
     OurProfessionalDetailsScreen:'OurProfessionalDetails Screen',
     ProfessionalInfoScreen:'ProfessionalInfoScreen',
     CancelbookingScreen:'Cancelbooking Screen',

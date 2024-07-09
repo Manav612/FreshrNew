@@ -32,26 +32,20 @@ const ReviewSummary = ({route}) => {
   const {services, address, OrderData} = route.params;
   console.log(
     '===========  OrderData    ==========',
-    OrderData.message.orderDetails,
+    OrderData,
   );
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [isModalVisible, setModalVisible] = useState(false);
 
   const handleConfirmPayment = () => {
-    console.log("ayush is here",{
-      recipient: OrderData.sender,
-      message: {
-        type: 'payment_Done',
-        id: OrderData.message.order_id,
-      },
-    });
     socketServices.emit('order_update', {
       recipient: OrderData.sender,
       message: {
         type: 'payment_Done',
         id: OrderData.message.orderDetail,
         order_id: OrderData.message.order_id,
+        coordinates:OrderData.message.coordinates,
       },
     });
     navigation.navigate(NavigationScreens.LiveTrackingClientSideScreen,{orderData:OrderData});

@@ -82,8 +82,8 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     const handleSaveAddress = () => {
-        navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail, locationData: user.searchLocations[0] })
-
+        navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail,locationData:user.searchLocations[0], coorinates:cords?.coordinates})
+        
         refRBSheet.current.close();
     };
 
@@ -118,13 +118,13 @@ const ProfessionalInfo = ({ route }) => {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
-            };
-            const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-            console.log('========  user ID   ==========', res.data.data.user.searchLocations[0])
-            setUser(res.data.data.user);
-            setCords(res.data.data.user.searchLocations[0])
-            setAddress(res.data.data.user?.searchLocations[0]?.address);
-
+              };
+          const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+          console.log('========  user ID   ==========', res.data.data.user.searchLocations[0])
+          setUser(res.data.data.user);
+          setCords(res.data.data.user.searchLocations[0]);
+          setAddress(res.data.data.user?.searchLocations[0]?.address);
+    // console.log(res.data.data.user.searchLocations[0]);
         } catch (error) {
             console.error("Error:", error);
         }

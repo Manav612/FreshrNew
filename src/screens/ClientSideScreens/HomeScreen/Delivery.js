@@ -54,12 +54,7 @@ const Delivery = () => {
   } else {
     greeting = 'Good Evening';
   }
-  const [address, setAddress] = useState({
-    Address: '',
-    city: '',
-    state: '',
-    Nearbylandmark: ''
-  });
+
   const [distance, setDistance] = useState(50);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);

@@ -271,7 +271,7 @@ const LiveTrackingClientSide = ({route}) => {
           </Marker> */}
         {/* </MapView> */}
         <LiveTrackingMap
-          mapApiKey={'AIzaSyBsKp25cTLoo0gTjNCyzaMrAMXXCfRKoMQ'}
+          mapApiKey={'AIzaSyDjksmogYn7mFtMJFw-eNFsoCuHGM87-j8'}
           onLocationChange={(data) => {
             const id = orderData.sender;
             socketServices.emit('order_update', {
@@ -285,6 +285,7 @@ const LiveTrackingClientSide = ({route}) => {
             });
           }}
           socketType={'Location_ChangeSP'}
+          staticCoordinate={orderData?.message?.coordinates}
         />
       </View>
 

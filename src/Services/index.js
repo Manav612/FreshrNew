@@ -1,6 +1,8 @@
 const HOST_PROTOCOL = "https";
 const API_SUFFIX = "api/v1";
+// const API_HOST = "api-development.freshr.ca"
 const API_HOST = "seriously-hardy-stinkbug.ngrok-free.app"
+
 
 
 

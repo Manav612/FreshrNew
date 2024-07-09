@@ -108,7 +108,7 @@ const FacilityList = ({ route }) => {
 
     const Card = ({ item }) => (
         <View style={styles.CardContainer}>
-            <TouchableOpacity style={{ width: Screen_Width * 0.85, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            <TouchableOpacity style={{ width: Screen_Width * 0.85, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',gap:20 }}
             onPress={() => navigation.navigate(NavigationScreens.OurServicesScreen, { facilitiesData: item,SelectedProf })}
             >
                 <FastImage style={styles.CardImage} source={{ uri: item?.coverImage }} />
@@ -118,17 +118,17 @@ const FacilityList = ({ route }) => {
                     </Text>
                     <Text style={{ color: COLOR.BLACK_70 }}>{item?.description}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={{ flexDirection: 'row' }}>
+                        {/* <View style={{ flexDirection: 'row' }}>
                             <MaterialCommunityIcons name="map-marker" size={18} color={COLOR.ORANGECOLOR} />
                             <Text style={{ color: COLOR.BLACK }}>
                                 {item?.formattedAddress && item.formattedAddress.length > 40
                                     ? `${item.formattedAddress.slice(0, 40)}...`
                                     : item?.formattedAddress}
-                            </Text>
-                        </View>
+                            </Text> 
+                        </View> */}
                     </View>
                 </View>
-                <TouchableOpacity onPress={() => { toggleBookmark(item.id) }}>
+                {/* <TouchableOpacity onPress={() => { toggleBookmark(item.id) }}>
                     <View style={{ height: 90, width: 30 }}>
                         <MaterialCommunityIcons
                             name={bookmarkStatus[item.id] ? "bookmark" : "bookmark-outline"}
@@ -136,7 +136,7 @@ const FacilityList = ({ route }) => {
                             color={COLOR.ORANGECOLOR}
                         />
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </TouchableOpacity>
         </View>
     );
