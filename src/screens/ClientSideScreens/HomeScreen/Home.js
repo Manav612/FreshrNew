@@ -221,7 +221,7 @@ const Home = () => {
 
     >
       <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
           <View>
             <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center',width:Screen_Width*0.6 }}>
               <Entypo name="home" size={20} color={COLOR.BLACK} />
@@ -235,7 +235,7 @@ const Home = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', gap: 10, marginLeft: 10, alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', gap: 10,  alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)}>
             <Ionicons name="chatbubble-ellipses-outline" size={30} color={COLOR.BLACK} />
           </TouchableOpacity>

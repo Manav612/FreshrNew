@@ -9,36 +9,24 @@ import { NavigationScreens } from '../../../constants/Strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
-
+import { Searchbar } from 'react-native-paper';
+                        
 const ProfSelectService = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const COLOR1 = theme === 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
     const navigation = useNavigation();
-
-    const [searchText, setSearchText] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const [services, setServices] = useState([]);
-    const [filteredData, setFilteredData] = useState(services);
-
-    const handleSearch = (text) => {
-        setSearchText(text);
-        if (text) {
-            const filtered = services.filter((item) =>
-                item.name.toLowerCase().includes(text.toLowerCase())
-            );
-            setFilteredData(filtered);
-        } else {
-            setFilteredData(services);
-        }
-    };
+    const [filteredServices, setFilteredServices] = useState([]);
 
     useEffect(() => {
         fetchData();
     }, []);
 
     useEffect(() => {
-        setFilteredData(services);
-    }, [services]);
+        handleSearch(searchQuery);
+    }, [services, searchQuery]);
 
     const fetchData = async () => {
         try {
@@ -56,37 +44,49 @@ const ProfSelectService = () => {
         }
     };
 
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        if (query) {
+            const filtered = services.filter((item) =>
+                item.name.toLowerCase().includes(query.toLowerCase())
+            );
+            setFilteredServices(filtered);
+        } else {
+            setFilteredServices(services);
+        }
+    };
+
     return (
-        <View style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
-            <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
+            <View style={{ justifyContent: 'flex-start', alignItems: 'center', gap: 20, flexDirection: 'row' }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <AntDesign name="arrowleft" size={30} color={COLOR.GRAY} />
+                    <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
                 </TouchableOpacity>
-                <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.75, height: 50, paddingHorizontal: 10, borderRadius: 10, flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                    <AntDesign name="search1" size={27} color={COLOR.GRAY} />
-                    <TextInput
-                        placeholder='Search'
-                        placeholderTextColor={COLOR.GRAY}
-                        style={{ fontSize: 20, color: COLOR.BLACK, width: 200 }}
-                        onChangeText={handleSearch}
-                        value={searchText}
-                    />
-                </View>
-                <TouchableOpacity onPress={() => handleSearch('')}>
-                    <AntDesign name="close" size={30} color={COLOR.BLACK} />
-                </TouchableOpacity>
+                <Text style={{ color: COLOR.BLACK, fontSize: 24, fontWeight: '600' }}>Our Services</Text>
             </View>
+            <Searchbar
+                placeholder="Search"
+                onChangeText={handleSearch}
+                value={searchQuery}
+                style={{backgroundColor:COLOR.WHITE,marginVertical:10}}
+            />
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfAddCustomServicesScreen,{})} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10, marginVertical:5, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 15, height: 50, elevation: 5, shadowColor: COLOR.WHITE }}>
+                <AntDesign name="plus" size={20} color={COLOR.WHITE} />
+                <Text style={{ fontSize: 14, color: COLOR.WHITE, fontWeight: '700' }}>Add Custom Services</Text>
+            </TouchableOpacity>
             <FlatList
-                data={filteredData}
+                data={filteredServices}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.profselectedDetailserviceScreen, { item: item,data:filteredData })} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.profselectedDetailserviceScreen, { item: item, data: filteredServices })} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, paddingHorizontal: 10, borderRadius: 15, height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',gap:20, marginVertical: 10, marginHorizontal: 5 }}>
                         <Image source={{ uri: item.photo }} style={{ height: 50, width: 50, resizeMode: 'cover', marginVertical: 10, borderRadius: 10 }} />
                         <Text style={{ fontSize: 16,color:COLOR.BLACK }}>{item.name}</Text>
                     </TouchableOpacity>
                 )}
             />
+            
+            <View style={{height:140}}/>
         </View>
     );
 };

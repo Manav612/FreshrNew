@@ -30,6 +30,8 @@ import profselectedDetailservice from '../../screens/ProfessionalScreens/Profess
 import ProfessionalEditService from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalEditService';
 import LiveTrackingProfSide from '../../components/ProfessionalComponents/LiveTrackingProfSide';
 import OrderProcessingScreenProfSide from '../../components/ProfessionalComponents/OrderProcessingScreenProfSide';
+import ProfAddServicesList from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
+import ProfAddCustomServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -55,6 +57,7 @@ const ServicesStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalServicesScreen} component={ProfessionalServices} />
+            <Stack.Screen name={NavigationScreens.ProfAddCustomServicesScreen} component={ProfAddCustomServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalInnerServicesScreen} component={ProfessionalInnerServices} />

@@ -85,9 +85,10 @@ export const NavigationScreens = {
     ProfessionalAboutUsScreen:'ProfessionalAboutUsScreen',
     ProfessionalGalleryScreen:'ProfessionalGalleryScreen',
     ProfessionalPackageScreen:'ProfessionalPackageScreen',
+    ProfAddCustomServicesScreen:'ProfAddCustomServicesScreen',
     ProfessionalReviewScreen:'ProfessionalReviewScreen',
     ProfessionalServicesScreen:'ProfessionalServicesScreen',
-
+    ProfAddServicesListScreen:'ProfAddServicesListScreen',
     ProfessionalBottomTab:'ProfessionalBottom Tab',
     ProfessionalHomeScreen:'ProfessionalHome Screen',
     ProfessionalFacilitiesScreen:'ProfessionalFacilities Screen',
