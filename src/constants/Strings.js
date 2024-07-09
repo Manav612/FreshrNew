@@ -36,6 +36,8 @@ export const NavigationScreens = {
     ConformLocationScreen: ' ConformLocationScreen',
     DeliveryScreen:'DeliveryScreen',
     SalonScreen:'SalonScreen',
+    ScheduledeliveryScreen:'ScheduledeliveryScreen',
+    SchedulesalonScreen:'SchedulesalonScreen',
     OTPScreen:'OTPScreen',
     OurGalleryScreen:'OurGallery Screen',
     ReviewsDetailScreen:'ReviewsDetail Screen',

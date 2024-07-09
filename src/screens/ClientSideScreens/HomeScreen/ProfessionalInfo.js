@@ -48,7 +48,7 @@ const ProfessionalInfo = ({ route }) => {
     const truncatedText = fullText.slice(0, 100) + '...';
     const toggleShowFullText = () => {
         setShowFullText(!showFullText);
-      };
+    };
 
     // const [address, setAddress] = useState({
     //     address1: '',
@@ -82,8 +82,8 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     const handleSaveAddress = () => {
-        navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail,locationData:user.searchLocations[0], coorinates:cords?.coordinates})
-        
+        navigation.navigate(NavigationScreens.OurServicesScreen, { SelectedProf: ProfDetail, locationData: user.searchLocations[0], coorinates: cords?.coordinates })
+
         refRBSheet.current.close();
     };
 
@@ -118,13 +118,13 @@ const ProfessionalInfo = ({ route }) => {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
-              };
-          const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-          console.log('========  user ID   ==========', res.data.data.user.searchLocations[0])
-          setUser(res.data.data.user);
-          setCords(res.data.data.user.searchLocations[0]);
-          setAddress(res.data.data.user?.searchLocations[0]?.address);
-    // console.log(res.data.data.user.searchLocations[0]);
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+            console.log('========  user ID   ==========', res.data.data.user.searchLocations[0])
+            setUser(res.data.data.user);
+            setCords(res.data.data.user.searchLocations[0]);
+            setAddress(res.data.data.user?.searchLocations[0]?.address);
+            // console.log(res.data.data.user.searchLocations[0]);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -341,17 +341,36 @@ const ProfessionalInfo = ({ route }) => {
                             </TouchableOpacity>
                             {/* </TouchableOpacity> */}
                         </View>
-
-                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ReviewsDetailScreen)} style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
-                            <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
-                            <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>4.8(3,279 reviews)</Text>
-                        </TouchableOpacity>
-                        <View style={{marginVertical: 10 }}>
+                        <View style={{ marginVertical: 10 }}>
                             <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>{showFullText ? fullText : truncatedText}</Text>
                             <TouchableOpacity onPress={toggleShowFullText}>
                                 <Text style={{ color: COLOR.ORANGECOLOR }}>{showFullText ? 'Read Less' : 'Read More'}</Text>
                             </TouchableOpacity>
                         </View>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ReviewsDetailScreen)} style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
+                            <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
+                            <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>4.8(3,279 reviews)</Text>
+                        </TouchableOpacity>
+                        {selectedItem === 'About Us' &&
+                            <TouchableOpacity
+                                style={{
+                                    width: Screen_Width * 0.35,
+                                    height:35,
+                                    backgroundColor: COLOR.ORANGECOLOR,
+                                    borderRadius: 35,
+                                    marginVertical:10,
+                                    flexDirection: 'row',
+                                    gap: 20,
+                                    alignItems:'center',
+                                    paddingHorizontal:10
+                                }}
+                                onPress={() => navigation.navigate(NavigationScreens.ReserveNowServicesScreen, { SelectedProf: ProfDetail, address: address })}
+                            >
+                                 <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+                                <Text style={{fontSize: 18, color: COLOR.WHITE,fontWeight:'bold' }}>
+                                   Schedule
+                                </Text>
+                            </TouchableOpacity>}
                     </View>
                     {/* <View>
                         <FlatList
@@ -364,7 +383,7 @@ const ProfessionalInfo = ({ route }) => {
                             showsHorizontalScrollIndicator={false}
                         />
                     </View> */}
-                    <View style={{ backgroundColor: COLOR.WHITE, alignSelf: 'center', elevation: 3, shadowColor: COLOR.BLACK, height: 125, width: Screen_Width * 0.9, marginVertical: 10, borderRadius: 25 }}>
+                    <View style={{ backgroundColor: COLOR.WHITE, alignSelf: 'center', elevation: 3, shadowColor: COLOR.BLACK, height: 125, width: Screen_Width * 0.9,position:'relative',marginTop:60, borderRadius: 25 }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
                             <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Freelancer mode</Text>
                         </View>
@@ -478,29 +497,6 @@ const ProfessionalInfo = ({ route }) => {
                     <View style={{ height: 90 }} />
                 </View>
             </ScrollView>
-            {selectedItem === 'About Us' &&
-                <TouchableOpacity
-                    style={{
-                        width: Screen_Width * 0.80,
-                        height: 40,
-                        backgroundColor: COLOR.ORANGECOLOR,
-                        justifyContent: 'center',
-                        borderRadius: 35,
-                        alignSelf: 'center',
-                        marginVertical: 20,
-                        position: 'absolute',
-                        bottom: 80,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 20
-                    }}
-                    onPress={() => navigation.navigate(NavigationScreens.ReserveNowServicesScreen, { SelectedProf: ProfDetail, address: address })}
-                >
-                    <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE }}>
-                        Reserve Now
-                    </Text>
-                    <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
-                </TouchableOpacity>}
         </>
     );
 };

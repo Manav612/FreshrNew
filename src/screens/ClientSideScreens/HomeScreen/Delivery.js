@@ -298,6 +298,26 @@ const Delivery = () => {
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
+      <TouchableOpacity
+        onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
+        style={{
+          width: Screen_Width * 0.92,
+          height: 40,
+          backgroundColor: COLOR.ORANGECOLOR,
+          justifyContent: 'center',
+          borderRadius: 35,
+          marginVertical: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 20
+        }}
+      >
+       
+        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE, fontWeight: 'bold' }}>
+          Schedule
+        </Text>
+        <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+      </TouchableOpacity>
       {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
         <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width * 0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }} >
@@ -309,7 +329,7 @@ const Delivery = () => {
           <FastImage source={Filter} style={{ height: 20, width: 20 }} />
         </TouchableOpacity>
       </View> */}
-      <View style={{ marginVertical: 10, borderRadius: 15 }}>
+      <View style={{ marginVertical: 5, borderRadius: 15 }}>
         <FlatList
           ref={flatListRef}
           data={ProfileData}
@@ -362,23 +382,23 @@ const Delivery = () => {
             <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3 }}>
               <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, gap: 10, flexDirection: 'row' }}>
                 <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
-                <View style={{ flexDirection: 'column', justifyContent: 'space-between',gap:5 }}>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',width:Screen_Width*0.6 }}>
-                  <View>
-                    <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
-                    <Text style={{ backgroundColor: COLOR.ORANGECOLOR, fontSize: 15, borderRadius: 10, textAlign: 'center', color: COLOR.WHITE, width: Screen_Width * 0.2,height:25}}>2 services</Text>
-                  </View>
-                  <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
+                  <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
+                    <View>
+                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
+                      <Text style={{ backgroundColor: COLOR.ORANGECOLOR, fontSize: 15, borderRadius: 10, textAlign: 'center', color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>2 services</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
 
-                    <MaterialCommunityIcons
-                      name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
-                      size={25}
-                      color={COLOR.ORANGECOLOR}
-                    />
-                  </TouchableOpacity>
-                </View>
+                      <MaterialCommunityIcons
+                        name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
+                        size={25}
+                        color={COLOR.ORANGECOLOR}
+                      />
+                    </TouchableOpacity>
+                  </View>
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: Screen_Width * 0.59 }}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
                       <Text style={{ marginLeft: 5, color: COLOR.GRAY }}>4.8</Text>
                     </View>

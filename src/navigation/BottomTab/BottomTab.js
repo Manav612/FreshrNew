@@ -48,6 +48,8 @@ import SearchLocation from '../../screens/ClientSideScreens/HomeScreen/SearchLoc
 import ConformLocation from '../../screens/ClientSideScreens/HomeScreen/ConformLocation';
 import SalonProffList from '../../components/ClientSideComponents/SalonProffList';
 import SalonProfServices from '../../components/ClientSideComponents/SalonProfServices';
+import Scheduledelivery from '../../screens/ClientSideScreens/HomeScreen/Scheduledelivery';
+import Schedulesalon from '../../screens/ClientSideScreens/HomeScreen/Schedulesalon';
 
 
 
@@ -67,6 +69,8 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.ConformLocationScreen} component={ConformLocation} />
             <Stack.Screen name={NavigationScreens.DeliveryScreen} component={Delivery} />
             <Stack.Screen name={NavigationScreens.SalonScreen} component={Salon} />
+            <Stack.Screen name={NavigationScreens.ScheduledeliveryScreen} component={Scheduledelivery} />
+            <Stack.Screen name={NavigationScreens.SchedulesalonScreen} component={Schedulesalon} />
             <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />
             <Stack.Screen name={NavigationScreens.MyBookMarkScreen} component={MyBookMarkScreen} />
             <Stack.Screen name={NavigationScreens.HaircutScreen} component={Haircuts} />

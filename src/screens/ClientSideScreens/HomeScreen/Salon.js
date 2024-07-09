@@ -207,6 +207,26 @@ const Salon = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
+        <TouchableOpacity
+         onPress={() => navigation.navigate(NavigationScreens.SchedulesalonScreen)}
+        style={{
+          width: Screen_Width * 0.92,
+          height: 40,
+          backgroundColor: COLOR.ORANGECOLOR,
+          justifyContent: 'center',
+          borderRadius: 35,
+          marginVertical: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap:20,
+        }}
+      >
+       
+        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE,fontWeight:'bold'}}>
+          Schedule
+        </Text>
+        <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+      </TouchableOpacity>
       {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
         <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width * 0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }} >
