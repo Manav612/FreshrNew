@@ -223,13 +223,13 @@ const Home = () => {
       <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center',width:Screen_Width*0.6 }}>
+              <Entypo name="home" size={20} color={COLOR.BLACK} />
               <Text style={{ color: COLOR.BLACK, fontSize: 17 }}>{displayName}</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row', alignItems: 'center', height: 38, flex: 1 }}>
-              <Entypo name="location-pin" size={15} color={COLOR.BLACK} />
-              <Text style={{ color: COLOR.BLACK, fontSize: 16, flex: 1 }} numberOfLines={1}>
+              <Entypo name="location-pin" size={25} color={COLOR.ORANGECOLOR} />
+              <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 16, flex: 1 }} numberOfLines={1}>
                 {address}
               </Text>
             </TouchableOpacity>
@@ -239,7 +239,7 @@ const Home = () => {
           <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)}>
             <Ionicons name="chatbubble-ellipses-outline" size={30} color={COLOR.BLACK} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => openBottomSheet()} style={{ backgroundColor: COLOR.LIGHTGRAY, elevation: 5, shadowColor: COLOR.BLACK, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius:15 }}>
+          <TouchableOpacity onPress={() => openBottomSheet()} >
             <FastImage source={Filter} style={{ height: 20, width: 20 }} />
           </TouchableOpacity>
         </View>
