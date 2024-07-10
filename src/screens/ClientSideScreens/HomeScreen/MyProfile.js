@@ -9,7 +9,7 @@ import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
-import { ProfileData1 } from '../../../components/utils';
+// import { ProfileData1 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { NavigationScreens } from '../../../constants/Strings';
 import { GetAuthToken, StoreThemeMode } from '../../../constants/AsyncStorage';
@@ -21,6 +21,11 @@ import FastImage from 'react-native-fast-image';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { RemoveAuthToken } from '../../../redux/AuthAction';
+import { Hair1, OnBoard3, banner1, banner2, banner3, banner4, banner5, barber, barber2, barber3, barber4, call, chartdonut, currency, map, message, share, sp1, sp2, tipjar, vector, vectorh, web } from '../constants/Icons';
+
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 const MyProfile = () => {
 
   const navigation = useNavigation();
@@ -38,7 +43,82 @@ const MyProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const ProfileData1=[
+    {
+      id:1,
+      icon:(<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Edit Profile',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:2,
+      icon:(<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Notification',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:3,
+      icon:(<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Payment',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:4,
+      icon:(<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Security',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:5,
+      icon:(<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Privacy Policy',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:6,
+      icon:(<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Tutorial',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:7,
+      icon:(<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Support',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:8,
+      icon:(<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Feedback',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:9,
+      icon:( <Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Terms of Service',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:10,
+      icon:(<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:'Account Deletion',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id:11,
+      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
 
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    
+    {
+      id:12,
+      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
+      name:user.isHost ? 'Switch to Host':'Become to Host',
+      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+   ];
   const handleResetPress1 = () => {
     setResetSelected(!resetSelected);
     setApplySelected(false);
@@ -227,21 +307,6 @@ const handleSwitchToProfessionals = async () => {
             borderRadius: 100,
           }}
         >
-          <TouchableOpacity
-            style={{
-              backgroundColor: COLOR.ORANGECOLOR,
-              width: 15,
-              height: 15,
-              borderRadius: 5,
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'absolute',
-              right: 5,
-              bottom: 0
-            }}
-          >
-            <MaterialIcons name="edit" size={10} color={COLOR.WHITE} />
-          </TouchableOpacity>
         </View>
         <View>
         <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>{user?.firstName}{' '}{user?.lastName}</Text>
@@ -271,6 +336,12 @@ const handleSwitchToProfessionals = async () => {
                 case 'Switch to Professionals':
                   handleSwitchToProfessionals();
                   break;
+                  case 'Become a Professional':
+                  handleSwitchToProfessionals();
+                  break;
+                  case 'Switch to Host':
+                    handleSwitchToHost();
+                    break;
                 case 'Become to Host':
                   handleSwitchToHost();
                   break;
@@ -367,7 +438,7 @@ const handleSwitchToProfessionals = async () => {
                 <Text style={{ fontSize: 15, fontWeight: '700', color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => { handleApplyPress2(); refRBSheet.current[0].close() }} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Yes,Logout</Text>
+                <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Yes,  Logout</Text>
               </TouchableOpacity>
             </View>
           </View>

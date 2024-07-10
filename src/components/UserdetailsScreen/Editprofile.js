@@ -5,7 +5,9 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
+    Modal,
+    Image,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -15,6 +17,9 @@ import { useNavigation } from '@react-navigation/native';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
+import { CheckPermission } from '../../constants/CheckPermission';
+import { PERMISSIONS } from 'react-native-permissions';
+import ImagePicker from 'react-native-image-crop-picker'
 
 const Editprofile = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -34,6 +39,78 @@ const Editprofile = () => {
     const [isEmail, setIsEmail] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
     const [formattedValue, setFormattedValue] = useState("");
+    const [imageUri, setImageUri] = useState('');
+    const [imageModalVisible, setImageModalVisible] = useState(false);
+    const CameraHandle = async () => {
+        const granted = await CheckPermission(
+            Platform.OS == 'ios' ?
+                PERMISSIONS.IOS.PHOTO_LIBRARY :
+                PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+        );
+        console.log("-------------111111-", granted);
+
+        setImageModalVisible(!imageModalVisible)
+    };
+    const onUploadPress = async () => {
+        const granted = await CheckPermission(
+            Platform.OS == 'ios' ?
+                PERMISSIONS.IOS.PHOTO_LIBRARY :
+                PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+        );
+        console.log("-----------22222---", granted);
+
+        if (granted == true || Platform.OS == 'ios') {
+            ImagePicker.openPicker({
+                width: 1080,
+                height: 1080,
+                cropping: true,
+                mediaType: 'photo',
+                cropperToolbarTitle: 'Crop Image',
+                hideBottomControls: true,
+                enableRotationGesture: true,
+                showCropGuidelines: false,
+                compressImageQuality: 0.9,
+            }).then(image => {
+                setImageModalVisible(false);
+                setImageUri(image.path);
+            }).catch((e) => {
+                setImageModalVisible(false);
+                console.log(e);
+            })
+        }
+    }
+
+    const onCapturePress = async () => {
+        setImageModalVisible(false);
+        const granted = await CheckPermission(
+            Platform.OS == 'ios' ?
+                PERMISSIONS.IOS.CAMERA :
+                PERMISSIONS.ANDROID.CAMERA
+        );
+        console.log("-----------3333333---", granted);
+        if (granted == true || Platform.OS == 'ios') {
+            ImagePicker.openCamera({
+                width: 1080,
+                height: 1080,
+                cropping: true,
+                mediaType: 'photo',
+                cropperToolbarTitle: 'Crop Image',
+                hideBottomControls: true,
+                enableRotationGesture: true,
+                showCropGuidelines: false,
+                compressImageQuality: 0.9,
+
+            }).then(image => {
+                setImageModalVisible(false);
+                setImageUri(image.path);
+            }).catch((e) => {
+                setImageModalVisible(false);
+                console.log(e);
+            })
+        }
+    }
+
+
     const styles = StyleSheet.create({
         inputContainer: {
             flexDirection: 'row',
@@ -59,7 +136,87 @@ const Editprofile = () => {
             alignItems: 'center',
             justifyContent: 'center',
             marginTop: 10
-        }
+        },
+        imageInnerContainer: {
+            height: 100,
+            width: 100,
+            borderRadius: 50,
+            backgroundColor: COLOR.ORANGECOLOR,
+            justifyContent: 'center',
+            alignItems: 'center',
+            elevation: 3,
+            shadowColor: COLOR.ORANGECOLOR,
+            position: 'relative',
+            marginBottom: 20
+        },
+        image: {
+            height: 100,
+            width: 100,
+            borderRadius: 50,
+        },
+        ImageText: {
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: COLOR.BLACK,
+            textAlign: 'center'
+        },
+        cameraButton: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: COLOR.BLACK,
+            borderRadius: 25,
+            height: 30,
+            width: 30,
+            position: 'absolute',
+            right: 1,
+            bottom: 1,
+        },
+        modalContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            width: '100%',
+          },
+          innerContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '20%',
+            width: '80%',
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 15,
+            elevation: 10,
+            shadowColor: COLOR.BLACK,
+          },
+          closeButton: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            right: 0,
+            top: 0,
+          },
+          buttonContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            gap: 30,
+          },
+          button: {
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+          buttonText: {
+            color: COLOR.BLACK,
+            fontSize: 18,
+            fontWeight: '700',
+          },
+      
+          iconStyle: {
+            width: 20,
+            height: 20,
+          },
+          errorText: {
+            color: COLOR.ROYALGOLDEN
+          },
     });
 
     return (
@@ -72,6 +229,18 @@ const Editprofile = () => {
                 <Text style={{ fontSize: 22, color: COLOR.BLACK, fontWeight: 'bold' }}>
                     Edit Profile
                 </Text>
+            </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.imageInnerContainer}>
+                    {imageUri ? (
+                        <Image source={{ uri: imageUri }} style={styles.image} />
+                    ) : (
+                        <Text style={styles.ImageText}>No Image selected</Text>
+                    )}
+                    <TouchableOpacity onPress={CameraHandle} style={styles.cameraButton}>
+                        <AntDesign name="camera" size={18} color={COLOR.ORANGECOLOR} />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{ width: Screen_Width, paddingHorizontal: 15 }}>
@@ -230,7 +399,7 @@ const Editprofile = () => {
                             height: 50,
                             borderRadius: 35,
                             backgroundColor: COLOR.ORANGECOLOR,
-                            
+
                         }}
                     >
                         <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
@@ -238,6 +407,39 @@ const Editprofile = () => {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                <Modal
+                    transparent
+                    visible={imageModalVisible}
+                    animationType='slide'
+                    statusBarTranslucent
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.innerContainer}>
+                            <TouchableOpacity
+                                onPress={() => setImageModalVisible(false)}
+                                style={styles.closeButton}
+                            >
+                                <AntDesign name="closecircle" size={30} color={COLOR.BLACK} />
+                            </TouchableOpacity>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity
+                                    onPress={onCapturePress}
+                                    style={styles.button}
+                                >
+                                    <AntDesign name="camera" size={40} color={COLOR.BLACK} />
+                                    <Text style={styles.buttonText}>Camera</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={onUploadPress}
+                                    style={styles.button}
+                                >
+                                    <AntDesign name="upload" size={40} color={COLOR.BLACK} />
+                                    <Text style={styles.buttonText}>Upload</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </ScrollView>
     );

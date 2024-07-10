@@ -81,7 +81,7 @@ const MyBookMarkScreen = () => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: COLOR.WHITE }} 
+    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }} 
     
     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 
@@ -100,6 +100,9 @@ const MyBookMarkScreen = () => {
           </TouchableOpacity>
           <Text style={styles.HeaderText}>Following</Text>
         </View>
+        <TouchableOpacity>
+          <FastImage source={Filter} style={{ height: 20, width: 20 }} />
+        </TouchableOpacity>
         {/* <TouchableOpacity>
           <MaterialCommunityIcons
             name="dots-horizontal-circle-outline"
@@ -109,36 +112,61 @@ const MyBookMarkScreen = () => {
         </TouchableOpacity> */}
       </View>
       <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, marginHorizontal: 10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK }}>
-        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>where to serve you?</Text>
+        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Delivery Options</Text>
         <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
           <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
-            <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
+            <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to You</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
+            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.9, height: 50, paddingHorizontal: 10, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, marginVertical: 20 }}>
-        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-          <AntDesign name="search1" size={30} color={COLOR.GRAY} />
-          <TextInput
-            placeholder='Search'
-            placeholderTextColor={COLOR.GRAY}
-            style={{ fontSize: 20, color: COLOR.BLACK, width: 200 }}
-          // onChangeText={text => {
-          //   setSearchText(text);
-          //   handleSearch();
-          // }}
-          />
-        </View>
-        <TouchableOpacity >
-          {/* //onPress={openBottomSheet} */}
-          <FastImage source={Filter} style={{ height: 20, width: 20 }} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
+        style={{
+          width: Screen_Width * 0.92,
+          height: 40,
+          backgroundColor: COLOR.ORANGECOLOR,
+          justifyContent: 'center',
+          borderRadius: 35,
+          marginVertical: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 20
+        }}
+      >
+       
+        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE, fontWeight: 'bold' }}>
+          Schedule
+        </Text>
+        <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+      </TouchableOpacity>
 
-        </TouchableOpacity>
+      <View style={{ marginVertical: 5, borderRadius: 15 }}>
+        <FlatList
+          ref={flatListRef}
+          data={ProfileData}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={(event) => {
+            const offset = event.nativeEvent.contentOffset.x;
+            const index = Math.floor(offset / Screen_Width);
+            setCurrentPage(index);
+          }}
+          renderItem={({ item }) => (
+            <View style={{ borderRadius: 15, marginHorizontal: 5 }}>
+              <FastImage
+                source={item.img}
+                style={{ width: Screen_Width * 0.9, height: 200, resizeMode: 'cover', borderRadius: 15 }}
+              />
+            </View>
+          )}
+        />
       </View>
-      <FlatList
+  
+        <FlatList
         data={FetchDataOfFav}
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
@@ -174,5 +202,6 @@ const MyBookMarkScreen = () => {
 };
 
 export default MyBookMarkScreen;
+
 
 

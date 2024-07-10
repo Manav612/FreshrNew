@@ -277,7 +277,7 @@ const Explore = () => {
 
     },
     mapStyle: {
-       height:Screen_Height*0.7
+       height:Screen_Height*0.69
     },
     CategoryContainer: {
       borderWidth: 2,
@@ -330,13 +330,13 @@ const Explore = () => {
       <View style={{ backgroundColor: COLOR.WHITE}}>
 
       <View style={{ borderRadius: 15,width:Screen_Width*0.95, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, padding: 10,}}>
-        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>where to serve you?</Text>
+        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16, textAlign: 'center' }}>Delivery Options</Text>
         <View style={{ flexDirection: 'row',justifyContent:'space-between', alignItems:'center', marginTop:10 }}>
           <TouchableOpacity onPress={handleDeliverySide} style={{ width: Screen_Width*0.4, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} >
-            <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
+            <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes To You</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleSalonSide} style={{ width: Screen_Width*0.4, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }}   >
-            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
+            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -361,7 +361,7 @@ const Explore = () => {
         </View>
       </View> */}
       </View>
-      <TouchableOpacity onPress={openBottomSheet2} style={{backgroundColor:COLOR.LIGHTGRAY,borderRadius:5,height:40,width:40,justifyContent:'center',alignItems:'center',position:'absolute',right:70,top:Screen_Height*0.16,zIndex:100}}>
+      <TouchableOpacity onPress={openBottomSheet2} style={{backgroundColor:COLOR.LIGHTGRAY,height:38,width:38,justifyContent:'center',alignItems:'center',position:'absolute',right:60,marginTop:'34%',zIndex:100}}>
             <FastImage source={Filter} style={{ height: 20, width: 20 }} />
           </TouchableOpacity>
       <View style={styles.container}>
