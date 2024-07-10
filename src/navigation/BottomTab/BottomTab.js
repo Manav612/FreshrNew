@@ -119,6 +119,8 @@ const ExploreStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.ExploreScreen} component={Explore} />
+            <Stack.Screen name={NavigationScreens.ScheduledeliveryScreen} component={Scheduledelivery} />
+            <Stack.Screen name={NavigationScreens.SchedulesalonScreen} component={Schedulesalon} />
         </Stack.Navigator>
     );
 };
@@ -129,6 +131,8 @@ const MyBookingStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.MyBookingScreen} component={MyBooking} />
             <Stack.Screen name={NavigationScreens.CancelbookingScreen} component={Cancelbooking} />
+            <Stack.Screen name={NavigationScreens.ScheduledeliveryScreen} component={Scheduledelivery} />
+            <Stack.Screen name={NavigationScreens.SchedulesalonScreen} component={Schedulesalon} />
         </Stack.Navigator>
     );
 };

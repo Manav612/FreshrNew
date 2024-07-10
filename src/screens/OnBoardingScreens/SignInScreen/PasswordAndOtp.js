@@ -164,7 +164,7 @@ const PasswordAndOtp = ({ route }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Login to your Account</Text>
+                <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Login to Account</Text>
             </View>
 
             {/* Email Input */}
@@ -197,7 +197,7 @@ const PasswordAndOtp = ({ route }) => {
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: Screen_Width * 0.9 }}>
-                        <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter Otp</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter access code</Text>
                         <Text style={{ color: COLOR.GRAY, fontSize: 16, marginLeft: 10 }}>{formatTime(timer)}</Text>
                     </View>
 
@@ -216,14 +216,15 @@ const PasswordAndOtp = ({ route }) => {
                         disabled={timer > 0}
                     >
                         <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
-                            {otpRequested ? (timer === 0 ? 'Resend OTP' : 'Get OTP') : 'Get OTP'}
+                            {otpRequested ? (timer === 0 ? 'Resend access code' : 'Get access code') : 'Get  access code'}
+
                         </Text>
                         <View />
                     </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity onPress={handleSignIn} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
-                    <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Verify OTP</Text>
+                    <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Verify access code</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate('Forgot Password Screen')} style={{ marginVertical: 15 }}>

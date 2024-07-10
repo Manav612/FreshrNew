@@ -149,7 +149,7 @@ const dispatch = useDispatch()
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: Screen_Width * 0.9 }}>
-            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter Otp</Text>
+            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter access code</Text>
             <Text style={{ color: COLOR.GRAY, fontSize: 16, marginLeft: 10 }}>{formatTime(timer)}</Text>
           </View>
 
@@ -168,7 +168,7 @@ const dispatch = useDispatch()
             disabled={timer > 0}
           >
             <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
-              {otpRequested ? (timer === 0 ? 'Resend OTP' : 'Get OTP') : 'Get OTP'}
+              {otpRequested ? (timer === 0 ? 'Resend access code' : 'Get access code') : 'Get access code'}
             </Text>
             <View />
           </TouchableOpacity>

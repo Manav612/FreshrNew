@@ -21,6 +21,7 @@ import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import Slider from '@react-native-community/slider';
 import { data, data2, data3 } from '../../../components/utils';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Salon = () => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -42,7 +43,55 @@ const Salon = () => {
     Nearbylandmark: ''
   });
   const [distance, setDistance] = useState(50);
+  const [bookmarkStatus, setBookmarkStatus] = useState({});
+
   const authToken = useSelector(state => state.AuthReducer);
+
+  const toggleBookmark = async (itemId) => {
+    try {
+      await AddFavData(itemId);
+      setBookmarkStatus(prevState => ({
+        ...prevState,
+        [itemId]: !prevState[itemId]
+      }));
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      // Optionally, show an error message to the user
+    }
+  };
+
+  useEffect(() => {
+    AddFavData()
+    // fetchData();
+  }, []);
+
+  const AddFavData = async (itemId) => {
+    try {
+      console.log("==========>", itemId);
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+
+      };
+      const res = await axios.post(`${BASE_API_URL}/users/favorites`, { facility: itemId }, config);
+      console.log("================= add fav data ======================", res.data.data);
+      console.log("Response data:", res.status);
+
+      // Check if the request was successful
+      // if (res.data.status === "success") {
+      //   Alert.alert("success", res.data.message)
+
+      // } else {
+      //   Alert.alert(res.data.message)
+      // }
+      return res.data; // Return the response data
+    } catch (error) {
+      console.error("Error:", error);
+      throw error; // Rethrow the error to handle it in the calling function
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (currentPage < ProfileData.length - 1) {
@@ -207,25 +256,33 @@ const Salon = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
-        <TouchableOpacity
-         onPress={() => navigation.navigate(NavigationScreens.SchedulesalonScreen)}
+         <TouchableOpacity
+        onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
         style={{
-          width: Screen_Width * 0.92,
+          
           height: 40,
-          backgroundColor: COLOR.ORANGECOLOR,
-          justifyContent: 'center',
-          borderRadius: 35,
+         
+          justifyContent: 'space-between',
+         
           marginVertical: 10,
           flexDirection: 'row',
           alignItems: 'center',
-          gap:20,
+          marginHorizontal:10
+          
         }}
       >
-       
-        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE,fontWeight:'bold'}}>
-          Schedule
+       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:10}}>
+       <Text style={{ textAlign: 'center', fontSize: 20, color: COLOR.BLACK, fontWeight: 'bold' }}>
+          Schedule Appointment
         </Text>
-        <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+        <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
+       </View>
+        {/* <View style={{height:30,width:30,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}> */}
+
+        <AntDesign name="plus" size={24} color={COLOR.BLACK}  />
+        {/* </View> */}
+
+
       </TouchableOpacity>
       {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
         <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width * 0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
@@ -288,14 +345,40 @@ const Salon = () => {
         renderItem={({ item }) => {
           return (
 
-            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3 }}>
-              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", justifyContent: 'flex-start', gap: 30, alignItems: 'center' }}>
-                <Image source={{uri:item.coverImage}} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.09, borderRadius: 10 }} />
-                <View>
-                  <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.name}</Text>
-                  <Text style={{ color: COLOR.BLACK, fontSize: 13, }}>{item?.description}</Text>
+            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 5, marginHorizontal: 3 }}>
+              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row",gap:10 }}>
+                <Image source={{uri:item.coverImage}} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
+                
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
+                  <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
+                    <View>
+                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600',marginBottom:5 }}>{item?.name}</Text>
+                      <TouchableOpacity style={{backgroundColor:COLOR.ORANGECOLOR,padding:5,borderRadius:10,justifyContent:'center',alignItems:'center'}}>
+                      <Text style={{ color: COLOR.WHITE}} numberOfLines={1}>Available Seats : 15</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity onPress={() => toggleBookmark(item._id)} style={{position:'absolute',right:1,top:1}}>
+
+                      <MaterialCommunityIcons
+                        name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
+                        size={25}
+                        color={COLOR.ChartBlue}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center', borderRadius: 10, color: COLOR.WHITE }}>
+                      <FontAwesome name="star-half-empty" size={20} color={COLOR.ORANGECOLOR} />
+                      <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR }}>4.8 (4,567)</Text>
+                    </View>
+                    <View style={{  alignItems: 'center',justifyContent:'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
+
+                    <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>300 km</Text>
+                    </View>
+                  </View>
                 </View>
               </TouchableOpacity>
+
               {/* <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
                 <View style={{ height: 90, width: 30 }}>
                   <MaterialCommunityIcons

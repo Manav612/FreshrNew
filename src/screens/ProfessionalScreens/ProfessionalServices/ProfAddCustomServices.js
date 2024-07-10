@@ -125,6 +125,18 @@ const ProfAddCustomServices = ({ route }) => {
             fontSize: 18,
             fontWeight: '700',
         },
+        button2:{
+            backgroundColor: COLOR.ORANGECOLOR,
+            justifyContent: 'center',
+            borderRadius: 20,
+            alignSelf: 'center',
+            height: 40,
+            width: Screen_Width * 0.9,
+            marginHorizontal: 10,
+            marginVertical: 10,
+            position: 'absolute',
+            bottom: 80
+        }
     });
 
     const handlePriceChange = (text) => {
@@ -253,9 +265,15 @@ const ProfAddCustomServices = ({ route }) => {
 
     return (
         <>
-            <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
-                <View style={{ width: Screen_Width * 0.89, height: 60, borderRadius: 10, marginHorizontal: 10, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
+                <View style={{alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',gap:20}}>
                     <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={30} color={COLOR.BLACK} /></TouchableOpacity>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                        Create Custom Service
+                    </Text>
+                    </View>
+                    
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                     </TouchableOpacity>
@@ -287,6 +305,9 @@ const ProfAddCustomServices = ({ route }) => {
                     </View>
 
                 </View>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                    Name of service
+                </Text>
                 <TextInput
                     style={styles.input2}
                     placeholder="Name of service"
@@ -294,7 +315,9 @@ const ProfAddCustomServices = ({ route }) => {
                     value={name}
                     onChangeText={text => setName(text)}
                 />
-
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                    Price
+                </Text>
                 <TextInput
                     placeholderTextColor={COLOR.GRAY}
                     placeholder='Price'
@@ -303,23 +326,21 @@ const ProfAddCustomServices = ({ route }) => {
                     onChangeText={handlePriceChange}
                     keyboardType="numeric"
                 />
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                    Duration
+                </Text>
+                <TextInput
+                    placeholderTextColor={COLOR.GRAY}
+                    placeholder='Enter estimated service duration in minutes'
+                    style={styles.input2}
+                    value={distance}
+                    onChangeText={text => setDistance(text)}
+                    keyboardType="numeric"
+                />
 
-
-                <View style={{ width: Screen_Width * 0.89, height: 100, borderRadius: 10, marginHorizontal: 10, marginVertical: 10, borderColor: COLOR.BLACK, borderWidth: 1 }}>
-                    <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 14, margin: 10 }}>Estimated Max duration in Minutes : <Text style={{ color: COLOR.ORANGECOLOR }}>{distance} min</Text></Text>
-                    <Slider
-                        style={{ width: '100%', marginTop: 10 }}
-                        minimumValue={0}
-                        maximumValue={100}
-                        step={1}
-                        minimumTrackTintColor={COLOR.BLACK}
-                        maximumTrackTintColor={COLOR.BLACK}
-                        thumbTintColor={COLOR.BLACK}
-                        value={distance}
-                        onValueChange={(value) => setDistance(value)}
-                    />
-                </View>
-
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                    Add Description
+                </Text>
                 <TextInput
                     placeholder="Enter description"
                     placeholderTextColor={COLOR.GRAY}
@@ -328,6 +349,11 @@ const ProfAddCustomServices = ({ route }) => {
                     onChangeText={text => setDescription(text)}
                     multiline={true}
                 />
+
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                    Best suited for
+                </Text>
+
                 <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <RadioButton
                         label="Both"
@@ -380,11 +406,11 @@ const ProfAddCustomServices = ({ route }) => {
                 </Modal>
                 <View style={{ height: 160 }} />
             </ScrollView>
-            {/* <TouchableOpacity onPress={handleCreate} style={styles.button} disabled={isLoading}>
+            <TouchableOpacity style={styles.button2}>
                 <Text style={{ color: COLOR.WHITE, fontSize: 16, textAlign: 'center' }}>
-                    {isLoading ? "Creating..." : "Create Service"}
+                    Create Custom Service
                 </Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
         </>
     )
 }

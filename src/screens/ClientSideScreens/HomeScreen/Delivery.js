@@ -73,6 +73,11 @@ const Delivery = () => {
     }
   };
 
+  useEffect(() => {
+    AddFavData()
+    // fetchData();
+  }, []);
+
   const AddFavData = async (itemId) => {
     try {
       // console.log("==========>", authToken);
@@ -87,12 +92,12 @@ const Delivery = () => {
       console.log("Response data:", res.status);
 
       // Check if the request was successful
-      if (res.data.status === "success") {
-        Alert.alert("success", res.data.message)
+      // if (res.data.status === "success") {
+      //   Alert.alert("success", res.data.message)
 
-      } else {
-        Alert.alert(res.data.message)
-      }
+      // } else {
+      //   Alert.alert(res.data.message)
+      // }
       return res.data; // Return the response data
     } catch (error) {
       console.error("Error:", error);
@@ -109,7 +114,7 @@ const Delivery = () => {
         flatListRef.current.scrollToIndex({ animated: true, index: 0 });
         setCurrentPage(0);
       }
-    }, 2000);
+    }, 7000);
     return () => clearInterval(interval);
   }, [currentPage, ProfileData.length]);
 
@@ -135,7 +140,7 @@ const Delivery = () => {
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
         fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
-        fetchDataForSalon(position.coords.latitude, position.coords.longitude);
+        
       },
       (error) => {
         console.error("Error:", error);
@@ -159,25 +164,9 @@ const Delivery = () => {
     }
   };
 
-  const fetchDataForSalon = async (lat, lng) => {
-    try {
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/male`, config);
-      console.log('============    salon     ======.........', res.data.data);
-      // setFetchedData(res.data.facilities.facility);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+ 
 
-  useEffect(() => {
-    AddFavData()
-    // fetchData();
-  }, []);
+  
 
   // const fetchData = async () => {
   //   try {
@@ -301,22 +290,29 @@ const Delivery = () => {
       <TouchableOpacity
         onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
         style={{
-          width: Screen_Width * 0.92,
+          
           height: 40,
-          backgroundColor: COLOR.ORANGECOLOR,
-          justifyContent: 'center',
-          borderRadius: 35,
+         
+          justifyContent: 'space-between',
+         
           marginVertical: 10,
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 20
+          marginHorizontal:10
+          
         }}
       >
-       
-        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE, fontWeight: 'bold' }}>
-          Schedule
+       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:10}}>
+       <Text style={{ textAlign: 'center', fontSize: 20, color: COLOR.BLACK, fontWeight: 'bold' }}>
+          Schedule Appointment
         </Text>
-        <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+        <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
+       </View>
+        {/* <View style={{height:30,width:30,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}> */}
+
+        <AntDesign name="plus" size={24} color={COLOR.BLACK}  />
+        {/* </View> */}
+
       </TouchableOpacity>
       {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 5 }}>
         <TouchableOpacity onPress={() => navigation.navigate('SearchFilter Screen')} style={{ backgroundColor: COLOR.LIGHTGRAY, height: 50, width: Screen_Width * 0.75, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
@@ -379,30 +375,34 @@ const Delivery = () => {
         renderItem={({ item }) => {
           return (
 
-            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3 }}>
+            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 5, marginHorizontal: 3 }}>
+              {/* <View style={item.isOnline?{backgroundColor:COLOR.GREEN,position:'absolute',right:5,top:5,height:8,width:8,borderRadius:5}:{backgroundColor:COLOR.CANCEL_B,position:'absolute',right:5,top:5,height:8,width:8,borderRadius:5}}/> */}
               <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, gap: 10, flexDirection: 'row' }}>
                 <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
                 <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
                   <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
                     <View>
-                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600' }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
-                      <Text style={{ backgroundColor: COLOR.ORANGECOLOR, fontSize: 15, borderRadius: 10, textAlign: 'center', color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>2 services</Text>
+                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600',marginBottom:5 }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
+                      <Text style={{ backgroundColor: COLOR.ORANGECOLOR, fontSize: 15, borderRadius: 10, textAlign: 'center', color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>{item?.sericeCnt} service</Text>
                     </View>
-                    <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
+                    <TouchableOpacity onPress={() => toggleBookmark(item._id)} style={{position:'absolute',right:1,top:1}}>
 
                       <MaterialCommunityIcons
                         name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
                         size={25}
-                        color={COLOR.ORANGECOLOR}
+                        color={COLOR.ChartBlue}
                       />
                     </TouchableOpacity>
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: Screen_Width * 0.59 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
-                      <Text style={{ marginLeft: 5, color: COLOR.GRAY }}>4.8</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center', borderRadius: 10, color: COLOR.WHITE }}>
+                      <FontAwesome name="star-half-empty" size={20} color={COLOR.ORANGECOLOR} />
+                      <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR }}>4.8 (3,456)</Text>
                     </View>
-                    <Text style={{ color: COLOR.BLACK, fontSize: 13 }}>{item?.distance}km</Text>
+                    <View style={{  alignItems: 'center',justifyContent:'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
+
+                    <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{item?.distance}km</Text>
+                    </View>
                   </View>
                 </View>
               </TouchableOpacity>
