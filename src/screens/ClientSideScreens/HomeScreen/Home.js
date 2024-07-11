@@ -23,7 +23,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { SetAddress } from '../../../redux/AddressAction';
-import { ComeToYou, ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, FilterBlue, FilterOrange, InSalon, InSalonOrange, InSalonWhite } from '../../../constants/Icons';
+import { ComeToYou, ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, FilterBlue, FilterOrange, HomeIcon2, HouseOrange, InSalon, InSalonOrange, InSalonWhite } from '../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
 import { data3 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
@@ -252,7 +252,7 @@ const Home = () => {
       </View>
 
 
-      <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginHorizontal: 2, marginBottom: 10, padding: 10, elevation: 5, shadowColor: COLOR.ChartBlue }}>
+      <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginHorizontal: 2, marginBottom: 10, padding: 10, elevation: 3, shadowColor: COLOR.ChartBlue }}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Delivery Options</Text>
 
         <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
@@ -261,7 +261,7 @@ const Home = () => {
             <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:14 }}>Comes to you</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ width: Screen_Width * 0.4,flexDirection:'row',gap:10, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-          <FastImage source={activeTab === 'Salon'?InSalonWhite:InSalonOrange} style={{height:25,width:25}} resizeMode='contain'/>
+          <FastImage source={activeTab === 'Salon'?HomeIcon2:HouseOrange} style={{height:25,width:25}} resizeMode='contain'/>
             <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:14 }}>In Salon</Text>
           </TouchableOpacity>
         </View>

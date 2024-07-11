@@ -12,6 +12,8 @@ export const FilterBlue = require('../assets/images/FilterBlue.png')
 export const FilterWhite = require('../assets/images/FilterWhite.png')
 
 export const HomeIcon = require('../assets/images/House.png');
+export const HomeIcon2 = require('../assets/images/House2.png');
+export const HouseOrange = require('../assets/images/HouseOrange.png');
 export const UserIcon = require('../assets/images/User.png');
 export const ScissorIcon = require('../assets/images/Scissors.png');
 export const LocationIcon = require('../assets/images/map.png');
