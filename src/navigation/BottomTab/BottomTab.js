@@ -83,16 +83,11 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.FacilityListScreen} component={FacilityList} />
             <Stack.Screen name={NavigationScreens.SalonProffListScreen} component={SalonProffList} />
             <Stack.Screen name={NavigationScreens.SalonProfServicesScreen} component={SalonProfServices} />
-
             <Stack.Screen name={NavigationScreens.OurProfessionalDetailsScreen} component={OurProfessionalDetails} />
             <Stack.Screen name={NavigationScreens.ProfessionalInfoScreen} component={ProfessionalInfo} />
-
-
-
             <Stack.Screen name={NavigationScreens.OurServicesScreen} component={OurServices} />
             <Stack.Screen name={NavigationScreens.ReserveNowServicesScreen} component={ReserveNowServices} />
             <Stack.Screen name={NavigationScreens.ServiceDetailsScreen} component={ServiceDetails} />
-
             <Stack.Screen name={NavigationScreens.OurpackagesScreen} component={Ourpackages} />
             <Stack.Screen name={NavigationScreens.OurPackageDetailScreen} component={OurPackageDetail} />
             <Stack.Screen name={NavigationScreens.OurGalleryScreen} component={OurGallery} />
@@ -100,12 +95,10 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.BookAppointmentScreen} component={BookAppointmentScreen} />
             <Stack.Screen name={NavigationScreens.BookingHoursScreen} component={BookingHoursScreen} />
             <Stack.Screen name={NavigationScreens.InboxScreen} component={Inbox} />
-            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />
-           
+            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />          
             <Stack.Screen name={NavigationScreens.PaymentMethodScreen} component={PaymentMethod} />
             <Stack.Screen name={NavigationScreens.LiveTrackingClientSideScreen} component={LiveTrackingClientSide} />
             <Stack.Screen name={NavigationScreens.OrderProcessingScreenClientSideScreen} component={OrderProcessingScreenClientSide} />
-
             <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} />
             <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} />
 
@@ -156,6 +149,43 @@ const FollowedStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.MyBookMarkScreen} component={MyBookMarkScreen} />
+            <Stack.Screen name={NavigationScreens.AddAddressScreen} component={AddAddress} />
+            <Stack.Screen name={NavigationScreens.SelectDeliveryLocationScreen} component={SelectDeliveryLocation} />
+            <Stack.Screen name={NavigationScreens.SearchLocationScreen} component={SearchLocation} />
+            <Stack.Screen name={NavigationScreens.ConformLocationScreen} component={ConformLocation} />
+            <Stack.Screen name={NavigationScreens.DeliveryScreen} component={Delivery} />
+            <Stack.Screen name={NavigationScreens.SalonScreen} component={Salon} />
+            <Stack.Screen name={NavigationScreens.ScheduledeliveryScreen} component={Scheduledelivery} />
+            <Stack.Screen name={NavigationScreens.SchedulesalonScreen} component={Schedulesalon} />
+            <Stack.Screen name={NavigationScreens.NotificationScreen} component={NotificationScreen} />
+            <Stack.Screen name={NavigationScreens.HaircutScreen} component={Haircuts} />
+            <Stack.Screen name={NavigationScreens.MackupScreen} component={Mackup} />
+            <Stack.Screen name={NavigationScreens.ManicureScreen} component={Manicure} />
+            <Stack.Screen name={NavigationScreens.MassageScreen} component={Massage} />
+            <Stack.Screen name={NavigationScreens.SearchFilterScreen} component={SearchFilter} />
+            <Stack.Screen name={NavigationScreens.NearbyYourLocationScreen} component={NearbyYourLocation} />
+            <Stack.Screen name={NavigationScreens.ClientSettingScreen} component={ClientSettingScreen} />
+            <Stack.Screen name={NavigationScreens.FacilityListScreen} component={FacilityList} />
+            <Stack.Screen name={NavigationScreens.SalonProffListScreen} component={SalonProffList} />
+            <Stack.Screen name={NavigationScreens.SalonProfServicesScreen} component={SalonProfServices} />
+            <Stack.Screen name={NavigationScreens.OurProfessionalDetailsScreen} component={OurProfessionalDetails} />
+            <Stack.Screen name={NavigationScreens.ProfessionalInfoScreen} component={ProfessionalInfo} />
+            <Stack.Screen name={NavigationScreens.OurServicesScreen} component={OurServices} />
+            <Stack.Screen name={NavigationScreens.ReserveNowServicesScreen} component={ReserveNowServices} />
+            <Stack.Screen name={NavigationScreens.ServiceDetailsScreen} component={ServiceDetails} />
+            <Stack.Screen name={NavigationScreens.OurpackagesScreen} component={Ourpackages} />
+            <Stack.Screen name={NavigationScreens.OurPackageDetailScreen} component={OurPackageDetail} />
+            <Stack.Screen name={NavigationScreens.OurGalleryScreen} component={OurGallery} />
+            <Stack.Screen name={NavigationScreens.ReviewsDetailScreen} component={ReviewsDetail} />
+            <Stack.Screen name={NavigationScreens.BookAppointmentScreen} component={BookAppointmentScreen} />
+            <Stack.Screen name={NavigationScreens.BookingHoursScreen} component={BookingHoursScreen} />
+            <Stack.Screen name={NavigationScreens.InboxScreen} component={Inbox} />
+            <Stack.Screen name={NavigationScreens.ChatScreen} component={ChatScreen} />          
+            <Stack.Screen name={NavigationScreens.PaymentMethodScreen} component={PaymentMethod} />
+            <Stack.Screen name={NavigationScreens.LiveTrackingClientSideScreen} component={LiveTrackingClientSide} />
+            <Stack.Screen name={NavigationScreens.OrderProcessingScreenClientSideScreen} component={OrderProcessingScreenClientSide} />
+            <Stack.Screen name={NavigationScreens.ReviewSummaryScreen} component={ReviewSummary} />
+            <Stack.Screen name={NavigationScreens.EReceiptScreen} component={EReceipt} />
         </Stack.Navigator>
     );
 };

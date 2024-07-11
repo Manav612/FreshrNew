@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, FlatList, Image, RefreshControl, Alert } from 'react-native';
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Category from '../../../components/Category';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import { Filter, barber } from '../../../constants/Icons';
+import { ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, InSalonOrange, InSalonWhite, barber } from '../../../constants/Icons';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,6 +14,7 @@ import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileData } from '../../../components/utils';
+import { NavigationScreens } from '../../../constants/Strings';
 const MyBookMarkScreen = () => {
   const navigation = useNavigation()
   const [activeTab, setActiveTab] = useState('Delivery');
@@ -25,16 +26,10 @@ const MyBookMarkScreen = () => {
 
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [searchText, setSearchText] = useState('');
-  const styles = StyleSheet.create({
-    HeaderView: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    HeaderText: { color: COLOR.BLACK, fontSize: 22, fontWeight: '600', marginLeft: 10 },
-  });
+  const styles = StyleSheet.create({})
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    DeleteDataForFav(),fetchDataForFav().then(() => setRefreshing(false));
+    DeleteDataForFav(), fetchDataForFav().then(() => setRefreshing(false));
   }, []);
 
   useEffect(() => {
@@ -51,7 +46,7 @@ const MyBookMarkScreen = () => {
   }, [currentPage, ProfileData.length]);
   useEffect(() => {
     fetchDataForFav()
-  
+
   }, [])
   const fetchDataForFav = async () => {
     try {
@@ -76,13 +71,13 @@ const MyBookMarkScreen = () => {
           'Authorization': `Bearer ${token}`
         }
       }
-      console.log("toerkm",token);
-      const res = await axios.delete(`${BASE_API_URL}/users/favorites`,{
-        data:{professional: _id},headers: {
+      console.log("toerkm", token);
+      const res = await axios.delete(`${BASE_API_URL}/users/favorites`, {
+        data: { professional: _id }, headers: {
           'Authorization': `Bearer ${token}`
         }
       })
-      if(res.status == 200){
+      if (res.status == 200) {
         Alert.alert("Success", "Professional Deleted from Favorites");
         fetchDataForFav()
       }
@@ -93,28 +88,24 @@ const MyBookMarkScreen = () => {
   };
 
   return (
-    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }} 
-    
-    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-
-
+    <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          margin: 15,
           alignItems: 'center',
         }}>
-        <View style={styles.HeaderView}>
+        <View style={{flexDirection:'row',alignItems:'center',gap:10}}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <MaterialCommunityIcons name="arrow-left" size={35} color={COLOR.BLACK} />
+            <MaterialCommunityIcons name="arrow-left" size={25} color={COLOR.BLACK} />
           </TouchableOpacity>
-          <Text style={styles.HeaderText}>Following</Text>
+          <Text style={{fontSize:18,fontWeight:'bold',color:COLOR.BLACK}}>Following</Text>
         </View>
-        <TouchableOpacity>
-          <FastImage source={Filter} style={{ height: 20, width: 20 }} />
-        </TouchableOpacity>
+        <TouchableOpacity style={{height:40,width:40,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}>
+            <FastImage source={FilterBlack} style={{ height:30, width:30 }} />
+          </TouchableOpacity>
         {/* <TouchableOpacity>
           <MaterialCommunityIcons
             name="dots-horizontal-circle-outline"
@@ -123,13 +114,15 @@ const MyBookMarkScreen = () => {
           />
         </TouchableOpacity> */}
       </View>
-      <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginVertical: 10, marginHorizontal: 10, padding: 10, elevation: 2, shadowColor: COLOR.BLACK }}>
+      <View style={{borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginHorizontal: 2, marginBottom: 10, padding: 10, elevation: 5, shadowColor: COLOR.ChartBlue,marginVertical:10 }}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Delivery Options</Text>
-        <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
-          <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
+        <View style={{flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
+          <TouchableOpacity style={{width: Screen_Width * 0.4,flexDirection:'row',gap:5, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR}} onPress={() => { setActiveTab('Delivery') }}>
+            <FastImage source={activeTab === 'Delivery' ? ComeToYouWhite : ComeToYouOrange} resizeMode='contain' style={{ height: 22, width: 22 }} />
             <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to You</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+          <TouchableOpacity style={{width: Screen_Width * 0.4,flexDirection:'row',gap:10, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+            <FastImage source={activeTab === 'Salon' ? InSalonWhite : InSalonOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
             <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
           </TouchableOpacity>
         </View>
@@ -137,22 +130,20 @@ const MyBookMarkScreen = () => {
       <TouchableOpacity
         onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
         style={{
-          width: Screen_Width * 0.92,
           height: 40,
-          backgroundColor: COLOR.ORANGECOLOR,
-          justifyContent: 'center',
-          borderRadius: 35,
+          justifyContent: 'space-between',
           marginVertical: 10,
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 20
         }}
       >
-       
-        <Text style={{ textAlign: 'center', fontSize: 18, color: COLOR.WHITE, fontWeight: 'bold' }}>
-          Schedule
+       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:10}}>
+       <Text style={{ textAlign: 'center', fontSize: 20, color: COLOR.BLACK, fontWeight: 'bold' }}>
+          Schedule Appointment
         </Text>
-        <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
+        <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
+       </View>
+        <AntDesign name="plus" size={24} color={COLOR.BLACK}  />
       </TouchableOpacity>
 
       <View style={{ marginVertical: 5, borderRadius: 15 }}>
@@ -177,8 +168,8 @@ const MyBookMarkScreen = () => {
           )}
         />
       </View>
-  
-        <FlatList
+
+      <FlatList
         data={FetchDataOfFav}
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
