@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, FlatList, Image, RefreshControl, Alert } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Category from '../../../components/Category';
 import { useSelector } from 'react-redux';
@@ -13,13 +13,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { ProfileData } from '../../../components/utils';
 const MyBookMarkScreen = () => {
   const navigation = useNavigation()
   const [activeTab, setActiveTab] = useState('Delivery');
   const [FetchDataOfFav, setFetchDataOfFav] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-
+  const flatListRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(0);
   const theme = useSelector(state => state.ThemeReducer);
 
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -36,7 +37,18 @@ const MyBookMarkScreen = () => {
     DeleteDataForFav(),fetchDataForFav().then(() => setRefreshing(false));
   }, []);
 
- 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (currentPage < ProfileData.length - 1) {
+        flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
+        setCurrentPage(currentPage + 1);
+      } else {
+        flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+        setCurrentPage(0);
+      }
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [currentPage, ProfileData.length]);
   useEffect(() => {
     fetchDataForFav()
   
