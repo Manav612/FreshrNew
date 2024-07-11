@@ -13,7 +13,7 @@ import { data, data3, data4 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import { ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, FilterWhite, InSalonOrange, InSalonWhite } from '../../../constants/Icons';
+import { ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, FilterWhite, HomeIcon2, HouseOrange, InSalonOrange, InSalonWhite } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
@@ -339,7 +339,7 @@ const Explore = () => {
             <Text style={{ color: activeTab === 'Delivery' && COLOR ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:12 }}>Comes to you</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ width: Screen_Width * 0.35,flexDirection:'row',gap:10, height: 30, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-          <FastImage source={activeTab === 'Salon' && COLOR ?InSalonWhite:InSalonOrange} style={{height:20,width:20}} resizeMode='contain'/>
+          <FastImage source={activeTab === 'Salon' && COLOR ?HomeIcon2:HouseOrange} style={{height:20,width:20}} resizeMode='contain'/>
             <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:12 }}>In Salon</Text>
           </TouchableOpacity>
         </View>

@@ -25,6 +25,7 @@ export const COLOR_LIGHT = {
     CANCEL_B:'#F75555',
     BUTTON_SHADOW:'#FFF4E6',
     ChartBlue:'#0FD0D5',
+    ChartBlue2:'#58eff3',
     GRAYBTN:'rgb(235,235,238)',
     COMBTN:'rgb(236,251,245)',
     DECBTN:'rgb(250,234,235)',
