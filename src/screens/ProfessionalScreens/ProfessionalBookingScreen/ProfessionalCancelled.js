@@ -9,6 +9,8 @@ import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
+import MapView, { Marker } from 'react-native-maps';
+
 
 const ProfessionalCancelled = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -42,7 +44,88 @@ const ProfessionalCancelled = () => {
         }
     };
 
-
+    const [position, setPosition] = useState();
+    const [activeTab, setActiveTab] = useState('Delivery');
+    const [MarkerDataFordelivery, setMarkerDataFordelivery] = useState([]);
+    const mapStyle = [
+        { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+        { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+        {
+          featureType: 'administrative.locality',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#d59563' }],
+        },
+        {
+          featureType: 'poi',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#d59563' }],
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'geometry',
+          stylers: [{ color: '#263c3f' }],
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#6b9a76' }],
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [{ color: '#38414e' }],
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry.stroke',
+          stylers: [{ color: '#212a37' }],
+        },
+        {
+          featureType: 'road',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#9ca5b3' }],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry',
+          stylers: [{ color: '#746855' }],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry.stroke',
+          stylers: [{ color: '#1f2835' }],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#f3d19c' }],
+        },
+        {
+          featureType: 'transit',
+          elementType: 'geometry',
+          stylers: [{ color: '#2f3948' }],
+        },
+        {
+          featureType: 'transit.station',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#d59563' }],
+        },
+        {
+          featureType: 'water',
+          elementType: 'geometry',
+          stylers: [{ color: '#17263c' }],
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#515c6d' }],
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.stroke',
+          stylers: [{ color: '#17263c' }],
+        },
+      ];
 
     const renderItem = ({ item }) => (
 
@@ -59,6 +142,52 @@ const ProfessionalCancelled = () => {
                 <View style={{ backgroundColor: COLOR.CANCEL_B, width: 75, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>Cancelled</Text></View>
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10 }} />
+            <View style={{height:Screen_Height*0.40}}>
+                <MapView
+                    style={{height:Screen_Height*0.40}}
+                    initialRegion={position}
+                    showsUserLocation={true}
+                    showsMyLocationButton={false}
+                    followsUserLocation={true}
+                    scrollEnabled={true}
+                    zoomEnabled={true}
+                    pitchEnabled={true}
+                    rotateEnabled={true}
+                    customMapStyle={mapStyle}
+                >
+
+                    {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
+                        <Marker
+                            coordinate={{
+                                latitude: data.location.coordinates[0],
+                                longitude: data.location.coordinates[1],
+                            }}
+                            title={'Test Marker'}
+                            description={'This is a description of the marker'}
+                            key={i}
+                        >
+                            <View style={{ height: 40, width: 40, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                                <Entypo name="home" size={30} color={COLOR.ORANGECOLOR} />
+                            </View>
+                        </Marker>
+                    ))}
+
+                    {activeTab === 'Salon' && MarkerDataForSalon.map((data, i) => (
+                        <Marker
+                            coordinate={{
+                                latitude: data.location.coordinates[0],
+                                longitude: data.location.coordinates[1],
+                            }}
+                            title={'Test Marker'}
+                            description={'This is a description of the marker'}
+                            key={i}
+                        >
+                            <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
+                        </Marker>
+                    ))}
+
+                </MapView>
+            </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                 <View style={{ flex: 1 }}>
                     <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>

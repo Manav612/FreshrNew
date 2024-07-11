@@ -14,6 +14,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../Services';
 import FastImage from 'react-native-fast-image';
+import MapView, { Marker } from 'react-native-maps';
 
 const Upcoming = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -102,15 +103,98 @@ const Upcoming = () => {
         refRBSheet.current[index + 1].open();
     };
 
+    const [position, setPosition] = useState();
+    const [activeTab, setActiveTab] = useState('Delivery');
+    const [MarkerDataFordelivery, setMarkerDataFordelivery] = useState([]);
+    const mapStyle = [
+        { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+        { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+        {
+          featureType: 'administrative.locality',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#d59563' }],
+        },
+        {
+          featureType: 'poi',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#d59563' }],
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'geometry',
+          stylers: [{ color: '#263c3f' }],
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#6b9a76' }],
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [{ color: '#38414e' }],
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry.stroke',
+          stylers: [{ color: '#212a37' }],
+        },
+        {
+          featureType: 'road',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#9ca5b3' }],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry',
+          stylers: [{ color: '#746855' }],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry.stroke',
+          stylers: [{ color: '#1f2835' }],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#f3d19c' }],
+        },
+        {
+          featureType: 'transit',
+          elementType: 'geometry',
+          stylers: [{ color: '#2f3948' }],
+        },
+        {
+          featureType: 'transit.station',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#d59563' }],
+        },
+        {
+          featureType: 'water',
+          elementType: 'geometry',
+          stylers: [{ color: '#17263c' }],
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.fill',
+          stylers: [{ color: '#515c6d' }],
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.stroke',
+          stylers: [{ color: '#17263c' }],
+        },
+      ];
+
     const renderItem = ({ item }) => (
         <View
-        refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
             style={{ backgroundColor: COLOR.WHITE, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3, borderRadius: 10, paddingHorizontal: 20, marginVertical: 10 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
                 <View>
-                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt.slice(0,10)}</Text>
+                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt.slice(0, 10)}</Text>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
                     <Text style={{ color: COLOR.BLACK, fontSize: 15 }}>Remind me</Text>
@@ -124,7 +208,53 @@ const Upcoming = () => {
                 </View>
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10 }} />
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+            <View style={{height:Screen_Height*0.40}}>
+                <MapView
+                    style={{height:Screen_Height*0.40}}
+                    initialRegion={position}
+                    showsUserLocation={true}
+                    showsMyLocationButton={false}
+                    followsUserLocation={true}
+                    scrollEnabled={true}
+                    zoomEnabled={true}
+                    pitchEnabled={true}
+                    rotateEnabled={true}
+                    customMapStyle={mapStyle}
+                >
+
+                    {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
+                        <Marker
+                            coordinate={{
+                                latitude: data.location.coordinates[0],
+                                longitude: data.location.coordinates[1],
+                            }}
+                            title={'Test Marker'}
+                            description={'This is a description of the marker'}
+                            key={i}
+                        >
+                            <View style={{ height: 40, width: 40, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                                <Entypo name="home" size={30} color={COLOR.ORANGECOLOR} />
+                            </View>
+                        </Marker>
+                    ))}
+
+                    {activeTab === 'Salon' && MarkerDataForSalon.map((data, i) => (
+                        <Marker
+                            coordinate={{
+                                latitude: data.location.coordinates[0],
+                                longitude: data.location.coordinates[1],
+                            }}
+                            title={'Test Marker'}
+                            description={'This is a description of the marker'}
+                            key={i}
+                        >
+                            <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
+                        </Marker>
+                    ))}
+
+                </MapView>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1 }}>
                     <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>
                         {item.professional.user.firstName} {item.professional.user.lastName}
@@ -143,15 +273,19 @@ const Upcoming = () => {
                             <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>{service.serviceType.name}</Text>
                             <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>{service.serviceType.category}</Text>
                             <Text style={{ fontSize: 15, color: COLOR.ORANGECOLOR, marginVertical: 2 }}>{service.serviceType.description}</Text>
+                            <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>30 min</Text>
+                            <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>$ 3000</Text>
+                            <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>25 km</Text>
+
                         </View>
                     </View>
                 )}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical:15 }}>
-                <TouchableOpacity onPress={() => { handleResetPress(item.id), openBottomSheet() }} style={{ backgroundColor: item.resetSelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width:Screen_Width*0.35, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }}>
+                <TouchableOpacity onPress={() => { handleResetPress(item.id), openBottomSheet() }} style={{ backgroundColor: item.resetSelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width: Screen_Width * 0.35, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
                     <Text style={{ fontWeight: '700', color: item.resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Cancel Booking</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleApplyPress(item.id)} style={{ backgroundColor: item.applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width:Screen_Width*0.35, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
+                <TouchableOpacity onPress={() => handleApplyPress(item.id)} style={{ backgroundColor: item.applySelected ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width: Screen_Width * 0.35, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
                     <Text style={{ fontWeight: '700', color: item.applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>View E-Receipt</Text>
                 </TouchableOpacity>
             </View>
@@ -223,7 +357,7 @@ const Upcoming = () => {
                     </View>
                 </RBSheet>
             </View>
-            <View style={{height:100}}/>
+            <View style={{ height: 100 }} />
         </>
     )
 }
