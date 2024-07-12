@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { 
   ActivityIndicator, 
@@ -21,6 +20,7 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { NavigationScreens } from '../../../constants/Strings';
 import { BASE_API_URL } from '../../../Services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -45,18 +45,7 @@ const SignIn = () => {
     const handleEmailBlur = () => setIsEmailFocused(false);
 
     const fetchData = async () => {
-        if (!email) {
-            setErrorMessage("Please enter an email address.");
-            return;
-        }
-
-        if (!networkStatus) {
-            setErrorMessage("No internet connection. Please check your network.");
-            return;
-        }
-
-        setLoader(true);
-        setErrorMessage('');
+   
 
         try {
             const response = await axios.post(

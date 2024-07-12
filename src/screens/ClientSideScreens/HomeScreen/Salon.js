@@ -75,7 +75,7 @@ const Salon = () => {
 
       };
       const res = await axios.post(`${BASE_API_URL}/users/favorites`, { facility: itemId }, config);
-      console.log("================= add fav data ======================", res.data.data);
+      console.log("================= add fav data ======================", res.data);
       console.log("Response data:", res.status);
 
       // Check if the request was successful

@@ -58,7 +58,7 @@ const Delivery = () => {
   const [distance, setDistance] = useState(50);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    AddFavData(), fetchDataForDelivery(), fetchDataForSalon().then(() => setRefreshing(false));
+    AddFavData(), fetchDataForDelivery().then(() => setRefreshing(false));
   }, []);
   const toggleBookmark = async (itemId) => {
     try {
@@ -75,7 +75,8 @@ const Delivery = () => {
 
   useEffect(() => {
     AddFavData()
-    // fetchData();
+    fetchDataForDelivery()
+   
   }, []);
 
   const AddFavData = async (itemId) => {

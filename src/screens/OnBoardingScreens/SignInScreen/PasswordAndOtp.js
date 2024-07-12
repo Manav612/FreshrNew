@@ -77,15 +77,18 @@ const PasswordAndOtp = ({ route }) => {
         }
     };
     const handleSignIn = async () => {
-        try {
+        console.log("adsadss");
+        // try {
             let res;
-            if (otp) {
+            // if (otp) {
 
-                res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId });
-            } else {
+            //     res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId });
+            //     console.log("adsadss");
+            // } else {
 
-                res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, { email: email, password: password });
-            }
+                res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, { email: "vimalnavadiya2705@gmail.com", password: "123456" });
+                console.log("adsadss");
+            // }
             console.log("Response data ======:", res.data.data);
 
             if (res.data) {
@@ -97,9 +100,9 @@ const PasswordAndOtp = ({ route }) => {
                 navigation.navigate(NavigationScreens.HomeTab);
 
             }
-        } catch (error) {
-            console.error("Error:", error);
-        }
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
     };
 
 
