@@ -32,6 +32,8 @@ const ProfAddCustomServices = ({ route }) => {
     const [imageUri, setImageUri] = useState('');
     const [imageModalVisible, setImageModalVisible] = useState(false);
     const [name, setName] = useState(false);
+    const [activeTab1, setActiveTab1] = useState('Both');
+
     const styles = StyleSheet.create({
         input: {
             width: Screen_Width * 0.89, height: 100, borderRadius: 10, marginHorizontal: 10, marginVertical: 10, borderColor: COLOR.BLACK, borderWidth: 1, color: COLOR.BLACK
@@ -125,7 +127,7 @@ const ProfAddCustomServices = ({ route }) => {
             fontSize: 18,
             fontWeight: '700',
         },
-        button2:{
+        button2: {
             backgroundColor: COLOR.ORANGECOLOR,
             justifyContent: 'center',
             borderRadius: 20,
@@ -133,9 +135,7 @@ const ProfAddCustomServices = ({ route }) => {
             height: 40,
             width: Screen_Width * 0.9,
             marginHorizontal: 10,
-            marginVertical: 10,
-            position: 'absolute',
-            bottom: 80
+            marginVertical: 30,
         }
     });
 
@@ -266,14 +266,14 @@ const ProfAddCustomServices = ({ route }) => {
     return (
         <>
             <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
-                <View style={{alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
-                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',gap:20}}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={30} color={COLOR.BLACK} /></TouchableOpacity>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                        Create Custom Service
-                    </Text>
+                <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+                        <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={30} color={COLOR.BLACK} /></TouchableOpacity>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                            Request to add custom category
+                        </Text>
                     </View>
-                    
+
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                     </TouchableOpacity>
@@ -291,7 +291,7 @@ const ProfAddCustomServices = ({ route }) => {
                     </View>
                 </TouchableOpacity> */}
 
-                <View style={{ marginVertical: 10, alignItems: 'center' }}>
+                {/* <View style={{ marginVertical: 10, alignItems: 'center' }}>
                     <View style={styles.imageInnerContainer}>
 
                         {imageUri ? (
@@ -304,72 +304,87 @@ const ProfAddCustomServices = ({ route }) => {
                         </TouchableOpacity>
                     </View>
 
-                </View>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Name of service
-                </Text>
-                <TextInput
-                    style={styles.input2}
-                    placeholder="Name of service"
-                    placeholderTextColor={COLOR.GRAY}
-                    value={name}
-                    onChangeText={text => setName(text)}
-                />
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Price
-                </Text>
-                <TextInput
-                    placeholderTextColor={COLOR.GRAY}
-                    placeholder='Price'
-                    style={styles.input2}
-                    value={price}
-                    onChangeText={handlePriceChange}
-                    keyboardType="numeric"
-                />
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Duration
-                </Text>
-                <TextInput
-                    placeholderTextColor={COLOR.GRAY}
-                    placeholder='Enter estimated service duration in minutes'
-                    style={styles.input2}
-                    value={distance}
-                    onChangeText={text => setDistance(text)}
-                    keyboardType="numeric"
-                />
-
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Add Description
-                </Text>
-                <TextInput
-                    placeholder="Enter description"
-                    placeholderTextColor={COLOR.GRAY}
-                    style={[styles.input, { color: COLOR.BLACK, textAlignVertical: 'top', padding: 10 }]}
-                    value={description}
-                    onChangeText={text => setDescription(text)}
-                    multiline={true}
-                />
-
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Best suited for
-                </Text>
-
-                <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <RadioButton
-                        label="Both"
-                        selected={selectedGender === 'both'}
-                        onPress={() => setSelectedGender('both')}
+                </View> */}
+                <View style={{ marginTop: Screen_Height * 0.04 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                        Name of Category
+                    </Text>
+                    <TextInput
+                        style={styles.input2}
+                        placeholder="Name of service"
+                        placeholderTextColor={COLOR.GRAY}
+                        value={name}
+                        onChangeText={text => setName(text)}
                     />
-                    <RadioButton
-                        label="Masculine"
-                        selected={selectedGender === 'masculine'}
-                        onPress={() => setSelectedGender('masculine')}
-                    />
-                    <RadioButton
-                        label="Feminine"
-                        selected={selectedGender === 'feminine'}
-                        onPress={() => setSelectedGender('feminine')}
-                    />
+
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                        Best suited for
+                    </Text>
+
+                    <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 10, marginVertical: 5 }}>
+                        <TouchableOpacity
+                            style={{
+                                width: 110,
+                                height: 40,
+                                backgroundColor: activeTab1 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                                borderRadius: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: 5,
+                                borderWidth: 1,
+                                borderColor: COLOR.ORANGECOLOR
+                            }}
+                            onPress={() => setActiveTab1('Masculine')}
+                        >
+                            {/* <FastImage source={activeTab1 === 'Masculine'?maleWhite:maleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' /> */}
+
+
+                            <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                width: 110,
+                                height: 40,
+                                backgroundColor: activeTab1 === 'Both' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                                borderRadius: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: 5,
+                                borderWidth: 1,
+                                borderColor: COLOR.ORANGECOLOR
+                            }}
+                            onPress={() => setActiveTab1('Both')}
+                        >
+                            {/* <FastImage source={activeTab1 === 'Both'?BothWhite:BothOrange} style={{ width: 20, height: 20 }} resizeMode='contain' /> */}
+
+                            <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                width: 110,
+                                height: 40,
+                                backgroundColor: activeTab1 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                                borderRadius: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: 5,
+                                borderWidth: 1,
+                                borderColor: COLOR.ORANGECOLOR
+                            }}
+                            onPress={() => setActiveTab1('Feminine')}
+                        >
+                            {/* <FastImage source={activeTab1 === 'Feminine'?femaleWhite:femaleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' /> */}
+                            <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity style={styles.button2}>
+                <Text style={{ color: COLOR.WHITE, fontSize: 16,fontWeight:'500', textAlign: 'center' }}>
+                    Send Request
+                </Text>
+            </TouchableOpacity>
                 </View>
                 <Modal
                     transparent
@@ -406,11 +421,7 @@ const ProfAddCustomServices = ({ route }) => {
                 </Modal>
                 <View style={{ height: 160 }} />
             </ScrollView>
-            <TouchableOpacity style={styles.button2}>
-                <Text style={{ color: COLOR.WHITE, fontSize: 16, textAlign: 'center' }}>
-                    Create Custom Service
-                </Text>
-            </TouchableOpacity>
+
         </>
     )
 }

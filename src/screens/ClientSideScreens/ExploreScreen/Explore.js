@@ -13,13 +13,16 @@ import { data, data3, data4 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import { ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, FilterWhite, HomeIcon2, HouseOrange, InSalonOrange, InSalonWhite } from '../../../constants/Icons';
+import { barber, BothOrange, BothWhite, ComeToYouOrange, ComeToYouWhite, femaleOrange, femaleWhite, Filter, FilterBlack, FilterWhite, HomeIcon2, HouseOrange, InSalonOrange, InSalonWhite, maleOrange, maleWhite } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { NavigationScreens } from '../../../constants/Strings';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 
 const Explore = () => {
@@ -186,7 +189,7 @@ const Explore = () => {
       setIsLoading(false);
     }
   };
-  
+
   const fetchDataForSalon = async (lat, lng) => {
     setIsLoading(true);
     try {
@@ -196,7 +199,8 @@ const Explore = () => {
           'Authorization': `Bearer ${token}`
         }
       };
-      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/male`, config);
+      const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lng},${lat}/unit/mi/all/all/all/all/1/1000/all`, config);
+
       console.log('============    salon     ======.........', res.data.data.facilities);
       setMarkerDataForSalon(res.data.data.facilities);
     } catch (error) {
@@ -212,7 +216,7 @@ const Explore = () => {
     }
     setActiveTab('Delivery');
   };
-  
+
   const handleSalonSide = () => {
     if (latitude && longitude) {
       fetchDataForSalon(latitude, longitude);
@@ -275,11 +279,11 @@ const Explore = () => {
   );
   const styles = StyleSheet.create({
     container: {
-      height:Screen_Height*0.84
+      height: Screen_Height * 0.84
 
     },
     mapStyle: {
-       height:Screen_Height*0.84
+      height: Screen_Height * 0.84
     },
     CategoryContainer: {
       borderWidth: 2,
@@ -329,98 +333,67 @@ const Explore = () => {
   });
   return (
     <>
-      <View style={{width:Screen_Width,paddingHorizontal:15,position:'absolute',top:Screen_Height*0.01,zIndex:100}}>
-
-      <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginHorizontal:2,marginVertical:10, marginBottom: 5, padding: 10, elevation: 10, shadowColor: COLOR.ChartBlue,borderRadius:15 }}>
-        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Delivery Options</Text>
-        <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
-          <TouchableOpacity style={{ width: Screen_Width * 0.35,flexDirection:'row',gap:5, height: 30, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
-          <FastImage source={activeTab === 'Delivery'?ComeToYouWhite:ComeToYouOrange} resizeMode='contain' style={{height:18,width:18}}/>
-            <Text style={{ color: activeTab === 'Delivery' && COLOR ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:12 }}>Comes to you</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ width: Screen_Width * 0.35,flexDirection:'row',gap:10, height: 30, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-          <FastImage source={activeTab === 'Salon' && COLOR ?HomeIcon2:HouseOrange} style={{height:20,width:20}} resizeMode='contain'/>
-            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:12 }}>In Salon</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',gap:5}}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
-        style={{
-          height: 40,
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor:COLOR.WHITE,
-          borderRadius:10,
-          paddingHorizontal:10,
-          width:Screen_Width*0.7
-        }}
-      >
-       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:10}}>
-       <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.BLACK, fontWeight: 'bold' }}>
-          Schedule Appointment
-        </Text>
-        <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
-       </View>
-        {/* <View style={{height:30,width:30,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}> */}
-
-        <AntDesign name="plus" size={24} color={COLOR.BLACK}  />
-        
-        {/* </View> */}
-
-      </TouchableOpacity>
-      <TouchableOpacity onPress={openBottomSheet2} style={{width:40,height:40,justifyContent:'center',alignItems:'center',borderRadius:10,backgroundColor:COLOR.WHITE}}>
-            <FastImage source={theme == 1?FilterWhite:FilterBlack } style={{ height: 20, width: 20 }} />
-          </TouchableOpacity>
-      </View>
-      
-
-      {/* <View style={{  borderRadius: 15, justifyContent: 'center', alignSelf: 'center', backgroundColor: COLOR.WHITE,marginBottom:10 }}>
-        <View style={{ backgroundColor: COLOR.LIGHTGRAY, width: Screen_Width * 0.9,marginHorizontal:10, height: 50, paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
-          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-            <AntDesign name="search1" size={30} color={COLOR.GRAY} />
-            <TextInput
-              placeholder='Search'
-              placeholderTextColor={COLOR.GRAY}
-              style={{ fontSize: 20, color: COLOR.BLACK, width: 200 }}
-            // onChangeText={text => {
-            //     setSearchText(text);
-            //     handleSearch();
-            // }}
-            />
+      <View style={{ width: Screen_Width, paddingHorizontal: 15, position: 'absolute', top: Screen_Height * 0.01, zIndex: 100 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginHorizontal: 2, marginVertical: 10, marginBottom: 5, padding: 10, elevation: 10, shadowColor: COLOR.ChartBlue, borderRadius: 15 }}>
+          <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Delivery Options</Text>
+          <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
+            <TouchableOpacity style={{ width: Screen_Width * 0.35, flexDirection: 'row', gap: 5, height: 30, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
+              <FastImage source={activeTab === 'Delivery' ? ComeToYouWhite : ComeToYouOrange} resizeMode='contain' style={{ height: 18, width: 18 }} />
+              <Text style={{ color: activeTab === 'Delivery' && COLOR ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 12 }}>Comes to you</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ width: Screen_Width * 0.35, flexDirection: 'row', gap: 10, height: 30, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+              <FastImage source={activeTab === 'Salon' && COLOR ? HomeIcon2 : HouseOrange} style={{ height: 20, width: 20 }} resizeMode='contain' />
+              <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 12 }}>In Salon</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={openBottomSheet2}>
-            <FastImage source={Filter} style={{ height: 20, width: 20 }} />
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
+            style={{
+              height: 40,
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: COLOR.WHITE,
+              borderRadius: 10,
+              paddingHorizontal: 10,
+              width: Screen_Width * 0.7
+            }}
+          >
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+              <Text style={{ textAlign: 'center', fontSize: 16, color: COLOR.BLACK, fontWeight: 'bold' }}>
+                Schedule Appointment
+              </Text>
+              <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
+            </View>
+            <AntDesign name="plus" size={24} color={COLOR.BLACK} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={openBottomSheet2} style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 10, backgroundColor: COLOR.WHITE }}>
+            <FastImage source={theme == 1 ? FilterWhite : FilterBlack} style={{ height: 20, width: 20 }} />
           </TouchableOpacity>
         </View>
-      </View> */}
       </View>
-      
+
       <View style={styles.container}>
-      
+
         <MapView
           style={styles.mapStyle}
           initialRegion={position}
-          showsUserLocation={true}
+          showsUserLocation={false}
           showsMyLocationButton={false}
           followsUserLocation={true}
-          
+          showsCompass={false}
           scrollEnabled={true}
           zoomEnabled={true}
           pitchEnabled={true}
           rotateEnabled={true}
-          // initialRegion={{
-          //   latitude: 19.0760,
-          //   longitude: 72.8777,
-          //   latitudeDelta: 0.0922,
-          //   longitudeDelta: 0.0421,
-          // }}
           customMapStyle={mapStyle}
+          liteMode={true}
         >
-         
-             {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
+
+          {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
+            <>
               <Marker
                 coordinate={{
                   latitude: data.location.coordinates[0],
@@ -430,32 +403,114 @@ const Explore = () => {
                 description={'This is a description of the marker'}
                 key={i}
               >
-                <View style={{height:40,width:40,backgroundColor:COLOR.WHITE,justifyContent:'center',alignItems:'center',borderRadius:50}}>
-                <Entypo name="home" size={30} color={COLOR.ORANGECOLOR} />
+                <View style={{ height: 30, width: 30, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                  <FastImage style={{ height: 20, width: 20 }} source={ComeToYouOrange} />
                 </View>
               </Marker>
-            ))}
-            
-            {activeTab === 'Salon' && MarkerDataForSalon.map((data, i) => (
-              <Marker
-                coordinate={{
-                  latitude: data.location.coordinates[0],
-                  longitude: data.location.coordinates[1],
-                }}
-                title={'Test Marker'}
-                description={'This is a description of the marker'}
-                key={i}
-              >
-                <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
-              </Marker>
-            ))}
-           
+
+            </>
+          ))}
+
+          {activeTab === 'Salon' && MarkerDataForSalon.map((data, i) => (
+            <Marker
+              coordinate={{
+                latitude: data.location.coordinates[0],
+                longitude: data.location.coordinates[1],
+              }}
+              title={'Test Marker'}
+              description={'This is a description of the marker'}
+              key={i}
+
+            >
+              <View style={{ height: 30, width: 30, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 20 }}>
+                <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
+              </View>
+            </Marker>
+          ))}
+
         </MapView>
       </View>
 
+      <View style={{ position: 'absolute', bottom: 100, paddingHorizontal: 5 }}>
+        {activeTab === 'Delivery' ? (
+          <FlatList
+            data={MarkerDataFordelivery}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            style={{ flex: 1 }}
+            renderItem={({ item }) => {
+              return (
+                <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.1, width: Screen_Width * 0.6, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 3, marginHorizontal: 3 }}>
+                  <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ marginHorizontal: 5, gap: 10, flexDirection: 'row' }}>
+                    <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.08, borderRadius: 10 }} />
+                    <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
+                      <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
+                        <View>
+                          <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', marginBottom: 2 }} numberOfLines={1}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', borderRadius: 10, color: COLOR.WHITE }}>
+                            <FontAwesome name="star-half-empty" size={16} color={COLOR.ORANGECOLOR} />
+                            <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR, fontSize: 12 }}>4.8 (3,456)</Text>
+                          </View>
+                        </View>
+                      </View>
+                      <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 20 }}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{item?.distance}km</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+
+                </View>
+              )
+            }}
+          />
+        ) : (
+          <FlatList
+            data={MarkerDataForSalon}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            style={{ flex: 1 }}
+
+            renderItem={({ item }) => {
+              return (
+                <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.1, width: Screen_Width * 0.6, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 3, marginHorizontal: 3 }}>
+                  <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ marginHorizontal: 5, flexDirection: "row", gap: 10 }}>
+                    <Image source={{ uri: item.coverImage }} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.08, borderRadius: 10 }} />
+                    <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5, width: Screen_Width * 0.35 }}>
+                      <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.35 }}>
+                        <View>
+                          <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', width: 90 }} numberOfLines={1}>{item?.name}</Text>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', borderRadius: 10, color: COLOR.WHITE }}>
+                            <FontAwesome name="star-half-empty" size={16} color={COLOR.ORANGECOLOR} />
+                            <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR, fontSize: 12 }}>4.8 (3,456)</Text>
+                          </View>
+                        </View>
+                        <TouchableOpacity style={{ backgroundColor: COLOR.ORANGECOLOR, padding: 5, borderRadius: 5, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 5 }}>
+                          <FontAwesome5 name="chair" size={14} color={COLOR.WHITE} />
+                          <Text style={{ color: COLOR.WHITE }} numberOfLines={1}>15</Text>
+                        </TouchableOpacity>
+                      </View>
+                      {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', borderRadius: 10, color: COLOR.WHITE }}>
+                        <FontAwesome name="star-half-empty" size={16} color={COLOR.ORANGECOLOR} />
+                        <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR, fontSize: 12 }}>4.8 (3,456)</Text>
+                      </View> */}
+
+                      <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 20 }}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>20km</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </View >
+              )
+            }}
+          />
+        )
+        }
+      </View >
       <View style={{}}>
 
-      <RBSheet
+        <RBSheet
           ref={(ref) => (refRBSheet.current[0] = ref)}
 
           height={Screen_Height * 0.53}
@@ -499,50 +554,62 @@ const Explore = () => {
 
             <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Styles</Text>
-              <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 20, marginVertical: 5 }}>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 10, marginVertical: 5 }}>
                 <TouchableOpacity
                   style={{
-                    width: 100,
+                    width: 110,
                     height: 40,
                     backgroundColor: activeTab1 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
                     borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
+                    flexDirection:'row',
+                    gap:5,
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
                   onPress={() => setActiveTab1('Masculine')}
                 >
+                  <FastImage source={activeTab1 === 'Masculine'?maleWhite:maleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
+
+
                   <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
-                    width: 100,
+                    width: 110,
                     height: 40,
                     backgroundColor: activeTab1 === 'Both' ? COLOR.ORANGECOLOR : COLOR.GULABI,
                     borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
+                    flexDirection:'row',
+                    gap:5,
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
                   onPress={() => setActiveTab1('Both')}
                 >
+                  <FastImage source={activeTab1 === 'Both'?BothWhite:BothOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
+
                   <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
-                    width: 100,
+                    width: 110,
                     height: 40,
                     backgroundColor: activeTab1 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
                     borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
+                    flexDirection:'row',
+                    gap:5,
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
                   onPress={() => setActiveTab1('Feminine')}
                 >
+                  <FastImage source={activeTab1 === 'Feminine'?femaleWhite:femaleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
                   <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
                 </TouchableOpacity>
               </View>

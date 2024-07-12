@@ -25,13 +25,13 @@ import ProfessionalViewServices from '../../screens/ProfessionalScreens/Professi
 import ProfessionalInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalInnerServices';
 import ProfessionalViewInnerServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalViewInnerServices';
 import ProfessionalProfile2 from '../../screens/ProfessionalScreens/ProfessionalProfile2/ProfessionalProfile2';
-import profselectservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectservice';
 import profselectedDetailservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectedDetailservice';
 import ProfessionalEditService from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalEditService';
 import LiveTrackingProfSide from '../../components/ProfessionalComponents/LiveTrackingProfSide';
 import OrderProcessingScreenProfSide from '../../components/ProfessionalComponents/OrderProcessingScreenProfSide';
 import ProfAddServicesList from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
 import ProfAddCustomServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
+import ProfSelectCategory from '../../screens/ProfessionalScreens/ProfessionalServices/profselectCategory';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -63,7 +63,7 @@ const ServicesStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalInnerServicesScreen} component={ProfessionalInnerServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewInnerServicesScreen} component={ProfessionalViewInnerServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
-            <Stack.Screen name={NavigationScreens.profselectserviceScreen} component={profselectservice} />
+            <Stack.Screen name={NavigationScreens.ProfSelectCategoryScreen} component={ProfSelectCategory} />
             <Stack.Screen name={NavigationScreens.profselectedDetailserviceScreen} component={profselectedDetailservice} />
             <Stack.Screen name={NavigationScreens.professionalEditServiceScreen} component={ProfessionalEditService} />
 

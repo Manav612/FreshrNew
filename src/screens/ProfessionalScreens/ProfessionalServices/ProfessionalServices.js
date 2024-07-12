@@ -155,7 +155,7 @@ console.log("==========   F3etch Data   ========",fetchedData);
       <View style={styles.content}>
         <View>
           <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK,marginVertical:10 }}>
-            Services
+           My Services
           </Text>
           <View
             style={{
@@ -411,9 +411,9 @@ console.log("==========   F3etch Data   ========",fetchedData);
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.profselectserviceScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, height: 90, borderRadius: 10, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginHorizontal: 10 }}>
+      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfSelectCategoryScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, height: 90, borderRadius: 10, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginHorizontal: 10 }}>
         <AntDesign name="pluscircleo" size={28} color={COLOR.WHITE} />
-        <Text style={{ color: COLOR.WHITE, fontSize: 20 }}>Add services</Text>
+        <Text style={{ color: COLOR.WHITE, fontSize: 20 }}>Add new services</Text>
       </TouchableOpacity>
 
       {renderContent()}

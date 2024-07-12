@@ -44,7 +44,7 @@ const SignIn = () => {
     const handleEmailFocus = () => setIsEmailFocused(true);
     const handleEmailBlur = () => setIsEmailFocused(false);
 
-    const fetchData = useCallback(async () => {
+    const fetchData = async () => {
         if (!email) {
             setErrorMessage("Please enter an email address.");
             return;
@@ -62,21 +62,19 @@ const SignIn = () => {
             const response = await axios.post(
                 `${BASE_API_URL}/users/emailcheck`,
                 { email },
-                { timeout: 1000 } // 5 second timeout
+                // { timeout: 1000 } // 5 second timeout
             );
             console.log("=========   res data   ======", response.data);
             navigation.navigate(NavigationScreens.PasswordAndOtpScreen, { email: email });
         } catch (error) {
             console.error("Error during email check:", error);
-            if (error.code === 'ECONNABORTED') {
-                setErrorMessage("Request timed out. Please check your internet connection and try again.");
-            } else {
-                setErrorMessage(error.response?.data?.message || "An unexpected error occurred. Please try again.");
-            }
-        } finally {
-            setLoader(false);
+            // if (error.code === 'ECONNABORTED') {
+            //     setErrorMessage("Request timed out. Please check your internet connection and try again.");
+            // } else {
+            //     setErrorMessage(error.response?.data?.message || "An unexpected error occurred. Please try again.");
+            // }
         }
-    }, [email, networkStatus, navigation]);
+    }
 
     const debouncedFetchData = useCallback(debounce(fetchData, 300), [fetchData]);
 

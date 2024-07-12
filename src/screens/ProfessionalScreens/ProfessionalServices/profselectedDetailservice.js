@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, FlatList, Alert } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, FlatList, Alert, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import { UpdateServiceData } from '../../../redux/ServicesData/ServicesDataAction';
-
+import ImagePicker from 'react-native-image-crop-picker'
+import { CheckPermission } from '../../../constants/CheckPermission';
+import { PERMISSIONS } from 'react-native-permissions';
 const ProfSelectedDetailService = ({ route }) => {
     const { item, data } = route.params;
     // console.log("=====   data   ========",data);
@@ -26,6 +28,9 @@ const ProfSelectedDetailService = ({ route }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedGender, setSelectedGender] = useState('both');
     const [description, setDescription] = useState(item?.description);
+    const [imageModalVisible, setImageModalVisible] = useState(false);
+    const [imageUri, setImageUri] = useState('');
+
     const dispatch = useDispatch();
     const [categories, setCategories] = useState([
         { id: '1', name: 'Hair Cut' },
@@ -142,10 +147,154 @@ const ProfSelectedDetailService = ({ route }) => {
         }
     };
 
+    const CameraHandle = async () => {
+        const granted = await CheckPermission(
+            Platform.OS == 'ios' ?
+                PERMISSIONS.IOS.PHOTO_LIBRARY :
+                PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+        );
+        console.log("-------------111111-", granted);
+
+        setImageModalVisible(!imageModalVisible)
+    };
+
+    const onUploadPress = async () => {
+        const granted = await CheckPermission(
+            Platform.OS == 'ios' ?
+                PERMISSIONS.IOS.PHOTO_LIBRARY :
+                PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+        );
+        console.log("-----------22222---", granted);
+
+        if (granted == true || Platform.OS == 'ios') {
+            ImagePicker.openPicker({
+                width: 1080,
+                height: 1080,
+                cropping: true,
+                mediaType: 'photo',
+                cropperToolbarTitle: 'Crop Image',
+                hideBottomControls: true,
+                enableRotationGesture: true,
+                showCropGuidelines: false,
+                compressImageQuality: 0.9,
+            }).then(image => {
+                setImageModalVisible(false);
+                setImageUri(image.path);
+            }).catch((e) => {
+                setImageModalVisible(false);
+                console.log(e);
+            })
+        }
+    }
+
+    const onCapturePress = async () => {
+        setImageModalVisible(false);
+        const granted = await CheckPermission(
+            Platform.OS == 'ios' ?
+                PERMISSIONS.IOS.CAMERA :
+                PERMISSIONS.ANDROID.CAMERA
+        );
+        console.log("-----------3333333---", granted);
+        if (granted == true || Platform.OS == 'ios') {
+            ImagePicker.openCamera({
+                width: 1080,
+                height: 1080,
+                cropping: true,
+                mediaType: 'photo',
+                cropperToolbarTitle: 'Crop Image',
+                hideBottomControls: true,
+                enableRotationGesture: true,
+                showCropGuidelines: false,
+                compressImageQuality: 0.9,
+
+            }).then(image => {
+                setImageModalVisible(false);
+                setImageUri(image.path);
+            }).catch((e) => {
+                setImageModalVisible(false);
+                console.log(e);
+            })
+        }
+    }
+
     const styles = StyleSheet.create({
         input: {
             height: 100, borderRadius: 10, marginVertical: 10, backgroundColor: COLOR.WHITE,
             elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, color: COLOR.BLACK
+        },
+        ImageText: {
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: COLOR.BLACK,
+            textAlign: 'center'
+        },
+        imageContainer: { justifyContent: 'center', alignItems: 'center', paddingVertical: 15, paddingHorizontal: 15 },
+        imageInnerContainer: {
+            height: 100,
+            width: 100,
+            borderRadius: 50,
+            backgroundColor: COLOR.ORANGECOLOR,
+            justifyContent: 'center',
+            alignItems: 'center',
+            elevation: 3,
+            shadowColor: COLOR.ORANGECOLOR,
+            position: 'relative',
+            marginBottom: 20
+        },
+        image: {
+            height: 100,
+            width: 100,
+            borderRadius: 50,
+        },
+        cameraButton: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: COLOR.BLACK,
+            borderRadius: 25,
+            height: 30,
+            width: 30,
+            position: 'absolute',
+            right: 1,
+            bottom: 1,
+        },
+
+        modalContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            width: '100%',
+            // backgroundColor: COLOR.ROYALBLUE,
+
+        },
+        innerContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '20%',
+            width: '80%',
+            backgroundColor: COLOR.ORANGECOLOR,
+            borderRadius: 15,
+        },
+        closeButton: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            right: 0,
+            top: 0,
+        },
+        buttonContainer: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            gap: 30,
+        },
+        button2: {
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        buttonText: {
+            color: COLOR.WHITE,
+            fontSize: 18,
+            fontWeight: '700',
         },
         button: {
             backgroundColor: COLOR.ORANGECOLOR,
@@ -205,50 +354,38 @@ const ProfSelectedDetailService = ({ route }) => {
         <>
             <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
                 <View style={{ height: 60, borderRadius: 10, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={30} color={COLOR.BLACK} /></TouchableOpacity>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                        <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={28} color={COLOR.BLACK} /></TouchableOpacity>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 24, fontWeight: '600' }}>Create Service</Text>
+                    </View>
+
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                         <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                     </TouchableOpacity>
                 </View>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, color: COLOR.BLACK }}>
+                    Selected Category
+                </Text>
+
                 <TouchableOpacity onPress={() => setOpen(!open)} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: 60, borderRadius: 10, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 5 }}>
                     <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', margin: 10 }}>
                         <Image source={{ uri: item?.photo }} style={{ height: 40, width: 40, resizeMode: 'cover', borderRadius: 10 }} />
                         <Text style={{ fontSize: 16, color: COLOR.BLACK }}>{item?.name}</Text>
                     </View>
-                    <AntDesign name={open ? "up" : "down"} size={27} color={COLOR.GRAY} />
+
                 </TouchableOpacity>
-                {open && (
-                    <FlatList
-                        data={data}
-                        showsVerticalScrollIndicator={false}
-                        scrollEnabled={false}
-                        style={{ flex: 1 }}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item: serviceItem }) => (
-                            <TouchableOpacity onPress={() => handleSelect(serviceItem)} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, paddingHorizontal: 10, borderRadius: 15, height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 20, marginVertical: 10, marginHorizontal: 5 }}>
-                                <Image source={{ uri: serviceItem.photo }} style={{ height: 50, width: 50, resizeMode: 'cover', marginVertical: 10, borderRadius: 10 }} />
-                                <Text style={{ fontSize: 16, color: COLOR.BLACK }}>{serviceItem?.name}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-                )}
-                <View style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: 175, borderRadius: 10, marginVertical: 10, alignItems: 'center' }}>
-                    <Image source={{ uri: item?.photo }} style={{ height: 150, width: 150, resizeMode: 'cover', margin: 10 }} />
+
+                <View style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: Screen_Height*0.3, borderRadius: 10, marginVertical: 10, alignItems: 'center',justifyContent:'center' }}>
+                    {imageUri ? (
+                        <Image source={{ uri: imageUri }} style={{ height: 150, width: 150, resizeMode: 'cover', margin: 10 }} />
+                    ) : <Image source={{ uri: item?.photo }} style={{ height: 150, width: 150, resizeMode: 'cover', margin: 10 }} />}
+                    <TouchableOpacity onPress={CameraHandle} style={{ borderRadius: 15, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10,width:Screen_Width*0.6,height:40 }}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: 'bold' }}>Choose service image</Text>
+                        <AntDesign name="camera" size={18} color={COLOR.WHITE} />
+                    </TouchableOpacity>
                 </View>
 
-                {/* <View style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: 80, borderRadius: 10, marginVertical: 10, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 18 }}>Prices</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>$</Text>
-                        <TextInput
-                            placeholderTextColor={COLOR.GRAY}
-                            style={{ fontSize: 20, color: COLOR.BLACK }}
-                            value={price}
-                            onChangeText={handlePriceChange}
-                            keyboardType="numeric"
-                        />
-                    </View>
-                </View> */}
+
 
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
                     Price
@@ -263,52 +400,7 @@ const ProfSelectedDetailService = ({ route }) => {
                 />
 
 
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Select Category
-                </Text>
-                <View style={styles.container}>
-                    <TouchableOpacity onPress={() => setOpen2(!open2)} style={styles.dropdownButton}>
-                        <Text style={styles.dropdownButtonText}>
-                            {selectedCategory ? selectedCategory.name : 'Select Category'}
-                        </Text>
-                        <AntDesign name={open2 ? "up" : "down"} size={20} color="#000" />
-                    </TouchableOpacity>
 
-                    {open2 && (
-                        <View style={styles.categoryList}>
-                            <View style={styles.newCategoryInput}>
-                                <TextInput
-                                    style={styles.input2}
-                                    placeholder="Add new category"
-                                    value={newCategory}
-                                    onChangeText={setNewCategory}
-                                    placeholderTextColor={COLOR.GRAY}
-                                />
-                                <TouchableOpacity onPress={addNewCategory} style={{
-                                    backgroundColor: COLOR.ORANGECOLOR,
-                                    justifyContent: 'center',
-                                    borderRadius: 20,
-                                    alignItems: 'center',
-                                    height: 40,
-                                    marginHorizontal: 10,
-                                    marginVertical: 10,
-                                }}>
-                                    <Text style={{ color: COLOR.WHITE }}>Add</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <FlatList
-                                data={categories}
-                                keyExtractor={(item) => item.id}
-                                scrollEnabled={false}
-                                renderItem={({ item }) => (
-                                    <TouchableOpacity onPress={() => handleSelectCategory(item)} style={styles.categoryItem}>
-                                        <Text style={styles.categoryItemText}>{item.name}</Text>
-                                    </TouchableOpacity>
-                                )}
-                            />
-                        </View>
-                    )}
-                </View>
 
 
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
@@ -351,7 +443,39 @@ const ProfSelectedDetailService = ({ route }) => {
                         onPress={() => setSelectedGender('feminine')}
                     />
                 </View>
-
+                <Modal
+                    transparent
+                    visible={imageModalVisible}
+                    animationType='slide'
+                    statusBarTranslucent
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.innerContainer}>
+                            <TouchableOpacity
+                                onPress={() => setImageModalVisible(false)}
+                                style={styles.closeButton}
+                            >
+                                <AntDesign name="closecircle" size={30} color={COLOR.WHITE} />
+                            </TouchableOpacity>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity
+                                    onPress={onCapturePress}
+                                    style={styles.button2}
+                                >
+                                    <AntDesign name="camera" size={40} color={COLOR.WHITE} />
+                                    <Text style={styles.buttonText}>Camera</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={onUploadPress}
+                                    style={styles.button2}
+                                >
+                                    <AntDesign name="upload" size={40} color={COLOR.WHITE} />
+                                    <Text style={styles.buttonText}>Upload</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
                 <View style={{ height: 160 }} />
             </ScrollView>
             <TouchableOpacity onPress={handleCreate} style={styles.button} disabled={isLoading}>

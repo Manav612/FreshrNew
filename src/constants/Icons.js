@@ -14,6 +14,17 @@ export const FilterWhite = require('../assets/images/FilterWhite.png')
 export const HomeIcon = require('../assets/images/House.png');
 export const HomeIcon2 = require('../assets/images/House2.png');
 export const HouseOrange = require('../assets/images/HouseOrange.png');
+
+export const maleWhite = require('../assets/images/maleWhite.png');
+export const maleOrange = require('../assets/images/maleOrange.png');
+
+export const femaleWhite = require('../assets/images/femaleWhite.png');
+export const femaleOrange = require('../assets/images/femaleOrange.png');
+
+export const BothWhite = require('../assets/images/BothWhite.png');
+export const BothOrange = require('../assets/images/BothOrange.png');
+
+
 export const UserIcon = require('../assets/images/User.png');
 export const ScissorIcon = require('../assets/images/Scissors.png');
 export const LocationIcon = require('../assets/images/map.png');
