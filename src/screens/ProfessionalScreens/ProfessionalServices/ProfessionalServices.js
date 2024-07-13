@@ -1,4 +1,4 @@
-import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View,RefreshControl } from 'react-native';
+import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, RefreshControl } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -23,10 +23,10 @@ const ProfessionalServices = () => {
   const [servicesData, setServicesData] = useState();
   const [refreshing, setRefreshing] = useState(false);
   const [Services, setServices] = useState('View services');
-  const fetchedData= useSelector(state=>state.ServicesDataReducer);
+  const fetchedData = useSelector(state => state.ServicesDataReducer);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
-console.log("==========   servicesData   ===========",servicesData);
-console.log("==========   F3etch Data   ========",fetchedData);
+  console.log("==========   servicesData   ===========", servicesData);
+  console.log("==========   F3etch Data   ========", fetchedData);
   const openBottomSheet2 = (item, index) => {
     refRBSheet.current[0].open();
     setServicesData(item);
@@ -54,7 +54,7 @@ console.log("==========   F3etch Data   ========",fetchedData);
         }
       };
       const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
-      console.log("=========   fetchhh services  ========", res.data.data.services);
+      console.log("=========   fetchhh servicessss  ========", res.data.data.services);
       dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
       console.error("Error:", error);
@@ -69,7 +69,7 @@ console.log("==========   F3etch Data   ========",fetchedData);
           'Authorization': `Bearer ${token}`
         }
       };
-      console.log('===============   id ==============',id);
+      console.log('===============   id ==============', id);
       const res = await axios.delete(`${BASE_API_URL}/professionals/professional/services/${id}`, config);
       console.log("=======   ressss == ========", res.data);
       Alert.alert('Service deleted successfully ')
@@ -114,7 +114,7 @@ console.log("==========   F3etch Data   ========",fetchedData);
               fontSize: 16,
               fontWeight: '600',
             }}>
-            {item?.serviceType?.name}
+            {item?.category?.name}
           </Text>
           <Text
             style={{
@@ -150,12 +150,12 @@ console.log("==========   F3etch Data   ========",fetchedData);
 
     );
 
-    
+
     return (
       <View style={styles.content}>
         <View>
-          <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK,marginVertical:10 }}>
-           My Services
+          <Text style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK, marginVertical: 10 }}>
+            My Services
           </Text>
           <View
             style={{
@@ -170,7 +170,7 @@ console.log("==========   F3etch Data   ========",fetchedData);
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item.id}
             renderItem={RenderItem}
-            style={{flex:1}}
+            style={{ flex: 1 }}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
@@ -395,9 +395,9 @@ console.log("==========   F3etch Data   ========",fetchedData);
 
   return (
     <View
-    style={{ width: Screen_Width, flex: 1, paddingBottom: 250, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}
-    
-  >
+      style={{ width: Screen_Width, flex: 1, paddingBottom: 250, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}
+
+    >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Services</Text>

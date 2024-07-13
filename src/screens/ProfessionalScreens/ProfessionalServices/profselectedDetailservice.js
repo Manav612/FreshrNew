@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -9,81 +9,79 @@ import { NavigationScreens } from '../../../constants/Strings';
 import ImagePicker from 'react-native-image-crop-picker'
 import { CheckPermission } from '../../../constants/CheckPermission';
 import { PERMISSIONS } from 'react-native-permissions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API_URL } from '../../../Services';
+import axios from 'axios';
+import { UpdateServiceData } from '../../../redux/ServicesData/ServicesDataAction';
 
 const ProfSelectedDetailService = ({ route }) => {
     const { item, data } = route.params;
+    console.log("=================   item   ===================", item);
+
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const COLOR1 = theme === 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
     const navigation = useNavigation();
     const [distance, setDistance] = useState('');
     const [open, setOpen] = useState(false);
-    const [minPrice, setMinPrice] = useState('');
-    const [maxPrice, setMaxPrice] = useState('');
+    const dispatch = useDispatch()
+
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedGender, setSelectedGender] = useState('both');
-    const [description, setDescription] = useState('');
+
     const [imageModalVisible, setImageModalVisible] = useState(false);
-    const [imageUri, setImageUri] = useState('');
-    const [duration, setDuration] = useState('');
+
+
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(0);
+    const [price, setPrice] = useState(item.price || '');
+    const [description, setDescription] = useState(item.description || '');
+    const [imageUri, setImageUri] = useState(item.photo || '');
+    const [duration, setDuration] = useState(item.totalMinutes ? item.totalMinutes.toString() : '');
+    const initialGender = () => {
+        if (item.forMale && item.forFemale) {
+            return 'both';
+        } else if (item.forMale) {
+            return 'masculine';
+        } else if (item.forFemale) {
+            return 'feminine';
+        }
+        return ''; // Default value if neither is set
+    };
+    const [selectedGender, setSelectedGender] = useState(initialGender());
 
     useEffect(() => {
-        if (item) {
-            const lowestMinPrice = Math.min(item.female.minPrice, item.male.minPrice);
-            const highestMaxPrice = Math.max(item.female.maxPrice, item.male.maxPrice);
-            const longestDuration = Math.max(item.female.averageDuration, item.male.averageDuration);
-
-            setMinPrice(lowestMinPrice.toString());
-            setMaxPrice(highestMaxPrice > 0 ? highestMaxPrice.toString() : '');
-            setDuration(longestDuration.toString());
-
-            if (item.forFemale && item.forMale) {
-                setSelectedGender('both');
-            } else if (item.forMale) {
-                setSelectedGender('masculine');
-            } else if (item.forFemale) {
-                setSelectedGender('feminine');
-            }
+        if (selectedGender === 'masculine' || selectedGender === 'both') {
+            setMinPrice(item.male.minPrice);
+            setMaxPrice(item.male.maxPrice);
+            setDuration(item.male.averageDuration.toString());
+        } else if (selectedGender === 'feminine') {
+            setMinPrice(item.female.minPrice);
+            setMaxPrice(item.female.maxPrice);
+            setDuration(item.female.averageDuration.toString());
         }
-    }, [item]);
+    }, [selectedGender]);
+    // Determine the initial gender selection
 
-    const handleMinPriceChange = (text) => {
-        const numericValue = parseFloat(text);
-        if (isNaN(numericValue)) {
-            setMinPrice(text);
-        } else if (numericValue < Math.min(item.female.minPrice, item.male.minPrice)) {
-            Alert.alert("Invalid Price", `Minimum price cannot be less than ${Math.min(item.female.minPrice, item.male.minPrice)}`);
-        } else {
-            setMinPrice(text);
-        }
-    };
 
-    const handleMaxPriceChange = (text) => {
-        const numericValue = parseFloat(text);
-        if (isNaN(numericValue)) {
-            setMaxPrice(text);
-        } else if (item.female.maxPrice > 0 || item.male.maxPrice > 0) {
-            const maxAllowedPrice = Math.max(item.female.maxPrice, item.male.maxPrice);
-            if (numericValue > maxAllowedPrice) {
-                Alert.alert("Invalid Price", `Maximum price cannot be more than ${maxAllowedPrice}`);
-            } else {
-                setMaxPrice(text);
-            }
-        } else {
-            setMaxPrice(text);
-        }
-    };
+
+
 
     const RadioButton = ({ label, selected, onPress, disabled }) => (
-        <TouchableOpacity 
-            style={{ 
-                flexDirection: 'row', 
-                alignItems: 'center', 
+        <TouchableOpacity
+            style={{
+                flexDirection: 'row',
+                alignItems: 'center',
                 marginVertical: 5,
                 opacity: disabled ? 0.5 : 1
-            }} 
-            onPress={onPress}
-            disabled={disabled}
+            }}
+            onPress={() => {
+                onPress();
+                if (label === 'Masculine' || label === 'Both') {
+                    setDuration(item.male.averageDuration.toString());
+                } else if (label === 'Feminine') {
+                    setDuration(item.female.averageDuration.toString());
+                }
+            }}
         >
             <View style={{
                 height: 24,
@@ -178,6 +176,59 @@ const ProfSelectedDetailService = ({ route }) => {
             })
         }
     }
+
+
+    const handleCreate = async () => {
+        const numPrice = parseFloat(price);
+        if (isNaN(numPrice) || numPrice < minPrice || (maxPrice > 0 && numPrice > maxPrice)) {
+            Alert.alert(
+                "Invalid Price",
+                `Please enter a valid price between ${minPrice} and ${maxPrice || 'any amount above'}.`
+            );
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const serviceData = {
+                category: item._id,
+                description: description,
+                photo: imageUri,
+                forMale: selectedGender,
+                forFemale: selectedGender,
+                price: price,
+                hours: Math.floor(duration / 60),
+                minutes: duration % 60,
+                totalMinutes: duration
+
+            };
+
+            const res = await axios.post(`${BASE_API_URL}/professionals/professional/services`, serviceData, config);
+
+            if (res && res.data) {
+                console.log("Service created successfully:", res.data.data.service);
+                navigation.navigate(NavigationScreens.ProfessionalServicesScreen);
+
+                dispatch(UpdateServiceData(res.data.data.service));
+            }
+
+            Alert.alert("Success", "Service created successfully");
+        } catch (error) {
+            console.error("Error creating service:", error.response?.data || error.message);
+            Alert.alert("Error", "Failed to create service. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     const styles = StyleSheet.create({
         input: {
@@ -335,7 +386,7 @@ const ProfSelectedDetailService = ({ route }) => {
                 <View style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: Screen_Height * 0.3, borderRadius: 10, marginVertical: 10, alignItems: 'center', justifyContent: 'center' }}>
                     {imageUri ? (
                         <Image source={{ uri: imageUri }} style={{ height: 150, width: 150, resizeMode: 'cover', margin: 10 }} />
-                    ) : <View><Text style={{color:COLOR.BLACK,marginVertical:20}}>There is no image!</Text></View>}
+                    ) : <View><Text style={{ color: COLOR.BLACK, marginVertical: 20 }}>There is no image!</Text></View>}
                     <TouchableOpacity onPress={CameraHandle} style={{ borderRadius: 15, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10, width: Screen_Width * 0.6, height: 40 }}>
                         <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: 'bold' }}>Choose service image</Text>
                         <AntDesign name="camera" size={18} color={COLOR.WHITE} />
@@ -344,20 +395,13 @@ const ProfSelectedDetailService = ({ route }) => {
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
                     Price
                 </Text>
+
                 <TextInput
-                    placeholder='Enter min price'
+                    placeholder='Enter price'
                     placeholderTextColor={COLOR.GRAY}
                     style={styles.input3}
-                    value={minPrice}
-                    onChangeText={handleMinPriceChange}
-                    keyboardType="numeric"
-                />
-                <TextInput
-                    placeholder='Enter max price'
-                    placeholderTextColor={COLOR.GRAY}
-                    style={styles.input3}
-                    value={maxPrice}
-                    onChangeText={handleMaxPriceChange}
+                    value={price}
+                    onChangeText={text => setPrice(text)}
                     keyboardType="numeric"
                 />
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
@@ -367,8 +411,8 @@ const ProfSelectedDetailService = ({ route }) => {
                     style={styles.input3}
                     placeholder="Enter estimated service duration in minutes"
                     placeholderTextColor={COLOR.GRAY}
-                    value={distance}
-                    onChangeText={text => setDistance(text)} />
+                    value={duration}
+                    onChangeText={text => setDuration(text)} />
 
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
                     Description
@@ -382,24 +426,21 @@ const ProfSelectedDetailService = ({ route }) => {
                     onChangeText={setDescription}
                     multiline={true}
                 />
-               <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <RadioButton
                         label="Both"
                         selected={selectedGender === 'both'}
                         onPress={() => setSelectedGender('both')}
-                        disabled={!(item.forMale && item.forFemale)}
                     />
                     <RadioButton
                         label="Masculine"
                         selected={selectedGender === 'masculine'}
                         onPress={() => setSelectedGender('masculine')}
-                        disabled={!item.forMale || (item.forMale && item.forFemale)}
                     />
                     <RadioButton
                         label="Feminine"
                         selected={selectedGender === 'feminine'}
                         onPress={() => setSelectedGender('feminine')}
-                        disabled={!item.forFemale || (item.forMale && item.forFemale)}
                     />
                 </View>
                 <Modal
@@ -438,8 +479,8 @@ const ProfSelectedDetailService = ({ route }) => {
                 <View style={{ height: 160 }} />
             </ScrollView>
             <TouchableOpacity
-            //  onPress={handleCreate} 
-             style={styles.button} disabled={isLoading}>
+                onPress={handleCreate}
+                style={styles.button} disabled={isLoading}>
                 <Text style={{ color: COLOR.WHITE, fontSize: 16, textAlign: 'center' }}>
                     {isLoading ? "Creating..." : "Create Service"}
                 </Text>

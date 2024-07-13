@@ -17,7 +17,7 @@ const History = () => {
 
     const [selectedReceipt, setSelectedReceipt] = useState(null);
 
-    
+
 
     const [refreshing, setRefreshing] = useState(false);
     const [FetchedData, setFetchedData] = useState([]);
@@ -44,9 +44,9 @@ const History = () => {
             const combinedData = [
                 ...CompletedRes.data.data.orders,
                 ...CancelledRes.data.data.orders,
-                
+
             ];
-            console.log('==========   order  List compeleted  ===========',combinedData)
+            console.log('==========   order  List compeleted  ===========', combinedData)
             console.log(JSON.stringify(combinedData, null, 2));
             setFetchedData(combinedData)
         } catch (error) {
@@ -59,19 +59,19 @@ const History = () => {
     }
 
     const renderItem = ({ item }) => (
-     
+
         <ScrollView
-        refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
             style={{ backgroundColor: COLOR.WHITE, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3, borderRadius: 10, paddingHorizontal: 20, marginVertical: 10 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
                 <View>
-                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt.slice(0,10)}</Text>
+                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt.slice(0, 10)}</Text>
                 </View>
-                <View style={{ backgroundColor:item.status === 'CANCELLED'? COLOR.CANCEL_B:COLOR.GREEN, width: 110, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>{item.status}</Text></View>
+                <View style={{ backgroundColor: item.status === 'CANCELLED' ? COLOR.CANCEL_B : COLOR.GREEN, width: 110, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>{item.status}</Text></View>
 
-               
+
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10 }} />
             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
@@ -97,31 +97,34 @@ const History = () => {
                     </View>
                 )}
             />
-             <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>
-                       $ {item.price}
-                    </Text>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>
+                $ {item.price}
+            </Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
                 <TouchableOpacity onPress={() => handleResetPress(item.id)} style={{ backgroundColor: selectedReceipt === item.id ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width: Screen_Width * 0.75, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
                     <Text style={{ fontSize: 18, fontWeight: '700', color: selectedReceipt === item.id ? COLOR.WHITE : COLOR.ORANGECOLOR }}>View E-Receipt </Text>
                 </TouchableOpacity>
             </View>
-           
+
         </ScrollView>
     );
 
     return (
-        <>
-        <FlatList
-            showsVerticalScrollIndicator={false}
-            style={{ marginTop: 15, marginHorizontal: 15,flex:1 }}
-            data={FetchedData}
-            scrollEnabled={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-        />
-        <View style={{height:100}}/>
+        <ScrollView
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                style={{ marginTop: 15, marginHorizontal: 15, flex: 1 }}
+                data={FetchedData}
+                scrollEnabled={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+            />
+            <View style={{ height: 100 }} />
 
-        </>
+        </ScrollView>
     )
 }
 
