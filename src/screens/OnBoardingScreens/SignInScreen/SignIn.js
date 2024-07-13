@@ -45,16 +45,20 @@ const SignIn = () => {
     const handleEmailBlur = () => setIsEmailFocused(false);
 
     const fetchData = async () => {
-   
-
+       
         try {
             const response = await axios.post(
                 `${BASE_API_URL}/users/emailcheck`,
                 { email },
-                // { timeout: 1000 } // 5 second timeout
+                { timeout: 1000 } // 5 second timeout
             );
+            // setLoader(true);
             console.log("=========   res data   ======", response.data);
+            // if (response.data === 200) {
+               
             navigation.navigate(NavigationScreens.PasswordAndOtpScreen, { email: email });
+        // }
+
         } catch (error) {
             console.error("Error during email check:", error);
             // if (error.code === 'ECONNABORTED') {
@@ -160,7 +164,7 @@ const SignIn = () => {
                         <Text style={styles.loadingText}>Checking email...</Text>
                     </View>
                 ) : (
-                    <TouchableOpacity onPress={debouncedFetchData} style={styles.button}>
+                    <TouchableOpacity onPress={fetchData} style={styles.button}>
                         <Text style={styles.buttonText}>Continue</Text>
                     </TouchableOpacity>
                 )}

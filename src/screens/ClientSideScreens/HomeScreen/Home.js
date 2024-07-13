@@ -81,18 +81,6 @@ const Home = () => {
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [activeTab, setActiveTab] = useState('Delivery');
 
-
-  // const currentHour = new Date().getHours();
-  // let greeting;
-
-  // if (currentHour >= 5 && currentHour < 12) {
-  //   greeting = 'Good Morning';
-  // } else if (currentHour >= 12 && currentHour < 18) {
-  //   greeting = 'Good Afternoon';
-  // } else {
-  //   greeting = 'Good Evening';
-  // }
-
   const styles = StyleSheet.create({
     CategoryContainer: {
       borderWidth: 2,
@@ -116,7 +104,6 @@ const Home = () => {
       color: COLOR.WHITE,
     },
   });
-
 
   const fullName = `${user?.firstName} ${user?.lastName}`.trim();
   const displayName = fullName.length > 15 ? `${fullName.slice(0, 15)}...` : fullName;
@@ -224,7 +211,7 @@ const Home = () => {
       <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
         <View style={{ flexDirection: 'row',height:50,alignItems:'center'}}>
           <View>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center',width:Screen_Width*0.5 }}>
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center',width:Screen_Width*0.4 }}>
               {/* <Entypo name="home" size={22} color={COLOR.ORANGECOLOR} /> */}
               {/* <Text style={{ color: COLOR.BLACK, fontSize: 15 }}>Hello, {displayName}</Text> */}
             </View>
@@ -232,10 +219,13 @@ const Home = () => {
             <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
             <Text style={{ color: COLOR.BLACK, fontSize: 18,fontWeight:'500' }}>Office</Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row',gap:5,justifyContent:'center',alignItems:'center' }}>
-              <Text style={{ color: COLOR.BLACK, fontSize: 16, flex: 1,textDecorationLine:'underline' }} numberOfLines={1}>
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row',justifyContent:'center',alignItems:'flex-end' }}>
+              <Text style={{ color: COLOR.BLACK, fontSize: 16, flex: 1 }} numberOfLines={1}>
                 {address}
               </Text>
+              
+            <AntDesign name="down" size={14} color={COLOR.BLACK} />
+
             </TouchableOpacity>
            
              

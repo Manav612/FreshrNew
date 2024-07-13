@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity,FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
@@ -7,17 +7,29 @@ import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AllCategoryData1 } from '../../../components/utils';
-import Cancelled from '../../../components/MyBookingDetails/Cancelled';
-import Completed from '../../../components/MyBookingDetails/Completed';
-import Upcoming from '../../../components/MyBookingDetails/Upcoming';
+import Cancelled from '../../../components/MyBookingDetails/Pending';
+import Completed from '../../../components/MyBookingDetails/History';
+import { NavigationScreens } from '../../../constants/Strings';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import Ongoing from '../../../components/MyBookingDetails/Ongoing';
+import History from '../../../components/MyBookingDetails/History';
+import Pending from '../../../components/MyBookingDetails/Pending';
 
 const MyBooking = () => {
   const navigation = useNavigation()
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-  const [selectedItem, setSelectedItem] = useState('Upcoming');
-
+  const [selectedItem, setSelectedItem] = useState('Ongoing');
+  const [selectedItem2, setSelectedItem2] = useState('Scheduled');
+  const refRBSheet = useRef([]);
+  const openBottomSheet = () => {
+    refRBSheet.current[0].open();
+  };
+  const handleSchedule = ()=>{
+    setSelectedItem2(!selectedItem2)
+    openBottomSheet()
+  }
   const styles = StyleSheet.create({
     dot: {
         width: 10,
@@ -105,7 +117,7 @@ const MyBooking = () => {
         ]}
         onPress={() => setSelectedItem(item.name)}
     >
-        <View style={{ marginHorizontal: 13 }}>
+        <View style={{ }}>
             <Text
                 style={[
                     styles.Categorytext,
@@ -120,12 +132,12 @@ const MyBooking = () => {
 
 const renderScreen = () => {
     switch (selectedItem) {
-        case 'Upcoming':
-            return <Upcoming />;
-        case 'Completed':
-          return <Completed />;
-        case 'Cancelled':
-          return <Cancelled />;
+        case 'Ongoing':
+            return <Ongoing />;
+        case 'Pending':
+          return <Pending />;
+        case 'History':
+          return <History />;
         default:
             return null;
     }
@@ -133,17 +145,37 @@ const renderScreen = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 ,backgroundColor:COLOR.WHITE}}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-        <View style={{ flexDirection: 'row', gap: 20 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: COLOR.WHITE, fontSize: 30 }}>F</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center', gap: 10 }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <MaterialCommunityIcons name="arrow-left" size={24} color={COLOR.BLACK} />
           </TouchableOpacity>
-          <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Booking</Text>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>My Bookings</Text>
         </View>
-        {/* <AntDesign name="search1" size={30} color={COLOR.GRAY} /> */}
-        {/* <View style={{ flexDirection: 'row', gap: 10 }}>
-          <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
-        </View> */}
+       
+       
       </View>
+      <TouchableOpacity
+        onPress={handleSchedule}
+        style={{
+          borderWidth: 2,
+        borderColor: COLOR.ORANGECOLOR,
+        backgroundColor:selectedItem2?COLOR.ORANGECOLOR:COLOR.WHITE,
+        marginHorizontal: 5,
+        borderRadius: 30,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical:5,
+        }}
+      >
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+          <Text style={{ textAlign: 'center', fontSize: 20, color:selectedItem2?COLOR.WHITE: COLOR.ORANGECOLOR }}>
+            Scheduled Appointments
+          </Text>
+          <AntDesign name="calendar" size={24} color={selectedItem2?COLOR.WHITE: COLOR.ORANGECOLOR} />
+
+        </View>
+      </TouchableOpacity>
       <View>
         <FlatList
           data={AllCategoryData1}
@@ -154,6 +186,56 @@ const renderScreen = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
         />
+      </View>
+      <View style={{}}>
+        <RBSheet
+          ref={(ref) => (refRBSheet.current[0] = ref)}
+
+          height={Screen_Height * 0.53}
+          customStyles={{
+
+            wrapper: {
+              backgroundColor: COLOR.BLACK_40,
+            },
+            container: {
+              backgroundColor: COLOR.WHITE,
+              borderRadius: 40,
+              borderBottomRightRadius: 0,
+              borderBottomLeftRadius: 0,
+              elevation: 10,
+              shadowColor: COLOR.BLACK,
+            },
+            draggableIcon: {
+              backgroundColor: COLOR.BLACK,
+            },
+          }}
+          customModalProps={{
+            animationType: 'slide',
+            statusBarTranslucent: true,
+          }}
+          customAvoidingViewProps={{
+            enabled: false,
+          }}>
+          <View style={{ paddingHorizontal: 5, marginVertical: 10 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+              <View style={{ width: 30, height: 3, backgroundColor: COLOR.BLACK, marginBottom: 10 }} />
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: Screen_Width * 0.9 }}>
+                <View style={{ width: 30 }} />
+                <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Appointments</Text>
+                <TouchableOpacity onPress={() => refRBSheet.current[0].close()}>
+                  <AntDesign name="closecircle" size={24} color={COLOR.BLACK} />
+                </TouchableOpacity>
+              </View>
+
+            </View>
+            <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
+
+            
+
+            
+          </View>
+
+        </RBSheet>
       </View>
         <View>{renderScreen()}</View>
 

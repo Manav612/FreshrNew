@@ -18,6 +18,8 @@ import { NavigationScreens } from '../../../constants/Strings';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { screenWidth } from 'react-native-gifted-charts/src/utils';
+import StoryModal from '../../../components/Story/Story/StoryModal';
 
 const MyBookMarkScreen = () => {
   const navigation = useNavigation()
@@ -33,10 +35,12 @@ const MyBookMarkScreen = () => {
   const styles = StyleSheet.create({})
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-   fetchDataForFav().then(() => setRefreshing(false));
-   fetchDataForFavSalon()
+    fetchDataForFav().then(() => setRefreshing(false));
+    fetchDataForFavSalon()
   }, []);
 
+
+  const [selectedStory, setSelectedStory] = useState({});
 
   useEffect(() => {
     fetchDataForFav()
@@ -52,7 +56,7 @@ const MyBookMarkScreen = () => {
         }
       }
       const res = await axios.get(`${BASE_API_URL}/users/favorites/professionals`, config);
-      console.log('========    list of fav  ============', res.data.data.user);
+      console.log('========    list of fav  ============', JSON.stringify(res.data.data.user[0]));
       setFetchDataOfFav(res.data.data.user);
     } catch (error) {
       console.error("Error:", error);
@@ -69,7 +73,7 @@ const MyBookMarkScreen = () => {
       const res = await axios.get(`${BASE_API_URL}/users/favorites/facility`, config);
       console.log('========    list of fav listofslon  ============', res.data.data.user);
       setFetchDataOfFavSalon(res.data.data.user);
-      console.log("Asdasd",res.data.data.user.length);
+      console.log("Asdasd", res.data.data.user.length);
       setFetchDataOfFavSalon(res.data.data.user);
     } catch (error) {
       console.error("Error:", error);
@@ -98,7 +102,7 @@ const MyBookMarkScreen = () => {
       console.error("Erroxr:", error.message);
     }
   };
-  const  DeleteDataForFavSalon = async (id) => {
+  const DeleteDataForFavSalon = async (id) => {
     try {
       const token = await AsyncStorage.getItem("AuthToken");
       const config = {
@@ -108,7 +112,7 @@ const MyBookMarkScreen = () => {
       }
       console.log("toerkm", token);
       const res = await axios.delete(`${BASE_API_URL}/users/favorites`, {
-        data: {facility: id}, headers: {
+        data: { facility: id }, headers: {
           'Authorization': `Bearer ${token}`
         }
       })
@@ -133,9 +137,9 @@ const MyBookMarkScreen = () => {
           alignItems: 'center',
           marginVertical: 10
         }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <MaterialCommunityIcons name="arrow-left" size={25} color={COLOR.BLACK} />
+            <MaterialCommunityIcons name="arrow-left" size={24} color={COLOR.BLACK} />
           </TouchableOpacity>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Following</Text>
         </View>
@@ -182,8 +186,8 @@ const MyBookMarkScreen = () => {
         </View>
         <AntDesign name="plus" size={24} color={COLOR.BLACK} />
       </TouchableOpacity>
-      {activeTab === 'Delivery'?(
-          <FlatList
+      {activeTab === 'Delivery' ? (
+        <FlatList
           data={FetchDataOfFav}
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.id}
@@ -192,21 +196,65 @@ const MyBookMarkScreen = () => {
           renderItem={({ item }) => {
             return (
               <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 3, marginHorizontal: 3 }}>
-            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, gap: 10, flexDirection: 'row' }}>
-        {item?.professional?.stories?.length >= 1?    <LinearGradient start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}} colors={[COLOR.YELLOW,COLOR.ORANGECOLOR ,COLOR.PINK]} style={{width: Screen_Width * 0.225, height: Screen_Width * 0.22, borderRadius: 100, paddingLeft: 15,paddingTop:4,
-    paddingRight: 15}}> 
-              <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Width* 0.20, borderRadius: 100,alignSelf:"center",justifyContent:"center" }} />
-              </LinearGradient>
-              :
-              <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Width* 0.20, borderRadius: 100,alignSelf:"center",justifyContent:"center" }} />
-        }
+                <TouchableOpacity
+                  onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })}
+                  style={{
+                    paddingHorizontal: 15,
+                    marginHorizontal: 5,
+                    gap: 10,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  {item.stories?.length > 0 ?
+                    <TouchableOpacity
+                      style={{
+                        width: Screen_Width * 0.20,
+                        aspectRatio: 1 / 1,
+                        borderRadius: 100,
+                      }}
+                      onPress={() => {
+                        let data = {};
+                        data['name'] = `${item.professional.user.firstName} ${item.professional.user.lastName}`;
+                        data['story'] = item.stories?.length > 0 ? item.stories : [];
+                        data['img'] = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+                        setSelectedStory(data);
+                      }}
+                    >
+                      <LinearGradient
+                        start={{ x: 0.0, y: 0.25 }}
+                        end={{ x: 0.5, y: 1.0 }}
+                        colors={[COLOR.YELLOW, COLOR.ORANGECOLOR, COLOR.PINK]}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 100,
+                          padding: 3,
+                        }}>
+                        <Image
+                          source={barber}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 100,
+                          }}
+                        />
+                      </LinearGradient>
+                    </TouchableOpacity>
+                    :
+                    <Image source={barber} style={{
+                      width: Screen_Width * 0.20,
+                      aspectRatio: 1 / 1,
+                      borderRadius: 100,
+                    }} />
+                  }
                   <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
                     <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
                       <View>
                         <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', marginBottom: 5 }}>{item.professional.user?.firstName}{" "}{item.professional?.user?.lastName}</Text>
                         <Text style={{ backgroundColor: COLOR.ORANGECOLOR, fontSize: 15, borderRadius: 10, textAlign: 'center', color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>{item?.sericeCnt} service</Text>
                       </View>
-  
+
                       <TouchableOpacity onPress={() => DeleteDataForFav(item.professional._id)}>
                         <View style={{ height: 90, width: 30 }}>
                           <MaterialCommunityIcons
@@ -228,60 +276,69 @@ const MyBookMarkScreen = () => {
                     </View>
                   </View>
                 </TouchableOpacity>
-  
+
               </View>
             )
           }}
         />
-      ):(
+      ) : (
         <FlatList
-        data={FetchDataOfFavSalon}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        style={{ flex: 1 }}
-        scrollEnabled={false}
-        renderItem={({ item }) => {
-          return (
-            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 3, marginHorizontal: 3 }}>
-              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row",gap:10 }}>
-                <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
-                <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
-                  <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
-                    <View>
-                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', marginBottom: 5 }}>{item.facility.name}</Text>
-                    </View>
-
-                    <TouchableOpacity onPress={() => DeleteDataForFavSalon(item.facility._id)}>
-                      <View style={{ height: 90, width: 30 }}>
-                        <MaterialCommunityIcons
-                          name="bookmark"
-                          size={25}
-                          color={COLOR.ChartBlue2}
-                        />
+          data={FetchDataOfFavSalon}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          style={{ flex: 1 }}
+          scrollEnabled={false}
+          renderItem={({ item }) => {
+            return (
+              <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 3, marginHorizontal: 3 }}>
+                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", gap: 10 }}>
+                  <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
+                  <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
+                    <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
+                      <View>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', marginBottom: 5 }}>{item.facility.name}</Text>
                       </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 10, color: COLOR.WHITE }}>
-                      <FontAwesome name="star-half-empty" size={20} color={COLOR.ORANGECOLOR} />
-                      <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR }}>4.8 (3,456)</Text>
-                    </View>
-                    <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
 
-                      <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{item?.distance}km</Text>
+                      <TouchableOpacity onPress={() => DeleteDataForFavSalon(item.facility._id)}>
+                        <View style={{ height: 90, width: 30 }}>
+                          <MaterialCommunityIcons
+                            name="bookmark"
+                            size={25}
+                            color={COLOR.ChartBlue2}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 10, color: COLOR.WHITE }}>
+                        <FontAwesome name="star-half-empty" size={20} color={COLOR.ORANGECOLOR} />
+                        <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR }}>4.8 (3,456)</Text>
+                      </View>
+                      <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
+
+                        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{item?.distance}km</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
 
-            </View>
-          )
-        }}
-      />
+              </View>
+            )
+          }}
+        />
       )
-    }
-    
+      }
+
       <View style={{ height: 90 }} />
+
+      {
+        Object.keys(selectedStory).length > 0 &&
+        <StoryModal
+          data={selectedStory}
+          modalVisible={Object.keys(selectedStory).length > 0}
+          setModalVisible={setSelectedStory}
+        />
+      }
     </ScrollView>
   );
 };

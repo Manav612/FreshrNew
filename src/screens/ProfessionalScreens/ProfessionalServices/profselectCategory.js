@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, FlatList } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
@@ -10,9 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
 import { Searchbar } from 'react-native-paper';
-import FastImage from 'react-native-fast-image';
-import { BothOrange, BothWhite, femaleOrange, femaleWhite, maleOrange, maleWhite } from '../../../constants/Icons';
-                        
+
 const ProfSelectCategory = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -22,6 +20,9 @@ const ProfSelectCategory = () => {
     const [services, setServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
     const [activeTab1, setActiveTab1] = useState('Both');
+    const [femaleServices, setFemaleServices] = useState([]);
+    const [maleServices, setMaleServices] = useState([]);
+    const [bothServices, setBothServices] = useState([]);
     
     useEffect(() => {
         fetchData();
@@ -29,7 +30,7 @@ const ProfSelectCategory = () => {
 
     useEffect(() => {
         handleSearch(searchQuery);
-    }, [services, searchQuery]);
+    }, [femaleServices, maleServices, bothServices, searchQuery, activeTab1]);
 
     const fetchData = async () => {
         try {
@@ -39,9 +40,17 @@ const ProfSelectCategory = () => {
                     'Authorization': `Bearer ${token}`
                 }
             };
-            const res = await axios.get(`${BASE_API_URL}/filters/serviceTypes`, config);
-            console.log("=======   ressss  ==   ========", res.data.data.serviceTypes);
-            setServices(res.data.data.serviceTypes);
+            const res = await axios.get(`${BASE_API_URL}/filters/categorys/`, config);
+            console.log("=======   ressss  ==   ========", res.data.results);
+            setServices(res.data.results);
+            
+            // Filter services
+            setFemaleServices(res.data.results.filter(service => service.forFemale && !service.forMale));
+            setMaleServices(res.data.results.filter(service => service.forMale && !service.forFemale));
+            setBothServices(res.data.results.filter(service => service.forFemale && service.forMale));
+            
+            // Set initial filtered services
+            setFilteredServices(res.data.results.filter(service => service.forFemale && service.forMale));
         } catch (error) {
             console.error("Error:", error);
         }
@@ -50,12 +59,37 @@ const ProfSelectCategory = () => {
     const handleSearch = (query) => {
         setSearchQuery(query);
         if (query) {
-            const filtered = services.filter((item) =>
+            const filterServices = (services) => services.filter((item) =>
                 item.name.toLowerCase().includes(query.toLowerCase())
             );
-            setFilteredServices(filtered);
+            
+            if (activeTab1 === 'Feminine') {
+                setFilteredServices(filterServices(femaleServices));
+            } else if (activeTab1 === 'Masculine') {
+                setFilteredServices(filterServices(maleServices));
+            } else {
+                setFilteredServices(filterServices(bothServices));
+            }
         } else {
-            setFilteredServices(services);
+            if (activeTab1 === 'Feminine') {
+                setFilteredServices(femaleServices);
+            } else if (activeTab1 === 'Masculine') {
+                setFilteredServices(maleServices);
+            } else {
+                setFilteredServices(bothServices);
+            }
+        }
+    };
+
+    const handleTabPress = (tab) => {
+        setActiveTab1(tab);
+        setSearchQuery('');
+        if (tab === 'Feminine') {
+            setFilteredServices(femaleServices);
+        } else if (tab === 'Masculine') {
+            setFilteredServices(maleServices);
+        } else {
+            setFilteredServices(bothServices);
         }
     };
 
@@ -87,11 +121,8 @@ const ProfSelectCategory = () => {
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
-                  onPress={() => setActiveTab1('Masculine')}
+                  onPress={() => handleTabPress('Masculine')}
                 >
-                  {/* <FastImage source={activeTab1 === 'Masculine'?maleWhite:maleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' /> */}
-
-
                   <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -107,10 +138,8 @@ const ProfSelectCategory = () => {
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
-                  onPress={() => setActiveTab1('Both')}
+                  onPress={() => handleTabPress('Both')}
                 >
-                  {/* <FastImage source={activeTab1 === 'Both'?BothWhite:BothOrange} style={{ width: 20, height: 20 }} resizeMode='contain' /> */}
-
                   <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -126,9 +155,8 @@ const ProfSelectCategory = () => {
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
-                  onPress={() => setActiveTab1('Feminine')}
+                  onPress={() => handleTabPress('Feminine')}
                 >
-                  {/* <FastImage source={activeTab1 === 'Feminine'?femaleWhite:femaleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' /> */}
                   <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
                 </TouchableOpacity>
               </View>
@@ -138,8 +166,7 @@ const ProfSelectCategory = () => {
                 keyExtractor={item => item.id}
                 scrollEnabled={false}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.profselectedDetailserviceScreen, { item: item, data: filteredServices })} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, paddingHorizontal: 10, borderRadius: 15, height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',gap:20, marginVertical: 10, marginHorizontal: 5 }}>
-                        <Image source={{ uri: item.photo }} style={{ height: 50, width: 50, resizeMode: 'cover', marginVertical: 10, borderRadius: 10 }} />
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.profselectedDetailserviceScreen, { item: item, data: filteredServices })} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, paddingHorizontal: 10, borderRadius: 15, height: 80, justifyContent: 'center',marginVertical: 10, marginHorizontal: 5 }}>
                         <Text style={{ fontSize: 16,color:COLOR.BLACK }}>{item.name}</Text>
                     </TouchableOpacity>
                     

@@ -109,16 +109,17 @@ export const ProfileData = [
 export const AllCategoryData1=[
   {
     id:1,
-    name:'Upcoming',
+    name:'Ongoing',
   },
   {
     id:2,
-    name:'Completed',
+    name:'Pending',
   },
   {
     id:3,
-    name:'Cancelled',
+    name:'History',
   },
+  
 ];
   export const chatdata = [
     {

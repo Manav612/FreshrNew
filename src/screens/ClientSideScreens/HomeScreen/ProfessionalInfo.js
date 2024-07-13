@@ -14,7 +14,7 @@ import ServicesScreen from '../../../components/SalonDetailScreen/ServicesScreen
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { AllCategoryData, barberData } from '../../../components/utils';
-import { barber, barber2, share } from '../../../constants/Icons';
+import { barber, barber2, ComeToYouOrange, ComeToYouWhite, HomeIcon2, HouseOrange, share } from '../../../constants/Icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
@@ -170,7 +170,7 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     const handleSelectSalon = () => {
-        setActiveTab('Salon')
+        setActiveTab('In Salon')
         navigation.navigate(NavigationScreens.FacilityListScreen, { SelectedProf: ProfDetail })
     }
 
@@ -349,27 +349,28 @@ const ProfessionalInfo = ({ route }) => {
                         </View>
                         <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ReviewsDetailScreen)} style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 5 }}>
                             <FontAwesome name="star-half-empty" size={24} color={COLOR.ORANGECOLOR} />
-                            <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>4.8(3,279 reviews)</Text>
+                            <Text style={{ marginLeft: 10, color: COLOR.GRAY, fontSize: 14 }}>4.8(3,279 reviews)</Text>
                         </TouchableOpacity>
                         {selectedItem === 'About Us' &&
                             <TouchableOpacity
                                 style={{
-                                    width: Screen_Width * 0.35,
-                                    height:35,
-                                    backgroundColor: COLOR.ORANGECOLOR,
-                                    borderRadius: 35,
-                                    marginVertical:10,
+                                    // width: Screen_Width * 0.35,
+                                    // height:35,
+                                    // borderRadius: 35,
+
                                     flexDirection: 'row',
-                                    gap: 20,
-                                    alignItems:'center',
-                                    paddingHorizontal:10
+                                    gap: 10,
+                                    alignItems: 'center',
+
                                 }}
                                 onPress={() => navigation.navigate(NavigationScreens.ReserveNowServicesScreen, { SelectedProf: ProfDetail, address: address })}
                             >
-                                 <AntDesign name="calendar" size={20} color={COLOR.WHITE} />
-                                <Text style={{fontSize: 18, color: COLOR.WHITE,fontWeight:'bold' }}>
-                                   Schedule
+                                <AntDesign name="calendar" size={22} color={COLOR.ORANGECOLOR} />
+                                <Text style={{ fontSize: 14, color: COLOR.GRAY }}>
+                                    Schedule
                                 </Text>
+                                {/* <AntDesign name="plus" size={18} color={COLOR.BLACK} /> */}
+
                             </TouchableOpacity>}
                     </View>
                     {/* <View>
@@ -383,23 +384,27 @@ const ProfessionalInfo = ({ route }) => {
                             showsHorizontalScrollIndicator={false}
                         />
                     </View> */}
-                    <View style={{ backgroundColor: COLOR.WHITE, alignSelf: 'center', elevation: 3, shadowColor: COLOR.BLACK, height: 125, width: Screen_Width * 0.9,position:'relative',marginTop:60, borderRadius: 25 }}>
+                    <View style={{ backgroundColor: COLOR.WHITE, alignSelf: 'center', elevation: 3, shadowColor: COLOR.BLACK, height: 125, width: Screen_Width * 0.9, position: 'relative', marginTop: 60, borderRadius: 25 }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
-                            <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Freelancer mode</Text>
+                            <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Delivery Options</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                             <View style={{ flexDirection: 'row', gap: 10 }}><Octicons name="dot-fill" size={24} color={COLOR.GREEN} /><Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>available</Text></View>
                             <View style={{ flexDirection: 'row', gap: 10 }}><Octicons name="dot-fill" size={24} color={COLOR.CANCEL_B} /><Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>unavailable</Text></View>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginVertical: 5 }}>
-                            <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => {
+                            <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Comes to you' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10 }} onPress={() => {
                                 openBottomSheet();
-                                setActiveTab('Delivery');
+                                setActiveTab('Comes to you');
                             }}>
-                                <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
+                                <FastImage source={activeTab === 'Comes to you' ? ComeToYouWhite : ComeToYouOrange} resizeMode='contain' style={{ height: 22, width: 22 }} />
+
+                                <Text style={{ color: activeTab === 'Comes to you' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to you</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ width: 150, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={handleSelectSalon}>
-                                <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
+                            <TouchableOpacity style={{ flexDirection:'row',gap:10,width: 150, height: 40, backgroundColor: activeTab === 'In Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={handleSelectSalon}>
+                                <FastImage source={activeTab === 'In Salon' ? HomeIcon2 : HouseOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
+
+                                <Text style={{ color: activeTab === 'In Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -408,7 +413,7 @@ const ProfessionalInfo = ({ route }) => {
 
                     <RBSheet
                         ref={refRBSheet}
-                        height={Screen_Height * 0.4}
+                        height={Screen_Height * 0.3}
                         customStyles={{
                             wrapper: {
                                 backgroundColor: COLOR.BLACK_40,
@@ -467,7 +472,7 @@ const ProfessionalInfo = ({ route }) => {
                                     justifyContent: 'center',
                                     borderRadius: 35,
                                     alignSelf: 'center',
-                                    marginVertical: 20
+                                    marginVertical: 10
                                 }}
                                 onPress={() => handleSaveAddress(address)}
                             >
@@ -483,7 +488,7 @@ const ProfessionalInfo = ({ route }) => {
                                     justifyContent: 'center',
                                     borderRadius: 35,
                                     alignSelf: 'center',
-                                    marginVertical: 20
+
                                 }}
                                 onPress={() => { navigation.navigate(NavigationScreens.AddAddressScreen), closeBottomSheet() }}
                             >

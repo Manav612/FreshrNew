@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList } from 'react-native'
+import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList, RefreshControl, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -8,8 +8,9 @@ import { Screen_Width } from '../../constants/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../Services';
 import axios from 'axios';
+import FastImage from 'react-native-fast-image';
 
-const Completed = () => {
+const History = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation()
@@ -37,9 +38,17 @@ const Completed = () => {
                     'Authorization': `Bearer ${token}`
                 }
             };
-            const res = await axios.get(`${BASE_API_URL}/users/user/orders/COMPLETED`, config);
-            console.log('==========   order  List   ===========', res.data.data.orders)
-            setFetchedData(res.data.data.orders)
+            const CompletedRes = await axios.get(`${BASE_API_URL}/users/user/orders/COMPLETED`, config);
+            const CancelledRes = await axios.get(`${BASE_API_URL}/users/user/orders/CANCELLED`, config);
+
+            const combinedData = [
+                ...CompletedRes.data.data.orders,
+                ...CancelledRes.data.data.orders,
+                
+            ];
+            console.log('==========   order  List compeleted  ===========',combinedData)
+            console.log(JSON.stringify(combinedData, null, 2));
+            setFetchedData(combinedData)
         } catch (error) {
             console.error("Error:", error);
         }
@@ -51,7 +60,7 @@ const Completed = () => {
 
     const renderItem = ({ item }) => (
      
-        <View
+        <ScrollView
         refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -60,7 +69,7 @@ const Completed = () => {
                 <View>
                     <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt.slice(0,10)}</Text>
                 </View>
-                <View style={{ backgroundColor: COLOR.GREEN, width: 75, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>Completed</Text></View>
+                <View style={{ backgroundColor:item.status === 'CANCELLED'? COLOR.CANCEL_B:COLOR.GREEN, width: 110, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>{item.status}</Text></View>
 
                
             </View>
@@ -88,13 +97,16 @@ const Completed = () => {
                     </View>
                 )}
             />
+             <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>
+                       $ {item.price}
+                    </Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
                 <TouchableOpacity onPress={() => handleResetPress(item.id)} style={{ backgroundColor: selectedReceipt === item.id ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width: Screen_Width * 0.75, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
                     <Text style={{ fontSize: 18, fontWeight: '700', color: selectedReceipt === item.id ? COLOR.WHITE : COLOR.ORANGECOLOR }}>View E-Receipt </Text>
                 </TouchableOpacity>
             </View>
            
-        </View>
+        </ScrollView>
     );
 
     return (
@@ -113,6 +125,6 @@ const Completed = () => {
     )
 }
 
-export default Completed
+export default History
 
 const styles = StyleSheet.create({})

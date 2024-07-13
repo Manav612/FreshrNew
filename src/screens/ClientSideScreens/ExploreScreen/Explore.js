@@ -389,6 +389,7 @@ const Explore = () => {
           pitchEnabled={true}
           rotateEnabled={true}
           customMapStyle={mapStyle}
+          toolbarEnabled={false}
           liteMode={true}
         >
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList, RefreshControl, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import FastImage from 'react-native-fast-image';
 import MapView, { Marker } from 'react-native-maps';
 
 
-const Cancelled = () => {
+const Pending = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation();
@@ -35,8 +35,9 @@ const Cancelled = () => {
                     'Authorization': `Bearer ${token}`
                 }
             };
-            const res = await axios.get(`${BASE_API_URL}/users/user/orders/CANCELLED`, config);
-            console.log('==========   order  List   ===========', res.data.data.orders)
+        const res = await axios.get(`${BASE_API_URL}/users/user/orders/PENDING`, config);                                                                                                              
+
+            console.log('==========   order  List pendinggg   ===========', res.data.data.orders)
             setFetchedData(res.data.data.orders)
         } catch (error) {
             console.error("Error:", error);
@@ -128,7 +129,7 @@ const Cancelled = () => {
 
     const renderItem = ({ item }) => (
       
-        <View
+        <ScrollView
         refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -137,7 +138,7 @@ const Cancelled = () => {
                 <View>
                     <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt.slice(0,10)}</Text>
                 </View>
-                <View style={{ backgroundColor: COLOR.CANCEL_B, width: 75, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>Cancelled</Text></View>
+                {/* <View style={{ backgroundColor: COLOR.CANCEL_B, width: 75, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>Cancelled</Text></View> */}
                
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10 }} />
@@ -211,11 +212,14 @@ const Cancelled = () => {
                 )}
             />
            
-        </View>
+        </ScrollView>
     );
 
     return (
-        <>
+        <ScrollView 
+        refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
         <FlatList
             showsVerticalScrollIndicator={false}
             style={{ marginTop: 15, marginHorizontal: 15,flex:1 }}
@@ -225,11 +229,11 @@ const Cancelled = () => {
             scrollEnabled={false}
         />
         <View style={{height:100}}/>
-        </>
+        </ScrollView>
     )
 }
 
 
-export default Cancelled
+export default Pending
 
 const styles = StyleSheet.create({})

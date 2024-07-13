@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList, RefreshControl, ScrollView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ import { BASE_API_URL } from '../../Services';
 import FastImage from 'react-native-fast-image';
 import MapView, { Marker } from 'react-native-maps';
 
-const Upcoming = () => {
+const Ongoing = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const [resetSelected, setResetSelected] = useState(false);
     const [applySelected, setApplySelected] = useState(false);
@@ -52,15 +52,15 @@ const Upcoming = () => {
 
             const ongoingRes = await axios.get(`${BASE_API_URL}/users/user/orders/ONGOING`, config);
             const inTrafficRes = await axios.get(`${BASE_API_URL}/users/user/orders/IN_TRAFFIC`, config);
-            const pendingRes = await axios.get(`${BASE_API_URL}/users/user/orders/PENDING`, config);
+            // const pendingRes = await axios.get(`${BASE_API_URL}/users/user/orders/PENDING`, config);                                                                                                              
 
             const combinedData = [
                 ...ongoingRes.data.data.orders,
                 ...inTrafficRes.data.data.orders,
-                ...pendingRes.data.data.orders,
+                // ...pendingRes.data.data.orders,
             ];
 
-            // console.log('==========   order  List   ===========', combinedData)
+            console.log('==========   order  List Ongoing / in traffic   ===========', combinedData)
             setFetchedData(combinedData)
         } catch (error) {
             console.error("Error:", error);
@@ -187,7 +187,7 @@ const Upcoming = () => {
       ];
 
     const renderItem = ({ item }) => (
-        <View
+        <ScrollView
             refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
@@ -289,11 +289,11 @@ const Upcoming = () => {
                     <Text style={{ fontWeight: '700', color: item.applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>View E-Receipt</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     );
 
     return (
-        <>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 15, marginHorizontal: 15, flex: 1 }}
@@ -358,11 +358,11 @@ const Upcoming = () => {
                 </RBSheet>
             </View>
             <View style={{ height: 100 }} />
-        </>
+            </ScrollView>
     )
 }
 
-export default Upcoming
+export default Ongoing
 
 const styles = StyleSheet.create({})
 

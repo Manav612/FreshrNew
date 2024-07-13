@@ -86,7 +86,7 @@ const PasswordAndOtp = ({ route }) => {
             //     console.log("adsadss");
             // } else {
 
-                res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, { email: "vimalnavadiya2705@gmail.com", password: "123456" });
+                res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, { email: email, password: password });
                 console.log("adsadss");
             // }
             console.log("Response data ======:", res.data.data);
