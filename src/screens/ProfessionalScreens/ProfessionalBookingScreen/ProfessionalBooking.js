@@ -25,7 +25,8 @@ const ProfessionalBooking = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [selectedItem, setSelectedItem] = useState('Upcoming');
-  const [activeTab, setActiveTab] = useState('Delivery');
+  const [selectedItem2, setSelectedItem2] = useState('');
+  const [activeTab, setActiveTab] = useState('Comes to you');
 
   const styles = StyleSheet.create({
     dot: {
@@ -62,10 +63,11 @@ const ProfessionalBooking = () => {
     CategoryContainer: {
       borderWidth: 2,
       borderColor: COLOR.ORANGECOLOR,
-      marginHorizontal: 5,
+
       borderRadius: 30,
       height: 40,
-      width: 110,
+      width: Screen_Width * 0.295,
+      marginHorizontal: 2.5,
       justifyContent: 'center',
       alignItems: 'center',
       marginVertical: 5,
@@ -140,13 +142,13 @@ const ProfessionalBooking = () => {
     }
   };
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 ,backgroundColor:COLOR.WHITE}}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
         <View style={{ flexDirection: 'row', gap: 20 }}>
           {/* <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 30 }}>F</Text>
           </TouchableOpacity> */}
-          <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Booking</Text>
+          <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Bookings</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
           <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
@@ -160,29 +162,54 @@ const ProfessionalBooking = () => {
           <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
         </View> */}
       </View>
-      <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
-        <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
-          <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Delivery</Text>
+      <TouchableOpacity
+        onPress={() => setSelectedItem2(!selectedItem2)}
+        style={{
+          borderWidth: 2,
+          borderColor: COLOR.ChartBlue,
+          backgroundColor: selectedItem2 ? COLOR.ChartBlue : COLOR.WHITE,
+
+          borderRadius: 30,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginVertical: 5,
+        }}
+      >
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+          <Text style={{ textAlign: 'center', fontSize: 20, color: selectedItem2 ? COLOR.WHITE : COLOR.ChartBlue }}>
+            Scheduled Appointments
+          </Text>
+          <AntDesign name="calendar" size={24} color={selectedItem2 ? COLOR.WHITE : COLOR.ChartBlue} />
+
+        </View>
+      </TouchableOpacity>
+      <View style={{ backgroundColor: COLOR.LIGHTGRAY, height: 1, marginVertical: 10 }} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
+        <TouchableOpacity style={{ width: Screen_Width * 0.4, height: 40, backgroundColor: activeTab === 'Comes to you' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Comes to you') }}>
+          <Text style={{ color: activeTab === 'Comes to you' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to you</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-          <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Salon</Text>
+        <TouchableOpacity style={{ width: Screen_Width * 0.4, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+          <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
         </TouchableOpacity>
+        {/* <TouchableOpacity style={{ width: Screen_Width * 0.3, height: 40, backgroundColor: activeTab === 'Schedule' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Schedule') }}>
+          <Text style={{ color: activeTab === 'Schedule' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Schedule</Text>
+        </TouchableOpacity> */}
       </View>
-      {activeTab === 'Delivery' ? (
-        <>
-          <View>
-            <FlatList
-              data={AllCategoryData1}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <AllCategory item={item} setSelectedItem={setSelectedItem} />
-              )}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-          <View>{renderScreen()}</View></>)
-        : <CalendarScreen />}
+
+
+      <View>
+        <FlatList
+          data={AllCategoryData1}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <AllCategory item={item} setSelectedItem={setSelectedItem} />
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
+      <View>{renderScreen()}</View>
       <View style={{ height: 100 }} />
     </ScrollView>
   )

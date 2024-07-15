@@ -23,7 +23,8 @@ const ProfessionalServices = () => {
   const [servicesData, setServicesData] = useState();
   const [refreshing, setRefreshing] = useState(false);
   const [Services, setServices] = useState('View services');
-  const fetchedData = useSelector(state => state.ServicesDataReducer);
+  // const fetchedData = useSelector(state => state.ServicesDataReducer);
+  const [fetchedData, setFetchedData] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   console.log("==========   servicesData   ===========", servicesData);
   console.log("==========   F3etch Data   ========", fetchedData);
@@ -55,7 +56,8 @@ const ProfessionalServices = () => {
       };
       const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
       console.log("=========   fetchhh servicessss  ========", res.data.data.services);
-      dispatch(SetServiceData(res.data.data.services));
+      setFetchedData(res.data.data.services)
+      // dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -74,8 +76,8 @@ const ProfessionalServices = () => {
       console.log("=======   ressss == ========", res.data);
       Alert.alert('Service deleted successfully ')
       // Refresh the fetched data after deletion
-      dispatch(RemoveOneServiceData(id));
-      // fetchServicesData();
+      // dispatch(RemoveOneServiceData(id));
+      fetchServicesData();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -108,6 +110,14 @@ const ProfessionalServices = () => {
           source={{ uri: item.photo }}
         />
         <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5 }}>
+          <Text
+            style={{
+              color: COLOR.BLACK,
+              fontSize: 16,
+              fontWeight: '600',
+            }}>
+            {item?.name}
+          </Text>
           <Text
             style={{
               color: COLOR.BLACK,

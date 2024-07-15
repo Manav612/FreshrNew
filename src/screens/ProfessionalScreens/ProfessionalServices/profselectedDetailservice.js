@@ -29,6 +29,7 @@ const ProfSelectedDetailService = ({ route }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [imageModalVisible, setImageModalVisible] = useState(false);
+    const [serviceName, setServiceName] = useState('');
 
 
     const [minPrice, setMinPrice] = useState(0);
@@ -199,6 +200,7 @@ const ProfSelectedDetailService = ({ route }) => {
             };
 
             const serviceData = {
+                name: serviceName,
                 category: item._id,
                 description: description,
                 photo: imageUri,
@@ -377,11 +379,23 @@ const ProfSelectedDetailService = ({ route }) => {
                     Selected Category
                 </Text>
 
-                <TouchableOpacity onPress={() => setOpen(!open)} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: 60, borderRadius: 10, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 5 }}>
+                <TouchableOpacity onPress={() => setOpen(!open)} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: 60, borderRadius: 10, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 5, marginBottom: 10 }}>
                     <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', margin: 10 }}>
                         <Text style={{ fontSize: 16, color: COLOR.BLACK }}>{item?.name}</Text>
                     </View>
                 </TouchableOpacity>
+
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
+                    Service Name
+                </Text>
+
+                <TextInput
+                    placeholder='Enter service name'
+                    placeholderTextColor={COLOR.GRAY}
+                    style={styles.input3}
+                    value={serviceName}
+                    onChangeText={text => setServiceName(text)}
+                />
 
                 <View style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, marginHorizontal: 3, height: Screen_Height * 0.3, borderRadius: 10, marginVertical: 10, alignItems: 'center', justifyContent: 'center' }}>
                     {imageUri ? (
@@ -405,7 +419,7 @@ const ProfSelectedDetailService = ({ route }) => {
                     keyboardType="numeric"
                 />
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Duration
+                    Service Duration
                 </Text>
                 <TextInput
                     style={styles.input3}

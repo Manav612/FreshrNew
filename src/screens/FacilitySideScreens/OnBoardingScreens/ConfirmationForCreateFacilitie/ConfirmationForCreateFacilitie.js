@@ -289,23 +289,23 @@ const ConfirmationForCreateFacilitie = () => {
           alignItems: "center",
         }}
       >
-       
-          <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-            Longitude: {
-              String(facilityData?.rState?.region?.longitude).length > 10
-                ? String(facilityData?.rState?.region?.longitude).slice(0, 10) + '...'
-                : facilityData?.rState?.region?.longitude
-            }
-          </Text>
-          <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
-            {" "}
-            Latitude: {
-              String(facilityData?.rState?.region?.latitude).length > 10
-                ? String(facilityData?.rState?.region?.latitude).slice(0, 10) + '...'
-                : facilityData?.rState?.region?.latitude
-            }
-          </Text>
-       
+
+        <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+          Longitude: {
+            String(facilityData?.rState?.region?.longitude).length > 10
+              ? String(facilityData?.rState?.region?.longitude).slice(0, 10) + '...'
+              : facilityData?.rState?.region?.longitude
+          }
+        </Text>
+        <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
+          {" "}
+          Latitude: {
+            String(facilityData?.rState?.region?.latitude).length > 10
+              ? String(facilityData?.rState?.region?.latitude).slice(0, 10) + '...'
+              : facilityData?.rState?.region?.latitude
+          }
+        </Text>
+
       </View>
 
       {/* Address */}

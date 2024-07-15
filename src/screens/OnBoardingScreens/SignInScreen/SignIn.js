@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { 
-  ActivityIndicator, 
-  Alert, 
-  ScrollView, 
-  StyleSheet, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  View 
+import {
+    ActivityIndicator,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -26,14 +26,14 @@ const SignIn = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation();
-    
+
     const [email, setEmail] = useState('');
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [loader, setLoader] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [networkStatus, setNetworkStatus] = useState(null);
 
-    console.log("========   network status  ==========",networkStatus);
+    console.log("========   network status  ==========", networkStatus);
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             setNetworkStatus(state.isConnected);
@@ -45,19 +45,19 @@ const SignIn = () => {
     const handleEmailBlur = () => setIsEmailFocused(false);
 
     const fetchData = async () => {
-       
+
         try {
             const response = await axios.post(
                 `${BASE_API_URL}/users/emailcheck`,
                 { email },
-                { timeout: 1000 } // 5 second timeout
+                // { timeout: 5000 } // 5 second timeout
             );
             // setLoader(true);
             console.log("=========   res data   ======", response.data);
             // if (response.data === 200) {
-               
+
             navigation.navigate(NavigationScreens.PasswordAndOtpScreen, { email: email });
-        // }
+            // }
 
         } catch (error) {
             console.error("Error during email check:", error);
@@ -115,21 +115,21 @@ const SignIn = () => {
     });
 
     return (
-        <ScrollView 
-            showsVerticalScrollIndicator={false} 
-            style={{ 
-                backgroundColor: COLOR.WHITE, 
-                height: Screen_Height, 
-                width: Screen_Width, 
-                paddingHorizontal: 15 
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{
+                backgroundColor: COLOR.WHITE,
+                height: Screen_Height,
+                width: Screen_Width,
+                paddingHorizontal: 15
             }}
         >
-            <View style={{ 
-                flexDirection: 'row', 
-                gap: 10, 
-                justifyContent: 'flex-start', 
-                alignItems: 'center', 
-                marginVertical: 10 
+            <View style={{
+                flexDirection: 'row',
+                gap: 10,
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                marginVertical: 10
             }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
@@ -153,7 +153,7 @@ const SignIn = () => {
                         onBlur={handleEmailBlur}
                     />
                 </View>
-                
+
                 {errorMessage ? (
                     <Text style={styles.errorText}>{errorMessage}</Text>
                 ) : null}

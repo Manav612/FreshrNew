@@ -51,38 +51,38 @@ const ProfessionalHome = () => {
     const [selectedYear, setSelectedYear] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
     const [user, setUser] = useState('');
-
+    const [selected, setSelected] = useState()
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 50 }, (_, i) => ({
         label: (currentYear - i).toString(),
         value: currentYear - i,
     }));
 
-    useEffect(()=>{
+    useEffect(() => {
         getUserInfo()
-       },[])
-     
-       const getUserInfo = async () => {
-         try {
-           const token = await AsyncStorage.getItem("AuthToken");
-           const config = {
-             headers: {
-               'Authorization': `Bearer ${token}`
-             }
-           };
-           const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-           console.log('========  user ID   ===========', res.data.data.user)
-           setUser(res.data.data.user);
-         } catch (error) {
-           console.error("Error:", error);
-         }
-       };
+    }, [])
+
+    const getUserInfo = async () => {
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+            console.log('========  user ID   ===========', res.data.data.user)
+            setUser(res.data.data.user);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            paddingVertical:5
-           
+            paddingVertical: 5
+
         },
         header: {
             flexDirection: 'row',
@@ -142,17 +142,17 @@ const ProfessionalHome = () => {
         overviewRow: {
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginVertical:10
+            marginVertical: 10
         },
         overviewBox: {
             width: '48%',
             padding: 15,
-            backgroundColor:COLOR.WHITE,
+            backgroundColor: COLOR.WHITE,
             borderRadius: 20,
-            margin:2,
-            elevation:2,
-            shadowColor:COLOR.BLACK,
-            
+            margin: 2,
+            elevation: 2,
+            shadowColor: COLOR.BLACK,
+
         },
         overviewBoxTitle: {
             fontSize: 16,
@@ -182,7 +182,7 @@ const ProfessionalHome = () => {
             alignItems: 'center',
             backgroundColor: COLOR.WHITE,
             elevation: 2,
-            marginHorizontal:2,
+            marginHorizontal: 2,
             shadowColor: COLOR.BLACK,
             borderRadius: 20,
             height: Screen_Height * 0.48,
@@ -251,7 +251,7 @@ const ProfessionalHome = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width,paddingHorizontal:15 }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
@@ -261,23 +261,27 @@ const ProfessionalHome = () => {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                        <FastImage source={ClockUserIcon} style={{height:30,width:30}}/>
+                        <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                            <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
+                            <Text style={{ color: COLOR.BLACK }}>Queue</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                        <AntDesign name="setting" size={28} color={COLOR.BLACK} />
-              </TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                            <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                            <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+                        </TouchableOpacity>
                     </View>
                 </View>
 
                 <View style={{
                     marginVertical: 20,
                     padding: 20,
-                    backgroundColor:COLOR.WHITE,
+                    backgroundColor: COLOR.WHITE,
                     borderRadius: 20,
-                    margin:2,
-                    elevation:2,
-                    shadowColor:COLOR.BLACK,
+                    margin: 2,
+                    elevation: 2,
+                    shadowColor: COLOR.BLACK,
                     alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
                 }}>
                     <View>

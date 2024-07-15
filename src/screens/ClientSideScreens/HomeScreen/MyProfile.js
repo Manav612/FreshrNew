@@ -43,88 +43,90 @@ const MyProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const ProfileData1=[
+  const ProfileData1 = [
     {
-      id:1,
-      icon:(<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Edit Profile',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 1,
+      icon: (<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Edit Profile',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:2,
-      icon:(<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Notification',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 2,
+      icon: (<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Notification',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:3,
-      icon:(<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Payment',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 3,
+      icon: (<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Payment',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:4,
-      icon:(<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Security',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 4,
+      icon: (<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Security',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:5,
-      icon:(<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Privacy Policy',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 5,
+      icon: (<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Privacy Policy',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:6,
-      icon:(<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Tutorial',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 6,
+      icon: (<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Tutorial',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:7,
-      icon:(<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Support',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 7,
+      icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Support',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:8,
-      icon:(<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Feedback',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 8,
+      icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Feedback',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:9,
-      icon:( <Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Terms of Service',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 9,
+      icon: (<Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Terms of Service',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:10,
-      icon:(<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Account Deletion',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 10,
+      icon: (<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Account Deletion',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:11,
-      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
+      id: 11,
+      icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
+      // name:user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
+      name: 'Switch to Professionals',
 
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
-    
+
     {
-      id:12,
-      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:user.isHost ? 'Switch to Host':'Become to Host',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 12,
+      icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
+      // name:user.isHost ? 'Switch to Host':'Become to Host',
+      name: 'Switch to Host',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
-   ];
+  ];
   const handleResetPress1 = () => {
     setResetSelected(!resetSelected);
     setApplySelected(false);
   };
 
-  const handleApplyPress2 = async() => {
+  const handleApplyPress2 = async () => {
     setApplySelected(!applySelected);
     setResetSelected(false);
     await AsyncStorage.removeItem("AuthToken");
@@ -141,7 +143,7 @@ const MyProfile = () => {
     refRBSheet.current[index + 1].open();
   };
 
-  
+
 
   useEffect(() => {
     console.log("==== theme from storage  =====", theme);
@@ -154,28 +156,28 @@ const MyProfile = () => {
     console.log("====== theme =", theme);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getUserInfo()
-   },[])
- 
- 
-   const getUserInfo = async () => {
-     try {
-       const token = await AsyncStorage.getItem("AuthToken");
-       const config = {
-         headers: {
-           'Authorization': `Bearer ${token}`
-         }
-       };
-       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-       console.log('========  user ID   ===========', res.data.data.user)
-       setUser(res.data.data.user);
-     } catch (error) {
-       console.error("Error:", error);
-     }
-   };
+  }, [])
 
-   useEffect(() => {
+
+  const getUserInfo = async () => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+      console.log('========  user ID   ===========', res.data.data.user)
+      setUser(res.data.data.user);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
     checkLocationPermission();
   }, []);
 
@@ -216,50 +218,50 @@ const MyProfile = () => {
   };
 
 
-const handleSwitchToProfessionals = async () => {
-  if (latitude === null || longitude === null) {
-    setError('Location not available');
-    console.log('Attempt to switch with no coordinates =======:', { latitude, longitude });
-    return;
-  }
-
-  console.log('Attempting to switch with coordinates:', { latitude, longitude });
-
-  setIsLoading(true);
-  setError(null);
-
-  try {
-    const token = await AsyncStorage.getItem("AuthToken");
-    if (!token) {
-      throw new Error('No auth token found');
+  const handleSwitchToProfessionals = async () => {
+    if (latitude === null || longitude === null) {
+      setError('Location not available');
+      console.log('Attempt to switch with no coordinates =======:', { latitude, longitude });
+      return;
     }
 
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${token}`
+    console.log('Attempting to switch with coordinates:', { latitude, longitude });
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      if (!token) {
+        throw new Error('No auth token found');
       }
-    };
 
-    console.log('Sending request with coordinates:', { coords: [latitude, longitude] });
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
 
-    const res = await axios.post(
-      `${BASE_API_URL}/users/becomeProfessional`, 
-      { coords: [latitude, longitude] }, 
-      config
-    );
+      console.log('Sending request with coordinates:', { coords: [latitude, longitude] });
 
-    console.log("Response data:", res.data);
+      const res = await axios.post(
+        `${BASE_API_URL}/users/becomeProfessional`,
+        { coords: [latitude, longitude] },
+        config
+      );
 
-    if (res.data) {
-      navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+      console.log("Response data:", res.data);
+
+      if (res.data) {
+        navigation.navigate(NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+      }
+    } catch (error) {
+      setError('Error switching to professional mode');
+      console.error("Error during switch:", error);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    setError('Error switching to professional mode');
-    console.error("Error during switch:", error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
 
 
@@ -296,7 +298,7 @@ const handleSwitchToProfessionals = async () => {
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
         </TouchableOpacity> */}
       </View>
-      <View style={{ alignItems: 'center',flexDirection:'row',gap:20,marginVertical:5 }}>
+      <View style={{ alignItems: 'center', flexDirection: 'row', gap: 20, marginVertical: 5 }}>
         <View
           style={{
             backgroundColor: COLOR.BLACK_30,
@@ -309,8 +311,8 @@ const handleSwitchToProfessionals = async () => {
         >
         </View>
         <View>
-        <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>{user?.firstName}{' '}{user?.lastName}</Text>
-        <Text style={{ fontSize: 18, color: COLOR.GRAY }}>{user?.email}</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>{user?.firstName}{' '}{user?.lastName}</Text>
+          <Text style={{ fontSize: 18, color: COLOR.GRAY }}>{user?.email}</Text>
         </View>
       </View>
       {/* <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} /> */}
@@ -318,7 +320,7 @@ const handleSwitchToProfessionals = async () => {
         data={ProfileData1}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        style={{flex:1}}
+        style={{ flex: 1 }}
         scrollEnabled={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={{ width: Screen_Width * 0.90, height: 60, borderRadius: 15, marginVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}
@@ -336,12 +338,12 @@ const handleSwitchToProfessionals = async () => {
                 case 'Switch to Professionals':
                   handleSwitchToProfessionals();
                   break;
-                  case 'Become a Professional':
+                case 'Become a Professional':
                   handleSwitchToProfessionals();
                   break;
-                  case 'Switch to Host':
-                    handleSwitchToHost();
-                    break;
+                case 'Switch to Host':
+                  handleSwitchToHost();
+                  break;
                 case 'Become to Host':
                   handleSwitchToHost();
                   break;

@@ -29,13 +29,13 @@ const ProfessionalScheduleScreen = () => {
 
 
   const [timeData, setTimeData] = useState({
-    Monday: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-    Tuesday: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-    Wednesday: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-    Thursday: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-    Friday: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-    Saturday: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-    Sunday: { start: '10:00 AM', end: '11:00 PM', isActive: true },
+    Mon: { start: '10:00 AM', end: '11:00 PM', isActive: true },
+    Tue: { start: '10:00 AM', end: '11:00 PM', isActive: true },
+    Wed: { start: '10:00 AM', end: '11:00 PM', isActive: true },
+    Thu: { start: '10:00 AM', end: '11:00 PM', isActive: true },
+    Fri: { start: '10:00 AM', end: '11:00 PM', isActive: true },
+    Sat: { start: '10:00 AM', end: '11:00 PM', isActive: true },
+    Sun: { start: '10:00 AM', end: '11:00 PM', isActive: true },
   });
 
   const toggleDay = (day) => {
@@ -147,8 +147,8 @@ const ProfessionalScheduleScreen = () => {
       backgroundColor: COLOR.AuthField,
       color: COLOR.BLACK
     },
-   
-   
+
+
 
     iconStyle: {
       width: 20,
@@ -160,7 +160,7 @@ const ProfessionalScheduleScreen = () => {
     container: {
       flex: 1
     },
-   
+
     dayText: {
       fontSize: 16,
       color: COLOR.BLACK
@@ -193,8 +193,8 @@ const ProfessionalScheduleScreen = () => {
     <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
 
       <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={30} color={COLOR.BLACK} /></TouchableOpacity>
-        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>My Schedule</Text>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={30} color={COLOR.BLACK} /></TouchableOpacity> */}
+        {/* <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>My Schedule</Text> */}
       </View>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginBottom: 20 }}>
@@ -216,25 +216,28 @@ const ProfessionalScheduleScreen = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             marginVertical: 10,
-            paddingHorizontal:10,
-            height:50,
+            paddingHorizontal: 10,
+            height: 50,
             backgroundColor: COLOR.WHITE,
             borderRadius: 15,
             elevation: 4,
-            shadowColor: COLOR.ChartBlue
+            shadowColor: COLOR.ChartBlue,
+
           }}>
             <TouchableOpacity style={styles.dayInfo} onPress={() => openModal(day)}>
               <Text style={styles.dayText}>{day}</Text>
               <Text style={styles.timeText}>{`${timeData[day].start} - ${timeData[day].end}`}</Text>
             </TouchableOpacity>
+            <Text style={styles.timeText}>{timeData[day].isActive ? 'Open' : 'Close'}</Text>
             <TouchableOpacity onPress={() => toggleDay(day)}>
               <MaterialCommunityIcons
                 name={timeData[day].isActive ? 'toggle-switch' : 'toggle-switch-off'}
                 size={40}
-                color={COLOR.ChartBlue}
+                color={timeData[day].isActive ? COLOR.GREEN : COLOR.CANCEL_B}
               />
             </TouchableOpacity>
           </View>
+
         ))}
       </View>
 
