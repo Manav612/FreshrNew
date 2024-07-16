@@ -146,8 +146,8 @@ const LiveTrackingProfSide = ({ route }) => {
       recipient: id,
       message: {
         type: 'Request_To_Start_Order',
-        id: orderData.message.id,
-        order_id: orderData.message.order_id,
+        id: orderData.id,
+        order_id: orderData.order_id,
       },
     });
   }
@@ -259,14 +259,14 @@ const LiveTrackingProfSide = ({ route }) => {
               recipient: id,
               message: {
                 type: 'Location_ChangeSP',
-                id: orderData.message.id,
-                order_id: orderData.message.order_id,
+                id: orderData.id,
+                order_id: orderData.order_id,
                 data,
               },
             });
           }}
           socketType={'Location_ChangeCLI'}
-          staticCoordinate={orderData?.message?.coordinates}
+          staticCoordinate={orderData?.coordinates}
         />
       </View>
 

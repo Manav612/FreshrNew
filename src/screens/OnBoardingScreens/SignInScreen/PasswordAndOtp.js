@@ -7,25 +7,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState, useRef, useEffect} from 'react';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
-import {useDispatch, useSelector} from 'react-redux';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
+import React, { useState, useRef, useEffect } from 'react';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FastImage from 'react-native-fast-image';
-import {Apple, Facebook, Google} from '../../../constants/Icons';
-import {useNavigation} from '@react-navigation/native';
+import { Apple, Facebook, Google } from '../../../constants/Icons';
+import { useNavigation } from '@react-navigation/native';
 import OtpTextInput from 'react-native-otp-textinput';
-import {BASE_API_URL} from '../../../Services';
+import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NavigationScreens} from '../../../constants/Strings';
-import {StoreAuthToken} from '../../../constants/AsyncStorage';
+import { NavigationScreens } from '../../../constants/Strings';
+import { StoreAuthToken } from '../../../constants/AsyncStorage';
 import socketServices from '../../../Services/Socket';
-import {SetAuthToken} from '../../../redux/AuthAction';
-const PasswordAndOtp = ({route}) => {
+import { SetAuthToken } from '../../../redux/AuthAction';
+const PasswordAndOtp = ({ route }) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
   const navigation = useNavigation();
@@ -64,7 +64,7 @@ const PasswordAndOtp = ({route}) => {
     setRememberMe(!rememberMe);
   };
 
-  const {email} = route.params;
+  const { email } = route.params;
   // console.log("===============>>>", email);
   // console.log("========  otp =======>>>", otp);
 
@@ -89,36 +89,34 @@ const PasswordAndOtp = ({route}) => {
       console.error('Error:', error);
     }
   };
+
+
+
   const handleSignIn = async () => {
-    console.log('adsadss');
     try {
       let res;
       if (otp) {
-        res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, {
-          email: email,
-          otp: otp,
-          sessionId: sessionId,
-        });
+        res = await axios.post(`${BASE_API_URL}/users/logIn/otp`, { email: email, otp: otp, sessionId: sessionId });
       } else {
-        res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, {
-          email: email,
-          password: password,
-        });
+        res = await axios.post(`${BASE_API_URL}/users/logIn/Passwprd`, { email: email, password: password });
       }
-      console.log('Response data ======:', res.data.data);
+      console.log("Response data ======:", res.data.data);
 
       if (res.data) {
-        Alert.alert('Sign In  Successfully');
+        Alert.alert('Sign In  Successfully')
         // await AsyncStorage.setItem("Auth", res.data.data.sessionId.toString());
-        await StoreAuthToken(res.data.data.token);
+        await StoreAuthToken(res.data.data.token)
         dispatch(SetAuthToken(res.data.data.token));
         socketServices.initializeSocket(res.data.data.token);
         navigation.navigate(NavigationScreens.HomeTab);
+
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
+
+
 
   useEffect(() => {
     if (timer > 0) {
@@ -200,13 +198,13 @@ const PasswordAndOtp = ({route}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
         </TouchableOpacity>
-        <Text style={{fontSize: 20, color: COLOR.BLACK, fontWeight: '500'}}>
+        <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>
           Login to Account
         </Text>
       </View>
 
       {/* Email Input */}
-      <View style={{height: Screen_Height * 0.86, justifyContent: 'center'}}>
+      <View style={{ height: Screen_Height * 0.86, justifyContent: 'center' }}>
         {/* Password Input */}
         <View style={styles.inputContainer}>
           <AntDesign
@@ -244,7 +242,7 @@ const PasswordAndOtp = ({route}) => {
             backgroundColor: COLOR.ORANGECOLOR,
             marginVertical: 15,
           }}>
-          <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: '500'}}>
+          <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
             Sign in
           </Text>
         </TouchableOpacity>
@@ -263,7 +261,7 @@ const PasswordAndOtp = ({route}) => {
               width: Screen_Width * 0.3,
             }}
           />
-          <Text style={{color: COLOR.BLACK, fontSize: 20}}>OR</Text>
+          <Text style={{ color: COLOR.BLACK, fontSize: 20 }}>OR</Text>
           <View
             style={{
               height: 1,
@@ -272,7 +270,7 @@ const PasswordAndOtp = ({route}) => {
             }}
           />
         </View>
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <View
             style={{
               flexDirection: 'row',
@@ -280,10 +278,10 @@ const PasswordAndOtp = ({route}) => {
               justifyContent: 'space-between',
               width: Screen_Width * 0.9,
             }}>
-            <Text style={{color: COLOR.BLACK, fontSize: 20, marginBottom: 10}}>
+            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>
               Enter access code
             </Text>
-            <Text style={{color: COLOR.GRAY, fontSize: 16, marginLeft: 10}}>
+            <Text style={{ color: COLOR.GRAY, fontSize: 16, marginLeft: 10 }}>
               {formatTime(timer)}
             </Text>
           </View>
@@ -308,7 +306,7 @@ const PasswordAndOtp = ({route}) => {
               borderRadius: 5,
             }}
             disabled={timer > 0}>
-            <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: '500'}}>
+            <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
               {otpRequested
                 ? timer === 0
                   ? 'Resend access code'
@@ -329,14 +327,14 @@ const PasswordAndOtp = ({route}) => {
             backgroundColor: COLOR.ORANGECOLOR,
             marginVertical: 15,
           }}>
-          <Text style={{color: COLOR.WHITE, fontSize: 16, fontWeight: '500'}}>
+          <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
             Verify access code
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Forgot Password Screen')}
-          style={{marginVertical: 15}}>
+          style={{ marginVertical: 15 }}>
           <Text
             style={{
               color: COLOR.ORANGECOLOR,
@@ -354,10 +352,10 @@ const PasswordAndOtp = ({route}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: COLOR.BLACK}}>Don't have an account? </Text>
+          <Text style={{ color: COLOR.BLACK }}>Don't have an account? </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('Sign Up Screen')}>
-            <Text style={{color: COLOR.ORANGECOLOR, fontWeight: '500'}}>
+            <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>
               Sign up
             </Text>
           </TouchableOpacity>

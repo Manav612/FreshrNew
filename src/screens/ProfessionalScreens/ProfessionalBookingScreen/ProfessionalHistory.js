@@ -12,7 +12,7 @@ import FastImage from 'react-native-fast-image';
 import MapView, { Marker } from 'react-native-maps';
 
 
-const ProfessionalCancelled = () => {
+const ProfessionalHistory = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation();
@@ -36,9 +36,19 @@ const ProfessionalCancelled = () => {
                     'Authorization': `Bearer ${token}`
                 }
             };
-            const res = await axios.get(`${BASE_API_URL}/professionals/professional/orders/CANCELLED`, config);
-            console.log('==========   order  List   ===========', res.data.data.orders)
-            setFetchedData(res.data.data.orders)
+            const CancelledRes = await axios.get(`${BASE_API_URL}/professionals/professional/orders/CANCELLED`, config);
+            const CompletedRes = await axios.get(
+                `${BASE_API_URL}/professionals/professional/orders/COMPLETED`,
+                config,
+            );
+            const combinedData = [
+                ...CancelledRes.data.data.orders,
+                ...CompletedRes.data.data.orders,
+                // ...pendingRes.data.data.orders,
+            ];
+
+            console.log('==========   order  List comple cancel  ===========', combinedData)
+            setFetchedData(combinedData)
         } catch (error) {
             console.error("Error:", error);
         }
@@ -51,81 +61,81 @@ const ProfessionalCancelled = () => {
         { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
         { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
         {
-          featureType: 'administrative.locality',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#d59563' }],
+            featureType: 'administrative.locality',
+            elementType: 'labels.text.fill',
+            stylers: [{ color: '#d59563' }],
         },
         {
-          featureType: 'poi',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#d59563' }],
+            featureType: 'poi',
+            elementType: 'labels.text.fill',
+            stylers: [{ color: '#d59563' }],
         },
         {
-          featureType: 'poi.park',
-          elementType: 'geometry',
-          stylers: [{ color: '#263c3f' }],
+            featureType: 'poi.park',
+            elementType: 'geometry',
+            stylers: [{ color: '#263c3f' }],
         },
         {
-          featureType: 'poi.park',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#6b9a76' }],
+            featureType: 'poi.park',
+            elementType: 'labels.text.fill',
+            stylers: [{ color: '#6b9a76' }],
         },
         {
-          featureType: 'road',
-          elementType: 'geometry',
-          stylers: [{ color: '#38414e' }],
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [{ color: '#38414e' }],
         },
         {
-          featureType: 'road',
-          elementType: 'geometry.stroke',
-          stylers: [{ color: '#212a37' }],
+            featureType: 'road',
+            elementType: 'geometry.stroke',
+            stylers: [{ color: '#212a37' }],
         },
         {
-          featureType: 'road',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#9ca5b3' }],
+            featureType: 'road',
+            elementType: 'labels.text.fill',
+            stylers: [{ color: '#9ca5b3' }],
         },
         {
-          featureType: 'road.highway',
-          elementType: 'geometry',
-          stylers: [{ color: '#746855' }],
+            featureType: 'road.highway',
+            elementType: 'geometry',
+            stylers: [{ color: '#746855' }],
         },
         {
-          featureType: 'road.highway',
-          elementType: 'geometry.stroke',
-          stylers: [{ color: '#1f2835' }],
+            featureType: 'road.highway',
+            elementType: 'geometry.stroke',
+            stylers: [{ color: '#1f2835' }],
         },
         {
-          featureType: 'road.highway',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#f3d19c' }],
+            featureType: 'road.highway',
+            elementType: 'labels.text.fill',
+            stylers: [{ color: '#f3d19c' }],
         },
         {
-          featureType: 'transit',
-          elementType: 'geometry',
-          stylers: [{ color: '#2f3948' }],
+            featureType: 'transit',
+            elementType: 'geometry',
+            stylers: [{ color: '#2f3948' }],
         },
         {
-          featureType: 'transit.station',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#d59563' }],
+            featureType: 'transit.station',
+            elementType: 'labels.text.fill',
+            stylers: [{ color: '#d59563' }],
         },
         {
-          featureType: 'water',
-          elementType: 'geometry',
-          stylers: [{ color: '#17263c' }],
+            featureType: 'water',
+            elementType: 'geometry',
+            stylers: [{ color: '#17263c' }],
         },
         {
-          featureType: 'water',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#515c6d' }],
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [{ color: '#515c6d' }],
         },
         {
-          featureType: 'water',
-          elementType: 'labels.text.stroke',
-          stylers: [{ color: '#17263c' }],
+            featureType: 'water',
+            elementType: 'labels.text.stroke',
+            stylers: [{ color: '#17263c' }],
         },
-      ];
+    ];
 
     const renderItem = ({ item }) => (
 
@@ -142,9 +152,9 @@ const ProfessionalCancelled = () => {
                 <View style={{ backgroundColor: COLOR.CANCEL_B, width: 75, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>Cancelled</Text></View>
             </View>
             <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10 }} />
-            <View style={{height:Screen_Height*0.40}}>
+            <View style={{ height: Screen_Height * 0.40 }}>
                 <MapView
-                    style={{height:Screen_Height*0.40}}
+                    style={{ height: Screen_Height * 0.40 }}
                     initialRegion={position}
                     showsUserLocation={true}
                     showsMyLocationButton={false}
@@ -210,7 +220,7 @@ const ProfessionalCancelled = () => {
                         </View>
                     </View>
                 )}
-            />     
+            />
         </View>
     );
 
@@ -230,6 +240,6 @@ const ProfessionalCancelled = () => {
 }
 
 
-export default ProfessionalCancelled
+export default ProfessionalHistory
 
 const styles = StyleSheet.create({})

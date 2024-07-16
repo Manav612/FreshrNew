@@ -2,7 +2,6 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { BottomTabHeight, Scale, Screen_Width } from '../../constants/Constants';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../constants/Colors';
-import { BlurView } from "@react-native-community/blur";
 import LinearGradient from 'react-native-linear-gradient';
 import FontSize, { FontFamily } from '../../constants/FontSize';
 import { NavigationScreens } from '../../constants/Strings';
@@ -66,9 +65,11 @@ const TabBar = (props) => {
 
     return (
         <View style={[styles.Container, HideTabScreens.includes(routeName) && { display: 'none' }]}>
-            <View style={{backgroundColor:COLOR.WHITE,width: '100%',
-            height: '100%',
-            position: 'absolute'}}>
+            <View style={{
+                backgroundColor: COLOR.WHITE, width: '100%',
+                height: '100%',
+                position: 'absolute'
+            }}>
                 <LinearGradient
                     colors={GRADIENT_COLOR.WHITE_30_TO_40}
                     style={{ width: '100%', height: '100%' }}
@@ -77,7 +78,7 @@ const TabBar = (props) => {
                 >
 
                 </LinearGradient>
-                </View>
+            </View>
             <View style={styles.BarStyle}>
                 {
                     props.state.routes.map((route, i) => {
@@ -123,9 +124,9 @@ const TabBar = (props) => {
 
                                         }}
                                     />}
-                                <Text style={[styles.LabelStyle,focused && {
-                                            color:COLOR.ORANGECOLOR
-                                        }]} numberOfLines={1}>
+                                <Text style={[styles.LabelStyle, focused && {
+                                    color: COLOR.ORANGECOLOR
+                                }]} numberOfLines={1}>
                                     {label}
                                 </Text>
                             </TouchableOpacity>

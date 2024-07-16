@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
@@ -12,21 +12,37 @@ import Cancelled from '../../../components/MyBookingDetails/Pending';
 import Completed from '../../../components/MyBookingDetails/History';
 import Upcoming from '../../../components/MyBookingDetails/Ongoing';
 import { NavigationScreens } from '../../../constants/Strings';
-import ProfessionalUpcoming from './ProfessionalUpcoming';
-import ProfessionalCompleted from './ProfessionalCompleted';
-import ProfessionalCancelled from './ProfessionalCancelled';
 import CalendarScreen from '../../../components/Calendar';
 import { ClockUserIcon, GearFineIcon } from '../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
+import ProfessionalOngoing from './ProfessionalOngoing';
+import ProfessionalHistory from './ProfessionalHistory';
+import ProfessionalPending from './ProfessionalPending';
+import socketServices from '../../../Services/Socket';
 
 const ProfessionalBooking = () => {
   const navigation = useNavigation()
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-  const [selectedItem, setSelectedItem] = useState('Upcoming');
+  const [selectedItem, setSelectedItem] = useState('Ongoing');
   const [selectedItem2, setSelectedItem2] = useState('');
   const [activeTab, setActiveTab] = useState('Comes to you');
+  const [ongoingData, setOngoingData] = useState([]);
+
+  useEffect(() => {
+    socketServices.on('payment_Done', data => {
+      console.log('==== payment done ======', data);
+      let res = data.message.orderData;
+      res['sender'] = data.sender;
+      res['order_id'] = data.message.order_id;
+      res['coordinates'] = data.message.coordinates;
+      console.log(JSON.stringify(res));
+      setOngoingData(prevData => [res, ...prevData]);
+    });
+
+  }, []);
+
 
   const styles = StyleSheet.create({
     dot: {
@@ -131,12 +147,12 @@ const ProfessionalBooking = () => {
 
   const renderScreen = () => {
     switch (selectedItem) {
-      case 'Upcoming':
-        return <ProfessionalUpcoming />;
-      case 'Completed':
-        return <ProfessionalCompleted />;
-      case 'Cancelled':
-        return <ProfessionalCancelled />;
+      case 'Ongoing':
+        return <ProfessionalOngoing FetchedData={ongoingData} setFetchedData={setOngoingData} />;
+      case 'Pending':
+        return <ProfessionalPending />;
+      case 'History':
+        return <ProfessionalHistory />;
       default:
         return null;
     }

@@ -11,9 +11,9 @@ import ProfessionalBooking from '../../screens/ProfessionalScreens/ProfessionalB
 import ProfessionalInbox from '../../screens/ProfessionalScreens/ProfessionalInboxScreen/ProfessionalInbox';
 import ProfessionalChatScreen from '../../screens/ProfessionalScreens/ProfessionalInboxScreen/ProfessionalChatScreen';
 import ProfessionalCancelbooking from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalCancelbooking';
-import ProfessionalCancelled from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalCancelled';
-import ProfessionalCompleted from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalCompleted';
-import ProfessionalUpcoming from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalUpcoming';
+import ProfessionalCancelled from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalHistory';
+import ProfessionalCompleted from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalPending';
+import ProfessionalUpcoming from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalOngoing';
 import ProfessionalProfile from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalProfile';
 import ProfessionalEditprofile from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalEditprofile';
 import ProfessionalSecurity from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalSecurity';
@@ -32,6 +32,9 @@ import OrderProcessingScreenProfSide from '../../components/ProfessionalComponen
 import ProfAddServicesList from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
 import ProfAddCustomServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
 import ProfSelectCategory from '../../screens/ProfessionalScreens/ProfessionalServices/profselectCategory';
+import ProfessionalOngoing from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalOngoing';
+import ProfessionalHistory from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalHistory';
+import ProfessionalPending from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalPending';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -46,7 +49,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
-           
+
         </Stack.Navigator>
     );
 };
@@ -80,9 +83,9 @@ const MyBookingStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalBookingScreen} component={ProfessionalBooking} />
             <Stack.Screen name={NavigationScreens.ProfessionalCancelbookingScreen} component={ProfessionalCancelbooking} />
-            <Stack.Screen name={NavigationScreens.ProfessionalCancelledScreen} component={ProfessionalCancelled} />
-            <Stack.Screen name={NavigationScreens.ProfessionalCompletedScreen} component={ProfessionalCompleted} />
-            <Stack.Screen name={NavigationScreens.ProfessionalUpcomingScreen} component={ProfessionalUpcoming} />
+            <Stack.Screen name={NavigationScreens.ProfessionalPendingScreen} component={ProfessionalPending} />
+            <Stack.Screen name={NavigationScreens.ProfessionalHistoryScreen} component={ProfessionalHistory} />
+            <Stack.Screen name={NavigationScreens.ProfessionalOngoingScreen} component={ProfessionalOngoing} />
             <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />

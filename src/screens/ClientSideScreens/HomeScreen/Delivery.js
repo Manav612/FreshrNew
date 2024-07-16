@@ -76,7 +76,7 @@ const Delivery = () => {
   useEffect(() => {
     AddFavData()
     fetchDataForDelivery()
-   
+
   }, []);
 
   const AddFavData = async (itemId) => {
@@ -141,7 +141,7 @@ const Delivery = () => {
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
         fetchDataForDelivery(position.coords.latitude, position.coords.longitude);
-        
+
       },
       (error) => {
         console.error("Error:", error);
@@ -165,9 +165,9 @@ const Delivery = () => {
     }
   };
 
- 
 
-  
+
+
 
   // const fetchData = async () => {
   //   try {
@@ -291,27 +291,27 @@ const Delivery = () => {
       <TouchableOpacity
         onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
         style={{
-          
+
           height: 40,
-         
+
           justifyContent: 'space-between',
-         
+
           marginVertical: 10,
           flexDirection: 'row',
           alignItems: 'center',
-          marginHorizontal:10
-          
+          marginHorizontal: 10
+
         }}
       >
-       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:10}}>
-       <Text style={{ textAlign: 'center', fontSize: 20, color: COLOR.BLACK, fontWeight: 'bold' }}>
-          Schedule Appointment
-        </Text>
-        <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
-       </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+          <Text style={{ textAlign: 'center', fontSize: 20, color: COLOR.BLACK, fontWeight: 'bold' }}>
+            Schedule Appointment
+          </Text>
+          <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
+        </View>
         {/* <View style={{height:30,width:30,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}> */}
 
-        <AntDesign name="plus" size={24} color={COLOR.BLACK}  />
+        <AntDesign name="plus" size={24} color={COLOR.BLACK} />
         {/* </View> */}
 
       </TouchableOpacity>
@@ -376,17 +376,19 @@ const Delivery = () => {
         renderItem={({ item }) => {
           return (
 
-            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation:3, marginHorizontal: 3 }}>
+            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 3, marginHorizontal: 3 }}>
               {/* <View style={item.isOnline?{backgroundColor:COLOR.GREEN,position:'absolute',right:5,top:5,height:8,width:8,borderRadius:5}:{backgroundColor:COLOR.CANCEL_B,position:'absolute',right:5,top:5,height:8,width:8,borderRadius:5}}/> */}
               <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalInfoScreen, { ProfDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, gap: 10, flexDirection: 'row' }}>
                 <Image source={barber} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
                 <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
                   <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
                     <View>
-                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600',marginBottom:5 }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
-                      <Text style={{ backgroundColor: COLOR.ORANGECOLOR, fontSize: 15, borderRadius: 10, textAlign: 'center', color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>{item?.sericeCnt} service</Text>
+                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', marginBottom: 5 }}>{item?.user?.firstName}{" "}{item?.user?.lastName}</Text>
+                      <View style={{ backgroundColor: COLOR.ORANGECOLOR, borderRadius: 10, width: Screen_Width * 0.2, height: 25, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 15, color: COLOR.WHITE, }}>{item?.sericeCnt} service</Text>
+                      </View>
                     </View>
-                    <TouchableOpacity onPress={() => toggleBookmark(item._id)} style={{position:'absolute',right:1,top:1}}>
+                    <TouchableOpacity onPress={() => toggleBookmark(item._id)} style={{ position: 'absolute', right: 1, top: 1 }}>
 
                       <MaterialCommunityIcons
                         name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
@@ -395,14 +397,14 @@ const Delivery = () => {
                       />
                     </TouchableOpacity>
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center', borderRadius: 10, color: COLOR.WHITE }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 10, color: COLOR.WHITE }}>
                       <FontAwesome name="star-half-empty" size={20} color={COLOR.ORANGECOLOR} />
                       <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR }}>4.8 (3,456)</Text>
                     </View>
-                    <View style={{  alignItems: 'center',justifyContent:'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
 
-                    <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{item?.distance}km</Text>
+                      <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>{item?.distance}km</Text>
                     </View>
                   </View>
                 </View>

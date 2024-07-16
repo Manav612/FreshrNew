@@ -401,7 +401,7 @@ const ProfessionalInfo = ({ route }) => {
 
                                 <Text style={{ color: activeTab === 'Comes to you' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to you</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ flexDirection:'row',gap:10,width: 150, height: 40, backgroundColor: activeTab === 'In Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={handleSelectSalon}>
+                            <TouchableOpacity style={{ flexDirection: 'row', gap: 10, width: 150, height: 40, backgroundColor: activeTab === 'In Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={handleSelectSalon}>
                                 <FastImage source={activeTab === 'In Salon' ? HomeIcon2 : HouseOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
 
                                 <Text style={{ color: activeTab === 'In Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
@@ -413,7 +413,7 @@ const ProfessionalInfo = ({ route }) => {
 
                     <RBSheet
                         ref={refRBSheet}
-                        height={Screen_Height * 0.3}
+                        height={Screen_Height * 0.35}
                         customStyles={{
                             wrapper: {
                                 backgroundColor: COLOR.BLACK_40,

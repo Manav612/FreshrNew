@@ -8,6 +8,7 @@ import {
   FlatList,
   RefreshControl,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -28,7 +29,10 @@ import { NavigationScreens } from '../../../constants/Strings';
 import MapView, { Marker } from 'react-native-maps';
 
 
-const ProfessionalUpcoming = () => {
+const ProfessionalOngoing = ({
+  FetchedData,
+  setFetchedData
+}) => {
   const theme = useSelector(state => state.ThemeReducer);
   const [resetSelected, setResetSelected] = useState(false);
   const [applySelected, setApplySelected] = useState(false);
@@ -36,48 +40,30 @@ const ProfessionalUpcoming = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [toggleStatus, setToggleStatus] = useState({});
   const [refreshing, setRefreshing] = useState(false);
-  const [FetchedData, setFetchedData] = useState([]);
   const [timer, setTimer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [PaymentData, setPaymentData] = useState(false);
   const authToken = useSelector(state => state.AuthReducer);
   const refRBSheet = useRef();
-
-
-  const toggleBookmark = sumit => {
-    setToggleStatus(prevState => ({
-      ...prevState,
-      [sumit]: !prevState[sumit],
-    }));
-  };
-
+  console.log(FetchedData);
   useEffect(() => {
-    fetchData();
+    // fetchData();
 
   }, []);
 
-  useEffect(() => {
-    socketServices.on('payment_Done', data => {
-      console.log('==== payment done ======', data);
-      closeBottomSheet()
-      navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
-
-    });
-
-  }, []);
 
   socketServices.on('create_order', data => {
     // console.log(
     //   '====  order create data Socket ======',
     //   data.message.data.order,
     // );
-    setFetchedData([data.message.data.order, ...FetchedData]);
+    // setFetchedData([data.message.data.order, ...FetchedData]);
   });
 
   const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    fetchData().then(() => setRefreshing(false));
+    // setRefreshing(true);
+    // fetchData().then(() => setRefreshing(false));
   }, []);
 
 
@@ -97,62 +83,28 @@ const ProfessionalUpcoming = () => {
         `${BASE_API_URL}/professionals/professional/orders/IN_TRAFFIC`,
         config,
       );
-      const pendingRes = await axios.get(
-        `${BASE_API_URL}/professionals/professional/orders/PENDING`,
-        config,
-      );
+      // const pendingRes = await axios.get(
+      //   `${BASE_API_URL}/professionals/professional/orders/PENDING`,
+      //   config,
+      // );
 
       const combinedData = [
         ...ongoingRes.data.data.orders,
         ...inTrafficRes.data.data.orders,
-        ...pendingRes.data.data.orders,
+        // ...pendingRes.data.data.orders,
       ];
 
-      // console.log('==========   order  List   ===========', combinedData);
+      console.log('==========   order  List  ongoing   ===========', combinedData);
       setFetchedData(combinedData);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const PutData = async (orderId, coordinates) => {
-    try {
-      // console.log("Order Id : ",coordinates);
-      const config = {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      };
-      const res = await axios.put(
-        `${BASE_API_URL}/professionals/professional/acceptOrder/${orderId}`,
-        {},
-        config,
-      );
-      console.log('===========  milllaaa  ==========', JSON.stringify(res.data.data));
-      if (res.status == 200) {
-        // console.log('===========  milllaaa ayush bhai bolte guru  ==========',{
-        //   recipient: res.data.data.order.client._id,
-        //   message: {
-        //     paymentKey: res.data.data.order.paymentKey,
-        //   },
-        // });
-        openBottomSheet()
+  const PutData = async (data) => {
+    navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
 
-        socketServices.emit('order_update', {
-          recipient: res.data.data.order.client.id,
-          message: {
-            type: 'accept_order',
-            paymentKey: res.data.data.order.paymentKey,
-            orderDetails: res.data.data.order.client.id,
-            order_id: res.data.data.order._id,
-            coordinates: coordinates,
-          },
-        });
-      }
-      // setFetchedData(res.data.facilities.facility);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    console.log(JSON.stringify(data));
   };
   const PutCancelData = async orderId => {
     try {
@@ -170,7 +122,7 @@ const ProfessionalUpcoming = () => {
       console.log('===========  cancelllll  ==========', res.data);
       if (res.data.status === 'success') {
         Alert.alert('Booking is cancel successfully');
-        fetchData();
+        // fetchData();
       } else {
         Alert.alert(res.data.message);
       }
@@ -179,47 +131,6 @@ const ProfessionalUpcoming = () => {
       console.error('Error:', error);
     }
   };
-
-  const handleResetPress = id => {
-    setFetchedData(prevData =>
-      prevData.map(item => {
-        if (item.id === id) {
-          return {
-            ...item,
-            resetSelected: !item.resetSelected,
-            applySelected: false,
-          };
-        }
-        return item;
-      }),
-    );
-  };
-
-  const handleApplyPress = id => {
-    setFetchedData(prevData =>
-      prevData.map(item => {
-        if (item.id === id) {
-          return {
-            ...item,
-            applySelected: !item.applySelected,
-            resetSelected: false,
-          };
-        }
-        return item;
-      }),
-    );
-  };
-
-  const handleResetPress1 = () => {
-    setResetSelected(!resetSelected);
-    setApplySelected(false);
-  };
-
-  const handleApplyPress2 = () => {
-    setApplySelected(!applySelected);
-    setResetSelected(false);
-  };
-
 
   const startTimer = () => {
     // if (!isTimerRunning) {
@@ -287,90 +198,88 @@ const ProfessionalUpcoming = () => {
   const [activeTab, setActiveTab] = useState('Delivery');
   const [MarkerDataFordelivery, setMarkerDataFordelivery] = useState([]);
   const mapStyle = [
-      { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-      { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
-      {
-        featureType: 'administrative.locality',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#d59563' }],
-      },
-      {
-        featureType: 'poi',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#d59563' }],
-      },
-      {
-        featureType: 'poi.park',
-        elementType: 'geometry',
-        stylers: [{ color: '#263c3f' }],
-      },
-      {
-        featureType: 'poi.park',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#6b9a76' }],
-      },
-      {
-        featureType: 'road',
-        elementType: 'geometry',
-        stylers: [{ color: '#38414e' }],
-      },
-      {
-        featureType: 'road',
-        elementType: 'geometry.stroke',
-        stylers: [{ color: '#212a37' }],
-      },
-      {
-        featureType: 'road',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#9ca5b3' }],
-      },
-      {
-        featureType: 'road.highway',
-        elementType: 'geometry',
-        stylers: [{ color: '#746855' }],
-      },
-      {
-        featureType: 'road.highway',
-        elementType: 'geometry.stroke',
-        stylers: [{ color: '#1f2835' }],
-      },
-      {
-        featureType: 'road.highway',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#f3d19c' }],
-      },
-      {
-        featureType: 'transit',
-        elementType: 'geometry',
-        stylers: [{ color: '#2f3948' }],
-      },
-      {
-        featureType: 'transit.station',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#d59563' }],
-      },
-      {
-        featureType: 'water',
-        elementType: 'geometry',
-        stylers: [{ color: '#17263c' }],
-      },
-      {
-        featureType: 'water',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#515c6d' }],
-      },
-      {
-        featureType: 'water',
-        elementType: 'labels.text.stroke',
-        stylers: [{ color: '#17263c' }],
-      },
-    ];
+    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+    {
+      featureType: 'administrative.locality',
+      elementType: 'labels.text.fill',
+      stylers: [{ color: '#d59563' }],
+    },
+    {
+      featureType: 'poi',
+      elementType: 'labels.text.fill',
+      stylers: [{ color: '#d59563' }],
+    },
+    {
+      featureType: 'poi.park',
+      elementType: 'geometry',
+      stylers: [{ color: '#263c3f' }],
+    },
+    {
+      featureType: 'poi.park',
+      elementType: 'labels.text.fill',
+      stylers: [{ color: '#6b9a76' }],
+    },
+    {
+      featureType: 'road',
+      elementType: 'geometry',
+      stylers: [{ color: '#38414e' }],
+    },
+    {
+      featureType: 'road',
+      elementType: 'geometry.stroke',
+      stylers: [{ color: '#212a37' }],
+    },
+    {
+      featureType: 'road',
+      elementType: 'labels.text.fill',
+      stylers: [{ color: '#9ca5b3' }],
+    },
+    {
+      featureType: 'road.highway',
+      elementType: 'geometry',
+      stylers: [{ color: '#746855' }],
+    },
+    {
+      featureType: 'road.highway',
+      elementType: 'geometry.stroke',
+      stylers: [{ color: '#1f2835' }],
+    },
+    {
+      featureType: 'road.highway',
+      elementType: 'labels.text.fill',
+      stylers: [{ color: '#f3d19c' }],
+    },
+    {
+      featureType: 'transit',
+      elementType: 'geometry',
+      stylers: [{ color: '#2f3948' }],
+    },
+    {
+      featureType: 'transit.station',
+      elementType: 'labels.text.fill',
+      stylers: [{ color: '#d59563' }],
+    },
+    {
+      featureType: 'water',
+      elementType: 'geometry',
+      stylers: [{ color: '#17263c' }],
+    },
+    {
+      featureType: 'water',
+      elementType: 'labels.text.fill',
+      stylers: [{ color: '#515c6d' }],
+    },
+    {
+      featureType: 'water',
+      elementType: 'labels.text.stroke',
+      stylers: [{ color: '#17263c' }],
+    },
+  ];
 
   const RenderItem = ({ item, onPress, onCancel }) => (
     <View
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+
       style={{
         backgroundColor: COLOR.WHITE,
         shadowColor: COLOR.BLACK,
@@ -389,7 +298,7 @@ const ProfessionalUpcoming = () => {
         }}>
         <View>
           <Text style={{ fontSize: 14, color: COLOR.BLACK }}>
-            {item?.createdAt.slice(0, 10)}
+            {item?.createdAt}
           </Text>
         </View>
         {/* <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
@@ -411,52 +320,52 @@ const ProfessionalUpcoming = () => {
           paddingHorizontal: 10,
         }}
       />
-        <View style={{height:Screen_Height*0.40}}>
-                <MapView
-                    style={{height:Screen_Height*0.40}}
-                    initialRegion={position}
-                    showsUserLocation={true}
-                    showsMyLocationButton={false}
-                    followsUserLocation={true}
-                    scrollEnabled={true}
-                    zoomEnabled={true}
-                    pitchEnabled={true}
-                    rotateEnabled={true}
-                    customMapStyle={mapStyle}
-                >
+      <View style={{ height: Screen_Height * 0.40 }}>
+        <MapView
+          style={{ height: Screen_Height * 0.40 }}
+          initialRegion={position}
+          showsUserLocation={true}
+          showsMyLocationButton={false}
+          followsUserLocation={true}
+          scrollEnabled={true}
+          zoomEnabled={true}
+          pitchEnabled={true}
+          rotateEnabled={true}
+          customMapStyle={mapStyle}
+        >
 
-                    {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
-                        <Marker
-                            coordinate={{
-                                latitude: data.location.coordinates[0],
-                                longitude: data.location.coordinates[1],
-                            }}
-                            title={'Test Marker'}
-                            description={'This is a description of the marker'}
-                            key={i}
-                        >
-                            <View style={{ height: 40, width: 40, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
-                                <Entypo name="home" size={30} color={COLOR.ORANGECOLOR} />
-                            </View>
-                        </Marker>
-                    ))}
+          {activeTab === 'Delivery' && MarkerDataFordelivery.map((data, i) => (
+            <Marker
+              coordinate={{
+                latitude: data.location.coordinates[0],
+                longitude: data.location.coordinates[1],
+              }}
+              title={'Test Marker'}
+              description={'This is a description of the marker'}
+              key={i}
+            >
+              <View style={{ height: 40, width: 40, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                <Entypo name="home" size={30} color={COLOR.ORANGECOLOR} />
+              </View>
+            </Marker>
+          ))}
 
-                    {activeTab === 'Salon' && MarkerDataForSalon.map((data, i) => (
-                        <Marker
-                            coordinate={{
-                                latitude: data.location.coordinates[0],
-                                longitude: data.location.coordinates[1],
-                            }}
-                            title={'Test Marker'}
-                            description={'This is a description of the marker'}
-                            key={i}
-                        >
-                            <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
-                        </Marker>
-                    ))}
+          {activeTab === 'Salon' && MarkerDataForSalon.map((data, i) => (
+            <Marker
+              coordinate={{
+                latitude: data.location.coordinates[0],
+                longitude: data.location.coordinates[1],
+              }}
+              title={'Test Marker'}
+              description={'This is a description of the marker'}
+              key={i}
+            >
+              <Entypo name="location-pin" size={50} color={COLOR.ORANGECOLOR} />
+            </Marker>
+          ))}
 
-                </MapView>
-            </View>
+        </MapView>
+      </View>
       <View
         style={{
           flexDirection: 'row',
@@ -504,11 +413,11 @@ const ProfessionalUpcoming = () => {
             <View style={{ flex: 1, marginLeft: 20 }}>
               <Text
                 style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>
-                {service.serviceType.name}
+                {service?.name}
               </Text>
               <Text
                 style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>
-                {service.serviceType.category}
+                {service?.category?.name}
               </Text>
               <Text
                 style={{
@@ -516,7 +425,7 @@ const ProfessionalUpcoming = () => {
                   color: COLOR.ORANGECOLOR,
                   marginVertical: 2,
                 }}>
-                {service.serviceType.description}
+                {service?.description}
               </Text>
             </View>
           </View>
@@ -555,7 +464,7 @@ const ProfessionalUpcoming = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => onPress(item.id,item?.address?.coordinates)}
+          onPress={() => onPress(item)}
           style={{
             backgroundColor: item.applySelected
               ? COLOR.ORANGECOLOR
@@ -581,7 +490,11 @@ const ProfessionalUpcoming = () => {
   );
 
   return (
-    <View style={{ backgroundColor: COLOR.WHITE }}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      style={{ backgroundColor: COLOR.WHITE }}>
       <FlatList
         showsVerticalScrollIndicator={false}
         style={{ marginTop: 15, marginHorizontal: 15, flex: 1 }}
@@ -645,10 +558,10 @@ const ProfessionalUpcoming = () => {
 
         </View>
       </RBSheet>
-    </View>
+    </ScrollView>
   );
 };
 
-export default ProfessionalUpcoming;
+export default ProfessionalOngoing;
 
 const styles = StyleSheet.create({});

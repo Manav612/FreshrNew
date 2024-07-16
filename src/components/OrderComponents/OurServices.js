@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   View,
+  RefreshControl,
   Alert,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
@@ -51,6 +52,8 @@ const OurServices = ({ route }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [selected, setSelected] = useState([]);
   const [fetchedServices, setFetchedServices] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
   const refRBSheet = useRef(null);
   const navigation = useNavigation();
 
@@ -82,6 +85,11 @@ const OurServices = ({ route }) => {
       setIsTimerRunning(false);
     }
   };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchServicesData().then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     fetchServicesData();
@@ -208,7 +216,7 @@ const OurServices = ({ route }) => {
 
   const PutCancelData = async orderId => {
     try {
-      // console.log("Order Id : ",orderId);
+
       const config = {
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -240,7 +248,7 @@ const OurServices = ({ route }) => {
           backgroundColor: COLOR.WHITE,
           marginTop: 10,
           width: Screen_Width * 0.92,
-          height: Screen_Height * 0.14,
+          height: Screen_Height * 0.15,
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingHorizontal: 20,
@@ -264,7 +272,16 @@ const OurServices = ({ route }) => {
               fontWeight: '600',
               paddingRight: 10,
             }}>
-            {item.serviceType?.name}
+            {item?.name}
+          </Text>
+          <Text
+            style={{
+              color: COLOR.BLACK,
+              fontSize: 16,
+              fontWeight: '300',
+              paddingRight: 10,
+            }}>
+            {item?.category?.name}
           </Text>
           <Text
             style={{
@@ -312,7 +329,9 @@ const OurServices = ({ route }) => {
 
   return (
     <>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
         <View
           style={{
             flexDirection: 'row',
