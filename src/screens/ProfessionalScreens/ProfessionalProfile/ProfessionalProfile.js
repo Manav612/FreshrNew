@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Image,
   ImageBackground,
@@ -13,36 +13,48 @@ import {
   RefreshControl,
   Modal,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { ClockUserIcon2, ClockUserIcon3, GearFineIcon, Hair1, ShareIcon, ShareIcon2, ShareIcon3, barber } from '../../../constants/Icons';
-import { Screen_Height, Screen_Width } from '../../../constants/Constants';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  ClockUserIcon2,
+  ClockUserIcon3,
+  GearFineIcon,
+  Hair1,
+  ShareIcon,
+  ShareIcon2,
+  ShareIcon3,
+  barber,
+} from '../../../constants/Icons';
+import {Screen_Height, Screen_Width} from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
 import ServicesScreen from '../../../components/SalonDetailScreen/ServicesScreen';
 import ReviewScreen from '../../../components/SalonDetailScreen/ReviewScreen';
 import GalleryScreen from '../../../components/SalonDetailScreen/GalleryScreen';
 import PackageScreen from '../../../components/SalonDetailScreen/PackageScreen';
-import { Servicesdata2 } from '../../../components/utils';
+import {Servicesdata2} from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import FastImage from 'react-native-fast-image';
-import { RemoveOneServiceData, SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
+import {
+  RemoveOneServiceData,
+  SetServiceData,
+} from '../../../redux/ServicesData/ServicesDataAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_API_URL } from '../../../Services';
+import {BASE_API_URL} from '../../../Services';
 import axios from 'axios';
-import { NavigationScreens } from '../../../constants/Strings';
-import ImagePicker from 'react-native-image-crop-picker'; 4
-import { LinearGradient } from "expo-linear-gradient";
+import {NavigationScreens} from '../../../constants/Strings';
+import ImagePicker from 'react-native-image-crop-picker';
+4;
+import {LinearGradient} from 'expo-linear-gradient';
 
-
-import mime from "mime";
+import mime from 'mime';
 import ProfessionalScheduleScreen from '../../../components/ProfessionalComponents/ProfessionalScheduleScreen';
 
-const ProfessionalProfile = ({ name }) => {
+const ProfessionalProfile = ({name}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -51,7 +63,7 @@ const ProfessionalProfile = ({ name }) => {
   const [applySelected, setApplySelected] = useState(false);
   const [selectedTab, setSelectedTab] = useState(null);
   const [servicesToPass, setServicesToPass] = useState(Servicesdata2);
-  const [servicesData, setServicesData] = useState()
+  const [servicesData, setServicesData] = useState();
   const [activeTab, setActiveTab] = useState('');
   const [activeTab2, setActiveTab2] = useState('');
   const [selectedServiceId, setSelectedServiceId] = useState(null);
@@ -64,61 +76,56 @@ const ProfessionalProfile = ({ name }) => {
   const [Services, setServices] = useState('View services');
   const [showFullText, setShowFullText] = useState(false);
   const [user, setUser] = useState(false);
-  const [story, setStory] = useState()
-  const [ind, setInd] = useState(0)
-  const [flag, setFlag] = useState(false)
+  const [story, setStory] = useState();
+  const [ind, setInd] = useState(0);
+  const [flag, setFlag] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [stories, setStories] = useState([])
-  const fullText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
+  const [stories, setStories] = useState([]);
+  const fullText =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
   const truncatedText = fullText.slice(0, 100) + '...';
   const fetchedData = useSelector(state => state.ServicesDataReducer);
-  console.log("=========  fetchedData      ============", fetchedData);
+  console.log('=========  fetchedData      ============', fetchedData);
   const refRBSheet = useRef([]);
   useEffect(() => {
-    setServicesData()
-  }, [])
-
+    setServicesData();
+  }, []);
 
   const fetchstories = async () => {
     try {
-
-      const token = await AsyncStorage.getItem("AuthToken");
+      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
-
-      }
-      const res = await axios.get(`${BASE_API_URL}/professionals/professional/stories`, config);
-      console.log("asasss=====", res.data.data);
-      setStories(res.data.data.stories)
-
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const res = await axios.get(
+        `${BASE_API_URL}/professionals/professional/stories`,
+        config,
+      );
+      console.log('asasss=====', res.data.data);
+      setStories(res.data.data.stories);
+    } catch (error) {
+      console.log('sssss', error);
     }
-    catch (error) {
-      console.log("sssss", error);
-    }
-  }
-
+  };
 
   useEffect(() => {
-
-    fetchstories()
-    setServicesData()
+    fetchstories();
+    setServicesData();
     fetchServicesData();
   }, []);
 
   useEffect(() => {
-    fetchstories()
-  }, [flag])
-
-
+    fetchstories();
+  }, [flag]);
 
   useEffect(() => {
     if (stories.length > 0) {
       const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % stories.length);
+        setCurrentIndex(prevIndex => (prevIndex + 1) % stories.length);
       }, 5000);
-      console.log("sdsddss", currentIndex);
+      console.log('sdsddss', currentIndex);
       return () => clearInterval(interval);
     }
   }, [stories]);
@@ -128,62 +135,68 @@ const ProfessionalProfile = ({ name }) => {
     fetchServicesData().then(() => setRefreshing(false));
   }, []);
 
-
-
   useEffect(() => {
-
-    getUserInfo()
-  }, [])
+    getUserInfo();
+  }, []);
 
   const getUserInfo = async () => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
+      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       };
       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-      console.log('========  user ID   ===========', res.data.data.user)
+      console.log('========  user ID   ===========', res.data.data.user);
       setUser(res.data.data.user);
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
 
   const fetchServicesData = async () => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
+      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       };
-      const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
-      console.log("=======   fetchhh services  == ========", res.data.data.services);
+      const res = await axios.get(
+        `${BASE_API_URL}/professionals/professional/services`,
+        config,
+      );
+      console.log(
+        '=======   fetchhh services  == ========',
+        res.data.data.services,
+      );
       dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
 
-  const deleteServicesData = async (id) => {
+  const deleteServicesData = async id => {
     try {
-      const token = await AsyncStorage.getItem("AuthToken");
+      const token = await AsyncStorage.getItem('AuthToken');
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       };
       console.log('===============   id ==============', id);
-      const res = await axios.delete(`${BASE_API_URL}/professionals/professional/services/${id}`, config);
-      console.log("=======   ressss == ========", res.data);
-      Alert.alert('Service deleted successfully ')
+      const res = await axios.delete(
+        `${BASE_API_URL}/professionals/professional/services/${id}`,
+        config,
+      );
+      console.log('=======   ressss == ========', res.data);
+      Alert.alert('Service deleted successfully ');
       // Refresh the fetched data after deletion
       dispatch(RemoveOneServiceData(id));
       // fetchServicesData();
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
   const openBottomSheet2 = (item, index) => {
@@ -191,7 +204,6 @@ const ProfessionalProfile = ({ name }) => {
     setServicesData(item);
     setSelectedServiceId(item.id);
   };
-
 
   const handleResetPress1 = () => {
     setResetSelected(!resetSelected);
@@ -207,30 +219,26 @@ const ProfessionalProfile = ({ name }) => {
     setSelectedTab(tab);
   };
 
-
-
   const toggleShowFullText = () => {
     setShowFullText(!showFullText);
   };
-
-
 
   const renderContent = () => {
     if (selectedScreen === 'My schedule') {
       return (
         <View style={styles.content}>
-          <ProfessionalScheduleScreen/>
+          <ProfessionalScheduleScreen />
         </View>
       );
     } else if (selectedScreen === 'services') {
-      const renderitem = ({ item, index }) => (
+      const renderitem = ({item, index}) => (
         <TouchableOpacity
           onPress={() => openBottomSheet2(item, index)}
           style={{
             backgroundColor: COLOR.WHITE,
             marginTop: 10,
             width: Screen_Width * 0.92,
-            height: Screen_Height * 0.14,
+            height: Screen_Height * 0.15,
             alignItems: 'center',
             paddingHorizontal: 20,
             borderRadius: 10,
@@ -242,9 +250,9 @@ const ProfessionalProfile = ({ name }) => {
               height: Screen_Height * 0.1,
               borderRadius: 10,
             }}
-            source={{ uri: item.photo }}
+            source={{uri: item?.photo}}
           />
-          <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5 }}>
+          <View style={{flexDirection: 'column', marginLeft: 15, gap: 5}}>
             <Text
               style={{
                 color: COLOR.BLACK,
@@ -252,7 +260,16 @@ const ProfessionalProfile = ({ name }) => {
                 fontWeight: '600',
                 paddingRight: 10,
               }}>
-              {item.serviceType?.name}
+              {item?.name}
+            </Text>
+            <Text
+              style={{
+                color: COLOR.BLACK,
+                fontSize: 16,
+                fontWeight: '600',
+                paddingRight: 10,
+              }}>
+              {item?.category?.name}
             </Text>
             <Text
               style={{
@@ -260,7 +277,7 @@ const ProfessionalProfile = ({ name }) => {
                 fontSize: 14,
                 fontWeight: '600',
                 paddingRight: 10,
-                width: 200
+                width: 200,
               }}>
               {item.description.length > 40
                 ? `${item.description.slice(0, 40)}...`
@@ -298,7 +315,7 @@ const ProfessionalProfile = ({ name }) => {
                 flexDirection: 'row',
               }}>
               <Text
-                style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>
+                style={{fontSize: 22, fontWeight: '600', color: COLOR.BLACK}}>
                 Services
               </Text>
               {/* <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('Ourpackages Screen')}>See All</Text> */}
@@ -317,7 +334,7 @@ const ProfessionalProfile = ({ name }) => {
               showsVerticalScrollIndicator={false}
               keyExtractor={item => item.id}
               renderItem={renderitem}
-              style={{ flex: 1 }}
+              style={{flex: 1}}
               scrollEnabled={false}
             />
             <RBSheet
@@ -346,8 +363,8 @@ const ProfessionalProfile = ({ name }) => {
               customAvoidingViewProps={{
                 enabled: false,
               }}>
-              <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{paddingHorizontal: 15, marginVertical: 10}}>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
                   <View
                     style={{
                       width: 30,
@@ -363,7 +380,7 @@ const ProfessionalProfile = ({ name }) => {
                       alignItems: 'center',
                       width: Screen_Width * 0.9,
                     }}>
-                    <View style={{ width: 30 }} />
+                    <View style={{width: 30}} />
                     <Text
                       style={{
                         fontWeight: '600',
@@ -409,9 +426,12 @@ const ProfessionalProfile = ({ name }) => {
                     onPress={() => {
                       refRBSheet.current[0].close(),
                         setServices('View Services'),
-                        navigation.navigate(NavigationScreens.ProfessionalViewInnerServicesScreen, {
-                          services: servicesData,
-                        });
+                        navigation.navigate(
+                          NavigationScreens.ProfessionalViewInnerServicesScreen,
+                          {
+                            services: servicesData,
+                          },
+                        );
                     }}>
                     <Text
                       style={{
@@ -441,9 +461,12 @@ const ProfessionalProfile = ({ name }) => {
                     onPress={() => {
                       refRBSheet.current[0].close(),
                         setServices('Edit Services'),
-                        navigation.navigate(NavigationScreens.professionalEditServiceScreen, {
-                          services: servicesData,
-                        });
+                        navigation.navigate(
+                          NavigationScreens.professionalEditServiceScreen,
+                          {
+                            services: servicesData,
+                          },
+                        );
                     }}>
                     <Text
                       style={{
@@ -533,7 +556,6 @@ const ProfessionalProfile = ({ name }) => {
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
-
     },
     title: {
       fontSize: 24,
@@ -595,11 +617,10 @@ const ProfessionalProfile = ({ name }) => {
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-
   const geneateFile = (img, i) => {
-    console.log("asdasdasd", img);
+    console.log('asdasdasd', img);
     const uri = img;
-    const filename = img.split("/").pop();
+    const filename = img.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
     const ext = match?.[1];
     const file = {
@@ -611,60 +632,48 @@ const ProfessionalProfile = ({ name }) => {
   };
 
   const handleUpload = async () => {
-
     try {
       const formData = new FormData();
 
+      const token = await AsyncStorage.getItem('AuthToken');
+      console.log('=============>', token);
 
-      const token = await AsyncStorage.getItem("AuthToken");
-      console.log("=============>", token);
-
-
-      formData.append(
-        "resource",
-        geneateFile(imageUri, 1)
-      );
-      formData.append(
-        "mediaType", "IMAGE"
-
-      );
+      formData.append('resource', geneateFile(imageUri, 1));
+      formData.append('mediaType', 'IMAGE');
 
       const config = {
-        method: "post",
+        method: 'post',
         url: `${BASE_API_URL}/professionals/professional/stories/`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
-        data: formData
+        data: formData,
       };
 
       const uploadRes = await axios(config)
         .then(() => {
-          setModalVisible(false)
-          setImageUri(null)
-          setFlag(!flag)
+          setModalVisible(false);
+          setImageUri(null);
+          setFlag(!flag);
         })
-        .catch((e) => {
+        .catch(e => {
           console.error(e);
         });
 
       if (uploadRes && uploadRes?.data) {
-        console.log("assss", uploadRes);
+        console.log('assss', uploadRes);
       }
-
-
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
-  }
-
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true
+      cropping: true,
     }).then(image => {
       console.log(image);
       setImageModalVisible(false);
@@ -676,31 +685,35 @@ const ProfessionalProfile = ({ name }) => {
     }
   };
   const takePhoto = async () => {
-    let result = await
-      ImagePicker.openCamera({
-        width: 300,
-        height: 400,
-        cropping: true,
-      }).then(image => {
-        console.log(image);
-        setImageModalVisible(false);
-        setImageUri(image.path);
-      });
+    let result = await ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      setImageModalVisible(false);
+      setImageUri(image.path);
+    });
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
 
-
-
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height }} refreshControl={
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    }>
-      <View style={{ height: 330 }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{width: Screen_Width, height: Screen_Height}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      <View style={{height: 330}}>
         <ImageBackground
-          source={stories?.length == 0 ? barber : { uri: stories[currentIndex].resource }}
+          source={
+            stories?.length == 0
+              ? barber
+              : {uri: stories[currentIndex].resource}
+          }
           style={{
             width: Screen_Width,
             height: Screen_Height * 0.3,
@@ -708,7 +721,6 @@ const ProfessionalProfile = ({ name }) => {
             borderBottomRightRadius: 60,
             paddingHorizontal: 15,
           }}>
-
           <View
             style={{
               flexDirection: 'row',
@@ -725,7 +737,13 @@ const ProfessionalProfile = ({ name }) => {
               />
             </View>
 
-            <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row',
+                gap: 10,
+              }}>
               {/* <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                 <Entypo name="direction" size={28} color={COLOR.ChartBlue} />
               </TouchableOpacity> */}
@@ -746,48 +764,108 @@ const ProfessionalProfile = ({ name }) => {
             }}>
             <Image
               source={Hair1}
-              style={{ width: 140, height: 140, borderRadius: 100 }}
+              style={{width: 140, height: 140, borderRadius: 100}}
             />
             <View style={styles.container1}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => setModalVisible(true)}
-              >
+                onPress={() => setModalVisible(true)}>
                 <Text style={styles.buttonText}>+</Text>
               </TouchableOpacity>
               <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
-                onRequestClose={() => { setImageUri(), setModalVisible(false) }}
-              >
+                onRequestClose={() => {
+                  setImageUri(), setModalVisible(false);
+                }}>
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
-
                     <TouchableOpacity
-                      style={{ position: "absolute", right: 10, top: 10 }}
-                      onPress={() => { setImageUri(), setModalVisible(false) }}
-                    >
-                      <AntDesign name="closecircleo" size={28} color={COLOR.BLACK} />
+                      style={{position: 'absolute', right: 10, top: 10}}
+                      onPress={() => {
+                        setImageUri(), setModalVisible(false);
+                      }}>
+                      <AntDesign
+                        name="closecircleo"
+                        size={28}
+                        color={COLOR.BLACK}
+                      />
                     </TouchableOpacity>
 
-                    {imageUri ?
-                      <></> :
-                      <View style={{
-                        justifyContent: "space-between",
-                        alignItems: 'center',
-                        marginTop: 10,
-                        paddingHorizontal: 10,
-                      }}>
-                        <TouchableOpacity style={{ backgroundColor: COLOR.ORANGECOLOR, borderRadius: 20, padding: 10, elevation: 2, marginBottom: 10 }} onPress={pickImage}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold', textAlign: 'center' }}>Gallery</Text></TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: COLOR.ORANGECOLOR, borderRadius: 20, padding: 10, elevation: 2 }} onPress={takePhoto}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold', textAlign: 'center' }}>Take a Photo</Text></TouchableOpacity>
-
+                    {imageUri ? (
+                      <></>
+                    ) : (
+                      <View
+                        style={{
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          marginTop: 10,
+                          paddingHorizontal: 10,
+                        }}>
+                        <TouchableOpacity
+                          style={{
+                            backgroundColor: COLOR.ORANGECOLOR,
+                            borderRadius: 20,
+                            padding: 10,
+                            elevation: 2,
+                            marginBottom: 10,
+                          }}
+                          onPress={pickImage}>
+                          <Text
+                            style={{
+                              color: COLOR.WHITE,
+                              fontWeight: 'bold',
+                              textAlign: 'center',
+                            }}>
+                            Gallery
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={{
+                            backgroundColor: COLOR.ORANGECOLOR,
+                            borderRadius: 20,
+                            padding: 10,
+                            elevation: 2,
+                          }}
+                          onPress={takePhoto}>
+                          <Text
+                            style={{
+                              color: COLOR.WHITE,
+                              fontWeight: 'bold',
+                              textAlign: 'center',
+                            }}>
+                            Take a Photo
+                          </Text>
+                        </TouchableOpacity>
                       </View>
-                    }
-                    {imageUri &&
-                      <Image source={{ uri: imageUri }} style={{ width: 200, height: 200, marginTop: 10 }} />}
-                    {imageUri && <TouchableOpacity style={{ marginTop: 10, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 20, padding: 10, elevation: 2 }} onPress={() => handleUpload()}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold', textAlign: 'center' }}>Add stories</Text></TouchableOpacity>}
-
+                    )}
+                    {imageUri && (
+                      <Image
+                        source={{uri: imageUri}}
+                        style={{width: 200, height: 200, marginTop: 10}}
+                      />
+                    )}
+                    {imageUri && (
+                      <TouchableOpacity
+                        style={{
+                          marginTop: 10,
+                          backgroundColor: COLOR.ORANGECOLOR,
+                          borderRadius: 20,
+                          padding: 10,
+                          elevation: 2,
+                        }}
+                        onPress={() => handleUpload()}>
+                        <Text
+                          style={{
+                            color: COLOR.WHITE,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                          }}>
+                          Add stories
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               </Modal>
@@ -801,13 +879,12 @@ const ProfessionalProfile = ({ name }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{ color: COLOR.BLACK, fontSize: 25, fontWeight: 'bold' }}>
-          {user?.firstName}{' '}{user?.lastName}
-
+        <Text style={{color: COLOR.BLACK, fontSize: 25, fontWeight: 'bold'}}>
+          {user?.firstName} {user?.lastName}
         </Text>
-        <Text style={{ color: COLOR.GRAY }}>
+        <Text style={{color: COLOR.GRAY}}>
           Hair Stylist at{' '}
-          <Text style={{ fontWeight: 'bold', color: COLOR.BLACK }}>
+          <Text style={{fontWeight: 'bold', color: COLOR.BLACK}}>
             Bella Rinova
           </Text>{' '}
           5.0 (25 Reviews)
@@ -820,7 +897,7 @@ const ProfessionalProfile = ({ name }) => {
           justifyContent: 'space-between',
           alignItems: 'center',
           paddingHorizontal: 15,
-          marginVertical: 10
+          marginVertical: 10,
         }}>
         <TouchableOpacity
           style={{
@@ -861,14 +938,20 @@ const ProfessionalProfile = ({ name }) => {
             borderWidth: 1,
             borderColor: COLOR.ORANGECOLOR,
           }}
-          onPress={() => setActiveTab2('Distance')
-          }>
+          onPress={() => setActiveTab2('Distance')}>
           <MaterialCommunityIcons
             name="map-marker-distance"
             size={22}
             color={activeTab2 === 'Distance' ? COLOR.WHITE : COLOR.ORANGECOLOR}
           />
-          <Text style={{ fontSize: 14, color: activeTab2 === 'Distance' ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Distance</Text>
+          <Text
+            style={{
+              fontSize: 14,
+              color:
+                activeTab2 === 'Distance' ? COLOR.WHITE : COLOR.ORANGECOLOR,
+            }}>
+            Distance
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -885,17 +968,29 @@ const ProfessionalProfile = ({ name }) => {
             borderWidth: 1,
             borderColor: COLOR.ORANGECOLOR,
           }}
-          onPress={() => setActiveTab2('Share')
-          }>
-          <FastImage source={activeTab2 === 'Share' ? ShareIcon3 : ShareIcon2} style={{ height: 20, width: 20 }} />
+          onPress={() => setActiveTab2('Share')}>
+          <FastImage
+            source={activeTab2 === 'Share' ? ShareIcon3 : ShareIcon2}
+            style={{height: 20, width: 20}}
+          />
 
-          <Text style={{ fontSize: 14, color: activeTab2 === 'Share' ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Share</Text>
+          <Text
+            style={{
+              fontSize: 14,
+              color: activeTab2 === 'Share' ? COLOR.WHITE : COLOR.ORANGECOLOR,
+            }}>
+            Share
+          </Text>
         </TouchableOpacity>
       </View>
-      <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
-        <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>{showFullText ? fullText : truncatedText}</Text>
+      <View style={{paddingHorizontal: 15, marginVertical: 10}}>
+        <Text style={{color: COLOR.BLACK, fontSize: 14}}>
+          {showFullText ? fullText : truncatedText}
+        </Text>
         <TouchableOpacity onPress={toggleShowFullText}>
-          <Text style={{ color: COLOR.ORANGECOLOR }}>{showFullText ? 'Read Less' : 'Read More'}</Text>
+          <Text style={{color: COLOR.ORANGECOLOR}}>
+            {showFullText ? 'Read Less' : 'Read More'}
+          </Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -918,12 +1013,21 @@ const ProfessionalProfile = ({ name }) => {
               borderWidth: 1,
               borderColor: COLOR.ORANGECOLOR,
               backgroundColor:
-                selectedScreen === 'My schedule' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-
+                selectedScreen === 'My schedule'
+                  ? COLOR.ORANGECOLOR
+                  : COLOR.GULABI,
             }}
-            onPress={() => setSelectedScreen('My schedule')
-            }>
-            <Text style={{ fontSize: 14, color: selectedScreen === 'My schedule' ? COLOR.WHITE : COLOR.ORANGECOLOR }}>My schedule</Text>
+            onPress={() => setSelectedScreen('My schedule')}>
+            <Text
+              style={{
+                fontSize: 14,
+                color:
+                  selectedScreen === 'My schedule'
+                    ? COLOR.WHITE
+                    : COLOR.ORANGECOLOR,
+              }}>
+              My schedule
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -978,7 +1082,7 @@ const ProfessionalProfile = ({ name }) => {
         </View>
       </View>
       {renderContent()}
-      <View style={{ height: 100 }} />
+      <View style={{height: 100}} />
     </ScrollView>
   );
 };
