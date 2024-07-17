@@ -142,7 +142,7 @@ const Home = () => {
       Geocoder.from(latitude, longitude)
         .then(json => {
           var addressComponent = json;
-          console.log(json.results[0]?.formatted_address);
+          // console.log(json.results[0]?.formatted_address);
           dispatch(SetAddress(json.results[0]?.formatted_address));
         })
         .catch(error => console.warn(error));
@@ -208,35 +208,35 @@ const Home = () => {
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 
     >
-      <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
-        <View style={{ flexDirection: 'row',height:50,alignItems:'center'}}>
+      <View style={{ height: Screen_Height * 0.08, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', height: 50, alignItems: 'center' }}>
           <View>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center',width:Screen_Width*0.4 }}>
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', width: Screen_Width * 0.4 }}>
               {/* <Entypo name="home" size={22} color={COLOR.ORANGECOLOR} /> */}
               {/* <Text style={{ color: COLOR.BLACK, fontSize: 15 }}>Hello, {displayName}</Text> */}
             </View>
-            <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'baseline',gap:5}}>
-            <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
-            <Text style={{ color: COLOR.BLACK, fontSize: 18,fontWeight:'500' }}>Office</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'baseline', gap: 5 }}>
+              <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
+              <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '500' }}>Office</Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row',justifyContent:'center',alignItems:'flex-end' }}>
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
               <Text style={{ color: COLOR.BLACK, fontSize: 16, flex: 1 }} numberOfLines={1}>
                 {address}
               </Text>
-              
-            <AntDesign name="down" size={14} color={COLOR.BLACK} />
+
+              <AntDesign name="down" size={14} color={COLOR.BLACK} />
 
             </TouchableOpacity>
-           
-             
+
+
           </View>
         </View>
-        <View style={{ flexDirection: 'row', gap: 10,  alignItems: 'center',height:50,marginHorizontal:1 }}>
-          <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)} style={{height:40,width:40,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}>
+        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', height: 50, marginHorizontal: 1 }}>
+          <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)} style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
             <Ionicons name="chatbubble-ellipses-outline" size={30} color={COLOR.BLACK} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => openBottomSheet()} style={{height:40,width:40,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}>
-            <FastImage source={FilterBlack} style={{ height:30, width:30 }} />
+          <TouchableOpacity onPress={() => openBottomSheet()} style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
+            <FastImage source={FilterBlack} style={{ height: 30, width: 30 }} />
           </TouchableOpacity>
         </View>
       </View>
@@ -246,19 +246,19 @@ const Home = () => {
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Delivery Options</Text>
 
         <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
-          <TouchableOpacity style={{ width: Screen_Width * 0.4,flexDirection:'row',gap:5, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
-          <FastImage source={activeTab === 'Delivery'?ComeToYouWhite:ComeToYouOrange} resizeMode='contain' style={{height:22,width:22}}/>
-            <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:14 }}>Comes to you</Text>
+          <TouchableOpacity style={{ width: Screen_Width * 0.4, flexDirection: 'row', gap: 5, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
+            <FastImage source={activeTab === 'Delivery' ? ComeToYouWhite : ComeToYouOrange} resizeMode='contain' style={{ height: 22, width: 22 }} />
+            <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 14 }}>Comes to you</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ width: Screen_Width * 0.4,flexDirection:'row',gap:10, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-          <FastImage source={activeTab === 'Salon'?HomeIcon2:HouseOrange} style={{height:25,width:25}} resizeMode='contain'/>
-            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600',fontSize:14 }}>In Salon</Text>
+          <TouchableOpacity style={{ width: Screen_Width * 0.4, flexDirection: 'row', gap: 10, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+            <FastImage source={activeTab === 'Salon' ? HomeIcon2 : HouseOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
+            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 14 }}>In Salon</Text>
           </TouchableOpacity>
         </View>
       </View>
       {activeTab === 'Delivery' ? <Delivery /> : <Salon />
       }
-       <View style={{}}>
+      <View style={{}}>
         <RBSheet
           ref={(ref) => (refRBSheet.current[0] = ref)}
 

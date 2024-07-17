@@ -87,9 +87,11 @@ const ProfessionalPending = () => {
             backgroundColor: COLOR.BLACK_40,
         },
         modalContent: {
-            width: '80%',
+            width: Screen_Width * 0.8,
             backgroundColor: COLOR.WHITE,
-
+            height: Screen_Height * 0.5,
+            justifyContent: 'center',
+            alignItems: 'center',
             borderRadius: 10,
         },
         modalTitle: {
@@ -316,18 +318,17 @@ const ProfessionalPending = () => {
                 <Modal visible={Object.keys(orderData).length > 0} transparent={true} animationType="slide">
                     <View style={styles.modalContainer}>
                         <View style={styles.modalContent}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <TouchableOpacity onPress={() => PutData(orderData.order_id, orderData.coordinates)}>
-                                    <Text style={{ fontSize: 18, fontWeight: '700', color: COLOR.GREEN }}>
-                                        Accept
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity>
-                                    <Text style={{ fontSize: 18, fontWeight: '700', color: COLOR.CANCEL_B }}>
-                                        Reject
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
+
+                            <TouchableOpacity onPress={() => PutData(orderData.order_id, orderData.coordinates)} style={{ backgroundColor: COLOR.GREEN, borderRadius: 35, height: 40, justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.6, marginBottom: 10 }} >
+                                <Text style={{ fontSize: 18, fontWeight: '600', color: COLOR.WHITE }}>
+                                    Accept booking
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ backgroundColor: COLOR.CANCEL_B, borderRadius: 35, height: 40, justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.6 }}>
+                                <Text style={{ fontSize: 18, fontWeight: '600', color: COLOR.WHITE }}>
+                                    Reject booking
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>

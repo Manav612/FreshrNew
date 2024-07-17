@@ -396,11 +396,12 @@ const OurServices = ({ route }) => {
                 fontSize: 20,
                 fontWeight: 'bold',
                 marginBottom: 20,
+                color: COLOR.BLACK,
                 textAlign: 'center',
               }}>
               Wait while your order is accepted
             </Text>
-            <Text style={{ fontSize: 48, fontWeight: 'bold' }}>
+            <Text style={{ fontSize: 48, fontWeight: 'bold', color: COLOR.BLACK }}>
               {formatTime(timeLeft)}
             </Text>
             <TouchableOpacity
@@ -409,24 +410,21 @@ const OurServices = ({ route }) => {
                 alignItems: 'center',
                 height: 50,
                 borderRadius: 35,
-                backgroundColor: COLOR.ORANGECOLOR,
+                backgroundColor: COLOR.CANCEL_B,
                 marginVertical: 15,
-
                 width: Screen_Width * 0.95,
                 marginHorizontal: 10,
               }}
-              onPress={PutCancelData}>
-              <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
+            // onPress={PutCancelData}
+            >
+              <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '700' }}>
                 Cancel Order
               </Text>
             </TouchableOpacity>
           </View>
         </RBSheet>
-
         <View style={{ height: 170 }} />
       </ScrollView>
-
-
       <TouchableOpacity
         style={{
           justifyContent: 'center',
