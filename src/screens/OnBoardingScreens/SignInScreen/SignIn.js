@@ -36,7 +36,9 @@ const SignIn = () => {
 
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
+            console.log("================>", state.isConnected);
             setNetworkStatus(state.isConnected);
+
         });
         return () => unsubscribe();
     }, []);

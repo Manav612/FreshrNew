@@ -1,11 +1,9 @@
 import io from 'socket.io-client';
 
 const SOCKET_URL = 'ws://unified-profound-koala.ngrok-free.app'
-// const SOCKET_URL ='ws://api-development.freshr.ca'
+// const SOCKET_URL = 'ws://api-development.freshr.ca'
 
 
-// const SOCKET_URL='https://a93d-2405-201-201c-8115-ac40-db93-5f78-1dbb.ngrok-free.app'
-// const SOCKET_URL = 'https://637b-2405-201-201c-8115-d093-e02b-6909-3587.ngrok-free.app'
 
 class WSService {
     initializeSocket = async (authToken) => {

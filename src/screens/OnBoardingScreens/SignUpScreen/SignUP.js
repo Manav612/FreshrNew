@@ -125,11 +125,12 @@ const SignUP = () => {
 
   const fetchData = async (firstName, lastName, email, password, passwordConfirm, searchStylesFor, phone, pushToken) => {
     try {
+      console.log("==============  sign up clickkkkk   ================");
       const res = await axios.post(
         `${BASE_API_URL}/users/signUp`,
         { firstName, lastName, email, password, passwordConfirm, searchStylesFor, phone, pushToken }
       );
-     
+
       console.log("Response data:", res.status);
 
       // Check if the request was successful
@@ -137,9 +138,9 @@ const SignUP = () => {
         navigation.navigate(NavigationScreens.EmailVerificationScreen, { email: email });
 
       } else {
-          Alert.alert(res.data.message)
+        Alert.alert(res.data.message)
       }
-     
+
     } catch (error) {
       console.log("error", error);
       // setErrorMessage(error,)
@@ -307,13 +308,13 @@ const SignUP = () => {
   return (
     <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
       <View style={{}}>
-        <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: 'center',marginVertical:10 }}>
+        <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 10 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
           </TouchableOpacity>
           <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Create your Account</Text>
         </View>
-        <View style={{marginTop:15}}>
+        <View style={{ marginTop: 15 }}>
           <View style={styles.inputContainer}>
             <AntDesign name="user" size={22} color={COLOR.BLACK} style={styles.icon} />
 
