@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import NearbyYourLocation from '../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
 
 export const AppUrl =
@@ -131,6 +131,7 @@ export const NavigationScreens = {
   FacilityConnectStripeScreen: 'FacilityConnectStripe',
   FacilityHomeScreen: 'FacilityHomeScreen',
   FacilityFacilitiesScreen: 'FacilityFacilitiesScreen',
+  FacilityProductScreen: 'FacilityProductScreen',
   FacilityHistoryScreen: 'FacilityHistoryScreen',
   FacilityDetalisScreen: 'FacilityDetalisScreen',
   FacilitySettingScreen: 'FacilitySettingScreen',
@@ -188,14 +189,15 @@ export const NavigationScreens = {
   EventsDetailScreen: 'Events Detail Screen',
   PaymentMethodScreen: 'PaymentMethod Screen',
   LiveTrackingClientSideScreen: 'LiveTrackingClientSideScreen',
-  OrderProcessingScreenClientSideScreen: 'OrderProcessingScreenClientSideScreen',
+  OrderProcessingScreenClientSideScreen:
+    'OrderProcessingScreenClientSideScreen',
   HomeTab: 'Home Tab',
   SubCategoryScreen: 'Sub Category Screen',
   NewpasswordScreen: 'NewpasswordScreen',
   EditProfileScreen: 'Edit Profile Screen',
   ChangePasswordScreen: 'Change Password Screen',
   NotificationScreen: 'Notification Screen',
-  NewpasswordScreen: "NewpasswordScreen",
+  NewpasswordScreen: 'NewpasswordScreen',
   HaircutScreen: 'Haircut Screen',
   MackupScreen: 'Mackup Screen',
   ManicureScreen: 'Manicure Screen',
@@ -270,11 +272,8 @@ export const NavigationScreens = {
   FacilityProsaledetailsScreen: 'FacilityProsaledetailsScreen',
   FacilityCommissionsplitsScreen: 'FacilityCommissionsplitsScreen',
   FacilityNextpayoutScreen: 'FacilityNextpayoutScreen',
-  FacilityProfile2Screen: "FacilityProfile2Screen",
+  FacilityProfile2Screen: 'FacilityProfile2Screen',
 };
-
-
-
 
 export const label = {
   Exclusive: 'Exclusive',
