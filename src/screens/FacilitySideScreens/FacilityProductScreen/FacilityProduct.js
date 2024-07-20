@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useSelector} from 'react-redux';
@@ -12,36 +13,27 @@ import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
 
 const FacilityProduct = () => {
   const [rating, setRating] = useState(0);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [question, setQuestion] = useState(
     'How important is selling products to you?',
   );
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
 
-  //   useEffect(() => {
-  //     checkSubmission();
-  //   }, []);
-
-  //   const checkSubmission = async () => {
-  //     try {
-  //       const value = await AsyncStorage.getItem('@survey_submitted');
-  //       if (value !== null) {
-  //         setHasSubmitted(true);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error checking submission:', error);
-  //     }
-  //   };
-
   const handleSubmit = async () => {
     if (rating > 0) {
       try {
         await AsyncStorage.setItem('@survey_submitted', 'true');
-        setHasSubmitted(true);
         console.log('Submitted rating:', rating);
+        Alert.alert('Thank you for your feedback!');
+        // Reset the form after submission
+        setRating(0);
+        setQuestion('How important is selling products to you?');
       } catch (error) {
         console.error('Error saving submission:', error);
+        Alert.alert(
+          'Error',
+          'Failed to submit your feedback. Please try again.',
+        );
       }
     }
   };
@@ -101,11 +93,6 @@ const FacilityProduct = () => {
       fontSize: 18,
       fontWeight: 'bold',
     },
-    thankYouText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: COLOR.GREEN,
-    },
   });
 
   const renderStars = () => {
@@ -125,14 +112,6 @@ const FacilityProduct = () => {
     }
     return stars;
   };
-
-  if (hasSubmitted) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.thankYouText}>Thank you for your feedback!</Text>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
