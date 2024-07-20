@@ -19,10 +19,20 @@ const LiveTrackingClientSide = ({ route }) => {
   const navigation = useNavigation();
   const [recipientId, setRecipientId] = useState('');
   const [orderId, setOrderId] = useState('');
-
+  const [Prof_distance, setProf_distance] = useState('')
+  const [Prof_duration, setProf_duration] = useState('')
+  const [Client_distance, setClient_distance] = useState('')
+  const [Client_duration, setClient_duration] = useState('')
   const openBottomSheet = () => {
     refRBSheet?.current?.open();
   };
+
+  socketServices.on('Request_To_Start_Order', data => {
+    setRecipientId(data?.sender);
+    setOrderId(data.message.order_id);
+    openBottomSheet();
+
+  });
 
   const handleAccept = () => {
     navigation.navigate(NavigationScreens.OrderProcessingScreenClientSideScreen);
@@ -37,66 +47,54 @@ const LiveTrackingClientSide = ({ route }) => {
     });
   }
 
-  const handleNeedMoreTime = () => {
-    refRBSheet?.current?.close();
-    socketServices.emit('order_update', {
-      recipient: recipientId,
-      message: {
-        type: 'Need_More_Time_To_Process_Order',
-        id: recipientId,
-        order_id: orderId,
-      },
-    });
-  }
+  // const handleNeedMoreTime = () => {
+  //   refRBSheet?.current?.close();
+  //   socketServices.emit('order_update', {
+  //     recipient: recipientId,
+  //     message: {
+  //       type: 'Need_More_Time_To_Process_Order',
+  //       id: recipientId,
+  //       order_id: orderId,
+  //     },
+  //   });
+  // }
 
-  const handleCancelOrder = () => {
-    refRBSheet?.current?.close();
-    socketServices.emit('order_update', {
-      recipient: recipientId,
-      message: {
-        type: 'Cancel_Order_By_Client',
-        id: recipientId,
-        order_id: orderId,
-      },
-    });
-    setOrderCancelled(true);
-    Alert.alert(
-      "Order Cancelled",
-      "You have cancelled the order. A partial refund may be processed within 24 hours.",
-      [{ text: "OK", onPress: () => navigation.navigate(NavigationScreens.HomeTab) }]
-    );
-  }
+  // const handleCancelOrder = () => {
+  //   refRBSheet?.current?.close();
+  //   socketServices.emit('order_update', {
+  //     recipient: recipientId,
+  //     message: {
+  //       type: 'Cancel_Order_By_Client',
+  //       id: recipientId,
+  //       order_id: orderId,
+  //     },
+  //   });
+  //   setOrderCancelled(true);
+  //   Alert.alert(
+  //     "Order Cancelled",
+  //     "You have cancelled the order. A partial refund may be processed within 24 hours.",
+  //     [{ text: "OK", onPress: () => navigation.navigate(NavigationScreens.HomeTab) }]
+  //   );
+  // }
 
-  useEffect(() => {
-    const requestListener = socketServices.on('Request_To_Start_Order', data => {
-      setRecipientId(data?.sender);
-      setOrderId(data.message.order_id);
-      openBottomSheet();
+  // useEffect(() => {
 
-      if (data.message.requestCount === 3) {
-        Alert.alert(
-          "Last Reminder",
-          "This is your last chance to accept the order. If you don't accept within 5 minutes, the order will be cancelled.",
-          [{ text: "OK" }]
-        );
-      }
-    });
 
-    const cancelListener = socketServices.on('Cancel_Order', data => {
-      refRBSheet?.current?.close();
-      setOrderCancelled(true);
-      Alert.alert(
-        "Order Cancelled",
-        "Your order has been cancelled due to no response. A partial refund will be processed within 24 hours.",
-        [{ text: "OK", onPress: () => navigation.navigate(NavigationScreens.HomeTab) }]
-      );
-    });
+  //   const cancelListener = socketServices.on('Cancel_Order', data => {
+  //     refRBSheet?.current?.close();
+  //     setOrderCancelled(true);
+  //     Alert.alert(
+  //       "Order Cancelled",
+  //       "Your order has been cancelled due to no response. A partial refund will be processed within 24 hours.",
+  //       [{ text: "OK", onPress: () => navigation.navigate(NavigationScreens.HomeTab) }]
+  //     );
+  //   });
 
-    return () => {
-      socketServices.off('Request_To_Start_Order', requestListener);
-      socketServices.off('Cancel_Order', cancelListener);
-    };
-  }, []);
+  //   return () => {
+  //     socketServices.off('Request_To_Start_Order', requestListener);
+  //     socketServices.off('Cancel_Order', cancelListener);
+  //   };
+  // }, []);
 
   const styles = StyleSheet.create({
     container: {
@@ -127,6 +125,13 @@ const LiveTrackingClientSide = ({ route }) => {
       position: 'absolute',
       bottom: Screen_Height * 0.23,
       paddingHorizontal: 15
+    },
+    buttonContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: Screen_Width,
+      position: 'absolute',
+      bottom: Screen_Height * 0.11
     },
     infoBox: {
       backgroundColor: COLOR.ChartBlue,
@@ -219,6 +224,10 @@ const LiveTrackingClientSide = ({ route }) => {
           }}
           socketType={'Location_ChangeSP'}
           staticCoordinate={orderData?.message?.coordinates}
+          Prof_distance={setProf_distance}
+          Prof_duration={setProf_duration}
+          Client_distance={setClient_distance}
+          Client_duration={setClient_duration}
         />
       </View>
 
@@ -228,35 +237,35 @@ const LiveTrackingClientSide = ({ route }) => {
             <View style={[styles.infoColumn, styles.infoColumnYou]}>
               <Text style={styles.infoText}>YOU</Text>
               <View style={styles.infoRow}>
-                <Text style={styles.infoText}>28 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Client_distance).toFixed(2)}km</Text>
                 <AntDesign name="close" size={20} color={COLOR.WHITE} />
-                <Text style={styles.infoText}>11.8 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Client_duration).toFixed(2)}min</Text>
               </View>
             </View>
             <View style={[styles.infoColumn, styles.infoColumnProfessional]}>
               <Text style={styles.infoText}>PROFESSIONAL</Text>
               <View style={styles.infoRow}>
-                <Text style={styles.infoText}>28 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Prof_distance).toFixed(2)}km</Text>
                 <AntDesign name="close" size={20} color={COLOR.WHITE} />
-                <Text style={styles.infoText}>10.7 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Prof_duration).toFixed(2)}min</Text>
               </View>
             </View>
           </View>
-          <Text style={styles.meetupText}>You meetup at in at most 33 min</Text>
+          <Text style={styles.meetupText}>You meetup at in at most {parseFloat(Client_duration > Prof_duration ? Client_duration === 0 ? Client_duration : Client_duration + 5 : Prof_duration === 0 ? Prof_duration : Prof_duration + 5).toFixed(2)} min</Text>
         </View>
       </View>
 
-      {orderCancelled && (
-        <View style={styles.infoContainer}>
+      {/* {orderCancelled && (
+        <View style={styles.buttonContainer}>
           <Text style={styles.cancelText}>
             Order has been cancelled. A partial refund will be processed within 24 hours.
           </Text>
         </View>
-      )}
+      )} */}
 
       <RBSheet
         ref={refRBSheet}
-        height={Screen_Height * 0.35}
+        height={Screen_Height * 0.25}
         customStyles={{
           wrapper: {
             backgroundColor: COLOR.BLACK_40,
@@ -280,22 +289,21 @@ const LiveTrackingClientSide = ({ route }) => {
         customAvoidingViewProps={{
           enabled: false,
         }}>
-        {!orderCancelled && (
-          <View style={styles.bottomSheetContainer}>
-            <View style={styles.bottomSheetTitle}>
-              <Text style={styles.bottomSheetTitleText}>Professional requesting start order</Text>
-            </View>
-            <TouchableOpacity onPress={handleAccept} style={[styles.button, { backgroundColor: COLOR.ChartBlue }]}>
-              <Text style={styles.buttonText}>Start order</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleCancelOrder} style={[styles.button, { backgroundColor: COLOR.CANCEL_B }]}>
+
+        <View style={styles.bottomSheetContainer}>
+          <View style={styles.bottomSheetTitle}>
+            <Text style={styles.bottomSheetTitleText}>Professional requesting start order</Text>
+          </View>
+          <TouchableOpacity onPress={handleAccept} style={[styles.button, { backgroundColor: COLOR.ChartBlue }]}>
+            <Text style={styles.buttonText}>Start order</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={handleCancelOrder} style={[styles.button, { backgroundColor: COLOR.CANCEL_B }]}>
               <Text style={styles.buttonText}>Cancel order</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleNeedMoreTime} style={[styles.button, { backgroundColor: COLOR.ORANGECOLOR }]}>
               <Text style={styles.buttonText}>Need more time</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+            </TouchableOpacity> */}
+        </View>
       </RBSheet>
     </>
   )

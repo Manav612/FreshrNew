@@ -12,15 +12,23 @@ const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.04;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+
 const LiveTrackingMap = ({
     mapApiKey,
     onLocationChange,
     socketType,
     staticCoordinate,
+    isPro,
+    setVisible,
+    Prof_distance,
+    Prof_duration,
+    Client_distance,
+    Client_duration,
 }) => {
     const mapRef = useRef();
     const markerRef = useRef();
     const markerRefDestny = useRef();
+
 
     const duration = 7000;
 
@@ -156,13 +164,24 @@ const LiveTrackingMap = ({
                 })
             })
             isFirst && onCenter(latitude, longitude);
+            if (isPro) {
+                console.log(staticCoordinate, "asdasdsd", parseFloat(latitude).toFixed(2));
+                if (parseFloat(latitude).toFixed(2) == parseFloat(staticCoordinate[0]).toFixed(2) && parseFloat(longitude).toFixed(2) == parseFloat(staticCoordinate[1]).toFixed(2)) {
+
+                    setVisible(true);
+                }
+            }
         }
     }
 
     const getDestinationLocation = (latitude, longitude) => {
 
         // console.log(`Destination Location : ${latitude}, ${longitude}`);
-
+        if (isPro) {
+            if (parseFloat(latitude).toFixed(2) == parseFloat(staticCoordinate[0]).toFixed(2) && parseFloat(longitude).toFixed(2) == parseFloat(staticCoordinate[1]).toFixed(2)) {
+                setVisible(true);
+            }
+        }
         animateDestny(latitude, longitude);
 
         updateState({
@@ -225,6 +244,7 @@ const LiveTrackingMap = ({
         socketServices.on(socketType, data => {
             // console.log("Location Socket Call: ", data);
             const { latitude, longitude } = data.message.data;
+            console.log('Callllll : ', socketType);
             getDestinationLocation(latitude, longitude);
         });
 
@@ -308,15 +328,17 @@ const LiveTrackingMap = ({
                                 longitude: staticCoordinate[1],
                             }}
                             apikey={mapApiKey}
-                            strokeWidth={3}
+                            strokeWidth={5}
                             strokeColor="#0000ff"
                             optimizeWaypoints={true}
                             onStart={(params) => {
-                                console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+                                console.log(`Started routing between client ================"${params.origin}" and "${params.destination}"`);
                             }}
                             onReady={result => {
-                                console.log(`Distance: ${result.distance} km`)
-                                console.log(`Duration: ${result.duration} min.`)
+                                Client_distance(result.distance)
+                                Client_duration(result.duration)
+                                console.log(`Distance client ==================: ${result.distance} km`)
+                                console.log(`Duration client =================: ${result.duration} min.`)
                                 fetchTime(result.distance, result.duration),
                                     mapRef.current.fitToCoordinates(result.coordinates, {
                                         edgePadding: {
@@ -333,7 +355,7 @@ const LiveTrackingMap = ({
                         />
                     }
 
-{
+                    {
                         staticCoordinate && staticCoordinate.length > 0 && Object.keys(destinationLoc).length > 0 &&
                         <MapViewDirections
                             origin={destinationLoc}
@@ -346,11 +368,13 @@ const LiveTrackingMap = ({
                             strokeColor="#ff0000"
                             optimizeWaypoints={true}
                             onStart={(params) => {
-                                console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+                                console.log(`Started routing between prof ================== "${params.origin}" and "${params.destination}"`);
                             }}
                             onReady={result => {
-                                console.log(`Distance: ${result.distance} km`)
-                                console.log(`Duration: ${result.duration} min.`)
+                                Prof_distance(result.distance)
+                                Prof_duration(result.duration)
+                                console.log(`Distance  =============== : ${result.distance} km`)
+                                console.log(`Duration prof ======prof============== : ${result.duration} min.`)
                                 fetchTime(result.distance, result.duration),
                                     mapRef.current.fitToCoordinates(result.coordinates, {
                                         edgePadding: {

@@ -14,19 +14,21 @@ const LiveTrackingProfSide = ({ route }) => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const { orderData } = route.params;
   const navigation = useNavigation();
-  const [requestCount, setRequestCount] = useState(0);
-  const [orderCancelled, setOrderCancelled] = useState(false);
-  const timeoutRef = useRef(null);
-  const [timeRemaining, setTimeRemaining] = useState(10);
+  const [btnVisible, setBtnVisibility] = useState(false);
+  const [Prof_distance, setProf_distance] = useState('')
+  const [Prof_duration, setProf_duration] = useState('')
+  const [Client_distance, setClient_distance] = useState('')
+  const [Client_duration, setClient_duration] = useState('')
+  // const [requestCount, setRequestCount] = useState(0);
+  // const [orderCancelled, setOrderCancelled] = useState(false);
+  // const timeoutRef = useRef(null);
+  // const [timeRemaining, setTimeRemaining] = useState(10);
 
-  const onRequestToStartOrder = (isManual = true) => {
-    if (requestCount >= 2) {
-      cancelOrder();
-      return;
-    }
-
-    const newRequestCount = requestCount + 1;
-    setRequestCount(newRequestCount);
+  socketServices.on('Accept_To_Process_Order', data => {
+    navigation.navigate(NavigationScreens.OrderProcessingScreenProfSideScreen, { data });
+  });
+  console.log(btnVisible);
+  const handleRequest = () => {
 
     socketServices.emit('order_update', {
       recipient: orderData.sender,
@@ -34,68 +36,56 @@ const LiveTrackingProfSide = ({ route }) => {
         type: 'Request_To_Start_Order',
         id: orderData.id,
         order_id: orderData.order_id,
-        requestCount: newRequestCount,
+
       },
     });
-
-    if (!isManual) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => {
-      if (!orderCancelled) {
-        onRequestToStartOrder(false);
-      }
-    }, 15000);
-
-    setTimeRemaining(10);
   }
 
-  const cancelOrder = () => {
-    clearTimeout(timeoutRef.current);
-    socketServices.emit('order_update', {
-      recipient: orderData.sender,
-      message: {
-        type: 'Cancel_Order',
-        id: orderData.id,
-        order_id: orderData.order_id,
-      },
-    });
-    setOrderCancelled(true);
-    Alert.alert(
-      "Order Cancelled",
-      "The order has been cancelled due to no response from the client.",
-      [{ text: "OK", onPress: () => navigation.navigate(NavigationScreens.ProfessionalBottomTab) }]
-    );
-  }
+  // const onRequestToStartOrder = (isManual = true) => {
+  //   if (requestCount >= 2) {
+  //     cancelOrder();
+  //     return;
+  //   }
 
-  useEffect(() => {
-    const acceptListener = socketServices.on('Accept_To_Process_Order', data => {
-      navigation.navigate(NavigationScreens.OrderProcessingScreenProfSideScreen, { data });
-    });
+  //   const newRequestCount = requestCount + 1;
+  //   setRequestCount(newRequestCount);
 
-    const needMoreTimeListener = socketServices.on('Need_More_Time_To_Process_Order', data => {
-      Alert.alert("Client Needs More Time", "The client has requested more time before starting the order.");
-    });
 
-    return () => {
-      clearTimeout(timeoutRef.current);
-      socketServices.off('Accept_To_Process_Order', acceptListener);
-      socketServices.off('Need_More_Time_To_Process_Order', needMoreTimeListener);
-    };
-  }, []);
 
-  useEffect(() => {
-    let timer;
-    if (timeRemaining > 0 && !orderCancelled) {
-      timer = setInterval(() => {
-        setTimeRemaining(prevTime => prevTime - 1);
-      }, 1000);
-    } else if (!orderCancelled) {
-      setTimeRemaining(10);
-    }
 
-    return () => clearInterval(timer);
-  }, [timeRemaining, orderCancelled]);
+  // const cancelOrder = () => {
+  //   clearTimeout(timeoutRef.current);
+  //   socketServices.emit('order_update', {
+  //     recipient: orderData.sender,
+  //     message: {
+  //       type: 'Cancel_Order',
+  //       id: orderData.id,
+  //       order_id: orderData.order_id,
+  //     },
+  //   });
+  //   setOrderCancelled(true);
+  //   Alert.alert(
+  //     "Order Cancelled",
+  //     "The order has been cancelled due to no response from the client.",
+  //     [{ text: "OK", onPress: () => navigation.navigate(NavigationScreens.ProfessionalBottomTab) }]
+  //   );
+  // }
+
+  // useEffect(() => {
+
+
+  //   const needMoreTimeListener = socketServices.on('Need_More_Time_To_Process_Order', data => {
+  //     Alert.alert("Client Needs More Time", "The client has requested more time before starting the order.");
+  //   });
+
+  //   return () => {
+  //     clearTimeout(timeoutRef.current);
+  //     socketServices.off('Accept_To_Process_Order', acceptListener);
+  //     socketServices.off('Need_More_Time_To_Process_Order', needMoreTimeListener);
+  //   };
+  // }, []);
+
+
 
   const styles = StyleSheet.create({
     container: {
@@ -202,6 +192,7 @@ const LiveTrackingProfSide = ({ route }) => {
         <LiveTrackingMap
           mapApiKey={'AIzaSyDjksmogYn7mFtMJFw-eNFsoCuHGM87-j8'}
           onLocationChange={(data) => {
+            console.log("Sender : ", JSON.stringify(orderData));
             socketServices.emit('order_update', {
               recipient: orderData.sender,
               message: {
@@ -213,7 +204,13 @@ const LiveTrackingProfSide = ({ route }) => {
             });
           }}
           socketType={'Location_ChangeCLI'}
-          staticCoordinate={orderData?.coordinates}
+          staticCoordinate={orderData?.message?.id?.message?.coordinates}
+          isPro
+          setVisible={setBtnVisibility}
+          Prof_distance={setProf_distance}
+          Prof_duration={setProf_duration}
+          Client_distance={setClient_distance}
+          Client_duration={setClient_duration}
         />
       </View>
 
@@ -223,48 +220,47 @@ const LiveTrackingProfSide = ({ route }) => {
             <View style={[styles.infoColumn, styles.infoColumnYou]}>
               <Text style={styles.infoText}>YOU</Text>
               <View style={styles.infoRow}>
-                <Text style={styles.infoText}>28 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Prof_distance).toFixed(2)}km</Text>
                 <AntDesign name="close" size={20} color={COLOR.WHITE} />
-                <Text style={styles.infoText}>11.8 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Prof_duration).toFixed(2)}min</Text>
               </View>
             </View>
             <View style={[styles.infoColumn, styles.infoColumnClient]}>
               <Text style={styles.infoText}>Client</Text>
               <View style={styles.infoRow}>
-                <Text style={styles.infoText}>28 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Client_distance).toFixed(2)}km</Text>
                 <AntDesign name="close" size={20} color={COLOR.WHITE} />
-                <Text style={styles.infoText}>10.7 min</Text>
+                <Text style={styles.infoText}>{parseFloat(Client_duration).toFixed(2)}min</Text>
               </View>
             </View>
           </View>
-          <Text style={styles.meetupText}>You meetup at in at most 33 min</Text>
+          <Text style={styles.meetupText}>You meetup at in atmost {parseFloat(Client_duration > Prof_duration ? Client_duration === 0 ? Client_duration : Client_duration + 5 : Prof_duration === 0 ? Prof_duration : Prof_duration + 5).toFixed(2)} min</Text>
         </View>
       </View>
 
-      {!orderCancelled && (
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => onRequestToStartOrder(true)}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>
-              {requestCount === 2 ? "Last reminder: Request to Start order" :
-                requestCount === 1 ? "Re-send Request to Start order" :
-                  "Request to Start order"}
-            </Text>
-            <Text style={styles.buttonText}>
-              ({timeRemaining}s)
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      {orderCancelled && (
+
+      <View style={styles.buttonContainer}>
+        {btnVisible && <TouchableOpacity
+          onPress={handleRequest}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>
+
+            Request to Start order
+          </Text>
+          <Text style={styles.buttonText}>
+
+          </Text>
+        </TouchableOpacity>}
+      </View>
+
+      {/* {orderCancelled && (
         <View style={styles.buttonContainer}>
           <Text style={styles.cancelText}>
             Order has been cancelled due to no response from the client.
           </Text>
         </View>
-      )}
+      )} */}
     </>
   )
 }

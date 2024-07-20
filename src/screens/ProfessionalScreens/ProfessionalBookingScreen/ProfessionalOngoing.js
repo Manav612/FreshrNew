@@ -102,6 +102,7 @@ const ProfessionalOngoing = ({
   };
 
   const PutData = async (data) => {
+    console.log("---------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>...", data);
     navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
 
     console.log(JSON.stringify(data));

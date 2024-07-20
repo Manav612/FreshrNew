@@ -53,8 +53,8 @@ const ReviewSummary = ({ route }) => {
       recipient: OrderData.sender,
       message: {
         type: 'payment_Done_close',
-        id: OrderData.message.orderDetail,
-        // order_id: OrderData.message.order_id,
+        id: OrderData,
+        // order_id: OrderData.mesage.orsder_id,
         // coordinates: OrderData.message.coordinates,
         // orderData: OrderData.message.orderData,
       },

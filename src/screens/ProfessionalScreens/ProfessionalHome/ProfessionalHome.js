@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,12 +18,15 @@ import FastImage from 'react-native-fast-image';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
+import socketServices from '../../../Services/Socket';
+import { showModal } from '../../../redux/modalAction';
 
 
 const ProfessionalHome = () => {
     const navigation = useNavigation();
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+    const dispatch = useDispatch()
     const inSalonData = [
         { value: 100, label: 'May' },
         { value: 600, label: 'Jun' },
@@ -57,6 +60,25 @@ const ProfessionalHome = () => {
         label: (currentYear - i).toString(),
         value: currentYear - i,
     }));
+
+    useEffect(() => {
+        // console.log('Setting up socket listener');
+        // socketServices.on('create_order', data => {
+        //     console.log('Received create_order event:', data);
+        //     try {
+        //         console.log('Attempting to show modal');
+        //         dispatch(showModal(data.message.data.order));
+        //         console.log('Modal action dispatched');
+        //     } catch (error) {
+        //         console.error('Error showing modal:', error);
+        //     }
+        // });
+
+        // return () => {
+        //     console.log('Cleaning up socket listener');
+        //     socketServices.off('create_order');
+        // };
+    }, []);
 
     useEffect(() => {
         getUserInfo()
@@ -392,3 +414,4 @@ const ProfessionalHome = () => {
 
 
 export default ProfessionalHome;
+

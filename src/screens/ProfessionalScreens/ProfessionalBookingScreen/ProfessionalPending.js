@@ -103,8 +103,9 @@ const ProfessionalPending = () => {
 
     useEffect(() => {
         socketServices.on('payment_Done_close', data => {
-            console.log('==== payment done ======', data);
+            console.log('==== payment done      ====================', data.message.id.message);
             closeBottomSheet()
+            navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
         });
     }, []);
 
@@ -124,9 +125,6 @@ const ProfessionalPending = () => {
             })
             // setModalVisible(true); // Open the modal when a new order is received
         });
-
-        // Don't forget to remove the event listener when the component unmounts
-
     }, []);
 
     const onRefresh = React.useCallback(() => {

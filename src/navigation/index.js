@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {NavigationScreens} from '../constants/Strings';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { NavigationScreens } from '../constants/Strings';
 import BottomTab from './BottomTab/BottomTab';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
-import {useDispatch} from 'react-redux';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import { useDispatch } from 'react-redux';
 import SplashScreen from '../screens/OnBoardingScreens/SplashScreen/SplashScreen';
 import WelcomeOnboardScreen from '../screens/OnBoardingScreens/WelcomeOnboardScreen/WelcomeOnboardScreen';
 import SignUP from '../screens/OnBoardingScreens/SignUpScreen/SignUP';
@@ -31,6 +31,8 @@ import ProfessionalGalleryScreen from '../components/ProfessionalSalonDetailScre
 import ProfessionalPackageScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalPackageScreen';
 import ProfessionalReviewScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalReviewScreen';
 import ProfessionalServicesScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalServicesScreen';
+import LiveTrackingProfSide from '../components/ProfessionalComponents/LiveTrackingProfSide';
+import OrderProcessingScreenProfSide from '../components/ProfessionalComponents/OrderProcessingScreenProfSide';
 
 
 
@@ -152,6 +154,8 @@ const NavigationHandler = () => {
           name={NavigationScreens.ProfessionalBottomTab}
           component={ProfessionalBottomTab}
         />
+        <Stack.Screen name={NavigationScreens.LiveTrackingProfSideScreen} component={LiveTrackingProfSide} />
+        <Stack.Screen name={NavigationScreens.OrderProcessingScreenProfSideScreen} component={OrderProcessingScreenProfSide} />
         <Stack.Screen
           name={NavigationScreens.FacilityBottomTab}
           component={FacilityBottomTab}

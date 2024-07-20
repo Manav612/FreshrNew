@@ -157,6 +157,7 @@ const Delivery = () => {
           'Authorization': `Bearer ${authToken}`
         }
       }
+
       const res = await axios.get(`${BASE_API_URL}/services/services-within/1000/center/${lat},${lng}/unit/mi/all/all/all/all/1/1000/`, config);
       console.log('========    delivery  ============', res.data.data.professionals);
       setFetchedDeliveryData(res.data.data.professionals);

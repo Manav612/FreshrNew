@@ -47,21 +47,23 @@ const SignIn = () => {
 
     const fetchData = async () => {
         console.log("=======  clickkkkk    ============");
+        setLoader(true);
         try {
             const response = await axios.post(
                 `${BASE_API_URL}/users/emailcheck`,
                 { email },
                 // { timeout: 5000 } // 5 second timeout
             );
-            // setLoader(true);
             console.log("=========   res data   ======", response.data);
             if (response.data.status === 'success') {
-
+                setLoader(false);
                 navigation.navigate(NavigationScreens.PasswordAndOtpScreen, { email: email });
             }
 
         } catch (error) {
             console.error("Error during email check:", error);
+            setLoader(false);
+
             if (error.code === 'ECONNABORTED') {
                 setErrorMessage("Request timed out. Please check your internet connection and try again.");
             } else {

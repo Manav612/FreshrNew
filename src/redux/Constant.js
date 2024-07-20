@@ -9,3 +9,6 @@ export const Fetch_Services_Data_Screen = "FetchServicesData";
 export const Update_Services_Data_Screen = "UpdateServicesData";
 export const Remove_One_Services_Data_Screen = "RemoveOneServicesData";
 export const Address = "Address";
+
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const HIDE_MODAL = 'HIDE_MODAL';
