@@ -46,6 +46,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import { BASE_API_URL } from '../../Services';
 import axios from 'axios';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -178,6 +179,7 @@ export default ProfessionalBottomTab = ({ route }) => {
     const refRBSheet = useRef();
     const authToken = useSelector(state => state.AuthReducer);
     const [id, setId] = useState('');
+    const [service, setServices] = useState([])
     const openBottomSheet = () => {
         refRBSheet?.current?.open();
     };
@@ -239,6 +241,7 @@ export default ProfessionalBottomTab = ({ route }) => {
                         order_id: orderId,
                         coordinates: coordinates,
                         orderData: res.data.data,
+                        services: service
                     },
                 });
                 setOrderData({});
@@ -298,6 +301,10 @@ export default ProfessionalBottomTab = ({ route }) => {
             // backgroundColor: COLOR.ROYALBLUE,
 
         },
+        bottomSheetContainer: {
+            paddingHorizontal: 15,
+            marginVertical: 10
+        },
 
         modalContainer: {
             flex: 1,
@@ -319,7 +326,7 @@ export default ProfessionalBottomTab = ({ route }) => {
             color: COLOR.BLACK
         },
     });
-
+    // console.log("===========            service             =======", service);
     useEffect(() => {
         console.log('Setting up socket listener');
         socketServices.on('create_order', data => {
@@ -328,7 +335,10 @@ export default ProfessionalBottomTab = ({ route }) => {
                 setOrderData({
                     order_id: data.message.data.order.id,
                     coordinates: data.message.data.order.address?.coordinates,
+                    services: data.message.service
                 })
+                setServices(data.message.service)
+
             } catch (error) {
                 console.error('Error showing modal:', error);
             }
@@ -376,6 +386,7 @@ export default ProfessionalBottomTab = ({ route }) => {
                 setVisibility={setOrderData}
                 onAccept={onAccept}
                 onReject={onReject}
+                services={service}
             />
             <RBSheet
                 ref={refRBSheet}
@@ -405,10 +416,15 @@ export default ProfessionalBottomTab = ({ route }) => {
                 }}>
 
                 <View style={styles.bottomSheetContainer}>
-                    <View style={styles.bottomSheetTitle}>
-                        <Text style={styles.bottomSheetTitleText}>Please wait for client's payment</Text>
+                    <View style={{ width: 40, height: 4, borderRadius: 10, alignSelf: 'center', marginVertical: 5, backgroundColor: COLOR.BLACK }} />
+                    <TouchableOpacity onPress={closeBottomSheet} style={{ position: 'absolute', right: 15, top: 0 }}>
+                        <AntDesign name="closecircleo" size={25} color={COLOR.BLACK} />
+                    </TouchableOpacity>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', height: Screen_Height * 0.25 }}>
+                        <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 20 }}>Please wait for client's payment</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 30, textAlign: 'center' }}>{formatTime(timeLeft)}</Text>
                     </View>
-                    <Text style={{ color: COLOR.BLACK, fontSize: 22, textAlign: 'center', marginVertical: 10 }}>{formatTime(timeLeft)}</Text>
+
 
                 </View>
             </RBSheet>

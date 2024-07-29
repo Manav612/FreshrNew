@@ -43,7 +43,6 @@ const Category = () => {
         }
       };
       const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities`, config);
-      console.log('=====================.........', res.data.facilities.facility)
       setFetchedData(res.data.facilities.facility);
     } catch (error) {
       console.error("Error:", error);

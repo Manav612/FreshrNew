@@ -33,6 +33,7 @@ import ProfessionalReviewScreen from '../components/ProfessionalSalonDetailScree
 import ProfessionalServicesScreen from '../components/ProfessionalSalonDetailScreen/ProfessionalServicesScreen';
 import LiveTrackingProfSide from '../components/ProfessionalComponents/LiveTrackingProfSide';
 import OrderProcessingScreenProfSide from '../components/ProfessionalComponents/OrderProcessingScreenProfSide';
+import MapScreen from '../screens/MapScreen';
 
 
 
@@ -71,10 +72,10 @@ const NavigationHandler = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        {/* <Stack.Screen
-          name={'Services'}
-          component={Services}
-        /> */}
+        {/* <Stack.Screen name='map' component={MapScreen} /> */}
+        {/* <Stack.Screen name={NavigationScreens.LiveTrackingProfSideScreen} component={LiveTrackingProfSide} /> */}
+
+
         <Stack.Screen
           name={NavigationScreens.SplashScreen}
           component={SplashScreen}

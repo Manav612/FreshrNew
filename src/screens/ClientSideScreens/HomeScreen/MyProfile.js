@@ -107,8 +107,8 @@ const MyProfile = () => {
     {
       id: 11,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
-      // name:user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
-      name: 'Switch to Professionals',
+      name: user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
+      // name: 'Switch to Professionals',
 
       icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
@@ -116,8 +116,8 @@ const MyProfile = () => {
     {
       id: 12,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
-      // name:user.isHost ? 'Switch to Host':'Become to Host',
-      name: 'Switch to Host',
+      name: user.isHost ? 'Switch to Host' : 'Become to Host',
+      // name: 'Switch to Host',
       icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
   ];

@@ -320,7 +320,6 @@ const OrderProcessingScreenClientSide = () => {
   };
 
   socketServices.on('Request_To_End_Order', data => {
-    console.log("END ORDER Calllllllllllllll: ", data);
     setAccept(data.sender);
     setOrderId(data.message.order_id);
     getOneOrder(data.message.order_id);
@@ -375,7 +374,6 @@ const OrderProcessingScreenClientSide = () => {
         },
       };
       const res = await axios.get(`${BASE_API_URL}/orders/${id}`, config);
-      console.log('===========  our orderrrrr  ==========', res.data.data)
       setGetOneOrder(res.data.data);
     } catch (error) {
       console.error("Error:", error);
@@ -384,7 +382,6 @@ const OrderProcessingScreenClientSide = () => {
 
   const ReviewData = async () => {
     try {
-      console.log('==========>', authToken);
       const config = {
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -406,14 +403,14 @@ const OrderProcessingScreenClientSide = () => {
         config,
       );
 
-      console.log('Response data:', res.data);
-      console.log('Response status:', res.status);
+
 
       if (res.data.status === 'success') {
         navigation.navigate(NavigationScreens.HomeScreen)
         Alert.alert('Review added successfully');
       } else {
-        Alert.alert(res.data.message);
+        Alert.alert("technial error", res.data.message);
+        navigation.navigate(NavigationScreens.HomeScreen)
       }
     } catch (error) {
       console.error('Error:', error);
@@ -525,7 +522,7 @@ const OrderProcessingScreenClientSide = () => {
               <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Accept complete order</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onUnhappyPress} style={{ backgroundColor: COLOR.ORANGECOLOR, height: 50, width: Screen_Width * 0.6, borderRadius: 30, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Unhappy</Text>
+              <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Not satisfied</Text>
             </TouchableOpacity>
           </>
         )}

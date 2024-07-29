@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Zocial from 'react-native-vector-icons/Zocial';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -7,22 +7,29 @@ import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
-import FastImage from 'react-native-fast-image';
-import { Successful } from '../../../constants/Icons';
 
-const PaymentMethod = ({route}) => {
+const PaymentMethod = ({ route }) => {
     const navigation = useNavigation();
-    const {services,address,data} = route.params
+    const { services, address, data } = useMemo(() => route.params, [route.params]);
     const [bookmarkStatus, setBookmarkStatus] = useState(false);
     const theme = useSelector(state => state.ThemeReducer);
-    const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-    const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-    console.log("=======  data socket    =======",data);
-  
 
-    const toggleBookmarkStatus = () => {
+    const COLOR = useMemo(() => theme == 1 ? COLOR_DARK : COLOR_LIGHT, [theme]);
+    const COLOR1 = useMemo(() => theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT, [theme]);
+
+    console.log("=======  data socket    =======", data);
+
+    const toggleBookmarkStatus = useCallback(() => {
         setBookmarkStatus(prevState => !prevState);
-    };
+    }, []);
+
+    const navigateToReviewSummary = useCallback(() => {
+        navigation.navigate('ReviewSummary Screen', {
+            services: services,
+            address: address,
+            OrderData: data
+        });
+    }, [navigation, services, address, data]);
 
     return (
         <ScrollView>
@@ -31,7 +38,7 @@ const PaymentMethod = ({route}) => {
                     <AntDesign onPress={() => navigation.goBack()} name="arrowleft" size={30} color="black" />
                     <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Payment Method</Text>
                 </View>
-               
+
                 <View style={{ backgroundColor: COLOR.WHITE, height: 70, borderRadius: 10, paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 20 }}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
                         <Zocial name="stripe" size={30} color={COLOR.BLUE} />
@@ -46,12 +53,10 @@ const PaymentMethod = ({route}) => {
                 </View>
 
                 <View style={{ alignSelf: 'center', position: 'absolute', bottom: 0 }}>
-                   
-                    <TouchableOpacity onPress={()=>navigation.navigate('ReviewSummary Screen',{services:services,address:address,OrderData:data})} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15, width: Screen_Width * 0.90 }}>
+                    <TouchableOpacity onPress={navigateToReviewSummary} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15, width: Screen_Width * 0.90 }}>
                         <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '800' }}>Continue</Text>
                     </TouchableOpacity>
                 </View>
-                
             </View>
         </ScrollView>
     );

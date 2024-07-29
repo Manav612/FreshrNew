@@ -161,7 +161,6 @@ const OurServices = ({ route }) => {
       (error) => {
         console.error("Error:", error);
         setLoading(false);
-        setError("Failed to get location. Please try again.");
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
@@ -277,8 +276,11 @@ const OurServices = ({ route }) => {
             data: {
               order: res.data.order,
             },
+            service: selected
           },
         });
+        console.log("==================      selectedddddddd       ====================", selected);
+
       } else {
         Alert.alert(res.data.message);
       }
@@ -525,7 +527,7 @@ const OurServices = ({ route }) => {
         onRequestClose={() => setModalVisible(false)}>
         <View style={{ width: Screen_Width, height: Screen_Height, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.BLACK_40 }}>
           <View style={{ width: Screen_Width * 0.8, height: Screen_Height * 0.6, borderRadius: 15, backgroundColor: COLOR.WHITE, shadowColor: COLOR.BLACK, elevation: 3, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ textAlign: 'center', color: COLOR.BLACK, fontWeight: '600', fontSize: 20, }}>Select other professional</Text>
+            <Text style={{ textAlign: 'center', color: COLOR.BLACK, fontWeight: '600', fontSize: 20, marginTop: 20 }}>Select other professional</Text>
             <TouchableOpacity onPress={() => setModalVisible(false)} style={{ position: 'absolute', right: 1, top: 0 }}>
               <AntDesign name="closecircle" size={30} color={COLOR.BLACK} />
             </TouchableOpacity>

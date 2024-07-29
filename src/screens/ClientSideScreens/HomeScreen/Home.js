@@ -1,5 +1,5 @@
 
-import { ScrollView, StyleSheet, Text, View, FlatList, PermissionsAndroid, Image, TextInput, TouchableOpacity, RefreshControl, Dimensions, Platform } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, FlatList, PermissionsAndroid, Image, TextInput, Modal, TouchableOpacity, RefreshControl, Dimensions, Platform } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,6 +32,7 @@ const Home = () => {
   const navigation = useNavigation();
   const [user, setUser] = useState('');
   const [address, setAddress] = useState('');
+  const [modalVisible, setModalVisible] = useState(true);
 
   const [refreshing, setRefreshing] = useState(false);
   const [fetchedData, setFetchedData] = useState('');
@@ -40,7 +41,18 @@ const Home = () => {
   const mapRef = useRef();
   const formattedAddress = useSelector(state => state.AddressReducer);
   const dispatch = useDispatch();
+  const theme = useSelector(state => state.ThemeReducer);
+  const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
+  const [activeTab, setActiveTab] = useState('Delivery');
 
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   useEffect(() => {
     getUserInfo()
@@ -76,11 +88,6 @@ const Home = () => {
     getUserInfo().then(() => setRefreshing(false));
   }, []);
 
-  const theme = useSelector(state => state.ThemeReducer);
-  const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-  const [activeTab, setActiveTab] = useState('Delivery');
-
   const styles = StyleSheet.create({
     CategoryContainer: {
       borderWidth: 2,
@@ -103,6 +110,37 @@ const Home = () => {
     SelectedCategorytext: {
       color: COLOR.WHITE,
     },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalView: {
+      height: Screen_Height * 0.3,
+      width: Screen_Width * 0.8,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      paddingHorizontal: 15,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    modalText: {
+      marginBottom: 25,
+      textAlign: 'center',
+      fontSize: 25,
+      fontWeight: '900',
+      color: 'black',
+    },
+
   });
 
   const fullName = `${user?.firstName} ${user?.lastName}`.trim();
@@ -258,6 +296,30 @@ const Home = () => {
       </View>
       {activeTab === 'Delivery' ? <Delivery /> : <Salon />
       }
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Complete your kyc verification</Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: COLOR.ORANGECOLOR,
+                width: Screen_Width * 0.5,
+                borderRadius: 35,
+                height: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={closeModal}>
+              <Text style={{ color: COLOR.WHITE, fontSizeL: 16 }}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <View style={{}}>
         <RBSheet
           ref={(ref) => (refRBSheet.current[0] = ref)}
