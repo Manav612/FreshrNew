@@ -1,4 +1,4 @@
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import NearbyYourLocation from '../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
 
 export const AppUrl =
@@ -158,6 +158,9 @@ export const NavigationScreens = {
   ForgotPasswordScreen: 'Forgot Password Screen',
   OTPScreen: 'OTPScreen',
   OurServicesScreen: 'OurServices Screen',
+  PendingScreen: 'PendingScreen',
+  OngoingScreen: 'OngoingScreen',
+  HistoryScreen: 'HistoryScreen',
   ReserveNowServicesScreen: 'ReserveNowServicesScreen',
   ServiceDetailsScreen: 'ServiceDetails Screen',
   OurpackagesScreen: 'Ourpackages Screen',
@@ -182,6 +185,7 @@ export const NavigationScreens = {
   MenuScreen: 'Menu Screen',
   ExploreScreen: 'Explore',
   MyBookingScreen: 'My Booking',
+  MyBookingStack: 'MyBookingStack',
   InboxScreen: 'Inbox',
   ChatScreen: 'Chat Screen',
   ProfileScreen: 'Profile',

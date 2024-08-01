@@ -230,7 +230,8 @@ export default ProfessionalBottomTab = ({ route }) => {
                 //     paymentKey: res.data.data.order.paymentKey,
                 //   },
                 // });
-                openBottomSheet()
+                // openBottomSheet()7
+
 
                 socketServices.emit('order_update', {
                     recipient: res.data.data.order.client.id,
@@ -417,9 +418,9 @@ export default ProfessionalBottomTab = ({ route }) => {
 
                 <View style={styles.bottomSheetContainer}>
                     <View style={{ width: 40, height: 4, borderRadius: 10, alignSelf: 'center', marginVertical: 5, backgroundColor: COLOR.BLACK }} />
-                    <TouchableOpacity onPress={closeBottomSheet} style={{ position: 'absolute', right: 15, top: 0 }}>
+                    {/* <TouchableOpacity onPress={closeBottomSheet} style={{ position: 'absolute', right: 15, top: 0 }}>
                         <AntDesign name="closecircleo" size={25} color={COLOR.BLACK} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <View style={{ justifyContent: 'center', alignItems: 'center', height: Screen_Height * 0.25 }}>
                         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 20 }}>Please wait for client's payment</Text>
                         <Text style={{ color: COLOR.BLACK, fontSize: 30, textAlign: 'center' }}>{formatTime(timeLeft)}</Text>

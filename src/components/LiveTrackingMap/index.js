@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform, Image } from 'react-native';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { getCurrentLocation, locationPermission } from './helperFunction';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import socketServices from '../../Services/Socket';
+import FastImage from 'react-native-fast-image';
+import { barber, Client, ClientWhite, ComeToYouOrange, ComeToYouWhite, InSalonOrange, InSalonWhite } from '../../constants/Icons';
+import { useSelector } from 'react-redux';
+import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -28,7 +32,8 @@ const LiveTrackingMap = ({
     const mapRef = useRef();
     const markerRef = useRef();
     const markerRefDestny = useRef();
-
+    const theme = useSelector(state => state.ThemeReducer);
+    const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
 
     const duration = 7000;
 
@@ -268,6 +273,7 @@ const LiveTrackingMap = ({
                     pitchEnabled={true}
                     rotateEnabled={true}
                     customMapStyle={mapStyle}
+                    mapType='terrain'
                 >
 
                     {
@@ -280,11 +286,9 @@ const LiveTrackingMap = ({
                             title={'Static Marker'}
                             tracksViewChanges={false}
                         >
-                            <Icon
-                                size={40}
-                                name='location'
-                                color={'#fff000'}
-                            />
+                            <View style={{ height: 30, width: 30, backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                                <Image style={{ height: 20, width: 20 }} source={InSalonWhite} resizeMode='contain' />
+                            </View>
                         </Marker>
                     }
 
@@ -295,11 +299,9 @@ const LiveTrackingMap = ({
                         // description={`${curLoc.latitude}, ${curLoc.longitude}`}
                         tracksViewChanges={false}
                     >
-                        <Icon
-                            size={40}
-                            name='location'
-                            color={'#000'}
-                        />
+                        <View style={{ height: 30, width: 30, backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                            <Image style={{ height: 20, width: 20 }} source={ClientWhite} resizeMode='contain' />
+                        </View>
                     </Marker.Animated>
 
                     {
@@ -311,11 +313,9 @@ const LiveTrackingMap = ({
                             // description={`${destinationLoc.latitude}, ${destinationLoc.longitude}`}
                             tracksViewChanges={false}
                         >
-                            <Icon
-                                size={40}
-                                name='location'
-                                color={'#ff0000'}
-                            />
+                            <View style={{ height: 30, width: 30, backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                                <Image style={{ height: 20, width: 20 }} source={ComeToYouWhite} resizeMode='contain' />
+                            </View>
                         </Marker.Animated>
                     }
 
@@ -329,7 +329,7 @@ const LiveTrackingMap = ({
                             }}
                             apikey={mapApiKey}
                             strokeWidth={5}
-                            strokeColor="#0000ff"
+                            strokeColor={COLOR.ORANGECOLOR}
                             optimizeWaypoints={true}
                             onStart={(params) => {
                                 console.log(`Started routing between client ================"${params.origin}" and "${params.destination}"`);
@@ -365,7 +365,7 @@ const LiveTrackingMap = ({
                             }}
                             apikey={mapApiKey}
                             strokeWidth={3}
-                            strokeColor="#ff0000"
+                            strokeColor={COLOR.ChartBlue}
                             optimizeWaypoints={true}
                             onStart={(params) => {
                                 console.log(`Started routing between prof ================== "${params.origin}" and "${params.destination}"`);

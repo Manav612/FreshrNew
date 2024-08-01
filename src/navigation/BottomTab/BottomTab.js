@@ -1,5 +1,5 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationScreens} from '../../constants/Strings';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationScreens } from '../../constants/Strings';
 import React from 'react';
 import TabBar from './TabBar';
 import {
@@ -15,7 +15,7 @@ import {
   LocationIcon,
   UserIcon,
 } from '../../constants/Icons';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import Home from '../../screens/ClientSideScreens/HomeScreen/Home';
 import Explore from '../../screens/ClientSideScreens/ExploreScreen/Explore';
 import MyBooking from '../../screens/ClientSideScreens/MyBookingScreen/MyBooking';
@@ -65,6 +65,9 @@ import Schedulesalon from '../../screens/ClientSideScreens/HomeScreen/Schedulesa
 import ScheduleService from '../../screens/ClientSideScreens/HomeScreen/ScheduleService';
 import SchedulCelender from '../../screens/ClientSideScreens/HomeScreen/SchedulCalender';
 import SchedulCalender from '../../screens/ClientSideScreens/HomeScreen/SchedulCalender';
+import Pending from '../../components/MyBookingDetails/Pending';
+import Ongoing from '../../components/MyBookingDetails/Ongoing';
+import History from '../../components/MyBookingDetails/History';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -168,6 +171,10 @@ const HomeStack = () => {
       <Stack.Screen
         name={NavigationScreens.OurServicesScreen}
         component={OurServices}
+      />
+      <Stack.Screen
+        name={NavigationScreens.MyBookingScreen}
+        component={MyBooking}
       />
       <Stack.Screen
         name={NavigationScreens.ReserveNowServicesScreen}
@@ -396,6 +403,7 @@ const MyBookingStack = () => {
         name={NavigationScreens.MyBookingScreen}
         component={MyBooking}
       />
+
       <Stack.Screen
         name={NavigationScreens.CancelbookingScreen}
         component={Cancelbooking}
@@ -622,7 +630,7 @@ const Screens = [
     icon: UserIcon,
   },
 ];
-export default BottomTab = ({route}) => {
+export default BottomTab = ({ route }) => {
   return (
     <Tab.Navigator
       screenOptions={{

@@ -487,11 +487,6 @@ const LiveTrackingClientSide = ({ route }) => {
 
             </View>
             <Text style={styles.meetupText}>You meetup at in atmost {parseFloat(Client_duration > Prof_duration ? Client_duration === 0 ? Client_duration : Client_duration + 5 : Prof_duration === 0 ? Prof_duration : Prof_duration + 5).toFixed(2)} min</Text>
-
-
-
-
-
             <View
               style={{
                 borderWidth: 1,

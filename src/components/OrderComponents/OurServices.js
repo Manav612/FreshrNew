@@ -268,7 +268,8 @@ const OurServices = ({ route }) => {
       console.log('Response status:', res.status);
 
       if (res.data.status === 'success') {
-        openBottomSheet();
+        // openBottomSheet();
+        navigation.navigate(NavigationScreens.MyBookingScreen)
         socketServices.emit('order_update', {
           recipient: SelectedProf.user._id,
           message: {
