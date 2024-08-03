@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import NearbyYourLocation from '../screens/ClientSideScreens/HomeScreen/NearbyYourLocation';
+import MapScreen2 from '../screens/MapScreen2';
 
 export const AppUrl =
   Platform.OS == 'ios'
@@ -86,7 +87,7 @@ export const NavigationScreens = {
   ReviewSummaryScreen: 'ReviewSummary Screen',
   EReceiptScreen: 'EReceiptScreen',
   Booking: 'Booking',
-
+  MapScreen2: 'MapScreen2',
   ProfessionalAboutUsScreen: 'ProfessionalAboutUsScreen',
   ProfessionalGalleryScreen: 'ProfessionalGalleryScreen',
   ProfessionalPackageScreen: 'ProfessionalPackageScreen',
