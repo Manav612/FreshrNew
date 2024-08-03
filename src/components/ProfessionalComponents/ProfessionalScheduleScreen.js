@@ -1,255 +1,16 @@
-// import { StyleSheet, Text, TouchableOpacity, Modal, View, Button, ScrollView } from 'react-native'
-// import React, { useEffect, useState } from 'react'
-// import { useNavigation } from '@react-navigation/native';
-// import { useSelector } from 'react-redux';
-// import AntDesign from 'react-native-vector-icons/AntDesign';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// import { Screen_Height, Screen_Width } from '../../constants/Constants';
-// import { Dropdown } from 'react-native-element-dropdown';
-// import DateTimePicker from '@react-native-community/datetimepicker';
-// import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
-// import CalendarScreen from '../Calendar';
-// import { BASE_API_URL } from '../../Services';
-// import axios from 'axios';
 
-// const ProfessionalScheduleScreen = () => {
-//   const navigation = useNavigation()
-//   const theme = useSelector(state => state.ThemeReducer);
-//   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-//   const [work, setWork] = useState('In salon');
-//   const [isEmail, setIsEmail] = useState(false);
-//   const [isFocus, setIsFocus] = useState(false);
-//   const [modalVisible, setModalVisible] = useState(false);
-//   const [selectedDay, setSelectedDay] = useState(null);
-//   const [startTime, setStartTime] = useState(new Date());
-//   const [endTime, setEndTime] = useState(new Date());
-//   const [showStartPicker, setShowStartPicker] = useState(false);
-//   const [showEndPicker, setShowEndPicker] = useState(false);
-//   const [activeTab, setActiveTab] = useState('Delivery');
-//   const [Toggle2, setToggle2] = useState();
-//   const [Toggle, setToggle] = useState();
-//   const [fetched, setFetched] = useState([]);
-//   const authToken = useSelector(state => state.AuthReducer);
-
-//   const [timeData, setTimeData] = useState({
-//     Mon: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-//     Tue: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-//     Wed: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-//     Thu: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-//     Fri: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-//     Sat: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-//     Sun: { start: '10:00 AM', end: '11:00 PM', isActive: true },
-//   });
-
-//   useEffect(() => {
-//     fetchDataForSchedule()
-//   }, [])
-
-//   const toggleDay = (day) => {
-//     setTimeData(prevData => ({
-//       ...prevData,
-//       [day]: {
-//         ...prevData[day],
-//         isActive: !prevData[day].isActive,
-//       },
-//     }));
-//   };
-
-//   const openModal = (day) => {
-//     setSelectedDay(day);
-//     setModalVisible(true);
-//   };
-
-//   const saveTime = () => {
-//     setTimeData({
-//       ...timeData,
-//       [selectedDay]: {
-//         start: startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-//         end: endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-//       },
-//     });
-//     setModalVisible(false);
-//   };
-
-//   const onStartChange = (event, selectedDate) => {
-//     const currentDate = selectedDate || startTime;
-//     setShowStartPicker(Platform.OS === 'ios');
-//     setStartTime(currentDate);
-//   };
-
-//   const onEndChange = (event, selectedDate) => {
-//     const currentDate = selectedDate || endTime;
-//     setShowEndPicker(Platform.OS === 'ios');
-//     setEndTime(currentDate);
-//   };
-
-//   const fetchDataForSchedule = async () => {
-//     try {
-
-//       const config = {
-//         headers: {
-//           'Authorization': `Bearer ${authToken}`
-//         }
-//       }
-//       const res = await axios.get(`${BASE_API_URL}/professionals/professional/schedule`, config);
-//       console.log('========    schedule ============', res.data.data.ProfessionalSchedule);
-
-//       setFetched(res.data.data.professionals);
-
-//     } catch (error) {
-//       console.error("Error:", error);
-
-//     }
-//   };
-//   const UpdateSchedule = async () => {
-//     try {
-
-//       const config = {
-//         headers: {
-//           'Authorization': `Bearer ${authToken}`
-//         }
-//       }
-//       const res = await axios.patch(`${BASE_API_URL}/professionals/professional/schedule`, config);
-//       console.log('========    schedule ============', res.data.data.ProfessionalSchedule);
-
-//       // setFetched(res.data.data.professionals);
-
-//     } catch (error) {
-//       console.error("Error:", error);
-
-//     }
-//   };
-
-
-
-
-//   return (
-//     <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
-
-//       <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-//         {/* <TouchableOpacity onPress={() => navigation.goBack()}><AntDesign name="arrowleft" size={30} color={COLOR.BLACK} /></TouchableOpacity> */}
-//         {/* <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>My Schedule</Text> */}
-//       </View>
-
-//       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-
-//         <TouchableOpacity onPress={() => setToggle(!Toggle)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, }}>
-//           <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.BLACK }}>Vacation Mode</Text>
-//           <MaterialCommunityIcons name={Toggle ? 'toggle-switch-off' : 'toggle-switch'} size={40} color={COLOR.ORANGECOLOR} />
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={() => setToggle2(!Toggle2)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, }}>
-//           <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.BLACK }}>Freelance Mode</Text>
-//           <MaterialCommunityIcons name={Toggle2 ? 'toggle-switch-off' : 'toggle-switch'} size={40} color={COLOR.ChartBlue} />
-//         </TouchableOpacity>
-//       </View>
-
-//       <View style={styles.container}>
-//         {Object.keys(timeData).map((day) => (
-//           <View key={day} style={{
-//             flexDirection: 'row',
-//             justifyContent: 'space-between',
-//             alignItems: 'center',
-//             marginVertical: 10,
-//             paddingHorizontal: 10,
-//             height: 50,
-//             backgroundColor: COLOR.WHITE,
-//             borderRadius: 15,
-//             elevation: 4,
-//             shadowColor: COLOR.ChartBlue,
-
-//           }}>
-//             <TouchableOpacity style={styles.dayInfo} onPress={() => openModal(day)}>
-//               <Text style={styles.dayText}>{day}</Text>
-//               <Text style={styles.timeText}>{`${timeData[day].start} - ${timeData[day].end}`}</Text>
-//             </TouchableOpacity>
-//             <Text style={styles.timeText}>{timeData[day].isActive ? 'Open' : 'Close'}</Text>
-//             <TouchableOpacity onPress={() => toggleDay(day)}>
-//               <MaterialCommunityIcons
-//                 name={timeData[day].isActive ? 'toggle-switch' : 'toggle-switch-off'}
-//                 size={40}
-//                 color={timeData[day].isActive ? COLOR.GREEN : COLOR.CANCEL_B}
-//               />
-//             </TouchableOpacity>
-//           </View>
-
-//         ))}
-//       </View>
-
-//       <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:Screen_Width*0.8,height:50,backgroundColor:COLOR.ChartBlue}}>
-//         <Text style={{color:COLOR.WHITE,fontSize:16,fontWeight:'600'}}>Update Schedule</Text>
-//       </TouchableOpacity>
-
-//       <Modal visible={modalVisible} transparent={true} animationType="slide">
-//         <View style={styles.modalContainer}>
-//           <View style={styles.modalContent}>
-//             <Text style={styles.modalTitle}>Edit {selectedDay}</Text>
-//             <Text style={{ color: COLOR.BLACK }}>Start Time:</Text>
-//             {Platform.OS === 'ios' ? (
-//               <DateTimePicker
-//                 value={startTime}
-//                 mode="time"
-//                 display="default"
-//                 onChange={onStartChange}
-//               />
-//             ) : (
-//               <>
-//                 <TouchableOpacity onPress={() => setShowStartPicker(true)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 10, borderRadius: 15 }}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>{startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text></TouchableOpacity>
-//                 {showStartPicker && (
-//                   <DateTimePicker
-//                     value={startTime}
-//                     mode="time"
-//                     display="default"
-//                     onChange={onStartChange}
-//                   />
-//                 )}
-//               </>
-//             )}
-//             <Text style={{ color: COLOR.BLACK }}>End Time:</Text>
-//             {Platform.OS === 'ios' ? (
-//               <DateTimePicker
-//                 value={endTime}
-//                 mode="time"
-//                 display="default"
-//                 onChange={onEndChange}
-//               />
-//             ) : (
-//               <>
-//                 <TouchableOpacity onPress={() => setShowEndPicker(true)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 10, borderRadius: 15 }}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>{endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text></TouchableOpacity>
-//                 {showEndPicker && (
-//                   <DateTimePicker
-//                     value={endTime}
-//                     mode="time"
-//                     display="default"
-//                     onChange={onEndChange}
-//                   />
-//                 )}
-//               </>
-//             )}
-//             <TouchableOpacity onPress={saveTime} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 10, borderRadius: 15 }}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Save</Text></TouchableOpacity>
-//             <TouchableOpacity onPress={() => setModalVisible(false)} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.CANCEL_B, marginVertical: 10, borderRadius: 15 }}><Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Cancel</Text></TouchableOpacity>
-
-//           </View>
-//         </View>
-//       </Modal>
-
-//       <View style={{ height: 100 }} />
-//     </ScrollView>
-//   )
-// }
-
-// export default ProfessionalScheduleScreen
-
-// const styles = StyleSheet.create({})
 
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Modal, View, ScrollView, Alert, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Modal, View, ScrollView, Alert, Platform, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { BASE_API_URL } from '../../Services';
 import axios from 'axios';
+import Slider from '@react-native-community/slider';
 
 const ProfessionalScheduleScreen = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -262,7 +23,12 @@ const ProfessionalScheduleScreen = () => {
   const [showEndPicker, setShowEndPicker] = useState(false);
   const [autoSwitchToFreelancer, setAutoSwitchToFreelancer] = useState(false);
   const authToken = useSelector(state => state.AuthReducer);
+  const [isOpen, setIsOpen] = useState(false);
+  const [price, setPrice] = useState(10);
 
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   const [timeData, setTimeData] = useState({
     Mon: { start: '10:00', end: '23:00', isActive: true },
     Tue: { start: '10:00', end: '23:00', isActive: true },
@@ -432,6 +198,50 @@ const ProfessionalScheduleScreen = () => {
     setEndTime(currentDate);
   };
 
+
+  const FreelanceData = [
+    {
+      id: 1,
+      price: '1x'
+    },
+    {
+      id: 2,
+      price: '2x'
+    },
+    {
+      id: 3,
+      price: '3x'
+    },
+    {
+      id: 4,
+      price: '4x'
+    },
+    {
+      id: 5,
+      price: '5x'
+    },
+    {
+      id: 6,
+      price: '6x'
+    },
+    {
+      id: 7,
+      price: '7x'
+    },
+    {
+      id: 8,
+      price: '8x'
+    },
+    {
+      id: 9,
+      price: '9x'
+    },
+    {
+      id: 10,
+      price: '10x'
+    },
+  ]
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -471,11 +281,61 @@ const ProfessionalScheduleScreen = () => {
 
   return (
     <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
         <TouchableOpacity onPress={() => setAutoSwitchToFreelancer(!autoSwitchToFreelancer)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, }}>
           <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.BLACK }}>Auto Switch to Freelancer</Text>
           <MaterialCommunityIcons name={autoSwitchToFreelancer ? 'toggle-switch' : 'toggle-switch-off'} size={40} color={COLOR.ORANGECOLOR} />
         </TouchableOpacity>
+      </View>
+      {/* <TouchableOpacity
+        onPress={toggleDropdown}
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          padding: 5,
+
+        }}>
+        <Text style={{ color: COLOR.BLACK }}>
+          Freelancer Quote
+        </Text>
+        <MaterialIcons
+          name={isOpen ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+          color={'#000'}
+          size={25}
+        />
+      </TouchableOpacity>
+      {isOpen && (
+        <FlatList
+          data={FreelanceData}
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
+          scrollEnabled={false}
+          renderItem={({ item }) => {
+            return (
+              <View style={{ paddingHorizontal: 5 }}>
+                <Text>{item.price}</Text>
+              </View>
+            )
+          }}
+        />
+      )} */}
+      <View style={{ backgroundColor: COLOR.WHITE, borderRadius: 15, elevation: 3, shadowColor: COLOR.ChartBlue, alignItems: 'center', justifyContent: 'center', height: 80, marginHorizontal: 2 }}>
+        <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', }}>
+          Freelancer Charge ($) <Text style={{ color: COLOR.ORANGECOLOR }}>{price}x</Text>
+        </Text>
+
+        <Slider
+          style={{ width: '100%', marginTop: 10 }}
+          minimumValue={0}
+          maximumValue={10}
+          step={1}
+          minimumTrackTintColor={COLOR.BLACK}
+          maximumTrackTintColor={COLOR.BLACK}
+          thumbTintColor={COLOR.ORANGECOLOR}
+          value={price}
+          onValueChange={(value) => setPrice(value)}
+        />
       </View>
 
       <View style={styles.container}>
@@ -491,6 +351,7 @@ const ProfessionalScheduleScreen = () => {
             borderRadius: 15,
             elevation: 4,
             shadowColor: COLOR.ChartBlue,
+            marginHorizontal: 2
           }}>
             <TouchableOpacity style={styles.dayInfo} onPress={() => openModal(day)}>
               <Text style={styles.dayText}>{day}</Text>

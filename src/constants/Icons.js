@@ -94,3 +94,6 @@ export const tipjar = require('../assets/images/tipjar.png');
 export const chartdonut = require('../assets/images/ChartDonut.png');
 export const vectorh = require('../assets/images/Vectorh.png');
 export const currency = require('../assets/images/CurrencyDollar.png');
+
+
+export const houseFillOrange = require('../assets/houseOrange.png');

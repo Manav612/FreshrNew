@@ -21,7 +21,7 @@ const MyBooking = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [selectedItem, setSelectedItem] = useState('Pending');
-  const [selectedItem2, setSelectedItem2] = useState('Scheduled');
+  const [selectedItem2, setSelectedItem2] = useState('');
   const refRBSheet = useRef([]);
   const openBottomSheet = () => {
     refRBSheet.current[0].open();

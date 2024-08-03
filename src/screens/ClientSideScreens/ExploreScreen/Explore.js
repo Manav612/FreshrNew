@@ -28,7 +28,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const Explore = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  // const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const mapStyle = [
     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
     { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
@@ -279,8 +278,7 @@ const Explore = () => {
   );
   const styles = StyleSheet.create({
     container: {
-      height: Screen_Height * 0.84
-
+      height: Screen_Height * 0.84,
     },
     mapStyle: {
       height: Screen_Height * 0.84
@@ -400,12 +398,17 @@ const Explore = () => {
                   latitude: data.location.coordinates[0],
                   longitude: data.location.coordinates[1],
                 }}
-                title={'Test Marker'}
+                title={'Queue'}
                 description={'This is a description of the marker'}
                 key={i}
               >
-                <View style={{ height: 30, width: 30, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
-                  <FastImage style={{ height: 20, width: 20 }} source={ComeToYouOrange} />
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <View style={{ backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', padding: 5, borderRadius: 5 }}>
+                    <Text style={{ color: COLOR.WHITE, fontSize: 12 }}> {MarkerDataFordelivery.length === 0 ? 'Empty Queue' : "1 Queue"}</Text>
+                  </View>
+                  <View style={{ height: 30, width: 30, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
+                    <FastImage style={{ height: 20, width: 20 }} source={ComeToYouOrange} />
+                  </View>
                 </View>
               </Marker>
 
@@ -423,16 +426,22 @@ const Explore = () => {
               key={i}
 
             >
-              <View style={{ height: 30, width: 30, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 20 }}>
-                <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', padding: 5, borderRadius: 5 }}>
+                  <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>{MarkerDataForSalon.length === 0 ? '0 Seats' : '10 Seats'}</Text>
+                </View>
+                <View style={{ height: 30, width: 30, backgroundColor: COLOR.WHITE, justifyContent: 'center', alignItems: 'center', borderRadius: 20 }}>
+                  <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
+                </View>
               </View>
+
             </Marker>
           ))}
 
         </MapView>
       </View>
 
-      <View style={{ position: 'absolute', bottom: 100, paddingHorizontal: 5 }}>
+      <View style={{ position: 'absolute', bottom: 100, paddingHorizontal: 5, zIndex: 100 }}>
         {activeTab === 'Delivery' ? (
           <FlatList
             data={MarkerDataFordelivery}
@@ -492,11 +501,6 @@ const Explore = () => {
                           <Text style={{ color: COLOR.WHITE }} numberOfLines={1}>15</Text>
                         </TouchableOpacity>
                       </View>
-                      {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', borderRadius: 10, color: COLOR.WHITE }}>
-                        <FontAwesome name="star-half-empty" size={16} color={COLOR.ORANGECOLOR} />
-                        <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR, fontSize: 12 }}>4.8 (3,456)</Text>
-                      </View> */}
-
                       <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 20 }}>
                         <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>20km</Text>
                       </View>
@@ -564,16 +568,14 @@ const Explore = () => {
                     borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    flexDirection:'row',
-                    gap:5,
+                    flexDirection: 'row',
+                    gap: 5,
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
                   onPress={() => setActiveTab1('Masculine')}
                 >
-                  <FastImage source={activeTab1 === 'Masculine'?maleWhite:maleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
-
-
+                  <FastImage source={activeTab1 === 'Masculine' ? maleWhite : maleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
                   <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -584,14 +586,14 @@ const Explore = () => {
                     borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    flexDirection:'row',
-                    gap:5,
+                    flexDirection: 'row',
+                    gap: 5,
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
                   onPress={() => setActiveTab1('Both')}
                 >
-                  <FastImage source={activeTab1 === 'Both'?BothWhite:BothOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
+                  <FastImage source={activeTab1 === 'Both' ? BothWhite : BothOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
 
                   <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
                 </TouchableOpacity>
@@ -603,14 +605,14 @@ const Explore = () => {
                     borderRadius: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    flexDirection:'row',
-                    gap:5,
+                    flexDirection: 'row',
+                    gap: 5,
                     borderWidth: 1,
                     borderColor: COLOR.ORANGECOLOR
                   }}
                   onPress={() => setActiveTab1('Feminine')}
                 >
-                  <FastImage source={activeTab1 === 'Feminine'?femaleWhite:femaleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
+                  <FastImage source={activeTab1 === 'Feminine' ? femaleWhite : femaleOrange} style={{ width: 20, height: 20 }} resizeMode='contain' />
                   <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
                 </TouchableOpacity>
               </View>
@@ -654,26 +656,25 @@ const Explore = () => {
       </View>
     </>
   )
-
 }
 
 export default Explore
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  mapStyle: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-})
+// const styles = StyleSheet.create({
+//   container: {
+//     position: 'absolute',
+//     top: 0,
+//     left: 0,
+//     right: 0,
+//     bottom: 0,
+//     alignItems: 'center',
+//     justifyContent: 'flex-end',
+//   },
+//   mapStyle: {
+//     position: 'absolute',
+//     top: 0,
+//     left: 0,
+//     right: 0,
+//     bottom: 0,
+//   },
+// })

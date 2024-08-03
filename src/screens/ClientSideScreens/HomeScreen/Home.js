@@ -23,7 +23,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { SetAddress } from '../../../redux/AddressAction';
-import { ComeToYou, ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, FilterBlue, FilterOrange, HomeIcon2, HouseOrange, InSalon, InSalonOrange, InSalonWhite } from '../../../constants/Icons';
+import { ComeToYou, ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, FilterBlue, FilterOrange, HomeIcon, HomeIcon2, houseFillOrange, HouseOrange, InSalon, InSalonOrange, InSalonWhite } from '../../../constants/Icons';
 import FastImage from 'react-native-fast-image';
 import { data3 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
@@ -253,8 +253,9 @@ const Home = () => {
               {/* <Entypo name="home" size={22} color={COLOR.ORANGECOLOR} /> */}
               {/* <Text style={{ color: COLOR.BLACK, fontSize: 15 }}>Hello, {displayName}</Text> */}
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'baseline', gap: 5 }}>
-              <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} />
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', gap: 5 }}>
+              {/* <Entypo name="home" size={25} color={COLOR.ORANGECOLOR} /> */}
+              <FastImage source={houseFillOrange} style={{ height: 25, width: 25 }} />
               <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '500' }}>Office</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.AddAddressScreen)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
@@ -270,10 +271,10 @@ const Home = () => {
           </View>
         </View>
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', height: 50, marginHorizontal: 1 }}>
-          <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)} style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)} style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
             <Ionicons name="chatbubble-ellipses-outline" size={30} color={COLOR.BLACK} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => openBottomSheet()} style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => openBottomSheet()} style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
             <FastImage source={FilterBlack} style={{ height: 30, width: 30 }} />
           </TouchableOpacity>
         </View>

@@ -29,6 +29,7 @@ const ProfessionalBooking = () => {
   const [selectedItem2, setSelectedItem2] = useState('');
   const [activeTab, setActiveTab] = useState('Comes to you');
   const [ongoingData, setOngoingData] = useState([]);
+  const [selected, setSelected] = useState()
 
   useEffect(() => {
     socketServices.on('payment_Done', data => {
@@ -167,10 +168,14 @@ const ProfessionalBooking = () => {
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Bookings</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+          <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+            <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
+            <Text style={{ color: COLOR.BLACK }}>Queue</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+          <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
           </TouchableOpacity>
         </View>

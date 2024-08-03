@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
-import {Hair1} from '../../../constants/Icons';
-import {Screen_Height} from '../../../constants/Constants';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ClockUserIcon, Hair1 } from '../../../constants/Icons';
+import { Screen_Height } from '../../../constants/Constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -19,19 +19,21 @@ import {
   GRADIENT_COLOR_DARK,
   GRADIENT_COLOR_LIGHT,
 } from '../../../constants/Colors';
-import {ScrollView} from 'react-native-gesture-handler';
-import {useNavigation} from '@react-navigation/native';
-import {calldata, chatdata} from '../../../components/utils';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import { calldata, chatdata } from '../../../components/utils';
 import { NavigationScreens } from '../../../constants/Strings';
+import FastImage from 'react-native-fast-image';
 
-const ProfessionalInbox = ({navigate}) => {
+const ProfessionalInbox = ({ navigate }) => {
   const navigation = useNavigation();
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [activeTab, setActiveTab] = useState('Chats');
+  const [selected, setSelected] = useState()
 
-  const SelectCalls = ({item}) => (
+  const SelectCalls = ({ item }) => (
     <TouchableOpacity
       style={{
         marginHorizontal: 20,
@@ -39,27 +41,27 @@ const ProfessionalInbox = ({navigate}) => {
         flexDirection: 'row',
       }}>
       <Image
-        style={{height: 50, width: 50, borderRadius: 25}}
+        style={{ height: 50, width: 50, borderRadius: 25 }}
         source={item.img}
       />
       <View
-        style={{justifyContent: 'space-evenly', marginLeft: 15, width: 230}}>
-        <Text style={{fontSize: 16, fontWeight: 'bold', color: COLOR.BLACK}}>
+        style={{ justifyContent: 'space-evenly', marginLeft: 15, width: 230 }}>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: COLOR.BLACK }}>
           {item.title}
         </Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           {item.icon}
           <Text>
             {item.recents} | {item.date}
           </Text>
         </View>
       </View>
-      <View style={{justifyContent: 'center'}}>
+      <View style={{ justifyContent: 'center' }}>
         <Ionicons name="call-outline" size={22} color={COLOR.ORANGECOLOR} />
       </View>
     </TouchableOpacity>
   );
-  const SelectChats = ({item}) => (
+  const SelectChats = ({ item }) => (
     <TouchableOpacity
       style={{
         marginHorizontal: 20,
@@ -69,7 +71,7 @@ const ProfessionalInbox = ({navigate}) => {
         alignItems: 'center',
       }}
       onPress={() => navigation.navigate(NavigationScreens.ProfessionalChatScreen, { title: item.title })}
-      >
+    >
       <View
         style={{
           flexDirection: 'row',
@@ -78,18 +80,18 @@ const ProfessionalInbox = ({navigate}) => {
           gap: 10,
         }}>
         <Image
-          style={{height: 50, width: 50, borderRadius: 25}}
+          style={{ height: 50, width: 50, borderRadius: 25 }}
           source={item.img}
         />
-        <View style={{width: 180}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold', color: COLOR.BLACK}}>
+        <View style={{ width: 180 }}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: COLOR.BLACK }}>
             {item.title}
           </Text>
 
           <Text>{item.recents}</Text>
         </View>
       </View>
-      <View style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+      <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
         <View
           style={{
             backgroundColor: COLOR.ORANGECOLOR,
@@ -107,7 +109,7 @@ const ProfessionalInbox = ({navigate}) => {
   );
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
       <View>
         <View
           style={{
@@ -116,41 +118,30 @@ const ProfessionalInbox = ({navigate}) => {
             alignItems: 'center',
             margin: 15,
           }}>
-          <View style={{flexDirection: 'row', gap: 20}}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfileScreen)}
-              style={{
-                width: 40,
-                backgroundColor: COLOR.ORANGECOLOR,
-                height: 40,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{color: COLOR.WHITE, fontSize: 30}}>F</Text>
-            </TouchableOpacity>
-            <Text style={{fontWeight: '800', fontSize: 25, color: COLOR.BLACK}}>
+          <View style={{ flexDirection: 'row', gap: 20 }}>
+
+            <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>
               Inbox
             </Text>
           </View>
-          <View style={{flexDirection: 'row', gap: 10}}>
-            <TouchableOpacity>
-              <AntDesign name="search1" size={30} color={COLOR.GRAY} />
+          <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+            <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+              <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
+              <Text style={{ color: COLOR.BLACK }}>Queue</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity>
-              <MaterialCommunityIcons
-                name="dots-horizontal-circle-outline"
-                size={28}
-                color={COLOR.BLACK}
-              />
-            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+              <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+              <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+            </TouchableOpacity>
           </View>
         </View>
         <View
           style={{
             // flexDirection: 'row',
             marginHorizontal: 15,
-            justifyContent:'flex-start',
+            justifyContent: 'flex-start',
           }}>
           <TouchableOpacity
             onPress={() => setActiveTab('Chats')}
@@ -163,11 +154,11 @@ const ProfessionalInbox = ({navigate}) => {
                   activeTab === 'Chats' ? COLOR.ORANGECOLOR : 'transparent',
               },
             ]}>
-            <Text style={{color: activeTab === 'Chats' ? 'white' : 'orange'}}>
+            <Text style={{ color: activeTab === 'Chats' ? 'white' : 'orange' }}>
               Chats
             </Text>
           </TouchableOpacity>
-         
+
         </View>
       </View>
       <View>
@@ -175,9 +166,9 @@ const ProfessionalInbox = ({navigate}) => {
           data={chatdata}
           keyExtractor={item => item.id}
           renderItem={
-           
-              ({item}) => <SelectChats item={item} />
-             
+
+            ({ item }) => <SelectChats item={item} />
+
           }
           showsHorizontalScrollIndicator={false}
         />

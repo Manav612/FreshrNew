@@ -109,7 +109,7 @@ const ProfessionalHome = () => {
         header: {
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between', marginVertical: 10
         },
         avatar: {
             width: 50,
@@ -120,7 +120,8 @@ const ProfessionalHome = () => {
         name: {
             fontSize: 18,
             fontWeight: 'bold',
-            color: COLOR.BLACK
+            color: COLOR.BLACK,
+            width: 100
         },
         role: {
             fontSize: 14,
@@ -279,7 +280,7 @@ const ProfessionalHome = () => {
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                         <Image style={styles.avatar} source={barber} />
                         <View>
-                            <Text style={styles.name}>{user?.firstName}{' '}{user?.lastName}</Text>
+                            <Text style={styles.name} numberOfLines={1}>{user?.firstName}{' '}{user?.lastName}</Text>
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>

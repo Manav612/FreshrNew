@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Image,
   ImageBackground,
@@ -13,9 +13,10 @@ import {
   RefreshControl,
   Modal,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 import {
+  ClockUserIcon,
   ClockUserIcon2,
   ClockUserIcon3,
   GearFineIcon,
@@ -25,18 +26,18 @@ import {
   ShareIcon3,
   barber,
 } from '../../../constants/Icons';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import ServicesScreen from '../../../components/SalonDetailScreen/ServicesScreen';
 import ReviewScreen from '../../../components/SalonDetailScreen/ReviewScreen';
 import GalleryScreen from '../../../components/SalonDetailScreen/GalleryScreen';
 import PackageScreen from '../../../components/SalonDetailScreen/PackageScreen';
-import {Servicesdata2} from '../../../components/utils';
+import { Servicesdata2 } from '../../../components/utils';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import FastImage from 'react-native-fast-image';
 import {
@@ -44,17 +45,17 @@ import {
   SetServiceData,
 } from '../../../redux/ServicesData/ServicesDataAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BASE_API_URL} from '../../../Services';
+import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
-import {NavigationScreens} from '../../../constants/Strings';
+import { NavigationScreens } from '../../../constants/Strings';
 import ImagePicker from 'react-native-image-crop-picker';
 4;
-import {LinearGradient} from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import mime from 'mime';
 import ProfessionalScheduleScreen from '../../../components/ProfessionalComponents/ProfessionalScheduleScreen';
 
-const ProfessionalProfile = ({name}) => {
+const ProfessionalProfile = ({ name }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -81,11 +82,13 @@ const ProfessionalProfile = ({name}) => {
   const [flag, setFlag] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stories, setStories] = useState([]);
+  const [selected, setSelected] = useState()
+
   const fullText =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
   const truncatedText = fullText.slice(0, 100) + '...';
   const fetchedData = useSelector(state => state.ServicesDataReducer);
-  console.log('=========  fetchedData      ============', fetchedData);
+  // console.log('=========  fetchedData      ============', fetchedData);
   const refRBSheet = useRef([]);
   useEffect(() => {
     setServicesData();
@@ -148,7 +151,7 @@ const ProfessionalProfile = ({name}) => {
         },
       };
       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-      console.log('========  user ID   ===========', res.data.data.user);
+      // console.log('========  user ID   ===========', res.data.data.user);
       setUser(res.data.data.user);
     } catch (error) {
       console.error('Error:', error);
@@ -167,10 +170,10 @@ const ProfessionalProfile = ({name}) => {
         `${BASE_API_URL}/professionals/professional/services`,
         config,
       );
-      console.log(
-        '=======   fetchhh services  == ========',
-        res.data.data.services,
-      );
+      // console.log(
+      //   '=======   fetchhh services  == ========',
+      //   res.data.data.services,
+      // );
       dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
       console.error('Error:', error);
@@ -190,7 +193,7 @@ const ProfessionalProfile = ({name}) => {
         `${BASE_API_URL}/professionals/professional/services/${id}`,
         config,
       );
-      console.log('=======   ressss == ========', res.data);
+      // console.log('=======   ressss == ========', res.data);
       Alert.alert('Service deleted successfully ');
       // Refresh the fetched data after deletion
       dispatch(RemoveOneServiceData(id));
@@ -231,7 +234,7 @@ const ProfessionalProfile = ({name}) => {
         </View>
       );
     } else if (selectedScreen === 'services') {
-      const renderitem = ({item, index}) => (
+      const renderitem = ({ item, index }) => (
         <TouchableOpacity
           onPress={() => openBottomSheet2(item, index)}
           style={{
@@ -250,9 +253,9 @@ const ProfessionalProfile = ({name}) => {
               height: Screen_Height * 0.1,
               borderRadius: 10,
             }}
-            source={{uri: item?.photo}}
+            source={{ uri: item?.photo }}
           />
-          <View style={{flexDirection: 'column', marginLeft: 15, gap: 5}}>
+          <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5 }}>
             <Text
               style={{
                 color: COLOR.BLACK,
@@ -315,7 +318,7 @@ const ProfessionalProfile = ({name}) => {
                 flexDirection: 'row',
               }}>
               <Text
-                style={{fontSize: 22, fontWeight: '600', color: COLOR.BLACK}}>
+                style={{ fontSize: 22, fontWeight: '600', color: COLOR.BLACK }}>
                 Services
               </Text>
               {/* <Text style={{ fontSize: 16, fontWeight: '600', color: COLOR.ORANGECOLOR }} onPress={()=>navigation.navigate('Ourpackages Screen')}>See All</Text> */}
@@ -334,7 +337,7 @@ const ProfessionalProfile = ({name}) => {
               showsVerticalScrollIndicator={false}
               keyExtractor={item => item.id}
               renderItem={renderitem}
-              style={{flex: 1}}
+              style={{ flex: 1 }}
               scrollEnabled={false}
             />
             <RBSheet
@@ -363,8 +366,8 @@ const ProfessionalProfile = ({name}) => {
               customAvoidingViewProps={{
                 enabled: false,
               }}>
-              <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <View
                     style={{
                       width: 30,
@@ -380,7 +383,7 @@ const ProfessionalProfile = ({name}) => {
                       alignItems: 'center',
                       width: Screen_Width * 0.9,
                     }}>
-                    <View style={{width: 30}} />
+                    <View style={{ width: 30 }} />
                     <Text
                       style={{
                         fontWeight: '600',
@@ -703,16 +706,16 @@ const ProfessionalProfile = ({name}) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      style={{width: Screen_Width, height: Screen_Height}}
+      style={{ width: Screen_Width, height: Screen_Height }}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={{height: 330}}>
+      <View style={{ height: 330 }}>
         <ImageBackground
           source={
             stories?.length == 0
               ? barber
-              : {uri: stories[currentIndex].resource}
+              : { uri: stories[currentIndex].resource }
           }
           style={{
             width: Screen_Width,
@@ -729,27 +732,25 @@ const ProfessionalProfile = ({name}) => {
               marginVertical: 10,
             }}>
             <View>
-              <AntDesign
+              {/* <AntDesign
                 onPress={() => navigation.goBack()}
                 name="arrowleft"
                 size={30}
                 color={COLOR.WHITE}
-              />
+              /> */}
             </View>
 
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-                gap: 10,
-              }}>
-              {/* <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                <Entypo name="direction" size={28} color={COLOR.ChartBlue} />
-              </TouchableOpacity> */}
-              {/* <TouchableOpacity onPress={() => navigation.navigate('ProfessionalSettingScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-              <AntDesign name="setting" size={28} color={COLOR.BLACK} />
-              </TouchableOpacity> */}
+            <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+              <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
+                <Text style={{ color: COLOR.BLACK }}>Queue</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+              </TouchableOpacity>
             </View>
           </View>
           <View
@@ -764,7 +765,7 @@ const ProfessionalProfile = ({name}) => {
             }}>
             <Image
               source={Hair1}
-              style={{width: 140, height: 140, borderRadius: 100}}
+              style={{ width: 140, height: 140, borderRadius: 100 }}
             />
             <View style={styles.container1}>
               <TouchableOpacity
@@ -782,7 +783,7 @@ const ProfessionalProfile = ({name}) => {
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
                     <TouchableOpacity
-                      style={{position: 'absolute', right: 10, top: 10}}
+                      style={{ position: 'absolute', right: 10, top: 10 }}
                       onPress={() => {
                         setImageUri(), setModalVisible(false);
                       }}>
@@ -842,8 +843,8 @@ const ProfessionalProfile = ({name}) => {
                     )}
                     {imageUri && (
                       <Image
-                        source={{uri: imageUri}}
-                        style={{width: 200, height: 200, marginTop: 10}}
+                        source={{ uri: imageUri }}
+                        style={{ width: 200, height: 200, marginTop: 10 }}
                       />
                     )}
                     {imageUri && (
@@ -879,12 +880,12 @@ const ProfessionalProfile = ({name}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{color: COLOR.BLACK, fontSize: 25, fontWeight: 'bold'}}>
+        <Text style={{ color: COLOR.BLACK, fontSize: 25, fontWeight: 'bold' }}>
           {user?.firstName} {user?.lastName}
         </Text>
-        <Text style={{color: COLOR.GRAY}}>
+        <Text style={{ color: COLOR.GRAY }}>
           Hair Stylist at{' '}
-          <Text style={{fontWeight: 'bold', color: COLOR.BLACK}}>
+          <Text style={{ fontWeight: 'bold', color: COLOR.BLACK }}>
             Bella Rinova
           </Text>{' '}
           5.0 (25 Reviews)
@@ -971,7 +972,7 @@ const ProfessionalProfile = ({name}) => {
           onPress={() => setActiveTab2('Share')}>
           <FastImage
             source={activeTab2 === 'Share' ? ShareIcon3 : ShareIcon2}
-            style={{height: 20, width: 20}}
+            style={{ height: 20, width: 20 }}
           />
 
           <Text
@@ -983,12 +984,12 @@ const ProfessionalProfile = ({name}) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-        <Text style={{color: COLOR.BLACK, fontSize: 14}}>
+      <View style={{ paddingHorizontal: 15, marginVertical: 10 }}>
+        <Text style={{ color: COLOR.BLACK, fontSize: 14 }}>
           {showFullText ? fullText : truncatedText}
         </Text>
         <TouchableOpacity onPress={toggleShowFullText}>
-          <Text style={{color: COLOR.ORANGECOLOR}}>
+          <Text style={{ color: COLOR.ORANGECOLOR }}>
             {showFullText ? 'Read Less' : 'Read More'}
           </Text>
         </TouchableOpacity>
@@ -1082,7 +1083,7 @@ const ProfessionalProfile = ({name}) => {
         </View>
       </View>
       {renderContent()}
-      <View style={{height: 100}} />
+      <View style={{ height: 100 }} />
     </ScrollView>
   );
 };
