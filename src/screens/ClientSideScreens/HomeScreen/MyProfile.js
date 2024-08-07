@@ -203,6 +203,8 @@ const MyProfile = () => {
   const getLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
+        console.log("=-==-=-=--=--=--=-=--=--=-=--=-", position);
+
         const newLatitude = position.coords.latitude;
         const newLongitude = position.coords.longitude;
         console.log('Coordinates obtained:', { latitude: newLatitude, longitude: newLongitude });
@@ -219,19 +221,23 @@ const MyProfile = () => {
 
 
   const handleSwitchToProfessionals = async () => {
-    if (latitude === null || longitude === null) {
-      setError('Location not available');
-      console.log('Attempt to switch with no coordinates =======:', { latitude, longitude });
-      return;
-    }
+    console.log("-------------------    proffffffffff            ------------------------------");
+
+    // if (latitude === null || longitude === null) {
+    //   setError('Location not available');
+    //   console.log('Attempt to switch with no coordinates =======:', { latitude, longitude });
+    //   return;
+    // }
 
     console.log('Attempting to switch with coordinates:', { latitude, longitude });
 
-    setIsLoading(true);
-    setError(null);
+    // setIsLoading(true);
+    // setError(null);
 
     try {
       const token = await AsyncStorage.getItem("AuthToken");
+      console.log("------>", token);
+
       if (!token) {
         throw new Error('No auth token found');
       }

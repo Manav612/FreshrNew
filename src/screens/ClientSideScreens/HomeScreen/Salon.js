@@ -256,30 +256,30 @@ const Salon = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
-         <TouchableOpacity
+      <TouchableOpacity
         onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
         style={{
-          
+
           height: 40,
-         
+
           justifyContent: 'space-between',
-         
+
           marginVertical: 10,
           flexDirection: 'row',
           alignItems: 'center',
-          marginHorizontal:10
-          
+          marginHorizontal: 10
+
         }}
       >
-       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',gap:10}}>
-       <Text style={{ textAlign: 'center', fontSize: 20, color: COLOR.BLACK, fontWeight: 'bold' }}>
-          Schedule Appointment
-        </Text>
-        <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
-       </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+          <Text style={{ textAlign: 'center', fontSize: 20, color: COLOR.BLACK, fontWeight: 'bold' }}>
+            Schedule Appointment
+          </Text>
+          <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
+        </View>
         {/* <View style={{height:30,width:30,borderRadius:3,backgroundColor:COLOR.WHITE,elevation:10,shadowColor:COLOR.ChartBlue,justifyContent:'center',alignItems:'center'}}> */}
 
-        <AntDesign name="plus" size={24} color={COLOR.BLACK}  />
+        <AntDesign name="plus" size={24} color={COLOR.BLACK} />
         {/* </View> */}
 
 
@@ -336,50 +336,50 @@ const Salon = () => {
         <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Location</Text>
       </View>
       <View style={{ marginVertical: 10 }}>
-      <FlatList
-        data={FetchedsSalonData}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        style={{ flex: 1 }}
-        scrollEnabled={false}
-        renderItem={({ item }) => {
-          return (
+        <FlatList
+          data={FetchedsSalonData}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          style={{ flex: 1 }}
+          scrollEnabled={false}
+          renderItem={({ item }) => {
+            return (
 
-            <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation:3, marginHorizontal: 3 }}>
-              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row",gap:10 }}>
-                <Image source={{uri:item.coverImage}} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
-                
-                <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
-                  <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
-                    <View>
-                      <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600',marginBottom:5 }}>{item?.name}</Text>
-                      <TouchableOpacity style={{backgroundColor:COLOR.ORANGECOLOR,padding:5,borderRadius:10,justifyContent:'center',alignItems:'center'}}>
-                      <Text style={{ color: COLOR.WHITE}} numberOfLines={1}>Available Seats : 15</Text>
+              <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, backgroundColor: COLOR.WHITE, height: Screen_Height * 0.15, borderRadius: 15, shadowColor: COLOR.ChartBlue, elevation: 3, marginHorizontal: 3 }}>
+                <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.SalonProffListScreen, { FacilityDetail: item })} style={{ paddingHorizontal: 15, marginHorizontal: 5, flexDirection: "row", gap: 10 }}>
+                  <Image source={{ uri: item.coverImage }} style={{ width: Screen_Width * 0.20, height: Screen_Height * 0.12, borderRadius: 10 }} />
+
+                  <View style={{ flexDirection: 'column', justifyContent: 'space-between', gap: 5 }}>
+                    <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', width: Screen_Width * 0.6 }}>
+                      <View>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', marginBottom: 5 }}>{item?.name}</Text>
+                        <TouchableOpacity style={{ backgroundColor: COLOR.ORANGECOLOR, padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                          <Text style={{ color: COLOR.WHITE }} numberOfLines={1}>Available Seats : 15</Text>
+                        </TouchableOpacity>
+                      </View>
+                      <TouchableOpacity onPress={() => toggleBookmark(item._id)} style={{ position: 'absolute', right: 1, top: 1 }}>
+
+                        <MaterialCommunityIcons
+                          name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
+                          size={25}
+                          color={COLOR.ChartBlue}
+                        />
                       </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => toggleBookmark(item._id)} style={{position:'absolute',right:1,top:1}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 10, color: COLOR.WHITE }}>
+                        <FontAwesome name="star-half-empty" size={20} color={COLOR.ORANGECOLOR} />
+                        <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR }}>4.8 (4,567)</Text>
+                      </View>
+                      <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
 
-                      <MaterialCommunityIcons
-                        name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
-                        size={25}
-                        color={COLOR.ChartBlue}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center', borderRadius: 10, color: COLOR.WHITE }}>
-                      <FontAwesome name="star-half-empty" size={20} color={COLOR.ORANGECOLOR} />
-                      <Text style={{ marginLeft: 5, color: COLOR.ORANGECOLOR }}>4.8 (4,567)</Text>
-                    </View>
-                    <View style={{  alignItems: 'center',justifyContent:'center', backgroundColor: COLOR.BLACK, borderRadius: 10, color: COLOR.WHITE, width: Screen_Width * 0.2, height: 25 }}>
-
-                    <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>300 km</Text>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>300 km</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
 
-              {/* <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
+                {/* <TouchableOpacity onPress={() => toggleBookmark(item._id)}>
                 <View style={{ height: 90, width: 30 }}>
                   <MaterialCommunityIcons
                     name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
@@ -389,10 +389,10 @@ const Salon = () => {
                 </View>
               </TouchableOpacity> */}
 
-            </View>
-          )
-        }}
-      />
+              </View>
+            )
+          }}
+        />
       </View>
       <View style={{}}>
         <RBSheet
@@ -439,7 +439,7 @@ const Salon = () => {
 
             <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Styles</Text>
-              <View style={{ flexDirection: 'row', alignSelf: 'center', gap:20, marginVertical: 5 }}>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 20, marginVertical: 5 }}>
                 <TouchableOpacity
                   style={{
                     width: 100,

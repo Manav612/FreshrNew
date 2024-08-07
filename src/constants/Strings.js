@@ -159,6 +159,7 @@ export const NavigationScreens = {
   ForgotPasswordScreen: 'Forgot Password Screen',
   OTPScreen: 'OTPScreen',
   OurServicesScreen: 'OurServices Screen',
+  StripePaymentComponent: 'StripePaymentComponent',
   PendingScreen: 'PendingScreen',
   OngoingScreen: 'OngoingScreen',
   HistoryScreen: 'HistoryScreen',

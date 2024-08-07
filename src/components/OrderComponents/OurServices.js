@@ -11,6 +11,7 @@ import {
   RefreshControl,
   Alert,
   Modal,
+  Button,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,6 +33,8 @@ import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { barber } from '../../constants/Icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ongoing from '../MyBookingDetails/Ongoing';
+
 
 const OurServices = ({ route }) => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -41,9 +44,7 @@ const OurServices = ({ route }) => {
   const { SelectedProf, locationData, facilitiesData } = route.params;
   const [FetchedDeliveryData, setFetchedDeliveryData] = useState([]);
   const coordinates = route.params.coorinates;
-  console.log("==============   selected facilitiiiiii   ==============", facilitiesData);
-  // console.log("==============   selected coordinates   ==============", coordinates);
-  // const location = facilitiesData?.formattedAddress
+
   const facilitiesInfo = {
 
     coordinates: [
@@ -52,7 +53,7 @@ const OurServices = ({ route }) => {
     ],
     address: facilitiesData?.formattedAddress,
   };
-  console.log("======  facilitiesInfo   ========", facilitiesInfo);
+
   const [ModalVisible, setModalVisible] = useState(false);
 
   const selectedProfId = SelectedProf._id;
@@ -63,38 +64,39 @@ const OurServices = ({ route }) => {
   const [selected, setSelected] = useState([]);
   const [fetchedServices, setFetchedServices] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [orderData, setOrderData] = useState()
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [id, setId] = useState('');
   const refRBSheet = useRef(null);
   const navigation = useNavigation();
 
   const authToken = useSelector(state => state.AuthReducer);
 
-  const startTimer = () => {
-    // if (!isTimerRunning) {
-    //   const interval = setInterval(() => {
-    //     setTimeLeft(prevTime => {
-    //       if (prevTime <= 1) {
-    //         clearInterval(interval);
-    //         setIsTimerRunning(false);
-    //         refRBSheet?.current?.close();
-    //         navigation.navigate(NavigationScreens.HomeScreen);
-    //         return 0;
-    //       }
-    //       return prevTime - 1;
-    //     });
-    //   }, 1000);
-    //   setTimer(interval);
-    //   setIsTimerRunning(true);
-    // }
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setTimeout(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+      setId(timerId);
+      return () => clearTimeout(timerId);
+    }
+  }, [timeLeft]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+  const openBottomSheet = () => {
+    refRBSheet?.current?.open();
+
   };
 
-  const stopTimer = () => {
-    if (timer) {
-      clearInterval(timer);
-      setTimer(null);
-      setIsTimerRunning(false);
-    }
+  const closeBottomSheet = () => {
+    clearTimeout(id);
+    refRBSheet?.current?.close();
+
   };
 
   const onRefresh = React.useCallback(() => {
@@ -109,8 +111,10 @@ const OurServices = ({ route }) => {
       console.log(
         '====  Order Accepted ======', data,
       );
-      closeBottomSheet()
-      navigation.navigate(NavigationScreens.PaymentMethodScreen, { data: data });
+      openBottomSheet()
+      setOrderData(data)
+      // closeBottomSheet()
+      // navigation.navigate(NavigationScreens.PaymentMethodScreen, { data: data });
     });
     socketServices.on('cancle_order', data => {
       console.log(
@@ -127,13 +131,6 @@ const OurServices = ({ route }) => {
     };
   }, []);
 
-  const formatTime = seconds => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
-      .toString()
-      .padStart(2, '0')}`;
-  };
 
   useEffect(() => {
     checkLocationPermission();
@@ -222,17 +219,13 @@ const OurServices = ({ route }) => {
     });
   };
 
-  const openBottomSheet = () => {
-    refRBSheet.current.open();
-    startTimer();
-  };
+  const handlePayNow = () => {
+    closeBottomSheet()
+    return (
+      <Ongoing orderData={orderData} />
+    )
+  }
 
-  const closeBottomSheet = () => {
-    if (refRBSheet.current) {
-      refRBSheet.current.close();
-    }
-    stopTimer();
-  };
 
   const handleBookNow = () => {
     if (selected.length > 0) {
@@ -269,7 +262,18 @@ const OurServices = ({ route }) => {
 
       if (res.data.status === 'success') {
         // openBottomSheet();
-        navigation.navigate(NavigationScreens.MyBookingScreen)
+        navigation.navigate(NavigationScreens.MyBookingScreen, {
+          orderData: {
+            recipient: SelectedProf.user._id,
+            message: {
+              type: 'create_order',
+              data: {
+                order: res.data.order,
+              },
+              service: selected
+            },
+          }
+        })
         socketServices.emit('order_update', {
           recipient: SelectedProf.user._id,
           message: {
@@ -283,7 +287,7 @@ const OurServices = ({ route }) => {
         console.log("==================      selectedddddddd       ====================", selected);
 
       } else {
-        Alert.alert(res.data.message);
+        Alert.alert("==== our services screen ====", res.data.message);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -409,6 +413,9 @@ const OurServices = ({ route }) => {
       <ScrollView showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
+
+
+
         <View
           style={{
             flexDirection: 'row',
@@ -433,75 +440,9 @@ const OurServices = ({ route }) => {
           style={{ flex: 1 }}
           scrollEnabled={false}
         />
-        <RBSheet
-          ref={refRBSheet}
-          height={Screen_Height * 0.5}
-          customStyles={{
-            wrapper: {
-              backgroundColor: COLOR.BLACK_40,
-            },
-            container: {
-              backgroundColor: COLOR.WHITE,
-              borderRadius: 40,
-              borderBottomRightRadius: 0,
-              borderBottomLeftRadius: 0,
-              elevation: 10,
-              shadowColor: COLOR.BLACK,
-            },
-            draggableIcon: {
-              backgroundColor: COLOR.BLACK,
-            },
-          }}
-          customModalProps={{
-            animationType: 'slide',
-            statusBarTranslucent: true,
-          }}
-          customAvoidingViewProps={{
-            enabled: false,
-          }}>
-          <View
-            style={{
-              width: Screen_Width,
-              height: Screen_Height * 0.5,
-              paddingHorizontal: 15,
-              backgroundColor: COLOR.WHITE,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: 'bold',
-                marginBottom: 20,
-                color: COLOR.BLACK,
-                textAlign: 'center',
-              }}>
-              Wait while your order is accepted
-            </Text>
-            <Text style={{ fontSize: 48, fontWeight: 'bold', color: COLOR.BLACK }}>
-              {formatTime(timeLeft)}
-            </Text>
-            {/* <TouchableOpacity
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 50,
-                borderRadius: 35,
-                backgroundColor: COLOR.CANCEL_B,
-                marginVertical: 15,
-                width: Screen_Width * 0.95,
-                marginHorizontal: 10,
-              }}
-            // onPress={PutCancelData}
-            >
-              <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '700' }}>
-                Cancel Order
-              </Text>
-            </TouchableOpacity> */}
-          </View>
-        </RBSheet>
+
         <View style={{ height: 170 }} />
-      </ScrollView>
+      </ScrollView >
       <TouchableOpacity
         style={{
           justifyContent: 'center',

@@ -375,25 +375,6 @@ const ReviewSummary = ({ route }) => {
   }, [OrderData]);
 
   const handleConfirmPayment = () => {
-    socketServices.emit('order_update', {
-      recipient: OrderData.sender,
-      message: {
-        type: 'payment_Done',
-        id: OrderData.message.orderDetail,
-        order_id: OrderData.message.order_id,
-        coordinates: OrderData.message.coordinates,
-        orderData: OrderData.message.orderData,
-        services: OrderData.message.orderData.order.services
-      },
-    });
-    socketServices.emit('order_update', {
-      recipient: OrderData.sender,
-      message: {
-        type: 'payment_Done_close',
-        id: OrderData,
-        services: OrderData.message.orderData.order.services
-      },
-    });
     navigation.navigate(NavigationScreens.LiveTrackingClientSideScreen, { orderData: OrderData, services: services });
   };
 

@@ -1,4 +1,5 @@
 import {
+  Image,
   Modal,
   ScrollView,
   StatusBar,
@@ -8,19 +9,19 @@ import {
   TouchableOpacityBase,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MapView from 'react-native-maps';
-import {Image} from 'react-native-animatable';
-import {Screen_Width} from '../constants/Constants';
-import {useSelector} from 'react-redux';
-import {COLOR_DARK, COLOR_LIGHT} from '../constants/Colors';
-import {Hair1} from '../constants/Icons';
+import { Screen_Width } from '../constants/Constants';
+import { useSelector } from 'react-redux';
+import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
+import { ComeToYouWhite, Hair1 } from '../constants/Icons';
 import ActiveLine from '../components/Story/Story/ActiveLine';
+import LiveTrackingMap from '../components/LiveTrackingMap';
 
 const MapScreen2 = () => {
   const [directionModalVisible, setDirectionModalVisibility] = useState(false);
@@ -28,20 +29,25 @@ const MapScreen2 = () => {
   const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
   const [height, setHeight] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = ({services}) => {
+  const [Prof_distance, setProf_distance] = useState('')
+  const [Prof_duration, setProf_duration] = useState('')
+  const [Client_distance, setClient_distance] = useState('')
+  const [Client_duration, setClient_duration] = useState('')
+  const toggleDropdown = ({ services }) => {
     setIsOpen(!isOpen);
   };
 
   const services = [
-    {name: 'Wings', price: 28.57},
-    {name: 'Wings', price: 28.57},
-    {name: 'Wings', price: 28.57},
+    { name: 'Wings', price: 28.57 },
+    { name: 'Wings', price: 28.57 },
+    { name: 'Wings', price: 28.57 },
   ];
 
   const styles = StyleSheet.create({
     Container: {
       flex: 1,
       backgroundColor: '#fff',
+      // paddingHorizontal: 15
     },
     ContentContainer: {
       padding: 10,
@@ -76,7 +82,7 @@ const MapScreen2 = () => {
       borderRadius: 15,
       backgroundColor: '#fff',
       shadowOpacity: 0.1,
-      shadowOffset: {height: 2},
+      shadowOffset: { height: 2 },
       shadowRadius: 2,
     },
     MapContainer: {
@@ -102,7 +108,7 @@ const MapScreen2 = () => {
       alignItems: 'center',
       height: 35,
       shadowOpacity: 0.1,
-      shadowOffset: {height: 1},
+      shadowOffset: { height: 1 },
       shadowRadius: 1,
     },
     WhiteText: {
@@ -120,7 +126,7 @@ const MapScreen2 = () => {
       borderColor: '#f1f2f3',
       backgroundColor: '#fff',
       shadowOpacity: 0.1,
-      shadowOffset: {height: 1},
+      shadowOffset: { height: 1 },
       shadowRadius: 1,
       marginBottom: 5,
     },
@@ -150,7 +156,7 @@ const MapScreen2 = () => {
       padding: 30,
       backgroundColor: '#fff',
       elevation: 5,
-      shadowOffset: {width: 0, height: 5},
+      shadowOffset: { width: 0, height: 5 },
       shadowOpacity: 0.3,
       shadowRadius: 5,
       alignItems: 'center',
@@ -176,7 +182,7 @@ const MapScreen2 = () => {
   });
 
   return (
-    <View style={styles.Container}>
+    <View style={[styles.Container, { paddingHorizontal: 10 }]}>
       <StatusBar
         translucent
         barStyle={'dark-content'}
@@ -187,7 +193,7 @@ const MapScreen2 = () => {
         style={styles.Container}
         contentContainerStyle={[
           styles.ContentContainer,
-          height > 0 && {paddingTop: height / 2 + 60},
+          // height > 0 && { paddingTop: height / 2 },
         ]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.InnerContainer}>
@@ -199,7 +205,7 @@ const MapScreen2 = () => {
                 borderRadius: 15,
                 padding: 10,
                 shadowOpacity: 0.1,
-                shadowOffset: {height: 1},
+                shadowOffset: { height: 1 },
                 shadowRadius: 1,
                 backgroundColor: '#fff',
                 position: 'absolute',
@@ -207,16 +213,14 @@ const MapScreen2 = () => {
                 width: '100%',
                 alignSelf: 'center',
               },
-              height > 0 && {top: -height / 2},
+              height > 0 && { top: -height / 2 },
             ]}
             onLayout={layout => {
               setHeight(layout.nativeEvent.layout.height);
             }}>
-            {/* <Text style={[styles.LabelText, {fontSize: 18}]}>
-              New Booking Request
-            </Text> */}
-            <View style={[styles.IdContainer, {marginVertical: 10}]}>
-              <Text style={[styles.UserName, {textAlign: 'center'}]}>
+
+            <View style={[styles.IdContainer, { marginVertical: 10 }]}>
+              <Text style={[styles.UserName, { textAlign: 'center' }]}>
                 Time remaining: 1:52
               </Text>
             </View>
@@ -225,38 +229,12 @@ const MapScreen2 = () => {
               duration={1000 * 30}
               width={200}
               isActive={true}
-              onLayout={() => {}}
+              onLayout={() => { }}
               bgColor={COLOR.ORANGECOLOR}
               progressColor={COLOR.BLACK}
             />
 
-            {/* <View style={[styles.IdContainer, {marginTop: 15}]}>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  padding: 7,
-                  backgroundColor: COLOR.ORANGECOLOR,
-                  borderRadius: 7,
-                }}>
-                <Text style={[styles.LabelText, {color: COLOR.WHITE}]}>
-                  Accept
-                </Text>
-              </TouchableOpacity>
-              <View style={{width: 10}} />
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  padding: 7,
-                  backgroundColor: COLOR.GULABI,
-                  borderRadius: 7,
-                  borderColor: COLOR.ORANGECOLOR,
-                  borderWidth: 1,
-                }}>
-                <Text style={[styles.LabelText, {color: COLOR.ORANGECOLOR}]}>
-                  Reject
-                </Text>
-              </TouchableOpacity>
-            </View> */}
+
             <TouchableOpacity
               style={{
                 flex: 1,
@@ -265,7 +243,7 @@ const MapScreen2 = () => {
                 borderRadius: 7,
                 marginVertical: 5,
               }}>
-              <Text style={[styles.LabelText, {color: COLOR.WHITE}]}>
+              <Text style={[styles.LabelText, { color: COLOR.WHITE }]}>
                 please wait for approval
               </Text>
             </TouchableOpacity>
@@ -276,18 +254,18 @@ const MapScreen2 = () => {
               flexDirection: 'row',
               alignItems: 'center',
               zIndex: 1000,
-              top: 50,
+              top: 60,
               justifyContent: 'space-between',
             }}>
             <Text style={styles.IdText}>ID : 75fdgdgd4545645</Text>
-            <Text style={[styles.UserName, {textAlign: 'right'}]}>
+            <Text style={[styles.UserName, { textAlign: 'right' }]}>
               22-07-2024
             </Text>
           </View>
           <View
             style={[
               styles.MapContainer,
-              height > 0 && {marginTop: height / 1.8},
+              height > 0 && { marginTop: height / 1.8 },
             ]}>
             <MapView
               style={{
@@ -302,6 +280,26 @@ const MapScreen2 = () => {
               }}
               provider="google"
             />
+            {/* <LiveTrackingMap
+                mapApiKey={'AIzaSyDjksmogYn7mFtMJFw-eNFsoCuHGM87-j8'}
+                onLocationChange={(data) => {
+                  socketServices.emit('order_update', {
+                    recipient: orderData.sender,
+                    message: {
+                      type: 'Location_ChangeCLI',
+                      id: orderData.message.id,
+                      order_id: orderData.message.order_id,
+                      data,
+                    },
+                  });
+                }}
+                socketType={'Location_ChangeSP'}
+                staticCoordinate={orderData?.message?.coordinates}
+                Prof_distance={setProf_distance}
+                Prof_duration={setProf_duration}
+                Client_distance={setClient_distance}
+                Client_duration={setClient_duration}
+              /> */}
             <View
               style={[
                 styles.BlackContainer,
@@ -315,7 +313,28 @@ const MapScreen2 = () => {
                   backgroundColor: COLOR.BLACK,
                 },
               ]}>
-              <Text style={[styles.WhiteText, {fontSize: 10}]}>3 in Queue</Text>
+              <Text style={[styles.WhiteText, { fontSize: 10 }]}>3 in Queue</Text>
+            </View>
+            <View
+              style={[
+                styles.BlackContainer,
+                {
+                  height: 30,
+                  position: 'absolute',
+                  alignSelf: 'center',
+                  flexDirection: 'row',
+                  gap: 5,
+                  // top: 40,
+                  // borderRadius: 0,
+                  // borderBottomRightRadius: 7,
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  zIndex: 100,
+                  backgroundColor: COLOR.ChartBlue,
+                },
+              ]}>
+              <Image source={ComeToYouWhite} style={{ height: 15, width: 15 }} />
+              <Text style={[styles.WhiteText, { fontSize: 10 }]}>Comes to you</Text>
             </View>
             <View
               style={[
@@ -331,7 +350,7 @@ const MapScreen2 = () => {
                   backgroundColor: COLOR.BLACK,
                 },
               ]}>
-              <Text style={[styles.WhiteText, {fontSize: 10}]}>Pending</Text>
+              <Text style={[styles.WhiteText, { fontSize: 10 }]}>Pending</Text>
             </View>
             <View
               style={{
@@ -354,7 +373,7 @@ const MapScreen2 = () => {
                   marginTop: 15,
                   flexDirection: 'row',
                   shadowOpacity: 0.2,
-                  shadowOffset: {height: 2},
+                  shadowOffset: { height: 2 },
                   shadowRadius: 2,
                   position: 'absolute',
                   bottom: 0,
@@ -369,7 +388,7 @@ const MapScreen2 = () => {
                     }}>
                     <FontAwesome5 name="user" color={'#000'} size={15} />
                     <Text
-                      style={[styles.LabelText, {fontSize: 13, marginLeft: 7}]}>
+                      style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
                       Professional
                     </Text>
                   </View>
@@ -386,7 +405,7 @@ const MapScreen2 = () => {
                       size={15}
                     />
                     <Text
-                      style={[styles.LabelText, {fontSize: 13, marginLeft: 5}]}>
+                      style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
                       0.2Km
                     </Text>
                     <Entypo
@@ -399,7 +418,7 @@ const MapScreen2 = () => {
                     />
                     <Feather name="clock" color={'#000'} size={15} />
                     <Text
-                      style={[styles.LabelText, {fontSize: 13, marginLeft: 5}]}>
+                      style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
                       0.7Min
                     </Text>
                   </View>
@@ -414,7 +433,7 @@ const MapScreen2 = () => {
                     }}>
                     <FontAwesome5 name="user" color={'#000'} size={15} />
                     <Text
-                      style={[styles.LabelText, {fontSize: 13, marginLeft: 7}]}>
+                      style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
                       Client
                     </Text>
                   </View>
@@ -431,7 +450,7 @@ const MapScreen2 = () => {
                       size={15}
                     />
                     <Text
-                      style={[styles.LabelText, {fontSize: 13, marginLeft: 5}]}>
+                      style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
                       0.2Km
                     </Text>
                     <Entypo
@@ -444,7 +463,7 @@ const MapScreen2 = () => {
                     />
                     <Feather name="clock" color={'#000'} size={15} />
                     <Text
-                      style={[styles.LabelText, {fontSize: 13, marginLeft: 5}]}>
+                      style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
                       0.7Min
                     </Text>
                   </View>
@@ -453,7 +472,7 @@ const MapScreen2 = () => {
               <Text
                 style={[
                   styles.LabelText,
-                  {fontSize: 20, paddingBottom: 70, color: COLOR.ORANGECOLOR},
+                  { fontSize: 20, paddingBottom: 70, color: COLOR.ORANGECOLOR },
                 ]}>
                 Meet-up in 2:20 min
               </Text>
@@ -495,7 +514,7 @@ const MapScreen2 = () => {
                       }}>
                       <Image
                         source={Hair1}
-                        style={{width: 50, height: 50, borderRadius: 5}}
+                        style={{ width: 50, height: 50, borderRadius: 5 }}
                       />
                       <Text
                         style={{
@@ -524,7 +543,7 @@ const MapScreen2 = () => {
                       }}>
                       <Image
                         source={Hair1}
-                        style={{width: 50, height: 50, borderRadius: 5}}
+                        style={{ width: 50, height: 50, borderRadius: 5 }}
                       />
                       <View style={{}}>
                         <Text
@@ -541,7 +560,7 @@ const MapScreen2 = () => {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                             borderWidth: 1,
-                            width: Screen_Width * 0.5,
+                            width: Screen_Width * 0.4,
                             borderRadius: 5,
                             paddingHorizontal: 10,
                             borderColor: COLOR.LINECOLOR,
@@ -574,15 +593,16 @@ const MapScreen2 = () => {
                     <View
                       key={index}
                       style={{
-                        width: Screen_Width * 0.85,
+                        width: Screen_Width * 0.81,
                         borderRadius: 7,
                         flexDirection: 'row',
                         alignItems: 'center',
+                        justifyContent: 'center',
                         borderWidth: 1,
                         borderColor: '#f1f2f3',
                         backgroundColor: '#fff',
                         shadowOpacity: 0.1,
-                        shadowOffset: {height: 1},
+                        shadowOffset: { height: 1 },
                         shadowRadius: 1,
                         marginBottom: 5,
                         padding: 5,
@@ -614,7 +634,7 @@ const MapScreen2 = () => {
                   padding: 8,
                   borderRadius: 7,
                 }}>
-                <Text style={[styles.WhiteText, {height: 'auto'}]}>$8000</Text>
+                <Text style={[styles.WhiteText, { height: 'auto' }]}>$8000</Text>
               </View>
             )}
           </View>
@@ -626,7 +646,7 @@ const MapScreen2 = () => {
               marginTop: 10,
             }}>
             <FontAwesome5 name="user-circle" color={'#000'} size={20} />
-            <Text style={[styles.UserName, {marginLeft: 7}]}>Elon Musk</Text>
+            <Text style={[styles.UserName, { marginLeft: 7 }]}>Elon Musk</Text>
           </View>
 
           <View
@@ -636,7 +656,7 @@ const MapScreen2 = () => {
               marginTop: 10,
             }}>
             <Entypo name="scissors" color={'#000'} size={20} />
-            <Text style={[styles.UserName, {marginLeft: 7}]}>Jk Jk</Text>
+            <Text style={[styles.UserName, { marginLeft: 7 }]}>Jk Jk</Text>
             <Entypo name="message" color={'#000'} size={24} />
           </View>
         </View>
@@ -673,7 +693,7 @@ const MapScreen2 = () => {
                   justifyContent: 'center',
                   borderColor: '#fff',
                   borderWidth: 1,
-                  shadowOffset: {height: 2},
+                  shadowOffset: { height: 2 },
                   shadowRadius: 2,
                   shadowOpacity: 0.3,
                 }}
@@ -687,7 +707,7 @@ const MapScreen2 = () => {
                   OK
                 </Text>
               </TouchableOpacity>
-              <View style={{width: 10}} />
+              <View style={{ width: 10 }} />
               <TouchableOpacity
                 style={{
                   flex: 1,
@@ -698,7 +718,7 @@ const MapScreen2 = () => {
                   justifyContent: 'center',
                   borderColor: '#fff',
                   borderWidth: 1,
-                  shadowOffset: {height: 2},
+                  shadowOffset: { height: 2 },
                   shadowRadius: 2,
                   shadowOpacity: 0.3,
                 }}

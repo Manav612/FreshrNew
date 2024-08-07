@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList, RefreshControl, ScrollView, Modal } from 'react-native'
+import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, FlatList, RefreshControl, ScrollView, Modal, Alert } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
-import { OnBoard1 } from '../../../constants/Icons';
+import { ComeToYouWhite, Hair1, HomeIcon2, InSalonWhite, OnBoard1 } from '../../../constants/Icons';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,7 +12,14 @@ import axios from 'axios';
 import FastImage from 'react-native-fast-image';
 import socketServices from '../../../Services/Socket';
 import { NavigationScreens } from '../../../constants/Strings';
-
+import MapScreen2 from '../../MapScreen2';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MapView from 'react-native-maps';
+import ActiveLine from '../../../components/Story/Story/ActiveLine';
 const ProfessionalPending = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -23,52 +30,50 @@ const ProfessionalPending = () => {
     const [FetchedData, setFetchedData] = useState([]);
     const [orderData, setOrderData] = useState({});
     const [timer, setTimer] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState(1 * 60); // 5 minutes in seconds
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const refRBSheet = useRef();
     const authToken = useSelector(state => state.AuthReducer);
+    const [directionModalVisible, setDirectionModalVisibility] = useState(false);
+    const [services, setServices] = useState()
+    const [id, setId] = useState('');
+    const [height, setHeight] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+    const [hide, setHide] = useState(false)
+    const toggleDropdown = ({ services2 }) => {
+        setIsOpen(!isOpen);
+    };
 
-    const formatTime = seconds => {
+    const services2 = [
+        { name: 'Wings', price: 28.57 },
+        { name: 'Wings', price: 28.57 },
+        { name: 'Wings', price: 28.57 },
+    ];
+
+    useEffect(() => {
+        if (timeLeft > 0) {
+            const timerId = setTimeout(() => {
+                setTimeLeft(timeLeft - 1);
+            }, 1000);
+            setId(timerId);
+            return () => clearTimeout(timerId);
+        }
+    }, [timeLeft]);
+
+    const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
-        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
-            .toString()
-            .padStart(2, '0')}`;
-    };
-    const startTimer = () => {
-        // if (!isTimerRunning) {
-        //   const interval = setInterval(() => {
-        //     setTimeLeft(prevTime => {
-        //       if (prevTime <= 1) {
-        //         clearInterval(interval);
-        //         setIsTimerRunning(false);
-        //         refRBSheet?.current?.close();
-        //         navigation.navigate(NavigationScreens.ProfessionalHomeScreen);
-        //         return 0;
-        //       }
-        //       return prevTime - 1;
-        //     });
-        //   }, 1000);
-        //   setTimer(interval);
-        //   setIsTimerRunning(true);
-        // }
-    };
-
-    const stopTimer = () => {
-        if (timer) {
-            clearInterval(timer);
-            setTimer(null);
-            setIsTimerRunning(false);
-        }
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     };
     const openBottomSheet = () => {
         refRBSheet?.current?.open();
-        startTimer();
+
     };
 
     const closeBottomSheet = () => {
+        clearTimeout(id);
         refRBSheet?.current?.close();
-        stopTimer();
+
     };
     const styles = StyleSheet.create({
         modalContainer: {
@@ -78,6 +83,141 @@ const ProfessionalPending = () => {
             width: '100%',
             // backgroundColor: COLOR.ROYALBLUE,
 
+        },
+        Container: {
+            flex: 1,
+            backgroundColor: '#fff',
+            marginTop: 5,
+        },
+        ContentContainer: {
+            // padding: 10,
+            paddingTop: hide ? null : 60,
+        },
+        IdContainer: {
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        IdText: {
+            fontSize: 13,
+            color: '#000',
+            fontWeight: '600',
+            textTransform: 'uppercase',
+        },
+        IdCopyButton: {
+            height: 30,
+            aspectRatio: 1 / 1,
+            borderWidth: 1,
+            borderColor: '#717273',
+            borderRadius: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        InnerContainer: {
+            width: '100%',
+            padding: 10,
+            borderWidth: 1,
+            borderColor: '#e1e1e1',
+            borderRadius: 15,
+            backgroundColor: '#fff',
+            shadowOpacity: 0.1,
+            shadowOffset: { height: 2 },
+            shadowRadius: 2,
+        },
+        MapContainer: {
+            width: '100%',
+            aspectRatio: 1 / 1.1,
+            borderRadius: 10,
+            overflow: 'hidden',
+            marginTop: 15,
+        },
+        DateTimeContainer: {
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: 15,
+        },
+        BlackContainer: {
+            backgroundColor: COLOR.ORANGECOLOR,
+            flexDirection: 'row',
+            paddingHorizontal: 15,
+            paddingVertical: 5,
+            borderRadius: 7,
+            alignItems: 'center',
+            height: 35,
+            shadowOpacity: 0.1,
+            shadowOffset: { height: 1 },
+            shadowRadius: 1,
+        },
+        WhiteText: {
+            color: '#FFF',
+            fontSize: 13,
+            fontWeight: '600',
+        },
+        UserDetailsContainer: {
+            padding: 7,
+            borderRadius: 7,
+            marginTop: 7,
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: '#f1f2f3',
+            backgroundColor: '#fff',
+            shadowOpacity: 0.1,
+            shadowOffset: { height: 1 },
+            shadowRadius: 1,
+            marginBottom: 5,
+        },
+        UserImage: {
+            width: 50,
+            height: 50,
+            aspectRatio: 1 / 1,
+            borderRadius: 7,
+        },
+        UserName: {
+            flex: 1,
+            marginLeft: 10,
+            fontSize: 13,
+            color: '#000',
+            fontWeight: '600',
+        },
+        ViewWrapper: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#00000050',
+            paddingBottom: '30%',
+        },
+        ModalContainer: {
+            width: '85%',
+            borderRadius: 15,
+            padding: 30,
+            backgroundColor: '#fff',
+            elevation: 5,
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            alignItems: 'center',
+        },
+        LabelText: {
+            fontSize: 16,
+            color: COLOR.BLACK,
+            textAlign: 'center',
+            fontWeight: '600',
+        },
+        DescText: {
+            fontSize: 14,
+            color: '#929292',
+            marginTop: 15,
+        },
+        DistenceContainer: {
+            borderColor: 'grey',
+            borderTopWidth: 1,
+            flex: 1,
+            padding: 10,
+            bottom: -34,
         },
 
         modalContainer: {
@@ -105,7 +245,7 @@ const ProfessionalPending = () => {
         socketServices.on('payment_Done_close', data => {
             console.log('==== payment done      ====================', data.message.id.message);
             closeBottomSheet()
-            navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
+            // navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
         });
     }, []);
 
@@ -123,6 +263,7 @@ const ProfessionalPending = () => {
                 order_id: data.message.data.order.id,
                 coordinates: data.message.data.order.address?.coordinates,
             })
+            setServices(data.services)
             // setModalVisible(true); // Open the modal when a new order is received
         });
     }, []);
@@ -148,17 +289,17 @@ const ProfessionalPending = () => {
         }
     };
 
-    const PutData = async (orderId, coordinates) => {
-        console.log("===================>", orderId, coordinates);
+    const onAccept = async () => {
+
+        const orderId = orderData?.order_id;
+        const coordinates = orderData?.coordinates;
         try {
-            setModalVisible(false)
             // console.log("Order Id : ",coordinates);
             const config = {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
             };
-            console.log('=================>', `${BASE_API_URL}/professionals/professional/acceptOrder/${orderId}`);
             const res = await axios.put(
                 `${BASE_API_URL}/professionals/professional/acceptOrder/${orderId}`,
                 {},
@@ -166,14 +307,10 @@ const ProfessionalPending = () => {
             );
             console.log('===========  milllaaa  ==========', JSON.stringify(res.data.data));
             if (res.status == 200) {
-                // console.log('===========  milllaaa ayush bhai bolte guru  ==========',{
-                //   recipient: res.data.data.order.client._id,
-                //   message: {
-                //     paymentKey: res.data.data.order.paymentKey,
-                //   },
-                // });
-                openBottomSheet()
-                setOrderData({});
+                console.log('===========   orderrr  acceptted   ==========')
+                // openBottomSheet()
+                Alert.alert('Please wait while client do the payment')
+                setHide(true)
                 socketServices.emit('order_update', {
                     recipient: res.data.data.order.client.id,
                     message: {
@@ -183,8 +320,44 @@ const ProfessionalPending = () => {
                         order_id: orderId,
                         coordinates: coordinates,
                         orderData: res.data.data,
+                        services: services
                     },
                 });
+                setOrderData({});
+            }
+            // setFetchedData(res.data.facilities.facility);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const PutCancelData = async () => {
+        const orderId = orderData?.order_id;
+        try {
+            // console.log("Order Id : ",orderId);
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            };
+            const res = await axios.put(
+                `${BASE_API_URL}/professionals/professional/cancelOrder/${orderId}`,
+                {},
+                config,
+            );
+            console.log('===========  cancelllll  ==========', res.data);
+            if (res.data.status === 'success') {
+                socketServices.emit('order_update', {
+                    recipient: res.data.data.order.client.id,
+                    message: {
+                        type: 'cancle_order',
+                        order_id: orderId,
+                    },
+                });
+                Alert.alert('Booking is cancel successfully');
+                // fetchData();
+            } else {
+                Alert.alert(res.data.message);
             }
             // setFetchedData(res.data.facilities.facility);
         } catch (error) {
@@ -198,139 +371,589 @@ const ProfessionalPending = () => {
 
     const renderItem = ({ item }) => (
 
-        <View
+        <View style={styles.Container}>
 
-            style={{ backgroundColor: COLOR.WHITE, shadowColor: COLOR.BLACK, elevation: 3, marginHorizontal: 3, borderRadius: 10, paddingHorizontal: 20, marginVertical: 10 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-                <View>
-                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{item?.createdAt}</Text>
-                </View>
-                <View style={{ backgroundColor: COLOR.ChartBlue, width: 75, height: 25, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: COLOR.WHITE }}>Pending</Text></View>
-            </View>
-            <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10 }} />
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
 
-                <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: COLOR.BLACK, marginVertical: 2 }}>
-                        {item?.professional?.user?.firstName} {item?.professional?.user?.lastName}
-                    </Text>
-                </View>
-            </View>
-            <FlatList
-                data={item.services}
-                keyExtractor={(service, index) => index.toString()}
-                renderItem={({ item: service }) => (
-                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
-                        <View style={{ height: 65, width: 65, backgroundColor: COLOR.LINECOLOR, borderRadius: 99, alignItems: 'center', justifyContent: 'center' }}>
-                            <FastImage source={{ uri: service?.photo }} resizeMode='contain' style={{ width: 90, height: 100, borderRadius: 10 }} />
+            <ScrollView
+                style={styles.Container}
+                contentContainerStyle={[
+                    styles.ContentContainer,
+                    // height > 0 && { paddingTop: height / 2 },
+                ]}
+                showsVerticalScrollIndicator={false}>
+                <View style={styles.InnerContainer}>
+                    {hide ? null :
+                        <View
+                            style={[
+                                {
+                                    borderWidth: 1,
+                                    borderColor: '#e1e1e1',
+                                    borderRadius: 15,
+                                    padding: 10,
+                                    shadowOpacity: 0.1,
+                                    shadowOffset: { height: 1 },
+                                    shadowRadius: 1,
+                                    backgroundColor: '#fff',
+                                    position: 'absolute',
+                                    zIndex: 100,
+                                    width: '100%',
+                                    alignSelf: 'center',
+                                    marginTop: 6
+                                },
+                                height > 0 && { top: -height / 2 },
+                            ]}
+                            onLayout={layout => {
+                                setHeight(layout.nativeEvent.layout.height);
+                            }}>
+                            <Text style={[styles.LabelText, { fontSize: 18 }]}>
+                                New Booking Request
+                            </Text>
+                            <View style={[styles.IdContainer, { marginVertical: 5 }]}>
+                                <Text style={[styles.UserName, { textAlign: 'center' }]}>
+                                    Time remaining: 1:407
+                                </Text>
+                            </View>
+
+                            <ActiveLine
+                                duration={1000 * 30}
+                                width={200}
+                                isActive={true}
+                                onLayout={() => { }}
+                                bgColor={COLOR.ORANGECOLOR}
+                                progressColor={COLOR.BLACK}
+                            />
+
+                            <View style={[styles.IdContainer, { marginTop: 10 }]}>
+                                <TouchableOpacity
+                                    onPress={onAccept}
+                                    style={{
+                                        flex: 1,
+                                        padding: 7,
+                                        backgroundColor: COLOR.ORANGECOLOR,
+                                        borderRadius: 7,
+                                    }}>
+                                    <Text style={[styles.LabelText, { color: COLOR.WHITE }]}>
+                                        Accept
+                                    </Text>
+                                </TouchableOpacity>
+                                <View style={{ width: 10 }} />
+                                <TouchableOpacity
+                                    style={{
+                                        flex: 1,
+                                        padding: 7,
+                                        backgroundColor: COLOR.GULABI,
+                                        borderRadius: 7,
+                                        borderColor: COLOR.ORANGECOLOR,
+                                        borderWidth: 1,
+                                    }}>
+                                    <Text style={[styles.LabelText, { color: COLOR.ORANGECOLOR }]}>
+                                        Reject
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            {/* <TouchableOpacity
+        style={{
+          flex: 1,
+          padding: 7,
+          backgroundColor: COLOR.ORANGECOLOR,
+          borderRadius: 7,
+          marginVertical: 5,
+        }}>
+        <Text style={[styles.LabelText, { color: COLOR.WHITE }]}>
+          please wait for approval
+        </Text>
+      </TouchableOpacity> */}
                         </View>
-                        <View style={{ flex: 1, marginLeft: 20 }}>
-                            <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>{service?.name}</Text>
-                            <Text style={{ fontSize: 15, color: COLOR.BLACK, marginVertical: 2 }}>{service?.category?.name}</Text>
-                            <Text style={{ fontSize: 15, color: COLOR.ORANGECOLOR, marginVertical: 2 }}>{service?.description}</Text>
-                            <Text style={{ fontSize: 15, color: COLOR.ORANGECOLOR, marginVertical: 2 }}>${service?.price}</Text>
+                    }
+
+                    <View
+                        style={{
+                            width: '100%',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            zIndex: 1000,
+                            top: hide ? null : 70,
+                            marginVertical: hide ? 10 : null,
+                            justifyContent: 'space-between',
+                        }}>
+                        <Text style={styles.IdText}>ID : 75fdgdgd4545645</Text>
+                        <Text style={[styles.UserName, { textAlign: 'right' }]}>
+                            22-07-2024
+                        </Text>
+                    </View>
+                    <View
+                        style={[
+                            styles.MapContainer,
+                            height > 0 && { marginTop: hide ? null : height / 1.8 },
+                        ]}>
+                        <MapView
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                            }}
+                            initialRegion={{
+                                latitude: 20.5937,
+                                longitude: 78.9629,
+                                latitudeDelta: 0.225,
+                                longitudeDelta: 0.225,
+                            }}
+                            provider="google"
+                        />
+
+                        <View
+                            style={[
+                                styles.BlackContainer,
+                                {
+                                    height: 30,
+                                    position: 'absolute',
+                                    //   top: 20,
+                                    borderRadius: 0,
+                                    borderBottomRightRadius: 7,
+                                    zIndex: 100,
+                                    backgroundColor: COLOR.BLACK,
+                                },
+                            ]}>
+                            <Text style={[styles.WhiteText, { fontSize: 10 }]}>3 in Queue</Text>
+                        </View>
+                        <View
+                            style={[
+                                styles.BlackContainer,
+                                {
+                                    height: 30,
+                                    position: 'absolute',
+                                    alignSelf: 'center',
+                                    flexDirection: 'row',
+                                    gap: 5,
+                                    // top: 40,
+                                    // borderRadius: 0,
+                                    borderTopLeftRadius: 0,
+                                    borderTopRightRadius: 0,
+                                    // borderBottomRightRadius: 7,
+                                    zIndex: 100,
+                                    backgroundColor: COLOR.ChartBlue,
+                                },
+                            ]}>
+                            {/* <Image source={ComeToYouWhite} style={{ height: 15, width: 15 }} /> */}
+                            <Image source={HomeIcon2} style={{ height: 15, width: 15 }} />
+                            {/* <Text style={[styles.WhiteText, { fontSize: 10 }]}>Go to client</Text> */}
+                            <Text style={[styles.WhiteText, { fontSize: 10 }]}>Meet in Salon</Text>
+                        </View>
+                        <View
+                            style={[
+                                styles.BlackContainer,
+                                {
+                                    height: 30,
+                                    position: 'absolute',
+                                    //   top: 20,
+                                    borderRadius: 0,
+                                    borderBottomLeftRadius: 7,
+                                    zIndex: 100,
+                                    right: 0,
+                                    backgroundColor: COLOR.BLACK,
+                                },
+                            ]}>
+                            <Text style={[styles.WhiteText, { fontSize: 10 }]}>Pending</Text>
+                        </View>
+                        <View
+                            style={{
+                                width: '96%',
+                                flex: 1,
+                                borderRadius: 7,
+                                position: 'absolute',
+                                bottom: 5,
+                                marginHorizontal: 5,
+                            }}>
+                            <View
+                                style={{
+                                    backgroundColor: '#fff',
+                                    flex: 1,
+                                    elevation: 2,
+                                    borderRadius: 7,
+                                    borderWidth: 1,
+                                    borderColor: '#f1f1f1',
+                                    paddingBottom: 34,
+                                    marginTop: 15,
+                                    flexDirection: 'row',
+                                    shadowOpacity: 0.2,
+                                    shadowOffset: { height: 2 },
+                                    shadowRadius: 2,
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    marginHorizontal: 5,
+                                }}>
+                                <View style={styles.DistenceContainer}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            flex: 1,
+                                            alignItems: 'center',
+                                        }}>
+                                        <FontAwesome5 name="user" color={'#000'} size={15} />
+                                        <Text
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
+                                            Professional
+                                        </Text>
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            flex: 1,
+                                            alignItems: 'center',
+                                            marginTop: 10,
+                                        }}>
+                                        <FontAwesome5
+                                            name="map-marker-alt"
+                                            color={'#000'}
+                                            size={15}
+                                        />
+                                        <Text
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
+                                            0.2Km
+                                        </Text>
+                                        <Entypo
+                                            name="cross"
+                                            color={'#000'}
+                                            size={15}
+                                            style={{
+                                                marginHorizontal: 2,
+                                            }}
+                                        />
+                                        <Feather name="clock" color={'#000'} size={15} />
+                                        <Text
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
+                                            0.7Min
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.DistenceContainer}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            flex: 1,
+                                            alignItems: 'center',
+                                        }}>
+                                        <FontAwesome5 name="user" color={'#000'} size={15} />
+                                        <Text
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
+                                            Client
+                                        </Text>
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            flex: 1,
+                                            alignItems: 'center',
+                                            marginTop: 10,
+                                        }}>
+                                        <FontAwesome5
+                                            name="map-marker-alt"
+                                            color={'#000'}
+                                            size={15}
+                                        />
+                                        <Text
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
+                                            0.2Km
+                                        </Text>
+                                        <Entypo
+                                            name="cross"
+                                            color={'#000'}
+                                            size={15}
+                                            style={{
+                                                marginHorizontal: 2,
+                                            }}
+                                        />
+                                        <Feather name="clock" color={'#000'} size={15} />
+                                        <Text
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 5 }]}>
+                                            0.7Min
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <Text
+                                style={[
+                                    styles.LabelText,
+                                    { fontSize: 20, paddingBottom: 70, color: COLOR.ORANGECOLOR },
+                                ]}>
+                                Meet-up in 2:20 min
+                            </Text>
                         </View>
                     </View>
-                )}
-            />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
-                <TouchableOpacity onPress={() => handleResetPress(item.id)} style={{ backgroundColor: selectedReceipt === item.id ? COLOR.ORANGECOLOR : COLOR.WHITE, height: 45, borderRadius: 30, width: Screen_Width * 0.75, alignItems: 'center', justifyContent: 'center', borderColor: COLOR.ORANGECOLOR, borderWidth: 2 }}>
-                    <Text style={{ fontSize: 18, fontWeight: '700', color: selectedReceipt === item.id ? COLOR.WHITE : COLOR.ORANGECOLOR }}>View E-Receipt </Text>
-                </TouchableOpacity>
-            </View>
 
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            borderWidth: 1,
+                            borderColor: COLOR.GRAY,
+                            borderRadius: 15,
+                            padding: 10,
+                            marginVertical: 10,
+                        }}>
+                        <View
+                            style={{
+                                // borderWidth: 1,
+                                width: isOpen ? null : Screen_Width * 0.6,
+                                borderColor: COLOR.GRAY,
+                                borderRadius: 10,
+                            }}>
+                            <TouchableOpacity
+                                onPress={toggleDropdown}
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    padding: 5,
+                                }}>
+                                {isOpen ? (
+                                    <>
+                                        <View
+                                            style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                gap: 10,
+                                            }}>
+                                            <Image
+                                                source={Hair1}
+                                                style={{ width: 50, height: 50, borderRadius: 5 }}
+                                            />
+                                            <Text
+                                                style={{
+                                                    color: COLOR.BLACK,
+                                                    fontSize: 18,
+                                                    fontWeight: '600',
+                                                }}>
+                                                Services ({services2.length})
+                                            </Text>
+                                        </View>
+                                        <MaterialIcons
+                                            name={
+                                                isOpen ? 'keyboard-arrow-up' : 'keyboard-arrow-down'
+                                            }
+                                            color={'#000'}
+                                            size={25}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        <View
+                                            style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                gap: 10,
+                                            }}>
+                                            <Image
+                                                source={Hair1}
+                                                style={{ width: 50, height: 50, borderRadius: 5 }}
+                                            />
+                                            <View style={{}}>
+                                                <Text
+                                                    style={{
+                                                        color: COLOR.GRAY,
+                                                        fontSize: 14,
+                                                        fontWeight: '500',
+                                                    }}>
+                                                    Services ({services2.length})
+                                                </Text>
+                                                <View
+                                                    style={{
+                                                        flexDirection: 'row',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        borderWidth: 1,
+                                                        width: Screen_Width * 0.4,
+                                                        borderRadius: 5,
+                                                        paddingHorizontal: 10,
+                                                        borderColor: COLOR.LINECOLOR,
+                                                    }}>
+                                                    <Text
+                                                        style={{
+                                                            color: COLOR.BLACK,
+                                                            fontSize: 14,
+                                                        }}>
+                                                        Wings
+                                                    </Text>
+                                                    <MaterialIcons
+                                                        name={
+                                                            isOpen
+                                                                ? 'keyboard-arrow-up'
+                                                                : 'keyboard-arrow-down'
+                                                        }
+                                                        color={'#000'}
+                                                        size={25}
+                                                    />
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </>
+                                )}
+                            </TouchableOpacity>
+                            {isOpen && (
+                                <View>
+                                    {services2.map((service, index) => (
+                                        <View
+                                            key={index}
+                                            style={{
+                                                width: Screen_Width * 0.81,
+                                                borderRadius: 7,
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                borderWidth: 1,
+                                                borderColor: '#f1f2f3',
+                                                backgroundColor: '#fff',
+                                                shadowOpacity: 0.1,
+                                                shadowOffset: { height: 1 },
+                                                shadowRadius: 1,
+                                                marginBottom: 5,
+                                                padding: 5,
+                                            }}>
+                                            <Image
+                                                style={styles.UserImage}
+                                                source={Hair1}
+                                                resizeMode="cover"
+                                            />
+                                            <Text style={styles.UserName}>{service.name}</Text>
+                                            <View style={styles.BlackContainer}>
+                                                <Text style={styles.WhiteText}>
+                                                    ${service.price.toFixed(2)}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    ))}
+                                </View>
+                            )}
+                        </View>
+
+                        {!isOpen && (
+                            <View
+                                style={{
+                                    backgroundColor: COLOR.ORANGECOLOR,
+                                    height: 35,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    padding: 8,
+                                    borderRadius: 7,
+                                }}>
+                                <Text style={[styles.WhiteText, { height: 'auto' }]}>$8000</Text>
+                            </View>
+                        )}
+                    </View>
+
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginTop: 10,
+                        }}>
+                        <FontAwesome5 name="user-circle" color={'#000'} size={20} />
+                        <Text style={[styles.UserName, { marginLeft: 7 }]}>Elon Musk</Text>
+                    </View>
+
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginTop: 10,
+                        }}>
+                        <Entypo name="scissors" color={'#000'} size={20} />
+                        <Text style={[styles.UserName, { marginLeft: 7 }]}>Jk Jk</Text>
+                        <Entypo name="message" color={'#000'} size={24} />
+                    </View>
+                </View>
+            </ScrollView>
+
+            <Modal
+                animationType="fade"
+                transparent
+                visible={directionModalVisible}
+                statusBarTranslucent>
+                <View style={styles.ViewWrapper}>
+                    <View style={styles.ModalContainer}>
+                        <Text
+                            style={
+                                styles.LabelText
+                            }>{`Please head to\ndesignated location`}</Text>
+                        <Text style={styles.DescText}>
+                            Once arrived please come back here{' '}
+                        </Text>
+
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                width: '100%',
+                                marginTop: 30,
+                            }}>
+                            <TouchableOpacity
+                                style={{
+                                    flex: 1,
+                                    backgroundColor: COLOR.ORANGECOLOR,
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderColor: '#fff',
+                                    borderWidth: 1,
+                                    shadowOffset: { height: 2 },
+                                    shadowRadius: 2,
+                                    shadowOpacity: 0.3,
+                                }}
+                                onPress={() => setDirectionModalVisibility(false)}>
+                                <Text
+                                    style={{
+                                        color: '#fff',
+                                        fontSize: 14,
+                                        fontWeight: '700',
+                                    }}>
+                                    OK
+                                </Text>
+                            </TouchableOpacity>
+                            <View style={{ width: 10 }} />
+                            <TouchableOpacity
+                                style={{
+                                    flex: 1,
+                                    backgroundColor: '#000',
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderColor: '#fff',
+                                    borderWidth: 1,
+                                    shadowOffset: { height: 2 },
+                                    shadowRadius: 2,
+                                    shadowOpacity: 0.3,
+                                }}
+                                onPress={() => setDirectionModalVisibility(false)}>
+                                <Text
+                                    style={{
+                                        color: '#fff',
+                                        fontSize: 14,
+                                        fontWeight: '700',
+                                    }}>
+                                    Direction
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
 
     );
 
     return (
-
         <ScrollView refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         } >
             <FlatList
                 showsVerticalScrollIndicator={false}
-                style={{ marginTop: 15, marginHorizontal: 15, flex: 1 }}
+                style={{ marginTop: 15, flex: 1 }}
                 data={FetchedData}
                 scrollEnabled={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
             />
-
-            <RBSheet
-                ref={refRBSheet}
-                height={Screen_Height * 0.5}
-                customStyles={{
-                    wrapper: {
-                        backgroundColor: COLOR.BLACK_40,
-                    },
-                    container: {
-                        backgroundColor: COLOR.WHITE,
-                        borderRadius: 40,
-                        borderBottomRightRadius: 0,
-                        borderBottomLeftRadius: 0,
-                        elevation: 10,
-                        shadowColor: COLOR.BLACK,
-                    },
-                    draggableIcon: {
-                        backgroundColor: COLOR.BLACK,
-                    },
-                }}
-                customModalProps={{
-                    animationType: 'slide',
-                    statusBarTranslucent: true,
-                }}
-                customAvoidingViewProps={{
-                    enabled: false,
-                }}>
-                <View
-                    style={{
-                        width: Screen_Width,
-                        height: Screen_Height * 0.5,
-                        paddingHorizontal: 15,
-                        backgroundColor: COLOR.WHITE,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                    <Text
-                        style={{
-                            fontSize: 20,
-                            fontWeight: 'bold',
-                            marginBottom: 20,
-                            color: COLOR.BLACK,
-                            textAlign: 'center',
-                        }}>
-                        Please wait for client's payment
-                    </Text>
-                    <Text style={{ fontSize: 48, fontWeight: 'bold' }}>
-                        {formatTime(timeLeft)}
-                    </Text>
-
-
-                </View>
-            </RBSheet>
-            <View style={{ height: 100 }} />
-
-            {
-                Object.keys(orderData).length > 0 &&
-                <Modal visible={Object.keys(orderData).length > 0} transparent={true} animationType="slide">
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalContent}>
-
-                            <TouchableOpacity onPress={() => PutData(orderData.order_id, orderData.coordinates)} style={{ backgroundColor: COLOR.GREEN, borderRadius: 35, height: 40, justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.6, marginBottom: 10 }} >
-                                <Text style={{ fontSize: 18, fontWeight: '600', color: COLOR.WHITE }}>
-                                    Accept booking
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ backgroundColor: COLOR.CANCEL_B, borderRadius: 35, height: 40, justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.6 }}>
-                                <Text style={{ fontSize: 18, fontWeight: '600', color: COLOR.WHITE }}>
-                                    Reject booking
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal>
-            }
         </ScrollView>
 
     )

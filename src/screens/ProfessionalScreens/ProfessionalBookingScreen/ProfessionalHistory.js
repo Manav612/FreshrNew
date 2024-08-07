@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 import { OnBoard1 } from '../../../constants/Icons';
-import { Screen_Width } from '../../../constants/Constants';
+import { Screen_Width, Screen_Height } from '../../../constants/Constants';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
 import AsyncStorage from '@react-native-async-storage/async-storage';

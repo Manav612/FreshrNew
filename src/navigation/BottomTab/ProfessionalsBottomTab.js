@@ -328,34 +328,34 @@ export default ProfessionalBottomTab = ({ route }) => {
         },
     });
     // console.log("===========            service             =======", service);
-    useEffect(() => {
-        console.log('Setting up socket listener');
-        socketServices.on('create_order', data => {
-            try {
-                console.log('Received create_order event:', JSON.stringify(data));
-                setOrderData({
-                    order_id: data.message.data.order.id,
-                    coordinates: data.message.data.order.address?.coordinates,
-                    services: data.message.service
-                })
-                setServices(data.message.service)
+    // useEffect(() => {
+    //     console.log('Setting up socket listener');
+    //     socketServices.on('create_order', data => {
+    //         try {
+    //             console.log('Received create_order event:', JSON.stringify(data));
+    //             setOrderData({
+    //                 order_id: data.message.data.order.id,
+    //                 coordinates: data.message.data.order.address?.coordinates,
+    //                 services: data.message.service
+    //             })
+    //             setServices(data.message.service)
 
-            } catch (error) {
-                console.error('Error showing modal:', error);
-            }
-        });
+    //         } catch (error) {
+    //             console.error('Error showing modal:', error);
+    //         }
+    //     });
 
-        socketServices.on('payment_Done_close', data => {
-            console.log('==== payment done      ====================', data.message.id.message);
-            closeBottomSheet()
-            try {
-                navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
-            } catch (error) {
-                console.log(error);
-            }
-        });
+    //     socketServices.on('payment_Done_close', data => {
+    //         console.log('==== payment done      ====================', data.message.id.message);
+    //         closeBottomSheet()
+    //         try {
+    //             navigation.navigate(NavigationScreens.LiveTrackingProfSideScreen, { orderData: data })
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     });
 
-    }, [])
+    // }, [])
 
     return (
         <>
@@ -381,7 +381,7 @@ export default ProfessionalBottomTab = ({ route }) => {
                     })
                 }
             </Tab.Navigator>
-            <AcceptRejectModal
+            {/* <AcceptRejectModal
                 data={orderData}
                 visible={Object.keys(orderData).length > 0}
                 setVisibility={setOrderData}
@@ -418,9 +418,7 @@ export default ProfessionalBottomTab = ({ route }) => {
 
                 <View style={styles.bottomSheetContainer}>
                     <View style={{ width: 40, height: 4, borderRadius: 10, alignSelf: 'center', marginVertical: 5, backgroundColor: COLOR.BLACK }} />
-                    {/* <TouchableOpacity onPress={closeBottomSheet} style={{ position: 'absolute', right: 15, top: 0 }}>
-                        <AntDesign name="closecircleo" size={25} color={COLOR.BLACK} />
-                    </TouchableOpacity> */}
+                    
                     <View style={{ justifyContent: 'center', alignItems: 'center', height: Screen_Height * 0.25 }}>
                         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 20 }}>Please wait for client's payment</Text>
                         <Text style={{ color: COLOR.BLACK, fontSize: 30, textAlign: 'center' }}>{formatTime(timeLeft)}</Text>
@@ -428,7 +426,7 @@ export default ProfessionalBottomTab = ({ route }) => {
 
 
                 </View>
-            </RBSheet>
+            </RBSheet> */}
         </>
     );
 }

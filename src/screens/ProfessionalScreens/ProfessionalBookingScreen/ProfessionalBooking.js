@@ -25,21 +25,26 @@ const ProfessionalBooking = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
-  const [selectedItem, setSelectedItem] = useState('Ongoing');
+  const [selectedItem, setSelectedItem] = useState('Pending');
   const [selectedItem2, setSelectedItem2] = useState('');
   const [activeTab, setActiveTab] = useState('Comes to you');
   const [ongoingData, setOngoingData] = useState([]);
   const [selected, setSelected] = useState()
+  const [selected2, setSelected2] = useState()
+  const [orderData, setOrderData] = useState()
 
   useEffect(() => {
     socketServices.on('payment_Done', data => {
       console.log('==== payment done ======', data);
+      setOrderData(data)
+      setSelectedItem('Ongoing')
       let res = data.message.orderData;
       res['sender'] = data.sender;
       res['order_id'] = data.message.order_id;
       res['coordinates'] = data.message.coordinates;
       console.log(JSON.stringify(res));
       setOngoingData(prevData => [res, ...prevData]);
+
     });
 
   }, []);
@@ -149,7 +154,7 @@ const ProfessionalBooking = () => {
   const renderScreen = () => {
     switch (selectedItem) {
       case 'Ongoing':
-        return <ProfessionalOngoing FetchedData={ongoingData} setFetchedData={setOngoingData} />;
+        return <ProfessionalOngoing FetchedData={ongoingData} setFetchedData={setOngoingData} orderData={orderData} />;
       case 'Pending':
         return <ProfessionalPending />;
       case 'History':
@@ -165,30 +170,57 @@ const ProfessionalBooking = () => {
           {/* <TouchableOpacity onPress={() => navigation.navigate('My Profile Screen')} style={{ width: 40, backgroundColor: COLOR.ORANGECOLOR, height: 40, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 30 }}>F</Text>
           </TouchableOpacity> */}
-          <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>My Bookings</Text>
+          <Text style={{ fontWeight: '800', fontSize: 20, color: COLOR.BLACK }}>My Bookings</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-            <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
+          <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 5, flexDirection: 'row', padding: 5, gap: 5 }}>
+            {selected ?
+              <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingLeft: 5, }}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>on</Text>
+                <View style={{ backgroundColor: COLOR.ChartBlue, height: 16, width: 16, borderRadius: 10 }} />
+              </View>
+              :
+              <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingRight: 5, }}>
+                <View style={{ backgroundColor: COLOR.ORANGECOLOR, height: 16, width: 16, borderRadius: 10 }} />
+                <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>off</Text>
+              </View>
+            }
+            {/* <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={selected ? COLOR.BLACK : COLOR.ORANGECOLOR} />
+              <Text style={{ color: COLOR.BLACK }}>{selected ? 'off' : 'on'}</Text> */}
             <Text style={{ color: COLOR.BLACK }}>Queue</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+          <TouchableOpacity onPress={() => setSelected2(!selected2)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 5, flexDirection: 'row', padding: 5, gap: 5 }}>
+            {selected2 ?
+              <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected2 ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingLeft: 5, }}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>on</Text>
+                <View style={{ backgroundColor: COLOR.ChartBlue, height: 16, width: 16, borderRadius: 10 }} />
+              </View>
+              :
+              <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected2 ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingRight: 5, }}>
+                <View style={{ backgroundColor: COLOR.ORANGECOLOR, height: 16, width: 16, borderRadius: 10 }} />
+                <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>off</Text>
+              </View>
+            }
+            {/* <MaterialCommunityIcons name={selected2 ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={selected2 ? COLOR.CANCEL_B : COLOR.GREEN} /> */}
+            <Text style={{ color: COLOR.BLACK }}>Freelancer</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         {/* <View style={{ flexDirection: 'row', gap: 10 }}>
           <MaterialCommunityIcons name="dots-horizontal-circle-outline" size={28} color={COLOR.BLACK} />
         </View> */}
-      </View>
+      </View >
       <TouchableOpacity
         onPress={() => setSelectedItem2(!selectedItem2)}
         style={{
           borderWidth: 2,
-          borderColor: COLOR.ChartBlue,
-          backgroundColor: selectedItem2 ? COLOR.ChartBlue : COLOR.WHITE,
+          borderColor: COLOR.ORANGECOLOR,
+          backgroundColor: selectedItem2 ? COLOR.ORANGECOLOR : COLOR.WHITE,
 
           borderRadius: 30,
           height: 40,
@@ -198,25 +230,25 @@ const ProfessionalBooking = () => {
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
-          <Text style={{ textAlign: 'center', fontSize: 20, color: selectedItem2 ? COLOR.WHITE : COLOR.ChartBlue }}>
+          <Text style={{ textAlign: 'center', fontSize: 20, color: selectedItem2 ? COLOR.WHITE : COLOR.ORANGECOLOR }}>
             Scheduled Appointments
           </Text>
-          <AntDesign name="calendar" size={24} color={selectedItem2 ? COLOR.WHITE : COLOR.ChartBlue} />
+          <AntDesign name="calendar" size={24} color={selectedItem2 ? COLOR.WHITE : COLOR.ORANGECOLOR} />
 
         </View>
       </TouchableOpacity>
-      <View style={{ backgroundColor: COLOR.LIGHTGRAY, height: 1, marginVertical: 10 }} />
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
+      {/* <View style={{ backgroundColor: COLOR.LIGHTGRAY, height: 1, marginVertical: 10 }} /> */}
+      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
         <TouchableOpacity style={{ width: Screen_Width * 0.4, height: 40, backgroundColor: activeTab === 'Comes to you' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Comes to you') }}>
           <Text style={{ color: activeTab === 'Comes to you' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to you</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{ width: Screen_Width * 0.4, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
           <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={{ width: Screen_Width * 0.3, height: 40, backgroundColor: activeTab === 'Schedule' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Schedule') }}>
+        <TouchableOpacity style={{ width: Screen_Width * 0.3, height: 40, backgroundColor: activeTab === 'Schedule' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Schedule') }}>
           <Text style={{ color: activeTab === 'Schedule' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Schedule</Text>
-        </TouchableOpacity> */}
-      </View>
+        </TouchableOpacity>
+      </View> */}
 
 
       <View>
@@ -232,7 +264,7 @@ const ProfessionalBooking = () => {
       </View>
       <View>{renderScreen()}</View>
       <View style={{ height: 100 }} />
-    </ScrollView>
+    </ScrollView >
   )
 }
 

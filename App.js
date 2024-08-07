@@ -1,6 +1,6 @@
-import {StyleSheet, Text, View, useColorScheme} from 'react-native';
-import React, {useEffect} from 'react';
-import {Provider, useDispatch} from 'react-redux';
+import { StyleSheet, Text, View, useColorScheme } from 'react-native';
+import React, { useEffect } from 'react';
+import { Provider, useDispatch } from 'react-redux';
 import NavigationHandler from './src/navigation';
 import Store from './src/redux/Store';
 import { SetThemeMode } from './src/redux/ThemeAction';
@@ -16,23 +16,23 @@ const customTextProps = {
 };
 const App = () => {
   Geocoder.init("AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU");
-  return <NavigationHandler/>;
+  return <NavigationHandler />;
 };
 
 const WrappedApp = () => {
-  
+
   const getToken = async () => {
     const authToken = await GetAuthToken();
-    authToken!='' && socketServices.initializeSocket(authToken);
+    authToken != '' && socketServices.initializeSocket(authToken);
   }
-  
+
   useEffect(() => {
     getToken();
   }, []);
 
   return (
     <Provider store={Store}>
-      <Toast/>
+      <Toast />
       <App />
     </Provider>
   );
