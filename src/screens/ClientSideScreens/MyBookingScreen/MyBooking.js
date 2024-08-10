@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  Modal
 } from 'react-native';
 import React, { useRef, useState, useEffect } from 'react';
 import {
@@ -17,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AllCategoryData1 } from '../../../components/utils';
 import Cancelled from '../../../components/MyBookingDetails/Pending';
@@ -45,6 +47,8 @@ const MyBooking = ({ route }) => {
   const [showTip2, setShowTip2] = useState(false);
   const [showTip3, setShowTip3] = useState(false);
   const [showTip4, setShowTip4] = useState(false);
+  const [directionModalVisible, setDirectionModalVisibility] = useState(false);
+
   const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
   const refRBSheet = useRef([]);
 
@@ -52,6 +56,15 @@ const MyBooking = ({ route }) => {
     setSelectedItem2(!selectedItem2);
     openBottomSheet();
   };
+
+  useEffect(() => {
+    socketServices.on('payment_Done', data => {
+      console.log('==== payment done 7777777777777777777 ======', data);
+      setDirectionModalVisibility(true)
+
+    });
+
+  }, []);
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -181,6 +194,35 @@ const MyBooking = ({ route }) => {
       justifyContent: 'space-between',
       paddingHorizontal: 10,
     },
+    ViewWrapper: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#00000050',
+
+    },
+    ModalContainer: {
+      width: '85%',
+      borderRadius: 15,
+      padding: 30,
+      backgroundColor: '#fff',
+      elevation: 5,
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+      alignItems: 'center',
+    },
+    LabelText: {
+      fontSize: 16,
+      color: COLOR.BLACK,
+      textAlign: 'center',
+      fontWeight: '600',
+    },
+    DescText: {
+      fontSize: 14,
+      color: '#929292',
+      marginTop: 15,
+    },
   });
 
   const AllCategory = ({ item, setSelectedItem }) => (
@@ -226,6 +268,8 @@ const MyBooking = ({ route }) => {
     // console.log("=============================");
 
     setSelectedItem('Ongoing')
+    setDirectionModalVisibility(true)
+
   }
 
   const renderScreen = () => {
@@ -588,6 +632,85 @@ const MyBooking = ({ route }) => {
 
         </View>
       </RBSheet>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={directionModalVisible}
+        statusBarTranslucent>
+        <View style={styles.ViewWrapper}>
+          <View style={styles.ModalContainer}>
+            <Text
+              style={
+                styles.LabelText
+              }>{`Please head to\ndesignated location`}</Text>
+            <Text style={styles.DescText}>
+              Once arrived please come back here{' '}
+            </Text>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                marginTop: 30,
+              }}>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: COLOR.ORANGECOLOR,
+                  padding: 10,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderColor: '#fff',
+                  borderWidth: 1,
+                  shadowOffset: { height: 2 },
+                  shadowRadius: 2,
+                  shadowOpacity: 0.3,
+                }}
+                onPress={() => setDirectionModalVisibility(false)}>
+                <Text
+                  style={{
+                    color: '#fff',
+                    fontSize: 14,
+                    fontWeight: '700',
+                  }}>
+                  OK
+                </Text>
+              </TouchableOpacity>
+              <View style={{ width: 10 }} />
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: '#000',
+                  padding: 10,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  gap: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderColor: '#fff',
+                  borderWidth: 1,
+                  shadowOffset: { height: 2 },
+                  shadowRadius: 2,
+                  shadowOpacity: 0.3,
+                }}
+                onPress={() => setDirectionModalVisibility(false)}>
+                <Text
+                  style={{
+                    color: '#fff',
+                    fontSize: 14,
+                    fontWeight: '700',
+                  }}>
+                  Direction
+
+                </Text>
+                <FontAwesome5
+                  name="directions" size={24} color={COLOR.WHITE} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       {/* <View style={{}}>
         <RBSheet
           ref={ref => (refRBSheet.current[0] = ref)}

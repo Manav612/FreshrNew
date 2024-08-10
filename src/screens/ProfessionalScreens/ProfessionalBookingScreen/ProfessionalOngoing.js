@@ -16,7 +16,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
-import { Hair1, HomeIcon2, OnBoard1 } from '../../../constants/Icons';
+import { ClientBlack, ComeToYou, Hair1, HomeIcon2, OnBoard1 } from '../../../constants/Icons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
@@ -57,6 +57,8 @@ const ProfessionalOngoing = ({
   const [endReq, setEndReq] = useState(false)
   const [btnVisible, setBtnVisibility] = useState(false);
   const [directionModalVisible, setDirectionModalVisibility] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const [modalVisible3, setModalVisible3] = useState(false);
   const [Prof_distance, setProf_distance] = useState('')
   const [Prof_duration, setProf_duration] = useState('')
   const [Client_distance, setClient_distance] = useState('')
@@ -100,7 +102,8 @@ const ProfessionalOngoing = ({
   }
 
   const onRequestToEnd = () => {
-    Alert.alert('Request sent successfully to compelete the order !!!!')
+    // Alert.alert('Request sent successfully to compelete the order !!!!')
+    setModalVisible2(true)
     console.log("===========   endddddd orderr   hiiii =========");
     const id = orderData.sender;
     socketServices.emit('order_update', {
@@ -195,7 +198,8 @@ const ProfessionalOngoing = ({
   });
   console.log(btnVisible);
   const handleRequest = () => {
-    Alert.alert('Request sent successfully to start order !!!!!')
+    // Alert.alert('Request sent successfully to start order !!!!!')
+    setModalVisible3(true)
     socketServices.emit('order_update', {
       recipient: orderData.sender,
       message: {
@@ -708,10 +712,12 @@ const ProfessionalOngoing = ({
                               flex: 1,
                               alignItems: 'center',
                             }}>
-                            <FontAwesome5 name="user" color={'#000'} size={15} />
+                            <Image style={{ height: 20, width: 20 }} source={ComeToYou} resizeMode='contain' />
+
+
                             <Text
                               style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                              Professional
+                              You
                             </Text>
                           </View>
                           <View
@@ -753,7 +759,8 @@ const ProfessionalOngoing = ({
                               flex: 1,
                               alignItems: 'center',
                             }}>
-                            <FontAwesome5 name="user" color={'#000'} size={15} />
+                            <Image style={{ height: 20, width: 20 }} source={ClientBlack} resizeMode='contain' />
+
                             <Text
                               style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
                               Client
@@ -894,8 +901,8 @@ const ProfessionalOngoing = ({
                                       color: COLOR.BLACK,
                                       fontSize: 14,
                                     }}>
-                                    {/* {item?.services[0]?.name} */}
-                                    hgfnhvbjnk
+                                    {item?.services?.name}
+
                                   </Text>
                                   <MaterialIcons
                                     name={
@@ -989,84 +996,112 @@ const ProfessionalOngoing = ({
                 </View>
               </ScrollView>
 
-              {/* <Modal
-          animationType="fade"
-          transparent
-          visible={directionModalVisible}
-          statusBarTranslucent>
-          <View style={styles.ViewWrapper}>
-            <View style={styles.ModalContainer}>
-              <Text
-                style={
-                  styles.LabelText
-                }>{`Please head to\ndesignated location`}</Text>
-              <Text style={styles.DescText}>
-                Once arrived please come back here{' '}
-              </Text>
-  
-              <View
-                style={{
-                  flexDirection: 'row',
-                  width: '100%',
-                  marginTop: 30,
-                }}>
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: COLOR.ORANGECOLOR,
-                    padding: 10,
-                    borderRadius: 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                    shadowOffset: { height: 2 },
-                    shadowRadius: 2,
-                    shadowOpacity: 0.3,
-                  }}
-                  onPress={() => setDirectionModalVisibility(false)}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontSize: 14,
-                      fontWeight: '700',
-                    }}>
-                    OK
-                  </Text>
-                </TouchableOpacity>
-                <View style={{ width: 10 }} />
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#000',
-                    padding: 10,
-                    borderRadius: 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                    shadowOffset: { height: 2 },
-                    shadowRadius: 2,
-                    shadowOpacity: 0.3,
-                  }}
-                  onPress={() => setDirectionModalVisibility(false)}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontSize: 14,
-                      fontWeight: '700',
-                    }}>
-                    Direction
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal> */}
+
             </View>
           )
         }}
       />
+
+      <Modal
+        animationType="fade"
+        transparent
+        visible={modalVisible2}
+        statusBarTranslucent>
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: COLOR.BLACK_30,
+        }}>
+          <View style={{
+            borderRadius: 15,
+            padding: 15,
+            backgroundColor: COLOR.WHITE,
+            elevation: 5,
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            alignItems: 'center',
+          }}>
+            <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>Request sent successfully to compelete the order !!</Text>
+            <TouchableOpacity
+              style={{
+                width: 50,
+                marginTop: 10,
+                backgroundColor: COLOR.ORANGECOLOR,
+                padding: 10,
+                borderRadius: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderColor: '#fff',
+                borderWidth: 1,
+                shadowOffset: { height: 2 },
+                shadowRadius: 2,
+                shadowOpacity: 0.3,
+              }}
+              onPress={() => setModalVisible2(false)}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 14,
+                  fontWeight: '700',
+                }}>
+                OK
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={modalVisible3}
+        statusBarTranslucent>
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: COLOR.BLACK_30,
+        }}>
+          <View style={{
+            borderRadius: 15,
+            padding: 15,
+            backgroundColor: COLOR.WHITE,
+            elevation: 5,
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            alignItems: 'center',
+          }}>
+            <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>Request sent successfully to start order !!</Text>
+            <TouchableOpacity
+              style={{
+                width: 50,
+                marginTop: 10,
+                backgroundColor: COLOR.ORANGECOLOR,
+                padding: 10,
+                borderRadius: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderColor: '#fff',
+                borderWidth: 1,
+                shadowOffset: { height: 2 },
+                shadowRadius: 2,
+                shadowOpacity: 0.3,
+              }}
+              onPress={() => setModalVisible3(false)}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 14,
+                  fontWeight: '700',
+                }}>
+                OK
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       <RBSheet
         ref={refRBSheet}

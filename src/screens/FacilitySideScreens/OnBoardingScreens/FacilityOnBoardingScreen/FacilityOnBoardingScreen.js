@@ -49,6 +49,8 @@ const FacilityOnBoardingScreen = () => {
     const [location, setLocation] = useState([])
     const [imageUri, setImageUri] = useState([]);
     const [imageModalVisible, setImageModalVisible] = useState(false);
+    const [closeDayModalVisible, setCloseDayModalVisible] = useState(false);
+    const [selectedCloseDays, setSelectedCloseDays] = useState([]);
     const [imageUrl, setImageUrl] = useState('');
     const [activeTab, setActiveTab] = useState('Delivery');
     const [ShopTime, setShopTime] = useState(false);
@@ -58,6 +60,7 @@ const FacilityOnBoardingScreen = () => {
     const mapRef = useRef();
     const [loc, setLoc] = useState()
     const [coverImageUri, setCoverImageUri] = useState(null);
+    const [isopen, setOpen] = useState(false)
     const [galleryImageUris, setGalleryImageUris] = useState([]);
     const [formattedAddress, setFormattedAddress] = useState('')
     const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
@@ -69,20 +72,8 @@ const FacilityOnBoardingScreen = () => {
         longitudeDelta: LONGITUDE_DELTA * Number(1 / 15),
     };
     const [region, setRegion] = useState(initialRegion);
-    const [timeData, setTimeData] = useState({
-        Monday: { start: '10:00 AM', end: '11:00 PM' },
-        Tuesday: { start: '10:00 AM', end: '11:00 PM' },
-        Wednesday: { start: '10:00 AM', end: '11:00 PM' },
-        Thursday: { start: '10:00 AM', end: '11:00 PM' },
-        Friday: { start: '10:00 AM', end: '11:00 PM' },
-        Saturday: { start: '10:00 AM', end: '11:00 PM' },
-        Sunday: { start: '10:00 AM', end: '11:00 PM' },
-    });
+
     const _map = useRef(null);
-    const openModal = (day) => {
-        setSelectedDay(day);
-        setModalVisible(true);
-    };
 
     s = {
         region: {
@@ -94,20 +85,33 @@ const FacilityOnBoardingScreen = () => {
     }
     const [rState, rSetState] = useState(s);
 
+    const [timeData, setTimeData] = useState({
+        Monday: { start: '10:00 AM', end: '11:00 PM', closed: false },
+        Tuesday: { start: '10:00 AM', end: '11:00 PM', closed: false },
+        Wednesday: { start: '10:00 AM', end: '11:00 PM', closed: false },
+        Thursday: { start: '10:00 AM', end: '11:00 PM', closed: false },
+        Friday: { start: '10:00 AM', end: '11:00 PM', closed: false },
+        Saturday: { start: '10:00 AM', end: '11:00 PM', closed: false },
+        Sunday: { start: '10:00 AM', end: '11:00 PM', closed: false },
+    });
+
+
+    const openModal = (day) => {
+        setSelectedDay(day);
+        setModalVisible(true);
+    };
+
     const saveTime = () => {
         const updatedTimeData = {
             ...timeData,
             [selectedDay]: {
+                ...timeData[selectedDay],
                 start: startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 end: endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             },
         };
-
         setTimeData(updatedTimeData);
         setModalVisible(false);
-
-        console.log("====------->>>>", updatedTimeData);
-
     };
 
     const onStartChange = (event, selectedDate) => {
@@ -121,6 +125,29 @@ const FacilityOnBoardingScreen = () => {
         setShowEndPicker(Platform.OS === 'ios');
         setEndTime(currentDate);
     };
+
+    const toggleClosedDay = (day) => {
+        const updatedCloseDays = selectedCloseDays.includes(day)
+            ? selectedCloseDays.filter(d => d !== day)
+            : [...selectedCloseDays, day];
+        setSelectedCloseDays(updatedCloseDays);
+    };
+
+    const saveClosedDays = () => {
+        const updatedTimeData = { ...timeData };
+        Object.keys(timeData).forEach(day => {
+            updatedTimeData[day] = {
+                ...updatedTimeData[day],
+                closed: selectedCloseDays.includes(day),
+            };
+        });
+        setTimeData(updatedTimeData);
+        setCloseDayModalVisible(false);
+    };
+
+
+
+
     const handleCountPlus = () => {
         setSeatCount(seatCount + 1);
     };
@@ -473,7 +500,7 @@ const FacilityOnBoardingScreen = () => {
             justifyContent: 'space-between',
             paddingVertical: 10,
             borderBottomWidth: 1,
-            borderBottomColor: COLOR.GRAY,
+            borderBottomColor: COLOR.LINECOLOR,
         },
         dayText: {
             fontSize: 16,
@@ -498,7 +525,77 @@ const FacilityOnBoardingScreen = () => {
         modalTitle: {
             fontSize: 18,
             marginBottom: 10,
+            fontWeight: '500',
             color: COLOR.BLACK
+        },
+        title: {
+            fontWeight: '600',
+            fontSize: 25,
+            color: 'black',
+        },
+        closeDayButton: {
+            backgroundColor: '#007AFF',
+            padding: 10,
+            borderRadius: 5,
+        },
+        closeDayButtonText: {
+            color: 'white',
+            fontWeight: 'bold',
+        },
+
+        timeText: {
+            fontSize: 14,
+            color: COLOR.BLACK,
+        },
+        closedText: {
+            fontSize: 14,
+            color: 'red',
+            fontWeight: 'bold',
+        },
+
+        labelText: {
+            fontSize: 16,
+            marginBottom: 5,
+            color: 'black',
+        },
+        timePickerButton: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 50,
+            backgroundColor: '#FF9800',
+            marginVertical: 10,
+            borderRadius: 15,
+        },
+        timePickerButtonText: {
+            color: 'white',
+            fontWeight: 'bold',
+        },
+
+        buttonText: {
+            color: 'white',
+            fontWeight: 'bold',
+        },
+        closeDayItem: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: 10,
+            marginBottom: 5,
+
+        },
+        selectedCloseDayItem: {
+            backgroundColor: COLOR.WHITE,
+            elevation: 2,
+            shadowColor: COLOR.BLACK,
+            borderRadius: 15,
+            flexDirection: 'row',
+            margin: 2,
+            gap: 10
+        },
+        closeDayItemText: {
+            fontSize: 14,
+            color: COLOR.BLACK,
+
         },
     });
 
@@ -572,64 +669,7 @@ const FacilityOnBoardingScreen = () => {
                                     </View>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', width: Screen_Width, }}>
 
-                                        {/* <GooglePlacesAutocomplete
-                                        placeholder='Enter Location'
-                                        placeholderTextColor={COLOR.GRAY}
-                                            minLength={4}
-                                            styles={{ 
-                                                textInputContainer: {
-                                                    height:50,
-                                                    width: Screen_Width * 0.9,
-                                                    backgroundColor: COLOR.AuthField,
-                                                    borderRadius: 15,
-                                                    elevation: 5,
-                                                    shadowColor: COLOR.BLACK,
-                                                    marginVertical: 10,
-                                                    color:COLOR.BLACK
-                                                },
-                                                textInput: {
-                                                    height: 40,
-                                                    color: COLOR.BLACK,
-                                                    backgroundColor: COLOR.AuthField,
-                                                },
-                                                container:{
-                                                    width: Screen_Width * 0.9,
-                                                }
-                                            }}
-                                            onPress={(data, details = null) => {
-                                                setRegion({
-                                                    latitude: details.geometry.location.lat,
-                                                    longitude: details.geometry.location.lng,
-                                                    latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
-                                                    longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
-                                                });
-                                                console.log(data,details);
-                                                _map.current?.animateToRegion(
-                                                    {
-                                                        latitudeDelta: LATITUDE_DELTA * Number(radius / 15),
-                                                        longitudeDelta: LONGITUDE_DELTA * Number(radius / 15),
-                                                        latitude: details.geometry.location.lat,
-                                                        longitude: details.geometry.location.lng,
-                                                    },
-                                                );
-                                            }}
-                                            autoFocus={false}
-                                            listViewDisplayed={false}
-                                            keepResultsAfterBlur={false}
-                                            returnKeyType={"default"}
-                                            fetchDetails={true}
-                                            GooglePlacesDetailsQuery={{
-                                                rankby: "distance",
-                                            }}
 
-                                            query={{
-                                                key: "AIzaSyCs3kyGiiVDcIn3KZ6aKCRDVe66EZKh9qU",
-                                                language: "en",
-                                                radius: 30000,
-                                                location: `${region.latitude}, ${region.longitude}`,
-                                            }}
-
-                                        /> */}
                                         <GooglePlacesAutocomplete
                                             placeholder='Enter Location'
                                             minLength={4}
@@ -642,7 +682,7 @@ const FacilityOnBoardingScreen = () => {
                                                     elevation: 5,
                                                     shadowColor: COLOR.BLACK,
                                                     marginVertical: 10,
-                                                    color:COLOR.BLACK
+                                                    color: COLOR.BLACK
                                                 },
                                                 container: {
                                                     width: Screen_Width * 0.9,
@@ -692,7 +732,7 @@ const FacilityOnBoardingScreen = () => {
                                                 radius: 30000,
                                                 location: `${region.latitude}, ${region.longitude}`,
                                             }}
-                                            
+
                                         />
                                         <View style={{ width: Screen_Width * 0.88 }}>
                                             <Text style={{ color: COLOR.BLACK, fontWeight: 'bold', fontSize: 14 }}>Apartment, Suite (optional)</Text>
@@ -860,7 +900,7 @@ const FacilityOnBoardingScreen = () => {
                         ),
                         title: (
                             <>
-                                <View style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
+                                <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                         <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>Shop Timing</Text>
                                         <TouchableOpacity onPress={() => setShopTime(!ShopTime)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
@@ -870,12 +910,42 @@ const FacilityOnBoardingScreen = () => {
                                     </View>
 
                                     <View style={styles.container}>
+
+                                        <TouchableOpacity onPress={() => setOpen(!isopen)} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <Text style={styles.modalTitle}>Select Closed Days</Text>
+                                            <AntDesign name="plus" size={24} color={COLOR.BLACK} />
+                                        </TouchableOpacity>
+                                        {!isopen ?
+                                            <FlatList
+                                                data={Object.keys(timeData)}
+                                                style={{ flex: 1, marginBottom: 10 }}
+                                                scrollEnabled={false}
+                                                renderItem={({ item }) => (
+                                                    <TouchableOpacity
+                                                        style={[
+                                                            styles.closeDayItem,
+                                                            selectedCloseDays.includes(item) && styles.selectedCloseDayItem
+                                                        ]}
+                                                        onPress={() => toggleClosedDay(item)}
+                                                    >
+                                                        <Text style={styles.closeDayItemText}>{item}</Text>
+                                                        {selectedCloseDays.includes(item) && (
+                                                            <AntDesign name="check" size={20} color={COLOR.BLACK} />
+                                                        )}
+                                                    </TouchableOpacity>
+                                                )}
+                                                keyExtractor={(item) => item}
+                                            />
+                                            : null}
+                                        <View style={{ height: 1, backgroundColor: COLOR.LINECOLOR, marginBottom: 10 }} />
+                                        <Text style={styles.modalTitle}>Select Shop time</Text>
                                         {Object.keys(timeData).map((day) => (
                                             <TouchableOpacity key={day} style={styles.row} onPress={() => openModal(day)}>
                                                 <Text style={styles.dayText}>{day}</Text>
                                                 <Text style={styles.timeText}>{`${timeData[day].start} - ${timeData[day].end}`}</Text>
                                             </TouchableOpacity>
                                         ))}
+
 
                                         <Modal visible={modalVisible} transparent={true} animationType="slide">
                                             <View style={styles.modalContainer}>
@@ -927,6 +997,7 @@ const FacilityOnBoardingScreen = () => {
                                                             )}
                                                         </>
                                                     )}
+
                                                     <TouchableOpacity onPress={saveTime} style={{ justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: COLOR.ChartBlue, marginVertical: 10, borderRadius: 15 }}>
                                                         <Text style={{ color: COLOR.WHITE, fontWeight: 'bold' }}>Save</Text>
                                                     </TouchableOpacity>
@@ -936,10 +1007,11 @@ const FacilityOnBoardingScreen = () => {
                                                 </View>
                                             </View>
                                         </Modal>
+
                                     </View>
 
                                     <View style={{ height: 100 }} />
-                                </View>
+                                </ScrollView>
                             </>
                         ),
                     },

@@ -19,7 +19,7 @@ import MapView from 'react-native-maps';
 import { Screen_Width } from '../constants/Constants';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
-import { ComeToYouWhite, Hair1 } from '../constants/Icons';
+import { Client, ClientBlack, ComeToYou, ComeToYouWhite, Hair1 } from '../constants/Icons';
 import ActiveLine from '../components/Story/Story/ActiveLine';
 import LiveTrackingMap from '../components/LiveTrackingMap';
 import socketServices from '../Services/Socket';
@@ -400,6 +400,8 @@ const MapScreen2 = ({ orderData }) => {
                       bottom: 0,
                       marginHorizontal: 5,
                     }}>
+
+
                     <View style={styles.DistenceContainer}>
                       <View
                         style={{
@@ -407,10 +409,11 @@ const MapScreen2 = ({ orderData }) => {
                           flex: 1,
                           alignItems: 'center',
                         }}>
-                        <FontAwesome5 name="user" color={'#000'} size={15} />
+                        <Image style={{ height: 20, width: 20 }} source={ClientBlack} resizeMode='contain' />
+
                         <Text
                           style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                          Professional
+                          You
                         </Text>
                       </View>
                       <View
@@ -444,7 +447,6 @@ const MapScreen2 = ({ orderData }) => {
                         </Text>
                       </View>
                     </View>
-
                     <View style={styles.DistenceContainer}>
                       <View
                         style={{
@@ -452,10 +454,12 @@ const MapScreen2 = ({ orderData }) => {
                           flex: 1,
                           alignItems: 'center',
                         }}>
-                        <FontAwesome5 name="user" color={'#000'} size={15} />
+                        {/* <FontAwesome5 name="user" color={'#000'} size={15} /> */}
+                        <Image style={{ height: 20, width: 20 }} source={ComeToYou} resizeMode='contain' />
+
                         <Text
                           style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                          Client
+                          Professional
                         </Text>
                       </View>
                       <View

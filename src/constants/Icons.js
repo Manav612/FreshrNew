@@ -84,6 +84,7 @@ export const m1 = require('../assets/images/m1.jpg');
 export const InSalon = require('../assets/InSalon.png');
 export const Client = require('../assets/man.png');
 export const ClientWhite = require('../assets/manWhite.png');
+export const ClientBlack = require('../assets/ManBlack.png');
 export const InSalonOrange = require('../assets/InSalonOrange.png');
 export const InSalonWhite = require('../assets/InSalonWhite.png');
 export const ComeToYouOrange = require('../assets/RunningOrange.png');

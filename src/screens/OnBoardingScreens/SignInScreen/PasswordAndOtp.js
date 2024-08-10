@@ -103,7 +103,7 @@ const PasswordAndOtp = ({ route }) => {
       console.log("Response data ======:", res.data.data);
 
       if (res.data) {
-        Alert.alert('Sign In  Successfully')
+        // Alert.alert('Sign In  Successfully')
         // await AsyncStorage.setItem("Auth", res.data.data.sessionId.toString());
         await StoreAuthToken(res.data.data.token)
         dispatch(SetAuthToken(res.data.data.token));

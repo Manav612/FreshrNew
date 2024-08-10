@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
-import { Hair1, HomeIcon2, OnBoard1 } from '../../constants/Icons';
+import { ClientBlack, ComeToYou, Hair1, HomeIcon2, OnBoard1 } from '../../constants/Icons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
@@ -52,6 +52,9 @@ const Ongoing = ({
     const [Client_duration, setClient_duration] = useState('')
     const [accept, setAccept] = useState('');
     const [requestCount, setRequestCount] = useState(0);
+    const [modalVisible2, setModalVisible2] = useState(false);
+    const [modalVisible3, setModalVisible3] = useState(false);
+    const [modalVisible4, setModalVisible4] = useState(false);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [GetOneOrder, setGetOneOrder] = useState('')
@@ -91,7 +94,7 @@ const Ongoing = ({
     }
 
     const endOrder = () => {
-        Alert.alert('Order has compeleted successfully !!!!')
+        setModalVisible2(true)
         // End the order for both client and professional
         socketServices.emit('order_update', {
             recipient: accept,
@@ -174,7 +177,7 @@ const Ongoing = ({
     const handleAccept = () => {
         // navigation.navigate(NavigationScreens.OrderProcessingScreenClientSideScreen, { services: orderData.message.services });
         // refRBSheet?.current?.close();
-        Alert.alert('Order is processing !!!')
+        setModalVisible3(true)
         socketServices.emit('order_update', {
             recipient: recipientId,
             message: {
@@ -742,10 +745,11 @@ const Ongoing = ({
                                             flex: 1,
                                             alignItems: 'center',
                                         }}>
-                                        <FontAwesome5 name="user" color={'#000'} size={15} />
+                                        <Image style={{ height: 20, width: 20 }} source={ClientBlack} resizeMode='contain' />
+
                                         <Text
                                             style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                                            Client
+                                            You
                                         </Text>
                                     </View>
                                     <View
@@ -786,7 +790,8 @@ const Ongoing = ({
                                             flex: 1,
                                             alignItems: 'center',
                                         }}>
-                                        <FontAwesome5 name="user" color={'#000'} size={15} />
+                                        <Image style={{ height: 20, width: 20 }} source={ComeToYou} resizeMode='contain' />
+
                                         <Text
                                             style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
                                             Professional
@@ -1018,80 +1023,7 @@ const Ongoing = ({
                 </View>
             </ScrollView>
 
-            {/* <Modal
-          animationType="fade"
-          transparent
-          visible={directionModalVisible}
-          statusBarTranslucent>
-          <View style={styles.ViewWrapper}>
-            <View style={styles.ModalContainer}>
-              <Text
-                style={
-                  styles.LabelText
-                }>{`Please head to\ndesignated location`}</Text>
-              <Text style={styles.DescText}>
-                Once arrived please come back here{' '}
-              </Text>
-  
-              <View
-                style={{
-                  flexDirection: 'row',
-                  width: '100%',
-                  marginTop: 30,
-                }}>
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: COLOR.ORANGECOLOR,
-                    padding: 10,
-                    borderRadius: 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                    shadowOffset: { height: 2 },
-                    shadowRadius: 2,
-                    shadowOpacity: 0.3,
-                  }}
-                  onPress={() => setDirectionModalVisibility(false)}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontSize: 14,
-                      fontWeight: '700',
-                    }}>
-                    OK
-                  </Text>
-                </TouchableOpacity>
-                <View style={{ width: 10 }} />
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#000',
-                    padding: 10,
-                    borderRadius: 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                    shadowOffset: { height: 2 },
-                    shadowRadius: 2,
-                    shadowOpacity: 0.3,
-                  }}
-                  onPress={() => setDirectionModalVisibility(false)}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontSize: 14,
-                      fontWeight: '700',
-                    }}>
-                    Direction
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal> */}
+
         </View>
 
     );
@@ -1106,6 +1038,106 @@ const Ongoing = ({
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
             />
+            <Modal
+                animationType="fade"
+                transparent
+                visible={modalVisible2}
+                statusBarTranslucent>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: COLOR.BLACK_30,
+                }}>
+                    <View style={{
+                        borderRadius: 15,
+                        padding: 15,
+                        backgroundColor: COLOR.WHITE,
+                        elevation: 5,
+                        shadowOffset: { width: 0, height: 5 },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 5,
+                        alignItems: 'center',
+                    }}>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>Order has compeleted successfully !!</Text>
+                        <TouchableOpacity
+                            style={{
+                                width: 50,
+                                marginTop: 10,
+                                backgroundColor: COLOR.ORANGECOLOR,
+                                padding: 10,
+                                borderRadius: 10,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderColor: '#fff',
+                                borderWidth: 1,
+                                shadowOffset: { height: 2 },
+                                shadowRadius: 2,
+                                shadowOpacity: 0.3,
+                            }}
+                            onPress={() => setModalVisible2(false)}>
+                            <Text
+                                style={{
+                                    color: '#fff',
+                                    fontSize: 14,
+                                    fontWeight: '700',
+                                }}>
+                                OK
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+            <Modal
+                animationType="fade"
+                transparent
+                visible={modalVisible3}
+                statusBarTranslucent>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: COLOR.BLACK_30,
+                }}>
+                    <View style={{
+                        borderRadius: 15,
+                        padding: 15,
+                        backgroundColor: COLOR.WHITE,
+                        elevation: 5,
+                        shadowOffset: { width: 0, height: 5 },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 5,
+                        alignItems: 'center',
+                    }}>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>Order is processing !!</Text>
+                        <TouchableOpacity
+                            style={{
+                                width: 50,
+                                marginTop: 10,
+                                backgroundColor: COLOR.ORANGECOLOR,
+                                padding: 10,
+                                borderRadius: 10,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderColor: '#fff',
+                                borderWidth: 1,
+                                shadowOffset: { height: 2 },
+                                shadowRadius: 2,
+                                shadowOpacity: 0.3,
+                            }}
+                            onPress={() => setModalVisible3(false)}>
+                            <Text
+                                style={{
+                                    color: '#fff',
+                                    fontSize: 14,
+                                    fontWeight: '700',
+                                }}>
+                                OK
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
             <Modal
                 animationType="slide"
                 transparent={true}
