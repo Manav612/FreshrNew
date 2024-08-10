@@ -68,7 +68,6 @@ import SchedulCalender from '../../screens/ClientSideScreens/HomeScreen/SchedulC
 import Pending from '../../components/MyBookingDetails/Pending';
 import Ongoing from '../../components/MyBookingDetails/Ongoing';
 import History from '../../components/MyBookingDetails/History';
-import StripePaymentComponent from '../../components/Stripe/StripePayment';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -173,10 +172,7 @@ const HomeStack = () => {
         name={NavigationScreens.OurServicesScreen}
         component={OurServices}
       />
-      <Stack.Screen
-        name={NavigationScreens.StripePaymentComponent}
-        component={StripePaymentComponent}
-      />
+
       <Stack.Screen
         name={NavigationScreens.MyBookingScreen}
         component={MyBooking}

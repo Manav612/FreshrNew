@@ -261,20 +261,7 @@ const OurServices = ({ route }) => {
       console.log('Response status:', res.status);
 
       if (res.data.status === 'success') {
-        // openBottomSheet();
-        navigation.navigate(NavigationScreens.MyBookingScreen, {
-          orderData: {
-            recipient: SelectedProf.user._id,
-            message: {
-              type: 'create_order',
-              data: {
-                order: res.data.order,
-              },
-              service: selected
-            },
-          }
-        })
-        socketServices.emit('order_update', {
+        const socketData = {
           recipient: SelectedProf.user._id,
           message: {
             type: 'create_order',
@@ -283,7 +270,16 @@ const OurServices = ({ route }) => {
             },
             service: selected
           },
-        });
+        };
+
+        // Emit the socket event
+        socketServices.emit('order_update', socketData);
+
+        // Navigate to MyBookingScreen with the socket data
+        navigation.navigate(NavigationScreens.MyBookingScreen, { socketData });
+
+
+        console.log("==================      socketData       ====================", socketData);
         console.log("==================      selectedddddddd       ====================", selected);
 
       } else {

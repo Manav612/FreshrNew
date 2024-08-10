@@ -27,8 +27,11 @@ import Ongoing from '../../../components/MyBookingDetails/Ongoing';
 import History from '../../../components/MyBookingDetails/History';
 import Pending from '../../../components/MyBookingDetails/Pending';
 import socketServices from '../../../Services/Socket';
+import Tooltip from 'react-native-walkthrough-tooltip';
+const MyBooking = ({ route }) => {
+  const socketData = route?.params?.socketData
+  // console.log("===========     pass sssss      ==============", socketData);
 
-const MyBooking = () => {
   const navigation = useNavigation();
 
   const theme = useSelector(state => state.ThemeReducer);
@@ -38,7 +41,10 @@ const MyBooking = () => {
   const [selectedItem2, setSelectedItem2] = useState('');
   const [orderData, setOrderData] = useState()
   const [id, setId] = useState('');
-
+  const [showTip, setShowTip] = useState(false);
+  const [showTip2, setShowTip2] = useState(false);
+  const [showTip3, setShowTip3] = useState(false);
+  const [showTip4, setShowTip4] = useState(false);
   const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
   const refRBSheet = useRef([]);
 
@@ -81,6 +87,7 @@ const MyBooking = () => {
       );
       openBottomSheet()
       setOrderData(data)
+      // console.log("==========   passsss   order data pendddd     ================", orderData);
 
     });
     socketServices.on('cancle_order', data => {
@@ -216,7 +223,7 @@ const MyBooking = () => {
         services: orderData.message.orderData.order.services
       },
     });
-    console.log("=============================");
+    // console.log("=============================");
 
     setSelectedItem('Ongoing')
   }
@@ -226,7 +233,7 @@ const MyBooking = () => {
       case 'Ongoing':
         return <Ongoing orderData={orderData} />;
       case 'Pending':
-        return <Pending orderData={orderData} />;
+        return <Pending orderData={socketData} />;
       case 'History':
         return <History orderData={orderData} />;
       default:
@@ -241,7 +248,7 @@ const MyBooking = () => {
         width: Screen_Width,
         height: Screen_Height,
         backgroundColor: COLOR.WHITE,
-        // marginTop: 30,
+        // paddingTop: 30
       }}>
       <View
         style={{
@@ -389,13 +396,21 @@ const MyBooking = () => {
               >
                 Delivery fee
               </Text>
+              <Tooltip
+                isVisible={showTip}
+                content={<Text>Press this button to do something!</Text>}
+                placement="top"
+                onClose={() => setShowTip(false)}
+              >
+                <AntDesign
+                  onPress={() => setShowTip(true)}
+                  name="infocirlce"
+                  size={18}
+                  color="#808080"
+                />
 
-              <AntDesign
+              </Tooltip>
 
-                name="infocirlce"
-                size={18}
-                color="#808080"
-              />
             </View>
 
             <Text
@@ -419,12 +434,21 @@ const MyBooking = () => {
               >
                 Facility fee
               </Text>
-              <AntDesign
+              <Tooltip
+                isVisible={showTip2}
+                content={<Text>Press this button to do something!</Text>}
+                placement="top"
+                onClose={() => setShowTip2(false)}
+              >
+                <AntDesign
+                  onPress={() => setShowTip2(true)}
+                  name="infocirlce"
+                  size={18}
+                  color="#808080"
+                />
 
-                name="infocirlce"
-                size={18}
-                color="#808080"
-              />
+              </Tooltip>
+
             </View>
             <Text
               variant="caption"
@@ -447,12 +471,22 @@ const MyBooking = () => {
               >
                 Service fee
               </Text>
-              <AntDesign
+              <Tooltip
 
-                name="infocirlce"
-                size={18}
-                color="#808080"
-              />
+                isVisible={showTip3}
+                content={<Text>Press this button to do something!</Text>}
+                placement="top"
+                onClose={() => setShowTip3(false)}
+              >
+                <AntDesign
+                  onPress={() => setShowTip3(true)}
+                  name="infocirlce"
+                  size={18}
+                  color="#808080"
+                />
+
+              </Tooltip>
+
             </View>
             <Text
               variant="caption"
@@ -496,12 +530,21 @@ const MyBooking = () => {
               >
                 Taxes & Processing fee
               </Text>
-              <AntDesign
+              <Tooltip
+                isVisible={showTip4}
+                content={<Text>Press this button to do something!</Text>}
+                placement="top"
+                onClose={() => setShowTip4(false)}
+              >
+                <AntDesign
+                  onPress={() => setShowTip4(true)}
+                  name="infocirlce"
+                  size={18}
+                  color="#808080"
+                />
 
-                name="infocirlce"
-                size={18}
-                color="#808080"
-              />
+              </Tooltip>
+
             </View>
             <Text
               variant="caption"

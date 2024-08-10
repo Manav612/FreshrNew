@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, Modal, TextInput, FlatList, RefreshControl, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, Modal, TextInput, FlatList, RefreshControl, ScrollView, Alert } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
@@ -29,7 +29,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const Ongoing = ({
     orderData
 }) => {
-    // console.log('----------------------   Ongo  Client ------------->', orderData);
+    // console.log('----------------------   Ongo  Client ------------->', JSON.stringify(orderData));
 
     const theme = useSelector(state => state.ThemeReducer);
 
@@ -91,6 +91,7 @@ const Ongoing = ({
     }
 
     const endOrder = () => {
+        Alert.alert('Order has compeleted successfully !!!!')
         // End the order for both client and professional
         socketServices.emit('order_update', {
             recipient: accept,
@@ -173,6 +174,7 @@ const Ongoing = ({
     const handleAccept = () => {
         // navigation.navigate(NavigationScreens.OrderProcessingScreenClientSideScreen, { services: orderData.message.services });
         // refRBSheet?.current?.close();
+        Alert.alert('Order is processing !!!')
         socketServices.emit('order_update', {
             recipient: recipientId,
             message: {
@@ -230,10 +232,13 @@ const Ongoing = ({
 
             // console.log('==========   order  List Ongoing / in traffic   ===========', combinedData)
             setFetchedData(combinedData)
+            console.log("=======   kdksjfklllljl    ==============>>>>>", JSON.stringify(FetchedData));
+
         } catch (error) {
             console.error("Error:", error);
         }
     };
+
 
     const handleResetPress = (id) => {
         setFetchedData(prevData => prevData.map(item => {
@@ -619,7 +624,7 @@ const Ongoing = ({
                         }}>
                         <Text style={styles.IdText}>ID : {orderId} </Text>
                         <Text style={[styles.UserName, { textAlign: 'right' }]}>
-                            22-07-2024
+                            {item?.createdAt.slice(0, 10)}
                         </Text>
                     </View>
 
@@ -699,7 +704,7 @@ const Ongoing = ({
                                     backgroundColor: COLOR.BLACK,
                                 },
                             ]}>
-                            <Text style={[styles.WhiteText, { fontSize: 10 }]}>Ongoing</Text>
+                            <Text style={[styles.WhiteText, { fontSize: 10 }]}>{item.status}</Text>
                         </View>
                         <View
                             style={{
@@ -863,7 +868,7 @@ const Ongoing = ({
                                                 gap: 10,
                                             }}>
                                             <Image
-                                                source={Hair1}
+                                                source={{ uri: item.services[0].photo }}
                                                 style={{ width: 50, height: 50, borderRadius: 5 }}
                                             />
                                             <Text
@@ -872,7 +877,7 @@ const Ongoing = ({
                                                     fontSize: 18,
                                                     fontWeight: '600',
                                                 }}>
-                                                Services ({services2.length})
+                                                Services ({item.services.length})
                                             </Text>
                                         </View>
                                         <MaterialIcons
@@ -892,7 +897,7 @@ const Ongoing = ({
                                                 gap: 10,
                                             }}>
                                             <Image
-                                                source={Hair1}
+                                                source={{ uri: item.services[0].photo }}
                                                 style={{ width: 50, height: 50, borderRadius: 5 }}
                                             />
                                             <View style={{}}>
@@ -902,7 +907,7 @@ const Ongoing = ({
                                                         fontSize: 14,
                                                         fontWeight: '500',
                                                     }}>
-                                                    Services ({services2.length})
+                                                    Services ({item.services.length})
                                                 </Text>
                                                 <View
                                                     style={{
@@ -920,7 +925,7 @@ const Ongoing = ({
                                                             color: COLOR.BLACK,
                                                             fontSize: 14,
                                                         }}>
-                                                        Wings
+                                                        {item.services[0].name}
                                                     </Text>
                                                     <MaterialIcons
                                                         name={
@@ -939,7 +944,7 @@ const Ongoing = ({
                             </TouchableOpacity>
                             {isOpen && (
                                 <View>
-                                    {services2.map((service, index) => (
+                                    {item.services.map((service, index) => (
                                         <View
                                             key={index}
                                             style={{
@@ -959,13 +964,13 @@ const Ongoing = ({
                                             }}>
                                             <Image
                                                 style={styles.UserImage}
-                                                source={Hair1}
+                                                source={{ uri: service.photo }}
                                                 resizeMode="cover"
                                             />
                                             <Text style={styles.UserName}>{service.name}</Text>
                                             <View style={styles.BlackContainer}>
                                                 <Text style={styles.WhiteText}>
-                                                    ${service.price.toFixed(2)}
+                                                    ${service.price}
                                                 </Text>
                                             </View>
                                         </View>
@@ -984,7 +989,7 @@ const Ongoing = ({
                                     padding: 8,
                                     borderRadius: 7,
                                 }}>
-                                <Text style={[styles.WhiteText, { height: 'auto' }]}>$8000</Text>
+                                <Text style={[styles.WhiteText, { height: 'auto' }]}>${item.price}</Text>
                             </View>
                         )}
                     </View>
@@ -996,7 +1001,7 @@ const Ongoing = ({
                             marginTop: 10,
                         }}>
                         <FontAwesome5 name="user-circle" color={'#000'} size={20} />
-                        <Text style={[styles.UserName, { marginLeft: 7 }]}>Elon Musk</Text>
+                        <Text style={[styles.UserName, { marginLeft: 7 }]}>{item?.client?.firstName}{' '}{item?.client?.lastName}</Text>
                     </View>
 
                     <View
@@ -1006,7 +1011,8 @@ const Ongoing = ({
                             marginTop: 10,
                         }}>
                         <Entypo name="scissors" color={'#000'} size={20} />
-                        <Text style={[styles.UserName, { marginLeft: 7 }]}>Jk Jk</Text>
+                        <Text style={[styles.UserName, { marginLeft: 7 }]}>{item?.professional?.user?.firstName}{' '}{item?.professional?.user?.lastName}</Text>
+
                         <Entypo name="message" color={'#000'} size={24} />
                     </View>
                 </View>

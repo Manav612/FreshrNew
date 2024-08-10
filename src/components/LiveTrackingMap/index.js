@@ -10,6 +10,7 @@ import FastImage from 'react-native-fast-image';
 import { barber, Client, ClientWhite, ComeToYouOrange, ComeToYouWhite, InSalonOrange, InSalonWhite } from '../../constants/Icons';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -288,6 +289,8 @@ const LiveTrackingMap = ({
                         >
                             <View style={{ height: 30, width: 30, backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
                                 <Image style={{ height: 20, width: 20 }} source={InSalonWhite} resizeMode='contain' />
+                                {/* <FontAwesome5 name="user" color={COLOR.ORANGECOLOR} size={15} /> */}
+
                             </View>
                         </Marker>
                     }
@@ -301,6 +304,8 @@ const LiveTrackingMap = ({
                     >
                         <View style={{ height: 30, width: 30, backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', borderRadius: 50 }}>
                             <Image style={{ height: 20, width: 20 }} source={ClientWhite} resizeMode='contain' />
+                            {/* <FontAwesome5 name="user" color={COLOR.WHITE} size={15} /> */}
+
                         </View>
                     </Marker.Animated>
 

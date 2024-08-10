@@ -43,6 +43,8 @@ const ProfessionalOngoing = ({
   setFetchedData,
   orderData
 }) => {
+  console.log('----------------------   Ongo  proffff ------------->', JSON.stringify(FetchedData));
+
   const theme = useSelector(state => state.ThemeReducer);
 
   const navigation = useNavigation();
@@ -98,6 +100,7 @@ const ProfessionalOngoing = ({
   }
 
   const onRequestToEnd = () => {
+    Alert.alert('Request sent successfully to compelete the order !!!!')
     console.log("===========   endddddd orderr   hiiii =========");
     const id = orderData.sender;
     socketServices.emit('order_update', {
@@ -192,6 +195,7 @@ const ProfessionalOngoing = ({
   });
   console.log(btnVisible);
   const handleRequest = () => {
+    Alert.alert('Request sent successfully to start order !!!!!')
     socketServices.emit('order_update', {
       recipient: orderData.sender,
       message: {
@@ -498,6 +502,8 @@ const ProfessionalOngoing = ({
 
   });
 
+  console.log(orderData?.message?.coordinates);
+
   return (
     <ScrollView
       refreshControl={
@@ -578,9 +584,9 @@ const ProfessionalOngoing = ({
                       zIndex: 1000,
                       justifyContent: 'space-between',
                     }}>
-                    <Text style={styles.IdText}>ID : 75fdgdgd4545645</Text>
+                    <Text style={styles.IdText}>ID : {orderId}</Text>
                     <Text style={[styles.UserName, { textAlign: 'right' }]}>
-                      22-07-2024
+                      {item?.createdAt}
                     </Text>
                   </View>
 
@@ -666,7 +672,7 @@ const ProfessionalOngoing = ({
                           backgroundColor: COLOR.BLACK,
                         },
                       ]}>
-                      <Text style={[styles.WhiteText, { fontSize: 10 }]}>Ongoing</Text>
+                      <Text style={[styles.WhiteText, { fontSize: 10 }]}>{item?.status}</Text>
                     </View>
                     <View
                       style={{
@@ -829,7 +835,8 @@ const ProfessionalOngoing = ({
                                 gap: 10,
                               }}>
                               <Image
-                                source={Hair1}
+                                source={{ uri: item?.services[0]?.photo }}
+
                                 style={{ width: 50, height: 50, borderRadius: 5 }}
                               />
                               <Text
@@ -838,7 +845,7 @@ const ProfessionalOngoing = ({
                                   fontSize: 18,
                                   fontWeight: '600',
                                 }}>
-                                Services ({services2.length})
+                                Services ({item?.services?.length})
                               </Text>
                             </View>
                             <MaterialIcons
@@ -858,6 +865,7 @@ const ProfessionalOngoing = ({
                                 gap: 10,
                               }}>
                               <Image
+                                // source={{ uri: item?.services[0]?.photo }}
                                 source={Hair1}
                                 style={{ width: 50, height: 50, borderRadius: 5 }}
                               />
@@ -868,7 +876,7 @@ const ProfessionalOngoing = ({
                                     fontSize: 14,
                                     fontWeight: '500',
                                   }}>
-                                  Services ({services2.length})
+                                  Services ({item?.services?.length})
                                 </Text>
                                 <View
                                   style={{
@@ -886,7 +894,8 @@ const ProfessionalOngoing = ({
                                       color: COLOR.BLACK,
                                       fontSize: 14,
                                     }}>
-                                    Wings
+                                    {/* {item?.services[0]?.name} */}
+                                    hgfnhvbjnk
                                   </Text>
                                   <MaterialIcons
                                     name={
@@ -905,7 +914,7 @@ const ProfessionalOngoing = ({
                       </TouchableOpacity>
                       {isOpen && (
                         <View>
-                          {services2.map((service, index) => (
+                          {item.services.map((service, index) => (
                             <View
                               key={index}
                               style={{
@@ -925,13 +934,13 @@ const ProfessionalOngoing = ({
                               }}>
                               <Image
                                 style={styles.UserImage}
-                                source={Hair1}
+                                source={{ uri: service.photo }}
                                 resizeMode="cover"
                               />
                               <Text style={styles.UserName}>{service.name}</Text>
                               <View style={styles.BlackContainer}>
                                 <Text style={styles.WhiteText}>
-                                  ${service.price.toFixed(2)}
+                                  ${service.price}
                                 </Text>
                               </View>
                             </View>
@@ -950,7 +959,7 @@ const ProfessionalOngoing = ({
                           padding: 8,
                           borderRadius: 7,
                         }}>
-                        <Text style={[styles.WhiteText, { height: 'auto' }]}>$8000</Text>
+                        <Text style={[styles.WhiteText, { height: 'auto' }]}>${item.price}</Text>
                       </View>
                     )}
                   </View>
@@ -962,7 +971,8 @@ const ProfessionalOngoing = ({
                       marginTop: 10,
                     }}>
                     <FontAwesome5 name="user-circle" color={'#000'} size={20} />
-                    <Text style={[styles.UserName, { marginLeft: 7 }]}>Elon Musk</Text>
+                    <Text style={[styles.UserName, { marginLeft: 7 }]}>{item?.client?.firstName}{' '}{item?.client?.lastName}</Text>
+
                   </View>
 
                   <View
@@ -972,7 +982,8 @@ const ProfessionalOngoing = ({
                       marginTop: 10,
                     }}>
                     <Entypo name="scissors" color={'#000'} size={20} />
-                    <Text style={[styles.UserName, { marginLeft: 7 }]}>Jk Jk</Text>
+                    <Text style={[styles.UserName, { marginLeft: 7 }]}>{item?.professional?.user?.firstName}{' '}{item?.professional?.user?.lastName}</Text>
+
                     <Entypo name="message" color={'#000'} size={24} />
                   </View>
                 </View>

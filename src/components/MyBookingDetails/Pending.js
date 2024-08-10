@@ -26,16 +26,16 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MapScreen2 from '../../screens/MapScreen2';
 
-const Pending = () => {
+const Pending = ({ orderData }) => {
   const [timeLeft, setTimeLeft] = useState(120);
   const [visible, setVisible] = useState(true);
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+  // console.log("==========     order data pendddd     ================", JSON.stringify(orderData));
 
   const [directionModalVisible, setDirectionModalVisibility] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -237,7 +237,7 @@ const Pending = () => {
 
   return (
     <View style={styles.modalContainer}>
-      <MapScreen2 />
+      <MapScreen2 orderData={orderData} />
 
       <View style={{ height: 100 }} />
       <Modal

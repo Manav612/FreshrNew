@@ -20,6 +20,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MapView from 'react-native-maps';
 import ActiveLine from '../../../components/Story/Story/ActiveLine';
+import LiveTrackingMap from '../../../components/LiveTrackingMap';
 const ProfessionalPending = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -30,25 +31,28 @@ const ProfessionalPending = () => {
     const [FetchedData, setFetchedData] = useState([]);
     const [orderData, setOrderData] = useState({});
     const [timer, setTimer] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(1 * 60); // 5 minutes in seconds
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const refRBSheet = useRef();
     const authToken = useSelector(state => state.AuthReducer);
     const [directionModalVisible, setDirectionModalVisibility] = useState(false);
-    const [services, setServices] = useState()
-    const [id, setId] = useState('');
     const [height, setHeight] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [hide, setHide] = useState(false)
+    const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
+    const [id, setId] = useState('');
+    const [Prof_distance, setProf_distance] = useState('')
+    const [Prof_duration, setProf_duration] = useState('')
+    const [Client_distance, setClient_distance] = useState('')
+    const [Client_duration, setClient_duration] = useState('')
+
+    // const [date, setDate] = useState(FetchedData?.createdAt)
+    // const [status, setStatus] = useState(FetchedData?.status)
+    const [services, setServices] = useState()
+
     const toggleDropdown = ({ services2 }) => {
         setIsOpen(!isOpen);
     };
 
-    const services2 = [
-        { name: 'Wings', price: 28.57 },
-        { name: 'Wings', price: 28.57 },
-        { name: 'Wings', price: 28.57 },
-    ];
 
     useEffect(() => {
         if (timeLeft > 0) {
@@ -65,6 +69,7 @@ const ProfessionalPending = () => {
         const remainingSeconds = seconds % 60;
         return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     };
+
     const openBottomSheet = () => {
         refRBSheet?.current?.open();
 
@@ -75,6 +80,8 @@ const ProfessionalPending = () => {
         refRBSheet?.current?.close();
 
     };
+    // console.log("------------------>", orderData.order_id);
+
     const styles = StyleSheet.create({
         modalContainer: {
             justifyContent: 'center',
@@ -188,7 +195,7 @@ const ProfessionalPending = () => {
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: '#00000050',
-            paddingBottom: '30%',
+
         },
         ModalContainer: {
             width: '85%',
@@ -261,13 +268,17 @@ const ProfessionalPending = () => {
             setFetchedData(prevData => [data.message.data.order, ...prevData]);
             setOrderData({
                 order_id: data.message.data.order.id,
-                coordinates: data.message.data.order.address?.coordinates,
+                message: {
+                    coordinates: data.message.data.order.address?.coordinates,
+                }
             })
+
             setServices(data.services)
             // setModalVisible(true); // Open the modal when a new order is received
         });
     }, []);
-
+    const orderIddd = orderData.order_id
+    // console.log('=============>', orderIddd);
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         fetchData().then(() => setRefreshing(false));
@@ -284,6 +295,8 @@ const ProfessionalPending = () => {
             const res = await axios.get(`${BASE_API_URL}/professionals/professional/orders/PENDING`, config);
             console.log('==========   order  List pendinggg  ===========', JSON.stringify(res.data.data.orders))
             setFetchedData(res.data.data.orders)
+            console.log("=================------------>", JSON.stringify(FetchedData));
+
         } catch (error) {
             console.error("Error:", error);
         }
@@ -292,7 +305,7 @@ const ProfessionalPending = () => {
     const onAccept = async () => {
 
         const orderId = orderData?.order_id;
-        const coordinates = orderData?.coordinates;
+        const coordinates = orderData?.message?.coordinates;
         try {
             // console.log("Order Id : ",coordinates);
             const config = {
@@ -307,6 +320,7 @@ const ProfessionalPending = () => {
             );
             console.log('===========  milllaaa  ==========', JSON.stringify(res.data.data));
             if (res.status == 200) {
+                setDirectionModalVisibility(true)
                 console.log('===========   orderrr  acceptted   ==========')
                 // openBottomSheet()
                 Alert.alert('Please wait while client do the payment')
@@ -320,7 +334,7 @@ const ProfessionalPending = () => {
                         order_id: orderId,
                         coordinates: coordinates,
                         orderData: res.data.data,
-                        services: services
+                        services: services,
                     },
                 });
                 setOrderData({});
@@ -370,10 +384,7 @@ const ProfessionalPending = () => {
     }
 
     const renderItem = ({ item }) => (
-
         <View style={styles.Container}>
-
-
             <ScrollView
                 style={styles.Container}
                 contentContainerStyle={[
@@ -410,7 +421,7 @@ const ProfessionalPending = () => {
                             </Text>
                             <View style={[styles.IdContainer, { marginVertical: 5 }]}>
                                 <Text style={[styles.UserName, { textAlign: 'center' }]}>
-                                    Time remaining: 1:407
+                                    Time remaining: {formatTime(timeLeft)}
                                 </Text>
                             </View>
 
@@ -438,6 +449,7 @@ const ProfessionalPending = () => {
                                 </TouchableOpacity>
                                 <View style={{ width: 10 }} />
                                 <TouchableOpacity
+                                    onPress={PutCancelData}
                                     style={{
                                         flex: 1,
                                         padding: 7,
@@ -451,18 +463,7 @@ const ProfessionalPending = () => {
                                     </Text>
                                 </TouchableOpacity>
                             </View>
-                            {/* <TouchableOpacity
-        style={{
-          flex: 1,
-          padding: 7,
-          backgroundColor: COLOR.ORANGECOLOR,
-          borderRadius: 7,
-          marginVertical: 5,
-        }}>
-        <Text style={[styles.LabelText, { color: COLOR.WHITE }]}>
-          please wait for approval
-        </Text>
-      </TouchableOpacity> */}
+
                         </View>
                     }
 
@@ -476,9 +477,9 @@ const ProfessionalPending = () => {
                             marginVertical: hide ? 10 : null,
                             justifyContent: 'space-between',
                         }}>
-                        <Text style={styles.IdText}>ID : 75fdgdgd4545645</Text>
+                        <Text style={styles.IdText}>ID : {orderIddd}</Text>
                         <Text style={[styles.UserName, { textAlign: 'right' }]}>
-                            22-07-2024
+                            {item.createdAt.slice(0, 10)}
                         </Text>
                     </View>
                     <View
@@ -486,18 +487,27 @@ const ProfessionalPending = () => {
                             styles.MapContainer,
                             height > 0 && { marginTop: hide ? null : height / 1.8 },
                         ]}>
-                        <MapView
-                            style={{
-                                width: '100%',
-                                height: '100%',
+                        <LiveTrackingMap
+                            mapApiKey={'AIzaSyDjksmogYn7mFtMJFw-eNFsoCuHGM87-j8'}
+                            onLocationChange={(data) => {
+                                console.log("+++++++++++++++++++++", data);
+
+                                // socketServices.emit('order_update', {
+                                //     recipient: orderData.sender,
+                                //     message: {
+                                //         type: 'Location_ChangeCLI',
+                                //         id: orderData.message.id,
+                                //         order_id: orderData.message.order_id,
+                                //         data,
+                                //     },
+                                // });
                             }}
-                            initialRegion={{
-                                latitude: 20.5937,
-                                longitude: 78.9629,
-                                latitudeDelta: 0.225,
-                                longitudeDelta: 0.225,
-                            }}
-                            provider="google"
+                            // socketType={'Location_ChangeSP'}
+                            staticCoordinate={orderData?.message?.coordinates}
+                            Prof_distance={setProf_distance}
+                            Prof_duration={setProf_duration}
+                            Client_distance={setClient_distance}
+                            Client_duration={setClient_duration}
                         />
 
                         <View
@@ -552,7 +562,7 @@ const ProfessionalPending = () => {
                                     backgroundColor: COLOR.BLACK,
                                 },
                             ]}>
-                            <Text style={[styles.WhiteText, { fontSize: 10 }]}>Pending</Text>
+                            <Text style={[styles.WhiteText, { fontSize: 10 }]}>{item.status}</Text>
                         </View>
                         <View
                             style={{
@@ -715,7 +725,7 @@ const ProfessionalPending = () => {
                                                 gap: 10,
                                             }}>
                                             <Image
-                                                source={Hair1}
+                                                source={{ uri: item?.services?.photo }}
                                                 style={{ width: 50, height: 50, borderRadius: 5 }}
                                             />
                                             <Text
@@ -724,7 +734,7 @@ const ProfessionalPending = () => {
                                                     fontSize: 18,
                                                     fontWeight: '600',
                                                 }}>
-                                                Services ({services2.length})
+                                                Services ({item?.services.length})
                                             </Text>
                                         </View>
                                         <MaterialIcons
@@ -744,7 +754,7 @@ const ProfessionalPending = () => {
                                                 gap: 10,
                                             }}>
                                             <Image
-                                                source={Hair1}
+                                                source={{ uri: item.services?.photo }}
                                                 style={{ width: 50, height: 50, borderRadius: 5 }}
                                             />
                                             <View style={{}}>
@@ -754,7 +764,7 @@ const ProfessionalPending = () => {
                                                         fontSize: 14,
                                                         fontWeight: '500',
                                                     }}>
-                                                    Services ({services2.length})
+                                                    Services ({item?.services.length})
                                                 </Text>
                                                 <View
                                                     style={{
@@ -772,7 +782,7 @@ const ProfessionalPending = () => {
                                                             color: COLOR.BLACK,
                                                             fontSize: 14,
                                                         }}>
-                                                        Wings
+                                                        {item.services[0].name}
                                                     </Text>
                                                     <MaterialIcons
                                                         name={
@@ -791,7 +801,7 @@ const ProfessionalPending = () => {
                             </TouchableOpacity>
                             {isOpen && (
                                 <View>
-                                    {services2.map((service, index) => (
+                                    {item.services.map((service, index) => (
                                         <View
                                             key={index}
                                             style={{
@@ -811,13 +821,13 @@ const ProfessionalPending = () => {
                                             }}>
                                             <Image
                                                 style={styles.UserImage}
-                                                source={Hair1}
+                                                source={{ uri: service?.photo }}
                                                 resizeMode="cover"
                                             />
-                                            <Text style={styles.UserName}>{service.name}</Text>
+                                            <Text style={styles.UserName}>{service?.name}</Text>
                                             <View style={styles.BlackContainer}>
                                                 <Text style={styles.WhiteText}>
-                                                    ${service.price.toFixed(2)}
+                                                    ${service?.price}
                                                 </Text>
                                             </View>
                                         </View>
@@ -836,7 +846,7 @@ const ProfessionalPending = () => {
                                     padding: 8,
                                     borderRadius: 7,
                                 }}>
-                                <Text style={[styles.WhiteText, { height: 'auto' }]}>$8000</Text>
+                                <Text style={[styles.WhiteText, { height: 'auto' }]}>${item.price}</Text>
                             </View>
                         )}
                     </View>
@@ -848,7 +858,7 @@ const ProfessionalPending = () => {
                             marginTop: 10,
                         }}>
                         <FontAwesome5 name="user-circle" color={'#000'} size={20} />
-                        <Text style={[styles.UserName, { marginLeft: 7 }]}>Elon Musk</Text>
+                        <Text style={[styles.UserName, { marginLeft: 7 }]}>{item.client.firstName}{" "}{item.client.lastName}</Text>
                     </View>
 
                     <View
@@ -858,7 +868,7 @@ const ProfessionalPending = () => {
                             marginTop: 10,
                         }}>
                         <Entypo name="scissors" color={'#000'} size={20} />
-                        <Text style={[styles.UserName, { marginLeft: 7 }]}>Jk Jk</Text>
+                        <Text style={[styles.UserName, { marginLeft: 7 }]}>{item.professional.user.firstName}{" "}{item.professional.user.lastName}</Text>
                         <Entypo name="message" color={'#000'} size={24} />
                     </View>
                 </View>
@@ -913,7 +923,7 @@ const ProfessionalPending = () => {
                             <TouchableOpacity
                                 style={{
                                     flex: 1,
-                                    backgroundColor: '#000',
+                                    backgroundColor: COLOR.ChartBlue,
                                     padding: 10,
                                     borderRadius: 10,
                                     alignItems: 'center',
