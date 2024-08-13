@@ -61,13 +61,13 @@ const Salon = () => {
   };
 
   useEffect(() => {
-    AddFavData()
+    // AddFavData()
     // fetchData();
   }, []);
 
   const AddFavData = async (itemId) => {
     try {
-      console.log("==========>", itemId);
+      // console.log("==========>", itemId);
       const config = {
         headers: {
           'Authorization': `Bearer ${authToken}`
@@ -339,7 +339,7 @@ const Salon = () => {
         <FlatList
           data={FetchedsSalonData}
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id || `${item.name}-${item.coverImage}`}
           style={{ flex: 1 }}
           scrollEnabled={false}
           renderItem={({ item }) => {
@@ -393,136 +393,6 @@ const Salon = () => {
             )
           }}
         />
-      </View>
-      <View style={{}}>
-        <RBSheet
-          ref={(ref) => (refRBSheet.current[0] = ref)}
-
-          height={Screen_Height * 0.50}
-          customStyles={{
-
-            wrapper: {
-              backgroundColor: COLOR.BLACK_40,
-            },
-            container: {
-              backgroundColor: COLOR.WHITE,
-              borderRadius: 40,
-              borderBottomRightRadius: 0,
-              borderBottomLeftRadius: 0,
-              elevation: 10,
-              shadowColor: COLOR.BLACK,
-            },
-            draggableIcon: {
-              backgroundColor: COLOR.BLACK,
-            },
-          }}
-          customModalProps={{
-            animationType: 'slide',
-            statusBarTranslucent: true,
-          }}
-          customAvoidingViewProps={{
-            enabled: false,
-          }}>
-          <View style={{ paddingHorizontal: 5, marginVertical: 10 }}>
-            <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-              <View style={{ width: 30, height: 3, backgroundColor: COLOR.BLACK, marginBottom: 10 }} />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: Screen_Width * 0.9 }}>
-                <View style={{ width: 30 }} />
-                <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>Filter</Text>
-                <TouchableOpacity onPress={() => refRBSheet.current[0].close()}>
-                  <AntDesign name="closecircle" size={24} color={COLOR.BLACK} />
-                </TouchableOpacity>
-              </View>
-
-            </View>
-            <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
-
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-              <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18, marginVertical: 5 }}>Styles</Text>
-              <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 20, marginVertical: 5 }}>
-                <TouchableOpacity
-                  style={{
-                    width: 100,
-                    height: 40,
-                    backgroundColor: activeTab1 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-                    borderRadius: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderWidth: 1,
-                    borderColor: COLOR.ORANGECOLOR
-                  }}
-                  onPress={() => setActiveTab1('Masculine')}
-                >
-                  <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    width: 100,
-                    height: 40,
-                    backgroundColor: activeTab1 === 'Both' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-                    borderRadius: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderWidth: 1,
-                    borderColor: COLOR.ORANGECOLOR
-                  }}
-                  onPress={() => setActiveTab1('Both')}
-                >
-                  <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    width: 100,
-                    height: 40,
-                    backgroundColor: activeTab1 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-                    borderRadius: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderWidth: 1,
-                    borderColor: COLOR.ORANGECOLOR
-                  }}
-                  onPress={() => setActiveTab1('Feminine')}
-                >
-                  <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-              <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>Rating</Text>
-              <FlatList
-                data={data3}
-                keyExtractor={item => item.id}
-                renderItem={Rating}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
-              <Text style={{ fontWeight: '700', color: '#000', fontSize: 18 }}>Distance: {distance} km</Text>
-              <Slider
-                style={{ width: '100%', marginTop: 10 }}
-                minimumValue={0}
-                maximumValue={100}
-                step={1}
-                minimumTrackTintColor="#000"
-                maximumTrackTintColor="#000"
-                thumbTintColor="#000"
-                value={distance}
-                onValueChange={(value) => setDistance(value)}
-              />
-            </View>
-            <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
-              <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Reset' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Reset') }}>
-                <Text style={{ color: activeTab === 'Reset' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Reset</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{ width: 150, height: 50, backgroundColor: activeTab === 'Apply Filter' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Apply Filter') }}>
-                <Text style={{ color: activeTab === 'Apply Filter' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Apply Filter</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-        </RBSheet>
       </View>
 
       <View style={{ height: 90 }} />

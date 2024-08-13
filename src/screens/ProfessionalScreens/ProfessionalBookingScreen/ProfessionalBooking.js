@@ -38,7 +38,7 @@ const ProfessionalBooking = () => {
 
   useEffect(() => {
     socketServices.on('payment_Done', data => {
-      console.log('==== payment done ======', data);
+      // console.log('==== payment done ======', data);
       setOrderData(data)
       setDirectionModalVisibility(true)
       setSelectedItem('Ongoing')
@@ -46,7 +46,7 @@ const ProfessionalBooking = () => {
       res['sender'] = data.sender;
       res['order_id'] = data.message.order_id;
       res['coordinates'] = data.message.coordinates;
-      console.log(JSON.stringify(res));
+      // console.log(JSON.stringify(res));
       setOngoingData(prevData => [res, ...prevData]);
 
     });

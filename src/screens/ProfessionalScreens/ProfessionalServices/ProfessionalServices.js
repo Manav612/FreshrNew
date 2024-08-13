@@ -15,6 +15,7 @@ import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
 import { RemoveOneServiceData, SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import socketServices from '../../../Services/Socket';
 
 const ProfessionalServices = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -29,13 +30,25 @@ const ProfessionalServices = () => {
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [selected, setSelected] = useState()
 
-  console.log("==========   servicesData   ===========", servicesData);
-  console.log("==========   F3etch Data   ========", fetchedData);
+
+  // useEffect(() => {
+  //   socketServices.on('create_order', data => {
+  //     console.log(
+  //       '====  order create data Socket ======',
+  //       data.message.data.order,
+  //     );
+  //     navigation.navigate(NavigationScreens.ProfessionalBookingScreen)
+  //   });
+  // }, []);
+
+  // console.log("==========   servicesData   ===========", servicesData);
+  // console.log("==========   F3etch Data   ========", fetchedData);
   const openBottomSheet2 = (item, index) => {
     refRBSheet.current[0].open();
     setServicesData(item);
     setSelectedServiceId(item.id);
   };
+
 
   const refRBSheet = useRef([]);
 
@@ -58,7 +71,7 @@ const ProfessionalServices = () => {
         }
       };
       const res = await axios.get(`${BASE_API_URL}/professionals/professional/services`, config);
-      console.log("=========   fetchhh servicessss  ========", res.data.data.services);
+      // console.log("=========   fetchhh servicessss  ========", res.data.data.services);
       setFetchedData(res.data.data.services)
       // dispatch(SetServiceData(res.data.data.services));
     } catch (error) {
@@ -74,9 +87,9 @@ const ProfessionalServices = () => {
           'Authorization': `Bearer ${token}`
         }
       };
-      console.log('===============   id ==============', id);
+      // console.log('===============   id ==============', id);
       const res = await axios.delete(`${BASE_API_URL}/professionals/professional/services/${id}`, config);
-      console.log("=======   ressss == ========", res.data);
+      // console.log("=======   ressss == ========", res.data);
       Alert.alert('Service deleted successfully ')
       // Refresh the fetched data after deletion
       // dispatch(RemoveOneServiceData(id));

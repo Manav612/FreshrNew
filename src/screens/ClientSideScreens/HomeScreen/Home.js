@@ -147,7 +147,6 @@ const Home = () => {
   const displayName = fullName.length > 15 ? `${fullName.slice(0, 15)}...` : fullName;
 
   useEffect(() => {
-    fetchData();
     checkLocationPermission();
   }, []);
 
@@ -189,21 +188,7 @@ const Home = () => {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      const token = await AsyncStorage.getItem("AuthToken");
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
-      console.log('========  user facilty   =============', res.data.data);
-      setFetchedData(res.data.data);
-    } catch (error) {
-      console.error("Errorssa:", error);
-    }
-  };
+
 
   const refRBSheet = useRef([]);
   const openBottomSheet = () => {
@@ -212,8 +197,9 @@ const Home = () => {
   const [activeTab1, setActiveTab1] = useState('Both');
   const [distance, setDistance] = useState(50);
   const [selectedItem1, setSelectedItem1] = useState(null);
-  const Rating = ({ item }) => (
+  const Rating = ({ item, index }) => (
     <TouchableOpacity
+      key={item.id || index}  // Add this line
       style={[
         styles.CategoryContainer,
         selectedItem1 === item.id && styles.selectedItem,
@@ -419,7 +405,7 @@ const Home = () => {
               <Text style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>Rating</Text>
               <FlatList
                 data={data3}
-                keyExtractor={item => item.id}
+                keyExtractor={(item, index) => item.id?.toString() || index.toString()}
                 renderItem={Rating}
                 horizontal
                 showsHorizontalScrollIndicator={false}

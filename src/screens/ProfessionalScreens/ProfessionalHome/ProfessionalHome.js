@@ -61,24 +61,19 @@ const ProfessionalHome = () => {
         value: currentYear - i,
     }));
 
-    useEffect(() => {
-        // console.log('Setting up socket listener');
-        // socketServices.on('create_order', data => {
-        //     console.log('Received create_order event:', data);
-        //     try {
-        //         console.log('Attempting to show modal');
-        //         dispatch(showModal(data.message.data.order));
-        //         console.log('Modal action dispatched');
-        //     } catch (error) {
-        //         console.error('Error showing modal:', error);
-        //     }
-        // });
+    // useEffect(() => {
+    //     // prof home 
+    //     socketServices.on('create_order', data => {
 
-        // return () => {
-        //     console.log('Cleaning up socket listener');
-        //     socketServices.off('create_order');
-        // };
-    }, []);
+    //         console.log(
+    //             '===================            order create home profffff        ===============',
+    //             data.message.data.order._id,
+    //         );
+    //         const orderId = data.message.data.order._id
+    //         navigation.navigate(NavigationScreens.ProfessionalBookingScreen, { orderId })
+
+    //     });
+    // }, []);
 
     useEffect(() => {
         getUserInfo()

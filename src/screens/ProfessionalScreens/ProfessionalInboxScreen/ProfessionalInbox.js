@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ClockUserIcon, Hair1 } from '../../../constants/Icons';
 import { Screen_Height } from '../../../constants/Constants';
@@ -24,6 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 import { calldata, chatdata } from '../../../components/utils';
 import { NavigationScreens } from '../../../constants/Strings';
 import FastImage from 'react-native-fast-image';
+import socketServices from '../../../Services/Socket';
 
 const ProfessionalInbox = ({ navigate }) => {
   const navigation = useNavigation();
@@ -32,7 +33,15 @@ const ProfessionalInbox = ({ navigate }) => {
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [activeTab, setActiveTab] = useState('Chats');
   const [selected, setSelected] = useState()
-
+  // useEffect(() => {
+  //   socketServices.on('create_order', data => {
+  //     console.log(
+  //       '====  order create data Socket ======',
+  //       data.message.data.order,
+  //     );
+  //     navigation.navigate(NavigationScreens.ProfessionalBookingScreen)
+  //   });
+  // }, []);
   const SelectCalls = ({ item }) => (
     <TouchableOpacity
       style={{

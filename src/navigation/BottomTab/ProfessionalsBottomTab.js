@@ -29,9 +29,7 @@ import ProfessionalViewInnerServices from '../../screens/ProfessionalScreens/Pro
 import ProfessionalProfile2 from '../../screens/ProfessionalScreens/ProfessionalProfile2/ProfessionalProfile2';
 import profselectedDetailservice from '../../screens/ProfessionalScreens/ProfessionalServices/profselectedDetailservice';
 import ProfessionalEditService from '../../screens/ProfessionalScreens/ProfessionalServices/ProfessionalEditService';
-// import LiveTrackingProfSide from '../../components/ProfessionalComponents/LiveTrackingProfSide';
-// import OrderProcessingScreenProfSide from '../../components/ProfessionalComponents/OrderProcessingScreenProfSide';
-// import ProfAddServicesList from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
+
 import ProfAddCustomServices from '../../screens/ProfessionalScreens/ProfessionalServices/ProfAddCustomServices';
 import ProfSelectCategory from '../../screens/ProfessionalScreens/ProfessionalServices/profselectCategory';
 import ProfessionalOngoing from '../../screens/ProfessionalScreens/ProfessionalBookingScreen/ProfessionalOngoing';
@@ -47,6 +45,8 @@ import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import { BASE_API_URL } from '../../Services';
 import axios from 'axios';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useSocketNavigation } from '../UseSocketNavigation';
+import ProfessionalInvite from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalInvite';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -57,10 +57,18 @@ const HomeStack = () => {
             headerShown: false
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalHomeScreen} component={ProfessionalHome} />
+
             <Stack.Screen name={NavigationScreens.TransactionHistoryScreen} component={TransactionHistoryScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+
+            <Stack.Screen name={NavigationScreens.ProfessionalBookingScreen} component={ProfessionalBooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalCancelbookingScreen} component={ProfessionalCancelbooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalPendingScreen} component={ProfessionalPending} />
+            <Stack.Screen name={NavigationScreens.ProfessionalHistoryScreen} component={ProfessionalHistory} />
+            <Stack.Screen name={NavigationScreens.ProfessionalOngoingScreen} component={ProfessionalOngoing} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
 
         </Stack.Navigator>
     );
@@ -82,6 +90,12 @@ const ServicesStack = () => {
             <Stack.Screen name={NavigationScreens.profselectedDetailserviceScreen} component={profselectedDetailservice} />
             <Stack.Screen name={NavigationScreens.professionalEditServiceScreen} component={ProfessionalEditService} />
 
+            <Stack.Screen name={NavigationScreens.ProfessionalBookingScreen} component={ProfessionalBooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalCancelbookingScreen} component={ProfessionalCancelbooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalPendingScreen} component={ProfessionalPending} />
+            <Stack.Screen name={NavigationScreens.ProfessionalHistoryScreen} component={ProfessionalHistory} />
+            <Stack.Screen name={NavigationScreens.ProfessionalOngoingScreen} component={ProfessionalOngoing} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
 
 
         </Stack.Navigator>
@@ -118,6 +132,17 @@ const InboxStack = () => {
         }}>
             <Stack.Screen name={NavigationScreens.ProfessionalInboxScreen} component={ProfessionalInbox} />
             <Stack.Screen name={NavigationScreens.ProfessionalChatScreen} component={ProfessionalChatScreen} />
+
+            <Stack.Screen name={NavigationScreens.ProfessionalBookingScreen} component={ProfessionalBooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalCancelbookingScreen} component={ProfessionalCancelbooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalPendingScreen} component={ProfessionalPending} />
+            <Stack.Screen name={NavigationScreens.ProfessionalHistoryScreen} component={ProfessionalHistory} />
+            <Stack.Screen name={NavigationScreens.ProfessionalOngoingScreen} component={ProfessionalOngoing} />
+            <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
+            <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+
         </Stack.Navigator>
     );
 };
@@ -133,6 +158,18 @@ const ProfileStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalViewInnerServicesScreen} component={ProfessionalViewInnerServices} />
 
             <Stack.Screen name={NavigationScreens.professionalEditServiceScreen} component={ProfessionalEditService} />
+
+            <Stack.Screen name={NavigationScreens.ProfessionalBookingScreen} component={ProfessionalBooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalCancelbookingScreen} component={ProfessionalCancelbooking} />
+            <Stack.Screen name={NavigationScreens.ProfessionalPendingScreen} component={ProfessionalPending} />
+            <Stack.Screen name={NavigationScreens.ProfessionalHistoryScreen} component={ProfessionalHistory} />
+            <Stack.Screen name={NavigationScreens.ProfessionalOngoingScreen} component={ProfessionalOngoing} />
+            <Stack.Screen name={NavigationScreens.ProfessionalScheduleScreen} component={ProfessionalScheduleScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
+            <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
+            <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+            <Stack.Screen name={NavigationScreens.ProfessionalInviteScreen} component={ProfessionalInvite} />
+
 
         </Stack.Navigator>
     );
@@ -180,6 +217,9 @@ export default ProfessionalBottomTab = ({ route }) => {
     const authToken = useSelector(state => state.AuthReducer);
     const [id, setId] = useState('');
     const [service, setServices] = useState([])
+
+    // useSocketNavigation();
+
     const openBottomSheet = () => {
         refRBSheet?.current?.open();
     };

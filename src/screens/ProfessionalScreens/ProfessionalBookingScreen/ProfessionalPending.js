@@ -46,6 +46,7 @@ const ProfessionalPending = () => {
     const [Client_duration, setClient_duration] = useState('')
     const [ModalVisible, setModalVisibility] = useState(false);
 
+
     // const [date, setDate] = useState(FetchedData?.createdAt)
     // const [status, setStatus] = useState(FetchedData?.status)
     const [services, setServices] = useState()
@@ -263,11 +264,11 @@ const ProfessionalPending = () => {
         socketServices.on('create_order', data => {
             console.log(
                 '====  order create data Socket ======',
-                data.message.data.order,
+                data.message.data.order._id,
             );
             setFetchedData(prevData => [data.message.data.order, ...prevData]);
             setOrderData({
-                order_id: data.message.data.order.id,
+                order_id: data.message.data.order._id,
                 message: {
                     coordinates: data.message.data.order.address?.coordinates,
                 }
@@ -277,6 +278,8 @@ const ProfessionalPending = () => {
             // setModalVisible(true); // Open the modal when a new order is received
         });
     }, []);
+    // console.log("========       orderData              ===========", orderData);
+
     const orderIddd = orderData.order_id
     // console.log('=============>', orderIddd);
     const onRefresh = React.useCallback(() => {
@@ -286,6 +289,8 @@ const ProfessionalPending = () => {
 
     const fetchData = async () => {
         try {
+            const order_id2 = await AsyncStorage.getItem("order_id");
+            console.log("==============        gettttt order id       -----------        ==============", order_id2);
             const token = await AsyncStorage.getItem("AuthToken");
             const config = {
                 headers: {
@@ -293,9 +298,9 @@ const ProfessionalPending = () => {
                 }
             };
             const res = await axios.get(`${BASE_API_URL}/professionals/professional/orders/PENDING`, config);
-            console.log('==========   order  List pendinggg  ===========', JSON.stringify(res.data.data.orders))
+            // console.log('==========   order  List pendinggg  ===========', JSON.stringify(res.data.data.orders))
             setFetchedData(res.data.data.orders)
-            console.log("=================------------>", JSON.stringify(FetchedData));
+            // console.log("=================------------>", JSON.stringify(FetchedData));
 
         } catch (error) {
             console.error("Error:", error);
@@ -426,7 +431,7 @@ const ProfessionalPending = () => {
                             </View>
 
                             <ActiveLine
-                                duration={1000 * 30}
+                                duration={1000 * 300}
                                 width={200}
                                 isActive={true}
                                 onLayout={() => { }}

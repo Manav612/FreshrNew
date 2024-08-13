@@ -118,6 +118,7 @@ export const NavigationScreens = {
   ProfessionalInnerServicesScreen: 'ProfessionalInnerServicesScreen',
   ProfessionalConnectStripeScreen: 'ProfessionalConnectStripeScreen',
   ProfessionalProfile2Screen: 'ProfessionalProfile2Screen',
+  ProfessionalInviteScreen: 'ProfessionalInviteScreen',
   ProfSelectCategoryScreen: 'ProfSelectCategoryScreen',
   LiveTrackingProfSideScreen: 'LiveTrackingProfSideScreen',
   OrderProcessingScreenProfSideScreen: 'OrderProcessingScreenProfSideScreen',

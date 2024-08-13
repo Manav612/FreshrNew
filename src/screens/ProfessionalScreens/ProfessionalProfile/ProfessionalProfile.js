@@ -54,6 +54,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import mime from 'mime';
 import ProfessionalScheduleScreen from '../../../components/ProfessionalComponents/ProfessionalScheduleScreen';
+import socketServices from '../../../Services/Socket';
 
 const ProfessionalProfile = ({ name }) => {
   const navigation = useNavigation();
@@ -90,6 +91,15 @@ const ProfessionalProfile = ({ name }) => {
   const fetchedData = useSelector(state => state.ServicesDataReducer);
   // console.log('=========  fetchedData      ============', fetchedData);
   const refRBSheet = useRef([]);
+  // useEffect(() => {
+  //   socketServices.on('create_order', data => {
+  //     console.log(
+  //       '====  order create data Socket ======',
+  //       data.message.data.order,
+  //     );
+  //     navigation.navigate(NavigationScreens.ProfessionalBookingScreen)
+  //   });
+  // }, []);
   useEffect(() => {
     setServicesData();
   }, []);
@@ -106,7 +116,7 @@ const ProfessionalProfile = ({ name }) => {
         `${BASE_API_URL}/professionals/professional/stories`,
         config,
       );
-      console.log('asasss=====', res.data.data);
+      // console.log('asasss=====', res.data.data);
       setStories(res.data.data.stories);
     } catch (error) {
       console.log('sssss', error);
@@ -128,7 +138,7 @@ const ProfessionalProfile = ({ name }) => {
       const interval = setInterval(() => {
         setCurrentIndex(prevIndex => (prevIndex + 1) % stories.length);
       }, 5000);
-      console.log('sdsddss', currentIndex);
+      // console.log('sdsddss', currentIndex);
       return () => clearInterval(interval);
     }
   }, [stories]);
@@ -141,6 +151,11 @@ const ProfessionalProfile = ({ name }) => {
   useEffect(() => {
     getUserInfo();
   }, []);
+
+  const handleShare = () => {
+    setActiveTab2('Share')
+    navigation.navigate(NavigationScreens.ProfessionalInviteScreen)
+  }
 
   const getUserInfo = async () => {
     try {
@@ -188,7 +203,7 @@ const ProfessionalProfile = ({ name }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      console.log('===============   id ==============', id);
+      // console.log('===============   id ==============', id);
       const res = await axios.delete(
         `${BASE_API_URL}/professionals/professional/services/${id}`,
         config,
@@ -621,7 +636,7 @@ const ProfessionalProfile = ({ name }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const geneateFile = (img, i) => {
-    console.log('asdasdasd', img);
+    // console.log('asdasdasd', img);
     const uri = img;
     const filename = img.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
@@ -639,7 +654,7 @@ const ProfessionalProfile = ({ name }) => {
       const formData = new FormData();
 
       const token = await AsyncStorage.getItem('AuthToken');
-      console.log('=============>', token);
+      // console.log('=============>', token);
 
       formData.append('resource', geneateFile(imageUri, 1));
       formData.append('mediaType', 'IMAGE');
@@ -969,7 +984,7 @@ const ProfessionalProfile = ({ name }) => {
             borderWidth: 1,
             borderColor: COLOR.ORANGECOLOR,
           }}
-          onPress={() => setActiveTab2('Share')}>
+          onPress={handleShare}>
           <FastImage
             source={activeTab2 === 'Share' ? ShareIcon3 : ShareIcon2}
             style={{ height: 20, width: 20 }}

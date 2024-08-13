@@ -271,6 +271,10 @@ const OurServices = ({ route }) => {
             service: selected
           },
         };
+        const order_id = res.data.order.id;
+        console.log("==============      create order id           ===================", order_id);
+
+        await AsyncStorage.setItem('order_id', order_id);
 
         // Emit the socket event
         socketServices.emit('order_update', socketData);
@@ -279,7 +283,7 @@ const OurServices = ({ route }) => {
         navigation.navigate(NavigationScreens.MyBookingScreen, { socketData });
 
 
-        console.log("==================      socketData       ====================", socketData);
+        console.log("==================      socketData       ====================", JSON.stringify(socketData));
         console.log("==================      selectedddddddd       ====================", selected);
 
       } else {
