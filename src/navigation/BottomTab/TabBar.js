@@ -11,7 +11,16 @@ import { ComingSoon } from '../../constants/Icons';
 const TabBar = (props) => {
     const TabButtonWidth = Screen_Width / props.state.routes.length;
     const routeName = useSelector(state => state.ActiveScreenReducer);;
-
+    const renderBadge = (label, count) => {
+        if (label === 'Bookings' && count > 0) {
+            return (
+                <View style={styles.badge}>
+                    <Text style={styles.badgeText}>{count}</Text>
+                </View>
+            );
+        }
+        return null;
+    };
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const GRADIENT_COLOR = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
@@ -53,7 +62,24 @@ const TabBar = (props) => {
             textTransform: 'uppercase',
             marginTop: 10,
             fontFamily: FontFamily.Medium,
-        }
+        },
+        badge: {
+            position: 'absolute',
+            top: 5,
+            right: 5,
+            backgroundColor: COLOR.ORANGECOLOR,
+            borderRadius: 10,
+            minWidth: 20,
+            height: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 2,
+        },
+        badgeText: {
+            color: COLOR.WHITE,
+            fontSize: FontSize()._10,
+            fontFamily: FontFamily.Bold,
+        },
     })
 
     const HideTabScreens = [
@@ -82,7 +108,9 @@ const TabBar = (props) => {
             <View style={styles.BarStyle}>
                 {
                     props.state.routes.map((route, i) => {
+                        if (!route) return null;
 
+                        const key = route.key || `route-${i}`;
                         const { options } = props.descriptors[route.key];
                         const label = options.title;
                         const icon = options.tabBarIcon;
@@ -101,7 +129,7 @@ const TabBar = (props) => {
 
                         return (
                             <TouchableOpacity
-                                key={i}
+                                key={key}
                                 onPress={onPress}
                                 style={[styles.Button, { width: TabButtonWidth }]}
                                 activeOpacity={1}
@@ -113,22 +141,13 @@ const TabBar = (props) => {
                                             tintColor: COLOR.ORANGECOLOR
                                         }]}
                                 />
-                                {
-                                    options.title == 'DHN PLUS' &&
-                                    <Image
-                                        source={ComingSoon}
-                                        style={{
-                                            height: 12 * Scale,
-                                            resizeMode: 'contain',
-                                            position: 'absolute',
 
-                                        }}
-                                    />}
                                 <Text style={[styles.LabelStyle, focused && {
                                     color: COLOR.ORANGECOLOR
                                 }]} numberOfLines={1}>
                                     {label}
                                 </Text>
+                                {renderBadge(label, props.newBookingsCount)}
                             </TouchableOpacity>
                         )
                     })

@@ -39,7 +39,7 @@ const FacilityProfile2 = () => {
     setApplySelected(false);
   };
 
-  const handleApplyPress2 = async() => {
+  const handleApplyPress2 = async () => {
     setApplySelected(!applySelected);
     setResetSelected(false);
     await AsyncStorage.removeItem("AuthToken");
@@ -47,80 +47,80 @@ const FacilityProfile2 = () => {
     navigation.navigate(NavigationScreens.ProceedWithoutScreen)
   };
 
-  const FacilityProfileData=[
+  const FacilityProfileData = [
     {
-      id:1,
-      icon:(<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Edit Profile',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 1,
+      icon: (<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Edit Profile',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:2,
-      icon:(<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Notification',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 2,
+      icon: (<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Notification',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:3,
-      icon:(<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Payment',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 3,
+      icon: (<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Payment',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:4,
-      icon:(<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Security',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 4,
+      icon: (<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Security',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:5,
-      icon:(<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Privacy Policy',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 5,
+      icon: (<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Privacy Policy',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:6,
-      icon:(<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Tutorial',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 6,
+      icon: (<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Tutorial',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:7,
-      icon:(<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Support',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 7,
+      icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Support',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:8,
-      icon:(<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Feedback',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 8,
+      icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Feedback',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:9,
-      icon:( <Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Terms of Service',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 9,
+      icon: (<Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Terms of Service',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:10,
-      icon:(<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Account Deletion',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 10,
+      icon: (<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Account Deletion',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:11,
-      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
-      name:'Switch to Client',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 11,
+      icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Switch to Client',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id:12,
-      icon:(<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: user.isProfessional? 'Switch to Professionals' : 'Become a Professional',
-      icon1:(<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      id: 12,
+      icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: user.isProfessional ? 'Switch to Professionals' : 'Become a Professional',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
-   ];
+  ];
   const refRBSheet = useRef([]);
   const openBottomSheet = () => {
     refRBSheet.current[0].open();
@@ -140,26 +140,26 @@ const FacilityProfile2 = () => {
     console.log("====== theme =", theme);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getUserInfo()
-   },[])
- 
- 
-   const getUserInfo = async () => {
-     try {
-       const token = await AsyncStorage.getItem("AuthToken");
-       const config = {
-         headers: {
-           'Authorization': `Bearer ${token}`
-         }
-       };
-       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-       console.log('========  user ID   ==========', res.data.data.user)
-       setUser(res.data.data.user);
-     } catch (error) {
-       console.error("Error:", error);
-     }
-   };
+  }, [])
+
+
+  const getUserInfo = async () => {
+    try {
+      const token = await AsyncStorage.getItem("AuthToken");
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+      console.log('========  user ID   ==========', res.data.data.user)
+      setUser(res.data.data.user);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
 
   const handleSwitchToProfessionals = async () => {
@@ -215,7 +215,7 @@ const FacilityProfile2 = () => {
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
         </TouchableOpacity> */}
       </View>
-      <View style={{ alignItems: 'center',flexDirection:'row',gap:20,marginVertical:5 }}>
+      <View style={{ alignItems: 'center', flexDirection: 'row', gap: 20, marginVertical: 5 }}>
         <View
           style={{
             backgroundColor: COLOR.BLACK_30,
@@ -243,8 +243,8 @@ const FacilityProfile2 = () => {
           </TouchableOpacity>
         </View>
         <View>
-        <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>{user?.firstName}{' '}{user?.lastName}</Text>
-        <Text style={{ fontSize: 18, color: COLOR.GRAY }}>{user?.email}</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>{user?.firstName}{' '}{user?.lastName}</Text>
+          <Text style={{ fontSize: 18, color: COLOR.GRAY }}>{user?.email}</Text>
         </View>
       </View>
       {/* <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} /> */}
@@ -252,7 +252,7 @@ const FacilityProfile2 = () => {
         data={FacilityProfileData}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        style={{flex:1}}
+        style={{ flex: 1 }}
         scrollEnabled={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={{ width: Screen_Width * 0.90, height: 60, borderRadius: 15, marginVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}
@@ -268,16 +268,16 @@ const FacilityProfile2 = () => {
                   navigation.navigate(NavigationScreens.PrivacyPolicyScreen);
                   break;
                 case 'Switch to Client':
-                  navigationToReset(navigation,NavigationScreens.HomeTab);
+                  navigationToReset(navigation, NavigationScreens.HomeTab);
                   break;
                 case 'Switch to Professionals':
-                  navigationToReset(navigation,NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
-                  
+                  navigationToReset(navigation, NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+
                   break;
-                  case 'Become a Professional':
-                    navigationToReset(navigation,NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
-                    
-                    break;
+                case 'Become a Professional':
+                  navigationToReset(navigation, NavigationScreens.ProfessionalPrivacyAndPolicyScreen);
+
+                  break;
                 default:
                   break;
               }

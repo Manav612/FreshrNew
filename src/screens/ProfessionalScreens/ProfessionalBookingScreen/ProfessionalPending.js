@@ -29,7 +29,7 @@ const ProfessionalPending = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [FetchedData, setFetchedData] = useState([]);
-    const [orderData, setOrderData] = useState({});
+    const [orderData, setOrderData] = useState(null);
     const [timer, setTimer] = useState(null);
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const refRBSheet = useRef();
@@ -45,10 +45,6 @@ const ProfessionalPending = () => {
     const [Client_distance, setClient_distance] = useState('')
     const [Client_duration, setClient_duration] = useState('')
     const [ModalVisible, setModalVisibility] = useState(false);
-
-
-    // const [date, setDate] = useState(FetchedData?.createdAt)
-    // const [status, setStatus] = useState(FetchedData?.status)
     const [services, setServices] = useState()
 
     const toggleDropdown = ({ services2 }) => {
@@ -258,39 +254,80 @@ const ProfessionalPending = () => {
     }, []);
 
 
+    // useEffect(() => {
+    //     fetchData();
+
+    //     socketServices.on('create_order', data => {
+    //         console.log(
+    //             '====  order create data Socket ======',
+    //             data.message.data.order._id,
+    //         );
+    //         setFetchedData(prevData => [data.message.data.order, ...prevData]);
+    //         setOrderData({
+    //             order_id: data.message.data.order._id,
+    //             message: {
+    //                 coordinates: data.message.data.order.address?.coordinates,
+    //             }
+    //         })
+
+    //         setServices(data.services)
+    //         // setModalVisible(true); // Open the modal when a new order is received
+    //     });
+    // }, []);
+
     useEffect(() => {
         fetchData();
 
         socketServices.on('create_order', data => {
-            console.log(
-                '====  order create data Socket ======',
-                data.message.data.order._id,
-            );
-            setFetchedData(prevData => [data.message.data.order, ...prevData]);
+            console.log('==== order create data Socket ======', data.message.data.order._id);
+            const newOrder = data.message.data.order;
+            setFetchedData(prevData => [newOrder, ...prevData]);
             setOrderData({
-                order_id: data.message.data.order._id,
+                order_id: newOrder._id,
                 message: {
-                    coordinates: data.message.data.order.address?.coordinates,
+                    coordinates: newOrder.address?.coordinates,
                 }
-            })
-
-            setServices(data.services)
-            // setModalVisible(true); // Open the modal when a new order is received
+            });
+            setServices(newOrder.services);
         });
     }, []);
+    useEffect(() => {
+        if (orderData) {
+            console.log("========       orderData              ===========", orderData);
+        }
+    }, [orderData]);
+
     // console.log("========       orderData              ===========", orderData);
 
-    const orderIddd = orderData.order_id
+
     // console.log('=============>', orderIddd);
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         fetchData().then(() => setRefreshing(false));
     }, []);
 
+    // const fetchData = async () => {
+    //     try {
+    //         // const order_id2 = await AsyncStorage.getItem("order_id");
+    //         // console.log("==============        gettttt order id       -----------        ==============", order_id2);
+    //         const token = await AsyncStorage.getItem("AuthToken");
+    //         const config = {
+    //             headers: {
+    //                 'Authorization': `Bearer ${token}`
+    //             }
+    //         };
+    //         const res = await axios.get(`${BASE_API_URL}/professionals/professional/orders/PENDING`, config);
+    //         // console.log('==========   order  List pendinggg  ===========', JSON.stringify(res.data.data.orders))
+    //         setFetchedData(res.data.data.orders)
+    //         // console.log("=================------------>", JSON.stringify(FetchedData));
+
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //     }
+    // };
+
     const fetchData = async () => {
         try {
-            const order_id2 = await AsyncStorage.getItem("order_id");
-            console.log("==============        gettttt order id       -----------        ==============", order_id2);
             const token = await AsyncStorage.getItem("AuthToken");
             const config = {
                 headers: {
@@ -298,21 +335,74 @@ const ProfessionalPending = () => {
                 }
             };
             const res = await axios.get(`${BASE_API_URL}/professionals/professional/orders/PENDING`, config);
-            // console.log('==========   order  List pendinggg  ===========', JSON.stringify(res.data.data.orders))
-            setFetchedData(res.data.data.orders)
-            // console.log("=================------------>", JSON.stringify(FetchedData));
-
+            setFetchedData(res.data.data.orders);
+            if (res.data.data.orders.length > 0) {
+                const latestOrder = res.data.data.orders[0];
+                setOrderData({
+                    order_id: latestOrder._id,
+                    message: {
+                        coordinates: latestOrder.address?.coordinates,
+                    }
+                });
+                setServices(latestOrder.services);
+            }
         } catch (error) {
             console.error("Error:", error);
         }
     };
 
-    const onAccept = async () => {
+    // const onAccept = async () => {
 
-        const orderId = orderData?.order_id;
-        const coordinates = orderData?.message?.coordinates;
+    //     const orderId = orderData?.order_id;
+    //     const coordinates = orderData?.message?.coordinates;
+    //     try {
+    //         // console.log("Order Id : ",coordinates);
+    //         const config = {
+    //             headers: {
+    //                 Authorization: `Bearer ${authToken}`,
+    //             },
+    //         };
+    //         const res = await axios.put(
+    //             `${BASE_API_URL}/professionals/professional/acceptOrder/${orderId}`,
+    //             {},
+    //             config,
+    //         );
+    //         console.log('===========  milllaaa  ==========', JSON.stringify(res.data.data));
+    //         if (res.status == 200) {
+    //             console.log('===========   orderrr  acceptted   ==========')
+    //             // openBottomSheet()
+    //             setModalVisible(true)
+    //             // Alert.alert('Please wait while client do the payment')
+    //             setHide(true)
+    //             socketServices.emit('order_update', {
+    //                 recipient: res.data.data.order.client.id,
+    //                 message: {
+    //                     type: 'accept_order',
+    //                     paymentKey: res.data.data.order.paymentKey,
+    //                     orderDetails: res.data.data.order.client.id,
+    //                     order_id: orderId,
+    //                     coordinates: coordinates,
+    //                     orderData: res.data.data,
+    //                     services: services,
+    //                 },
+    //             });
+    //             setOrderData({});
+    //         }
+    //         // setFetchedData(res.data.facilities.facility);
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // }
+
+    const onAccept = async () => {
+        if (!orderData) {
+            Alert.alert("Error", "No order data available");
+            return;
+        }
+
+        const orderId = orderData.order_id;
+        const coordinates = orderData.message.coordinates;
         try {
-            // console.log("Order Id : ",coordinates);
             const config = {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
@@ -323,12 +413,9 @@ const ProfessionalPending = () => {
                 {},
                 config,
             );
-            console.log('===========  milllaaa  ==========', JSON.stringify(res.data.data));
             if (res.status == 200) {
                 console.log('===========   orderrr  acceptted   ==========')
-                // openBottomSheet()
                 setModalVisible(true)
-                // Alert.alert('Please wait while client do the payment')
                 setHide(true)
                 socketServices.emit('order_update', {
                     recipient: res.data.data.order.client.id,
@@ -342,9 +429,8 @@ const ProfessionalPending = () => {
                         services: services,
                     },
                 });
-                setOrderData({});
+                setOrderData(null);
             }
-            // setFetchedData(res.data.facilities.facility);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -482,7 +568,7 @@ const ProfessionalPending = () => {
                             marginVertical: hide ? 10 : null,
                             justifyContent: 'space-between',
                         }}>
-                        <Text style={styles.IdText}>ID : {orderIddd}</Text>
+                        <Text style={styles.IdText}>ID : {item._id}</Text>
                         <Text style={[styles.UserName, { textAlign: 'right' }]}>
                             {item.createdAt.slice(0, 10)}
                         </Text>
@@ -761,7 +847,7 @@ const ProfessionalPending = () => {
                                                 gap: 10,
                                             }}>
                                             <Image
-                                                source={{ uri: item.services?.photo }}
+                                                source={{ uri: item?.services?.photo }}
                                                 style={{ width: 50, height: 50, borderRadius: 5 }}
                                             />
                                             <View style={{}}>
@@ -789,7 +875,7 @@ const ProfessionalPending = () => {
                                                             color: COLOR.BLACK,
                                                             fontSize: 14,
                                                         }}>
-                                                        {item.services[0].name}
+                                                        {item?.services[0].name}
                                                     </Text>
                                                     <MaterialIcons
                                                         name={
@@ -895,7 +981,7 @@ const ProfessionalPending = () => {
                 style={{ marginTop: 15, flex: 1 }}
                 data={FetchedData}
                 scrollEnabled={false}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item) => item._id.toString()}
                 renderItem={renderItem}
             />
             <Modal

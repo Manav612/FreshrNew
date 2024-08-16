@@ -31,7 +31,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import socketServices from '../../Services/Socket';
 import Geolocation from 'react-native-geolocation-service';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import { barber } from '../../constants/Icons';
+import { barber, Hair1 } from '../../constants/Icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ongoing from '../MyBookingDetails/Ongoing';
 
@@ -337,12 +337,16 @@ const OurServices = ({ route }) => {
           flexDirection: 'row',
         }}>
         <Image
+          source={Hair1}
+          // source={
+          //   { uri: item?.photo }
+          // }
           style={{
             width: Screen_Width * 0.22,
             height: Screen_Height * 0.1,
             borderRadius: 10,
           }}
-          source={{ uri: item?.photo }}
+
         />
         <View
           style={{ flexDirection: 'column', marginLeft: 15, gap: 5, width: 180 }}>
