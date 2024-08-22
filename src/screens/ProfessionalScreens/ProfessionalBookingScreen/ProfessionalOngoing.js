@@ -227,7 +227,7 @@ const ProfessionalOngoing = ({
     },
     ContentContainer: {
       // padding: 10,
-      paddingTop: 50
+      paddingTop: btnVisible ? 60 : null
     },
     IdContainer: {
       width: '100%',
@@ -530,61 +530,67 @@ const ProfessionalOngoing = ({
                   // height > 0 && { paddingTop: height / 2 },
                 ]}
                 showsVerticalScrollIndicator={false}>
+
                 <View style={styles.InnerContainer}>
-
-                  <View
-                    style={[
-                      {
-                        borderWidth: 1,
-                        borderColor: '#e1e1e1',
-                        borderRadius: 15,
-                        padding: 10,
-                        shadowOpacity: 0.1,
-                        shadowOffset: { height: 1 },
-                        shadowRadius: 1,
-                        backgroundColor: '#fff',
-                        position: 'absolute',
-                        zIndex: 100,
-                        width: '100%',
-                        alignSelf: 'center',
-                      },
-                      height > 0 && { top: -height / 2 },
-                    ]}
-                    onLayout={layout => {
-                      setHeight(layout.nativeEvent.layout.height);
-                    }}>
-                    {endReq ?
-                      <View style={styles.buttonContainer}>
-                        <Text style={{ fontSize: 18, color: COLOR.BLACK, fontWeight: "600", }}>Request order completion</Text>
-                        <TouchableOpacity onPress={onRequestToEnd} style={styles.button}>
-                          <Text style={styles.buttonText}>Send request</Text>
-                        </TouchableOpacity>
-
-                      </View>
-                      :
-                      <View style={styles.buttonContainer}>
-                        <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: '600', color: COLOR.BLACK }}>Send request to start order</Text>
-                        {btnVisible &&
-                          <TouchableOpacity
-                            onPress={handleRequest}
-                            style={styles.button}
-                          >
-                            <Text style={styles.buttonText}>
-                              Request to Start order
-                            </Text>
-
+                  {btnVisible &&
+                    <View
+                      style={[
+                        {
+                          borderWidth: 1,
+                          borderColor: '#e1e1e1',
+                          borderRadius: 15,
+                          padding: 10,
+                          shadowOpacity: 0.1,
+                          shadowOffset: { height: 1 },
+                          shadowRadius: 1,
+                          backgroundColor: '#fff',
+                          position: 'absolute',
+                          zIndex: 100,
+                          width: '100%',
+                          alignSelf: 'center',
+                        },
+                        height > 0 && { top: -height / 2 },
+                      ]}
+                      onLayout={layout => {
+                        setHeight(layout.nativeEvent.layout.height);
+                      }}>
+                      {endReq ?
+                        <View style={styles.buttonContainer}>
+                          <Text style={{ fontSize: 18, color: COLOR.BLACK, fontWeight: "600", }}>Request order completion</Text>
+                          <TouchableOpacity onPress={onRequestToEnd} style={styles.button}>
+                            <Text style={styles.buttonText}>Send request</Text>
                           </TouchableOpacity>
-                        }
-                      </View>
-                    }
-                  </View>
 
+                        </View>
+                        :
+
+                        (
+                          btnVisible &&
+
+                          <View style={styles.buttonContainer}>
+                            <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: '600', color: COLOR.BLACK }}>Send request to start order</Text>
+                            <TouchableOpacity
+                              onPress={handleRequest}
+                              style={styles.button}
+                            >
+                              <Text style={styles.buttonText}>
+                                Request to Start order
+                              </Text>
+
+                            </TouchableOpacity>
+                          </View>
+
+                        )
+
+                      }
+                    </View>
+                  }
                   <View
                     style={{
                       width: '100%',
                       flexDirection: 'row',
                       alignItems: 'center',
-                      top: 45,
+                      top: btnVisible ? 40 : null,
                       zIndex: 1000,
                       justifyContent: 'space-between',
                     }}>
@@ -994,6 +1000,7 @@ const ProfessionalOngoing = ({
                     <Entypo name="message" color={'#000'} size={24} />
                   </View>
                 </View>
+
               </ScrollView>
 
 
