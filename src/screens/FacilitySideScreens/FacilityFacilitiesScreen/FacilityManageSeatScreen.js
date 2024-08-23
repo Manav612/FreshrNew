@@ -264,7 +264,7 @@
 //                                 <View style={{justifyContent:'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10}}>
 //                                 <Text style={{color:COLOR.BLACK}}>{fetchedProfPhone}</Text>
 //                                 </View>
-                               
+
 //                                 <TextInput
 //                                     style={[styles.input2, { color: COLOR.BLACK }]}
 //                                     placeholder="Email"
@@ -363,7 +363,7 @@ import { NavigationScreens } from '../../../constants/Strings';
 const FacilityManageSeatScreen = ({ route }) => {
     const { data } = route.params;
     const facilityId = data.id
-    console.log('=======        data  manage       ======>',data);
+    console.log('=======        data  manage       ======>', data);
     const navigation = useNavigation();
     const theme = useSelector((state) => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -371,37 +371,37 @@ const FacilityManageSeatScreen = ({ route }) => {
     const [Editable, setEditable] = useState('');
     const [fetchedProfList, setFetchedProfList] = useState([]);
     const [fetchedProfName, setFetchedProfName] = useState();
-    const [ profEmail,setProfEmail] = useState()
+    const [profEmail, setProfEmail] = useState()
     const [fetchedProfPhone, setFetchedProfPhone] = useState();
     const [ProfId, setProfID] = useState();
     const [isSeatFilled, setIsSeatFilled] = useState(false);
-    const [ assignedseats,setassignedseat] = useState([])
-    const [ proflist,setProflist] = useState([])
+    const [assignedseats, setassignedseat] = useState([])
+    const [proflist, setProflist] = useState([])
     const seatCapacity = data?.seatCapacity || [];
-    const authToken = useSelector(state=>state.AuthReducer);
+    const authToken = useSelector(state => state.AuthReducer);
 
     useEffect(() => {
-        console.log("Asssss",seatCapacity);
+        console.log("Asssss", seatCapacity);
         fetchData();
         fetchseatdata()
     }, []);
 
-    const fetchseatdata =async()=>{
+    const fetchseatdata = async () => {
         try {
             const config = {
-              headers: {
-                'Authorization': `Bearer ${authToken}`
-              }
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/assignPro/${facilityId}`, config);
             console.log('========   use =============', res.data.facility.seatassign);
             // setFetchedData(res.data.data);
             setassignedseat(res.data.facility.seatassign)
-          } catch (error) {
+        } catch (error) {
             console.error("Error:", error);
-          }
-       
-      }
+        }
+
+    }
     const fetchData = async () => {
         try {
             const config = {
@@ -411,12 +411,12 @@ const FacilityManageSeatScreen = ({ route }) => {
             };
             const res = await axios.get(`${BASE_API_URL}/hosts/host/facilities/professionals`, config);
             console.log('========    Proff   ==========', res.data.professional);
-        
-    
+
+
             const emailList = res.data.professional.map((prof) => prof.user.email);
             console.log('======     emails hkb     ===========', emailList);
-         
- 
+
+
             setProflist(res.data.professional);
             console.log('======     name hkb     ===========', fetchedProfName);
 
@@ -426,8 +426,6 @@ const FacilityManageSeatScreen = ({ route }) => {
             console.error('Error:', error.message);
         }
     };
-    console.log();
-
     const styles = StyleSheet.create({
         HeaderView: {
             marginVertical: 10,
@@ -488,12 +486,12 @@ const FacilityManageSeatScreen = ({ route }) => {
             borderRadius: 10,
             marginBottom: 10,
             paddingHorizontal: 10,
-            color:COLOR.BLACK,
+            color: COLOR.BLACK,
         },
     });
 
     const [seats, setSeats] = useState(
-        Array.from({ length: seatCapacity }, (_, i) => ( { id: i + 1, filled: i < data.seatassign.length, firstName: '', phone: '', email: '', commission: '' }))
+        Array.from({ length: seatCapacity }, (_, i) => ({ id: i + 1, filled: i < data.seatassign.length, firstName: '', phone: '', email: '', commission: '' }))
     );
     const [selectedSeat, setSelectedSeat] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -501,7 +499,7 @@ const FacilityManageSeatScreen = ({ route }) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSeatPress = (seat) => {
-        console.log("Asdasdas",seat);
+        console.log("Asdasdas", seat);
         if (seat.filled) {
             setProfEmail(seat.email)
             setFetchedProfPhone(seat.phone)
@@ -512,7 +510,7 @@ const FacilityManageSeatScreen = ({ route }) => {
         setModalVisible(true);
         setIsSeatFilled(seat.filled);
     };
- 
+
 
     const handleSave = async () => {
         try {
@@ -523,42 +521,43 @@ const FacilityManageSeatScreen = ({ route }) => {
                 },
             };
             const { commission } = selectedSeat;
-            
+
             const data = JSON.stringify({
                 facilityId,
-                proId:ProfId,
+                proId: ProfId,
                 split: commission,
-                
+
             });
 
-            console.log("===========   res data     =============",data);
+            console.log("===========   res data     =============", data);
 
             const response = await axios.patch(`${BASE_API_URL}/hosts/host/facilities/assignPro/${facilityId}`, data, config);
             console.log('Response:', response.data);
             setSeats(seats.map((seat) => (seat.id === selectedSeat.id ? { ...selectedSeat, filled: true } : seat)));
             setModalVisible(false);
-           {seats.length === 0 &&
-            (
-            setProfEmail(),
-        setFetchedProfPhone(),
-        setFetchedProfName(),
-        setProfID()
-            )
-           }
+            {
+                seats.length === 0 &&
+                    (
+                        setProfEmail(),
+                        setFetchedProfPhone(),
+                        setFetchedProfName(),
+                        setProfID()
+                    )
+            }
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
     const renderSeat = ({ item, index }) => (
- 
+
         <View style={styles.seatContainer}>
             <View style={styles.seatHeader}>
                 <Text style={styles.seatHeaderText}>{index + 1}</Text>
             </View>
             <TouchableOpacity style={styles.seatBody} onPress={() => handleSeatPress(item)}>
                 <MaterialCommunityIcons
-                    name={item.filled ? 'sofa-single':'sofa-single-outline'}
+                    name={item.filled ? 'sofa-single' : 'sofa-single-outline'}
                     size={40}
                     color={COLOR.ORANGECOLOR}
                 />
@@ -571,13 +570,13 @@ const FacilityManageSeatScreen = ({ route }) => {
         setFetchedProfList(proflist.filter((email) => email.toLowerCase().includes(text.toLowerCase())));
     };
 
-    const handleEmailSelect = (email,firstName,phone) => {
-        setSelectedSeat({ ...selectedSeat, email,firstName,phone });
+    const handleEmailSelect = (email, firstName, phone) => {
+        setSelectedSeat({ ...selectedSeat, email, firstName, phone });
         setSearchQuery(email);
         setFetchedProfList([]);
     };
-    const handleselectprofessional =(data)=>{
-        handleEmailSelect(data.email,data.firstName,data.phone)
+    const handleselectprofessional = (data) => {
+        handleEmailSelect(data.email, data.firstName, data.phone)
         setProfEmail(data.email)
         setFetchedProfPhone(data.phone)
         setFetchedProfName(data.firstName)
@@ -628,11 +627,11 @@ const FacilityManageSeatScreen = ({ route }) => {
                 }}
             >
                 <Text style={{ color: COLOR.BLACK, fontSize: 15 }}>Set a charges for freelancer</Text>
-                <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: 120, borderRadius: 10 }}>
+                <View style={{ backgroundColor: COLOR.ORANGECOLOR, width: 80, borderRadius: 10 }}>
                     <TextInput
-                        style={[styles.input, { color: COLOR.BLACK }]}
-                        placeholderTextColor={COLOR.GRAY}
-                        placeholder="Editable Filed"
+                        style={[styles.input, { color: COLOR.WHITE }]}
+                        placeholderTextColor={COLOR.WHITE}
+                        placeholder=""
                         onFocus={() => setIsEditableFocused(true)}
                         onBlur={() => setIsEditableFocused(false)}
                         value={Editable}
@@ -660,7 +659,8 @@ const FacilityManageSeatScreen = ({ route }) => {
             <View style={{ width: Screen_Width, alignSelf: 'center' }}>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    style={{ marginTop: 15, marginHorizontal: 15 }}
+                    style={{ marginTop: 15, marginHorizontal: 15, flex: 1 }}
+                    scrollEnabled={false}
                     data={seats.slice(0, seatCapacity)}
                     keyExtractor={(item) => item.id.toString()}
                     numColumns={4}
@@ -701,7 +701,7 @@ const FacilityManageSeatScreen = ({ route }) => {
                                                 {item.user.email}
                                             </Text>
                                         </TouchableOpacity>
-                                        
+
                                     )}
                                     style={{ maxHeight: 150, marginBottom: 10 }}
                                 />

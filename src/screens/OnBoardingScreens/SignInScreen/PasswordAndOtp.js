@@ -170,12 +170,12 @@ const PasswordAndOtp = ({ route }) => {
       alignItems: 'center',
     },
     otpInput: {
-      borderWidth: 1,
-      borderColor: '#e0e0e0',
-      borderRadius: 5,
+      width: Screen_Width * 0.9,
+      height: 50,
       fontSize: 20,
-      padding: 10,
-      marginHorizontal: 5,
+      borderBottomWidth: 2,
+      borderBottomColor: COLOR.ORANGECOLOR,
+      color: COLOR.BLACK,
     },
   });
   return (
@@ -279,21 +279,21 @@ const PasswordAndOtp = ({ route }) => {
               width: Screen_Width * 0.9,
             }}>
             <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>
-              Enter access code
+
             </Text>
             <Text style={{ color: COLOR.GRAY, fontSize: 16, marginLeft: 10 }}>
               {formatTime(timer)}
             </Text>
           </View>
 
-          <OtpTextInput
-            handleTextChange={handleOtpChange}
-            handleSubmit={handleOtpSubmit}
-            tintColor={COLOR.ORANGECOLOR}
-            offTintColor={COLOR.LIGHTGRAY}
-            containerStyle={styles.otpContainer}
-            textInputStyle={styles.otpInput}
-            inputCount={6}
+          <TextInput
+            style={styles.otpInput}
+            onChangeText={handleOtpChange}
+            value={otp}
+            keyboardType="number-pad"
+            maxLength={6}
+            placeholder="Enter access code"
+            placeholderTextColor={COLOR.GRAY}
           />
           <TouchableOpacity
             onPress={handleOtpSubmit}

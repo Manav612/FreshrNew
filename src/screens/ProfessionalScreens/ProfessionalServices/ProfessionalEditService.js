@@ -662,6 +662,7 @@ const ProfessionalEditService = ({ route }) => {
                 </Text>
                 <TextInput
                     style={styles.input3}
+                    keyboardType="numeric"
                     placeholder="Enter estimated service duration in minutes"
                     placeholderTextColor={COLOR.GRAY}
                     value={duration}

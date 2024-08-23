@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import OtpTextInput from 'react-native-otp-textinput';
+
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -22,7 +22,7 @@ const EmailVerificationScreen = ({ route }) => {
   const [timer, setTimer] = useState(0);
   const [sessionId, setSessionId] = useState('');
   const [otpRequested, setOtpRequested] = useState(false);
-const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const { email } = route.params;
 
   const styles = StyleSheet.create({
@@ -49,13 +49,14 @@ const dispatch = useDispatch()
       justifyContent: 'center',
       alignItems: 'center',
     },
+
     otpInput: {
-      borderWidth: 1,
-      borderColor: '#e0e0e0',
-      borderRadius: 5,
+      width: Screen_Width * 0.9,
+      height: 50,
       fontSize: 20,
-      padding: 10,
-      marginHorizontal: 5,
+      borderBottomWidth: 2,
+      borderBottomColor: COLOR.BLACK,
+      color: COLOR.BLACK,
     },
   });
 
@@ -72,8 +73,8 @@ const dispatch = useDispatch()
         Alert.alert('Verification completed');
         await StoreAuthToken(res.data.data.token)
         dispatch(SetAuthToken(res.data.data.token));
-    socketServices.initializeSocket(res.data.data.token);
-        
+        socketServices.initializeSocket(res.data.data.token);
+
         navigation.navigate(NavigationScreens.HomeTab);
       }
     } catch (error) {
@@ -118,7 +119,7 @@ const dispatch = useDispatch()
     }
   };
 
-  
+
 
   useEffect(() => {
     if (timer > 0) {
@@ -149,18 +150,18 @@ const dispatch = useDispatch()
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: Screen_Width * 0.9 }}>
-            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}>Enter access code</Text>
+            <Text style={{ color: COLOR.BLACK, fontSize: 20, marginBottom: 10 }}></Text>
             <Text style={{ color: COLOR.GRAY, fontSize: 16, marginLeft: 10 }}>{formatTime(timer)}</Text>
           </View>
 
-          <OtpTextInput
-            handleTextChange={handleOtpChange}
-            handleSubmit={handleOtpSubmit}
-            tintColor={COLOR.ORANGECOLOR}
-            offTintColor={COLOR.LIGHTGRAY}
-            containerStyle={styles.otpContainer}
-            textInputStyle={styles.otpInput}
-            inputCount={6}
+          <TextInput
+            style={styles.otpInput}
+            onChangeText={handleOtpChange}
+            value={otp}
+            keyboardType="number-pad"
+            maxLength={6}
+            placeholder="Enter access code"
+            placeholderTextColor={COLOR.GRAY}
           />
           <TouchableOpacity
             onPress={handleOtpSubmit}

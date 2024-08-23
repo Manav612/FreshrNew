@@ -145,6 +145,7 @@ export const NavigationScreens = {
   FacilityCommissionsplitsScreen: 'FacilityCommissionsplitsScreen',
   FacilityNextpayoutScreen: 'FacilityNextpayoutScreen',
   FacilityProfile2Screen: 'FacilityProfile2Screen',
+  FacilitySchedule: 'FacilitySchedule',
   SplashScreen: 'Splash Screen',
   SignUpScreen: 'Sign Up Screen',
   SignInScreen: 'Sign In Screen',

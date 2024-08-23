@@ -994,16 +994,17 @@ const MyProfile = () => {
   const ProfileData1 = [
     {
       id: 1,
-      icon: (<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Edit Profile',
+      icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Feedback',
       icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
       id: 2,
-      icon: (<Ionicons name="notifications-outline" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Notification',
+      icon: (<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Edit Profile',
       icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
+
     {
       id: 3,
       icon: (<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
@@ -1018,42 +1019,12 @@ const MyProfile = () => {
     },
     {
       id: 5,
-      icon: (<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Privacy Policy',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
-    },
-    {
-      id: 6,
       icon: (<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Tutorial',
       icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
     {
-      id: 7,
-      icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Support',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
-    },
-    {
-      id: 8,
-      icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Feedback',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
-    },
-    {
-      id: 9,
-      icon: (<Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Terms of Service',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
-    },
-    {
-      id: 10,
-      icon: (<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Account Deletion',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
-    },
-    {
-      id: 11,
+      id: 6,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name: user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
       // name: 'Switch to Professionals',
@@ -1062,12 +1033,40 @@ const MyProfile = () => {
     },
 
     {
-      id: 12,
+      id: 7,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name: user.isHost ? 'Switch to Host' : 'Become to Host',
       // name: 'Switch to Host',
       icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
     },
+    {
+      id: 8,
+      icon: (<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Privacy Policy',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+
+
+    {
+      id: 9,
+      icon: (<Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Terms of Service',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+
+    {
+      id: 10,
+      icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Support',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+    {
+      id: 11,
+      icon: (<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Account Deletion',
+      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+    },
+
   ];
   const handleResetPress1 = () => {
     setResetSelected(!resetSelected);
@@ -1238,10 +1237,36 @@ const MyProfile = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-        <View style={{ flexDirection: 'row', gap: 20 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Profile</Text>
         </View>
+        <TouchableOpacity
+          style={{
+
+            height: 60,
+            borderRadius: 15,
+            marginVertical: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 10,
+            gap: 10
+          }}
+          onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)} // Pass appropriate ID or identifier here
+        >
+
+
+          <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK }}>Dark Mode</Text>
+
+          <TouchableOpacity onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)}>
+            <FontAwesome
+              name={selectedThemeMode === 1 ? "toggle-on" : "toggle-off"}
+              size={30}
+              color={COLOR.ORANGECOLOR}
+            />
+          </TouchableOpacity>
+        </TouchableOpacity>
         {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ClientSettingScreen)}>
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
         </TouchableOpacity> */}
@@ -1308,31 +1333,7 @@ const MyProfile = () => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity
-        style={{
-          width: Screen_Width * 0.90,
-          height: 60,
-          borderRadius: 15,
-          marginVertical: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: 10
-        }}
-        onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)} // Pass appropriate ID or identifier here
-      >
-        <View style={{ flexDirection: 'row', gap: 15, alignItems: 'center' }}>
-          <AntDesign name="eyeo" size={26} color={COLOR.ORANGECOLOR} />
-          <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK }}>Dark Mode</Text>
-        </View>
-        <TouchableOpacity onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)}>
-          <FontAwesome
-            name={selectedThemeMode === 1 ? "toggle-on" : "toggle-off"}
-            size={30}
-            color={COLOR.ORANGECOLOR}
-          />
-        </TouchableOpacity>
-      </TouchableOpacity>
+
       <TouchableOpacity onPress={() => { handleResetPress1(); openBottomSheet() }} style={{
         width: Screen_Width * 0.90,
         height: 60,

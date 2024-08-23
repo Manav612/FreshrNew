@@ -1,5 +1,5 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationScreens} from '../../constants/Strings';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationScreens } from '../../constants/Strings';
 import React from 'react';
 import TabBar from './TabBar';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -14,7 +14,7 @@ import {
   ScissorIcon,
   UserIcon,
 } from '../../constants/Icons';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import FacilityHome from '../../screens/FacilitySideScreens/FacilityHomeScreen/FacilityHome';
 import FacilityDetalis from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityDetalis';
 import FacilityFacilitiesScreen from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityFacilitiesScreen';
@@ -35,6 +35,7 @@ import FacilityLeaderboard from '../../screens/FacilitySideScreens/FacilityHomeS
 import FacilityManageSeatScreen from '../../screens/FacilitySideScreens/FacilityFacilitiesScreen/FacilityManageSeatScreen';
 import FacilityProfile2 from '../../screens/FacilitySideScreens/FacilityProfile2/FacilityProfile2';
 import FacilityProduct from '../../screens/FacilitySideScreens/FacilityProductScreen/FacilityProduct';
+import FacilitySchedule from '../../components/FacilityComponents/FacilitySchedule';
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
 
@@ -80,6 +81,10 @@ const HomeStack = () => {
         name={NavigationScreens.FacilityProfile2Screen}
         component={FacilityProfile2}
       />
+      <Stack.Screen
+        name={NavigationScreens.FacilitySchedule}
+        component={FacilitySchedule}
+      />
     </Stack.Navigator>
   );
 };
@@ -110,6 +115,10 @@ const FacilitiesStack = () => {
         name={NavigationScreens.FacilityProfile2Screen}
         component={FacilityProfile2}
       />
+      <Stack.Screen
+        name={NavigationScreens.FacilitySchedule}
+        component={FacilitySchedule}
+      />
     </Stack.Navigator>
   );
 };
@@ -122,6 +131,10 @@ const ProductStack = () => {
       <Stack.Screen
         name={NavigationScreens.FacilityProductScreen}
         component={FacilityProduct}
+      />
+      <Stack.Screen
+        name={NavigationScreens.FacilitySchedule}
+        component={FacilitySchedule}
       />
     </Stack.Navigator>
   );
@@ -139,6 +152,10 @@ const HistoryStack = () => {
       <Stack.Screen
         name={NavigationScreens.FacilityProfile2Screen}
         component={FacilityProfile2}
+      />
+      <Stack.Screen
+        name={NavigationScreens.FacilitySchedule}
+        component={FacilitySchedule}
       />
     </Stack.Navigator>
   );
@@ -183,7 +200,7 @@ const Screens = [
   },
 ];
 
-export default FacilityBottomTab = ({route}) => {
+export default FacilityBottomTab = ({ route }) => {
   return (
     <Tab.Navigator
       screenOptions={{

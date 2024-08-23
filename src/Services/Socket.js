@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
-const SOCKET_URL = 'ws://unified-profound-koala.ngrok-free.app'
-// const SOCKET_URL = 'ws://api-development.freshr.ca'
+// const SOCKET_URL = 'ws://unified-profound-koala.ngrok-free.app'
+const SOCKET_URL = 'ws://api-development.freshr.ca'
 
 
 

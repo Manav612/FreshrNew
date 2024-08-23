@@ -230,7 +230,7 @@ const ConfirmationForCreateFacilitie = () => {
       </View>
       {/* location */}
 
-      <View
+      {/* <View
         style={{
           height: 50,
           borderRadius: 15,
@@ -272,9 +272,9 @@ const ConfirmationForCreateFacilitie = () => {
             </Text>
           </View>
         </View>
-        {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
-      </View>
-      <View
+       
+      </View> */}
+      {/* <View
         style={{
           height: 50,
           borderRadius: 15,
@@ -306,7 +306,7 @@ const ConfirmationForCreateFacilitie = () => {
           }
         </Text>
 
-      </View>
+      </View> */}
 
       {/* Address */}
       <View
@@ -342,7 +342,7 @@ const ConfirmationForCreateFacilitie = () => {
               borderRadius: 20,
             }}
           >
-            <Text style={{ color: COLOR.BLACK }}>2</Text>
+            <Text style={{ color: COLOR.BLACK }}>1</Text>
           </View>
           <View>
             <Text style={{ color: COLOR.BLACK }}>Address</Text>
@@ -421,7 +421,7 @@ const ConfirmationForCreateFacilitie = () => {
               borderRadius: 20,
             }}
           >
-            <Text style={{ color: COLOR.BLACK }}>3</Text>
+            <Text style={{ color: COLOR.BLACK }}>2</Text>
           </View>
           <View>
             <Text style={{ color: COLOR.BLACK }}>
@@ -505,7 +505,7 @@ const ConfirmationForCreateFacilitie = () => {
               borderRadius: 20,
             }}
           >
-            <Text style={{ color: COLOR.BLACK }}>4</Text>
+            <Text style={{ color: COLOR.BLACK }}>3</Text>
           </View>
           <View>
             <Text style={{ color: COLOR.BLACK }}>Add Media</Text>
@@ -522,25 +522,26 @@ const ConfirmationForCreateFacilitie = () => {
             alignItems: "center",
           }}
         >
-          <Text
-            style={{
-              color: COLOR.BLACK,
-              fontSize: 18,
-              fontWeight: "600",
-              marginBottom: 10,
-            }}
-          >
-            Cover Image
-          </Text>
-
-          <FastImage
+          <ImageBackground
             source={{ uri: coverImage }}
             style={{
-              width: Screen_Width * 0.28,
-              height: Screen_Height * 0.13,
+              width: Screen_Width * 0.9,
+              height: Screen_Height * 0.15,
               borderRadius: 10,
             }}
-          />
+          >
+            <View style={{ padding: 10, backgroundColor: COLOR.BLACK_70, justifyContent: 'center', alignItems: 'center', width: Screen_Width * 0.3, height: 40 }}>
+              <Text
+                style={{
+                  color: COLOR.WHITE,
+                  fontSize: 14,
+                  fontWeight: "600",
+                }}
+              >
+                Cover Image
+              </Text>
+            </View>
+          </ImageBackground>
         </View>
       )}
       <View
@@ -607,10 +608,10 @@ const ConfirmationForCreateFacilitie = () => {
               borderRadius: 20,
             }}
           >
-            <Text style={{ color: COLOR.BLACK }}>5</Text>
+            <Text style={{ color: COLOR.BLACK }}>4</Text>
           </View>
           <View>
-            <Text style={{ color: COLOR.BLACK }}>Shop Timing</Text>
+            <Text style={{ color: COLOR.BLACK }}>Shop Hours</Text>
           </View>
         </View>
         {/* <Text style={{ color: COLOR.BLACK }}>Edit</Text> */}
@@ -659,7 +660,7 @@ const ConfirmationForCreateFacilitie = () => {
       />
 
       <TouchableOpacity style={styles.button} onPress={handleConfirmData}>
-        <Text style={styles.buttonText}>Confirmation for create facilitie</Text>
+        <Text style={styles.buttonText}>Create facility</Text>
       </TouchableOpacity>
     </ScrollView>
   );

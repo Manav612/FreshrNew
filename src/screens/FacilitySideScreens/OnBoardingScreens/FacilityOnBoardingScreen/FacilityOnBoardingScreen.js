@@ -902,7 +902,7 @@ const FacilityOnBoardingScreen = () => {
                             <>
                                 <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>Shop Timing</Text>
+                                        <Text style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK, marginBottom: 5 }}>Shop Hors</Text>
                                         <TouchableOpacity onPress={() => setShopTime(!ShopTime)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                                             <Text style={{ fontWeight: '600', fontSize: 18, color: COLOR.BLACK }}>Vacation</Text>
                                             <FontAwesome name={ShopTime ? "toggle-off" : "toggle-on"} size={30} color={COLOR.ORANGECOLOR} />
@@ -938,7 +938,7 @@ const FacilityOnBoardingScreen = () => {
                                             />
                                             : null}
                                         <View style={{ height: 1, backgroundColor: COLOR.LINECOLOR, marginBottom: 10 }} />
-                                        <Text style={styles.modalTitle}>Select Shop time</Text>
+                                        <Text style={styles.modalTitle}>Select Shop hours</Text>
                                         {Object.keys(timeData).map((day) => (
                                             <TouchableOpacity key={day} style={styles.row} onPress={() => openModal(day)}>
                                                 <Text style={styles.dayText}>{day}</Text>

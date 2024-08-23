@@ -306,15 +306,16 @@ const SignUP = () => {
   });
 
   return (
-    <ScrollView style={{ backgroundColor: COLOR.WHITE, height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
-      <View style={{}}>
-        <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 10 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
-          </TouchableOpacity>
-          <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Create your Account</Text>
-        </View>
-        <View style={{ marginTop: 15 }}>
+    <ScrollView style={{ backgroundColor: COLOR.WHITE }}>
+      <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'flex-start', alignItems: 'center', marginVertical: 10, paddingHorizontal: 15 }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>Create your Account</Text>
+      </View>
+      <View style={{ justifyContent: 'center', alignItems: 'center', height: Screen_Height * 0.9, paddingHorizontal: 15 }}>
+
+        <View style={{}}>
           <View style={styles.inputContainer}>
             <AntDesign name="user" size={22} color={COLOR.BLACK} style={styles.icon} />
 
@@ -445,10 +446,10 @@ const SignUP = () => {
             codeTextStyle={{ fontSize: 12 }}
           />
 
-          <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
+          {/* <TouchableOpacity style={styles.rememberContainer} onPress={toggleRememberMe}>
             <Fontisto name={rememberMe ? "checkbox-active" : "checkbox-passive"} size={24} color={COLOR.ORANGECOLOR} style={styles.icon} />
             <Text style={{ fontFamily: "Poppins-Bold", marginLeft: 10, color: COLOR.BLACK }}>Remember me</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity onPress={handleSignUp} style={{ justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 35, backgroundColor: COLOR.ORANGECOLOR, marginVertical: 15 }}>
             <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>Sign up</Text>
@@ -460,7 +461,7 @@ const SignUP = () => {
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ alignSelf: 'center', color: COLOR.BLACK }}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Sign In Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>Sign in</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Sign In Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500', fontSize: 16 }}>Sign in</Text></TouchableOpacity>
           </View>
         </View>
       </View>

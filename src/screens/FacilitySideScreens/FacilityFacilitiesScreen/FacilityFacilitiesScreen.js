@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, FlatList } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, FlatList, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -19,52 +19,55 @@ const FacilityFacilitiesScreen = () => {
     const navigation = useNavigation();
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
-  const [fetchedData, setFetchedData] = useState([]);
-  const [user, setUser] = useState('');
-
-// console.log("===========   fetchedData      =============",fetchedData);
+    const [fetchedData, setFetchedData] = useState([]);
+    const [user, setUser] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
+    // console.log("===========   fetchedData      =============",fetchedData);
     useEffect(() => {
 
         fetchData();
-      }, []);
- 
-    
-      const fetchData = async () => {
-        try {
-          const token = await AsyncStorage.getItem("AuthToken");
-          const config = {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          };
-          const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
-          console.log('========  user facilty   =============', res.data.data);
-          setFetchedData(res.data.data);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      };
+    }, []);
 
-      useEffect(()=>{
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        fetchData().then(() => setRefreshing(false));
+    }, []);
+    const fetchData = async () => {
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
+            console.log('========  user facilty   =============', res.data.data);
+            setFetchedData(res.data.data);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    useEffect(() => {
         getUserInfo()
-       },[])
-     
-       const getUserInfo = async () => {
-         try {
-           const token = await AsyncStorage.getItem("AuthToken");
-           const config = {
-             headers: {
-               'Authorization': `Bearer ${token}`
-             }
-           };
-           const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-           console.log('========  user ID   ===========', res.data.data.user)
-           setUser(res.data.data.user);
-         } catch (error) {
-           console.error("Error:", error);
-         }
-       };
-    
+    }, [])
+
+    const getUserInfo = async () => {
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+            console.log('========  user ID   ===========', res.data.data.user)
+            setUser(res.data.data.user);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
 
     const styles = StyleSheet.create({
         container: {
@@ -118,7 +121,7 @@ const FacilityFacilitiesScreen = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:COLOR.WHITE}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: COLOR.WHITE }}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
@@ -141,34 +144,38 @@ const FacilityFacilitiesScreen = () => {
 
             <FlatList
                 showsVerticalScrollIndicator={false}
-                style={{ marginTop: 15, marginHorizontal: 15 }}
+                style={{ marginTop: 15, marginHorizontal: 15, flex: 1 }}
                 data={fetchedData}
+                scrollEnabled={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => {
                     return (
-                    <TouchableOpacity style={{
-                        marginVertical: 10,
-                        padding: 20,
-                        backgroundColor: COLOR.WHITE,
-                        borderRadius: 20,
-                        marginHorizontal:2,
-                        elevation: 2,
-                        shadowColor: COLOR.BLACK,
-                        alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
-                    }}
-                    onPress={() => navigation.navigate(NavigationScreens.FacilityDetalisScreen,{data:item})}
-                    >
-                        <Image source={Hair1} style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }} />
-                        <View style={{ width: Screen_Width * 0.5 }}>
-                            <Text style={styles.earningsText}>{item.name}</Text>
-                            <Text style={styles.earningsSubText}>{item?.description}</Text>
-                        </View>
-                        <TouchableOpacity  style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                            <AntDesign name="right" size={28} color={COLOR.ChartBlue} />
+                        <TouchableOpacity style={{
+                            marginVertical: 10,
+                            padding: 20,
+                            backgroundColor: COLOR.WHITE,
+                            borderRadius: 20,
+                            marginHorizontal: 2,
+                            elevation: 2,
+                            shadowColor: COLOR.BLACK,
+                            alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
+                        }}
+                            onPress={() => navigation.navigate(NavigationScreens.FacilityDetalisScreen, { data: item })}
+                        >
+                            <Image source={{ uri: item?.coverImage }} style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }} />
+                            <View style={{ width: Screen_Width * 0.5 }}>
+                                <Text style={styles.earningsText}>{item.name}</Text>
+                                <Text style={styles.earningsSubText}>{item?.description}</Text>
+                            </View>
+                            <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                <AntDesign name="right" size={28} color={COLOR.ChartBlue} />
+                            </TouchableOpacity>
                         </TouchableOpacity>
-                    </TouchableOpacity>
                     )
                 }}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
             />
             <View style={{ height: 100 }} />
         </ScrollView>

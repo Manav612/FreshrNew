@@ -398,6 +398,7 @@ const ProfessionalHome = () => {
                         xAxisLabelTextStyle={{ color: COLOR.BLACK }}
                         yAxisLabelTextStyle={{ color: COLOR.BLACK }}
                         yAxisTextStyle={{ color: COLOR.BLACK }}
+                        curved={true}
                     />
 
                 </View>

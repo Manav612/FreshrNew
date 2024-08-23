@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity,FlatList,Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList, Modal } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -26,38 +26,38 @@ const FacilityHome = () => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
     const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [user, setUser] = useState('');
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [user, setUser] = useState('');
+    const toggleModal = () => {
+        setIsModalVisible(!isModalVisible);
+    };
 
 
-  useEffect(()=>{
-    getUserInfo()
-   },[])
- 
-   const getUserInfo = async () => {
-     try {
-       const token = await AsyncStorage.getItem("AuthToken");
-       const config = {
-         headers: {
-           'Authorization': `Bearer ${token}`
-         }
-       };
-       const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
-       console.log('========  user ID   ===========', res.data.data.user)
-       setUser(res.data.data.user);
-     } catch (error) {
-       console.error("Error:", error);
-     }
-   };
+    useEffect(() => {
+        getUserInfo()
+    }, [])
 
-  const handleItemSelect = (item) => {
-    setSelectedItem(item);
-    toggleModal();
-    // Handle the selected item here, e.g., navigate to the FacilityDetalisScreen
-  };
+    const getUserInfo = async () => {
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/getMe`, config);
+            console.log('========  user ID   ===========', res.data.data.user)
+            setUser(res.data.data.user);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    const handleItemSelect = (item) => {
+        setSelectedItem(item);
+        toggleModal();
+        // Handle the selected item here, e.g., navigate to the FacilityDetalisScreen
+    };
     const inSalonData = [
         { value: 100, label: 'May' },
         { value: 600, label: 'Jun' },
@@ -96,7 +96,7 @@ const FacilityHome = () => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-           paddingVertical:10
+            paddingVertical: 10
 
         },
         header: {
@@ -157,16 +157,16 @@ const FacilityHome = () => {
         overviewRow: {
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingHorizontal:2
+            paddingHorizontal: 2
         },
         overviewBox: {
-            width:Screen_Width*0.44,
+            width: Screen_Width * 0.44,
             padding: 15,
             backgroundColor: COLOR.WHITE,
             borderRadius: 20,
             marginVertical: 5,
-            elevation:2,
-            shadowColor:COLOR.BLACK
+            elevation: 2,
+            shadowColor: COLOR.BLACK
         },
         overviewBoxTitle: {
             fontSize: 16,
@@ -196,7 +196,7 @@ const FacilityHome = () => {
             alignItems: 'center',
             backgroundColor: COLOR.WHITE,
             elevation: 2,
-            marginHorizontal:2,
+            marginHorizontal: 2,
             shadowColor: COLOR.BLACK,
             borderRadius: 20,
             height: Screen_Height * 0.48,
@@ -237,7 +237,7 @@ const FacilityHome = () => {
             backgroundColor: COLOR.AuthField,
             borderRadius: 10,
             paddingHorizontal: 8,
-            marginBottom:10
+            marginBottom: 10
         },
         placeholderStyle: {
             fontSize: 16,
@@ -266,7 +266,7 @@ const FacilityHome = () => {
     });
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
@@ -289,7 +289,7 @@ const FacilityHome = () => {
                     padding: 20,
                     backgroundColor: COLOR.WHITE,
                     borderRadius: 20,
-                    marginHorizontal:2,
+                    marginHorizontal: 2,
                     elevation: 2,
                     shadowColor: COLOR.BLACK,
                     alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
@@ -334,89 +334,91 @@ const FacilityHome = () => {
                             setIsFocus(false);
                         }}
                     /> */}
-                     <View>
-          <TouchableOpacity
-            style={{
-              marginVertical: 10,
-              padding: 20,
-              backgroundColor: COLOR.WHITE,
-              borderRadius: 20,
-              elevation: 2,
-              marginHorizontal:2,
-              shadowColor: COLOR.BLACK,
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            onPress={toggleModal}
-          >
-            {selectedItem ? (
-              <>
-                <Image
-                  source={Hair1}
-                  style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
-                />
-                <View style={{ width: Screen_Width * 0.5 }}>
-                  <Text style={styles.earningsText}>{selectedItem.name}</Text>
-                  <Text style={styles.earningsSubText}>{selectedItem.title}</Text>
-                </View>
-              </>
-            ) : (
-              <Text style={{ fontSize: 20,
-                fontWeight: 'bold',
-                color: COLOR.BLACK}}>In Salon</Text>
-            )}
-            <AntDesign name="down" size={28} color={COLOR.ChartBlue} />
-          </TouchableOpacity>
-  
-          <Modal visible={isModalVisible} animationType="slide">
-            <View style={{ flex: 1 }}>
-              <FlatList
-                data={FacilityData}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={{
-                      marginVertical: 10,
-                      marginHorizontal: 15,
-                      padding: 20,
-                      backgroundColor: COLOR.WHITE,
-                      borderRadius: 20,
-                      elevation: 2,
-                      shadowColor: COLOR.BLACK,
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      gap: 20,
-                    }}
-                    onPress={() => handleItemSelect(item)}
-                  >
-  
-                    <Image
-                      source={Hair1}
-                      style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
-                    />
-                    <View style={{ width: Screen_Width * 0.5 }}>
-                      <Text style={styles.earningsText}>{item.name}</Text>
-                      <Text style={styles.earningsSubText}>{item.title}</Text>
+                    <View>
+                        <TouchableOpacity
+                            style={{
+                                marginVertical: 10,
+                                padding: 20,
+                                backgroundColor: COLOR.WHITE,
+                                borderRadius: 20,
+                                elevation: 2,
+                                marginHorizontal: 2,
+                                shadowColor: COLOR.BLACK,
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}
+                            onPress={toggleModal}
+                        >
+                            {selectedItem ? (
+                                <>
+                                    <Image
+                                        source={Hair1}
+                                        style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
+                                    />
+                                    <View style={{ width: Screen_Width * 0.5 }}>
+                                        <Text style={styles.earningsText}>{selectedItem.name}</Text>
+                                        <Text style={styles.earningsSubText}>{selectedItem.title}</Text>
+                                    </View>
+                                </>
+                            ) : (
+                                <Text style={{
+                                    fontSize: 20,
+                                    fontWeight: 'bold',
+                                    color: COLOR.BLACK
+                                }}>In Salon</Text>
+                            )}
+                            <AntDesign name="down" size={28} color={COLOR.ChartBlue} />
+                        </TouchableOpacity>
+
+                        <Modal visible={isModalVisible} animationType="slide">
+                            <View style={{ flex: 1 }}>
+                                <FlatList
+                                    data={FacilityData}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity
+                                            style={{
+                                                marginVertical: 10,
+                                                marginHorizontal: 15,
+                                                padding: 20,
+                                                backgroundColor: COLOR.WHITE,
+                                                borderRadius: 20,
+                                                elevation: 2,
+                                                shadowColor: COLOR.BLACK,
+                                                alignItems: 'center',
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                gap: 20,
+                                            }}
+                                            onPress={() => handleItemSelect(item)}
+                                        >
+
+                                            <Image
+                                                source={Hair1}
+                                                style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }}
+                                            />
+                                            <View style={{ width: Screen_Width * 0.5 }}>
+                                                <Text style={styles.earningsText}>{item.name}</Text>
+                                                <Text style={styles.earningsSubText}>{item.title}</Text>
+                                            </View>
+                                            <Fontisto
+                                                name={selectedItem?.id === item.id ? "checkbox-active" : "checkbox-passive"}
+                                                size={24}
+                                                color={COLOR.ORANGECOLOR}
+                                            />
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                                <TouchableOpacity
+                                    style={{ padding: 20, backgroundColor: COLOR.WHITE }}
+                                    onPress={toggleModal}
+                                >
+                                    <Text>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </Modal>
                     </View>
-                    <Fontisto
-                      name={selectedItem?.id === item.id ? "checkbox-active" : "checkbox-passive"}
-                      size={24}
-                      color={COLOR.ORANGECOLOR}
-                    />
-                  </TouchableOpacity>
-                )}
-              />
-              <TouchableOpacity
-                style={{ padding: 20, backgroundColor: COLOR.WHITE }}
-                onPress={toggleModal}
-              >
-                <Text>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-        </View>
                     <View style={styles.overviewRow}>
                         <View style={styles.overviewBox}>
                             <Text style={styles.overviewBoxTitle}>Customer</Text>
@@ -502,6 +504,7 @@ const FacilityHome = () => {
                         xAxisLabelTextStyle={{ color: COLOR.BLACK }}
                         yAxisLabelTextStyle={{ color: COLOR.BLACK }}
                         yAxisTextStyle={{ color: COLOR.BLACK }}
+                        curved={true}
                     />
 
                 </View>
