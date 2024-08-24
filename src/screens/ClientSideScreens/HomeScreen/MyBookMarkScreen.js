@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { screenWidth } from 'react-native-gifted-charts/src/utils';
 import StoryModal from '../../../components/Story/Story/StoryModal';
+import Tooltip from 'react-native-walkthrough-tooltip';
 
 const MyBookMarkScreen = () => {
   const navigation = useNavigation()
@@ -28,6 +29,8 @@ const MyBookMarkScreen = () => {
   const [FetchDataOfFavSalon, setFetchDataOfFavSalon] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const flatListRef = useRef(null);
+  const [showTip, setShowTip] = useState(false);
+
   const theme = useSelector(state => state.ThemeReducer);
 
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -143,9 +146,40 @@ const MyBookMarkScreen = () => {
           </TouchableOpacity>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Following</Text>
         </View>
-        <TouchableOpacity style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
-          <FastImage source={FilterBlack} style={{ height: 30, width: 30 }} />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+          <Tooltip
+
+            isVisible={showTip}
+            content={
+              <View style={{ paddingHorizontal: 10 }}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 18, textAlign: 'center', fontWeight: '600', marginVertical: 5 }}>
+                  Following
+                </Text>
+
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  Follow your favorite professionals and salons to save time. Next time you want to book, just do it directly from your list. Oh, and you can also check out their stories!
+
+                </Text>
+
+              </View>
+            }
+            placement="bottom"
+            onClose={() => setShowTip(false)}
+
+          >
+
+            <AntDesign
+              onPress={() => setShowTip(true)}
+              name="infocirlce"
+              size={33}
+              color={COLOR.ChartBlue}
+            />
+
+          </Tooltip>
+          <TouchableOpacity style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
+            <FastImage source={FilterBlack} style={{ height: 30, width: 30 }} />
+          </TouchableOpacity>
+        </View>
         {/* <TouchableOpacity>
           <MaterialCommunityIcons
             name="dots-horizontal-circle-outline"

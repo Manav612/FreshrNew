@@ -8,20 +8,22 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {useSelector} from 'react-redux';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
+import { useSelector } from 'react-redux';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import MapView, {Marker} from 'react-native-maps';
-import {data, data3, data4} from '../../../components/utils';
+import MapView, { Marker } from 'react-native-maps';
+import { data, data3, data4 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import Tooltip from 'react-native-walkthrough-tooltip';
+
 import {
   barber,
   BothOrange,
@@ -42,11 +44,11 @@ import {
 } from '../../../constants/Icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BASE_API_URL} from '../../../Services';
+import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {NavigationScreens} from '../../../constants/Strings';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { NavigationScreens } from '../../../constants/Strings';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -54,82 +56,82 @@ const Explore = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const mapStyle = [
-    {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-    {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
     {
       featureType: 'administrative.locality',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'geometry',
-      stylers: [{color: '#263c3f'}],
+      stylers: [{ color: '#263c3f' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#6b9a76'}],
+      stylers: [{ color: '#6b9a76' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry',
-      stylers: [{color: '#38414e'}],
+      stylers: [{ color: '#38414e' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#212a37'}],
+      stylers: [{ color: '#212a37' }],
     },
     {
       featureType: 'road',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#9ca5b3'}],
+      stylers: [{ color: '#9ca5b3' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry',
-      stylers: [{color: '#746855'}],
+      stylers: [{ color: '#746855' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#1f2835'}],
+      stylers: [{ color: '#1f2835' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#f3d19c'}],
+      stylers: [{ color: '#f3d19c' }],
     },
     {
       featureType: 'transit',
       elementType: 'geometry',
-      stylers: [{color: '#2f3948'}],
+      stylers: [{ color: '#2f3948' }],
     },
     {
       featureType: 'transit.station',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'water',
       elementType: 'geometry',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#515c6d'}],
+      stylers: [{ color: '#515c6d' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.stroke',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
   ];
   const [searchText, setSearchText] = useState('');
@@ -143,6 +145,7 @@ const Explore = () => {
   const [resetSelected, setResetSelected] = useState(false);
   const [applySelected, setApplySelected] = useState(false);
   const [bookmarkStatus, setBookmarkStatus] = useState({});
+  const [bookmarkStatusSalon, setBookmarkStatusSalon] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const [MarkerDataFordelivery, setMarkerDataFordelivery] = useState([]);
   const [MarkerDataForSalon, setMarkerDataForSalon] = useState([]);
@@ -152,6 +155,7 @@ const Explore = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState();
   const [activeTab1, setActiveTab1] = useState('Both');
+  const [showTip, setShowTip] = useState(false);
 
   useEffect(() => {
     checkLocationPermission();
@@ -196,8 +200,49 @@ const Explore = () => {
       error => {
         console.error('Error:', error);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     );
+  };
+
+  const toggleBookmarkSalon = async (itemId) => {
+    try {
+      await AddFavDataForSalon(itemId);
+      setBookmarkStatusSalon(prevState => ({
+        ...prevState,
+        [itemId]: !prevState[itemId]
+      }));
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      // Optionally, show an error message to the user
+    }
+  };
+
+
+  const AddFavDataForSalon = async (itemId) => {
+    try {
+      // console.log("==========>", itemId);
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+
+      };
+      const res = await axios.post(`${BASE_API_URL}/users/favorites`, { facility: itemId }, config);
+      console.log("================= add fav data ======================", res.data);
+      console.log("Response data:", res.status);
+
+      // Check if the request was successful
+      // if (res.data.status === "success") {
+      //   Alert.alert("success", res.data.message)
+
+      // } else {
+      //   Alert.alert(res.data.message)
+      // }
+      return res.data; // Return the response data
+    } catch (error) {
+      console.error("Error:", error);
+      throw error; // Rethrow the error to handle it in the calling function
+    }
   };
 
   const fetchDataForDelivery = async (lat, lng) => {
@@ -250,6 +295,45 @@ const Explore = () => {
       setIsLoading(false);
     }
   };
+  const toggleBookmark = async (itemId) => {
+    try {
+      await AddFavData(itemId);
+      setBookmarkStatus(prevState => ({
+        ...prevState,
+        [itemId]: !prevState[itemId]
+      }));
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      // Optionally, show an error message to the user
+    }
+  };
+
+  const AddFavData = async (itemId) => {
+    try {
+      // console.log("==========>", authToken);
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
+
+      };
+      const res = await axios.post(`${BASE_API_URL}/users/favorites`, { professional: itemId }, config);
+      console.log("================= add fav data ======================", res.data.data);
+      console.log("Response data:", res.status);
+
+      // Check if the request was successful
+      // if (res.data.status === "success") {
+      //   Alert.alert("success", res.data.message)
+
+      // } else {
+      //   Alert.alert(res.data.message)
+      // }
+      return res.data; // Return the response data
+    } catch (error) {
+      console.error("Error:", error);
+      throw error; // Rethrow the error to handle it in the calling function
+    }
+  };
 
   const handleDeliverySide = () => {
     if (latitude && longitude) {
@@ -268,7 +352,7 @@ const Explore = () => {
   const openBottomSheet2 = () => {
     refRBSheet.current[0].open();
   };
-  const AllCategory = ({item}) => (
+  const AllCategory = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.CategoryContainer,
@@ -291,7 +375,7 @@ const Explore = () => {
       </View>
     </TouchableOpacity>
   );
-  const Rating = ({item}) => (
+  const Rating = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.CategoryContainer,
@@ -395,9 +479,56 @@ const Explore = () => {
             shadowColor: COLOR.ChartBlue,
             borderRadius: 15,
           }}>
-          <Text style={{color: COLOR.BLACK, fontWeight: '600', fontSize: 14}}>
+          <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>
             Delivery Options
           </Text>
+          <View style={{ position: 'absolute', right: 5, top: 5 }}>
+            <Tooltip
+
+              isVisible={showTip}
+              content={
+                <View style={{ paddingHorizontal: 10 }}>
+                  <Text style={{ color: COLOR.BLACK, fontSize: 18, textAlign: 'center', fontWeight: '600', marginVertical: 5 }}>
+                    Welcome to your delivery options.
+
+                  </Text>
+
+                  <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                    {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Comes to You : </Text>}
+
+                    Enjoy professional services delivered right to your location.
+
+                  </Text>
+                  <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                    {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>In-Salon : </Text>}
+                    Prefer a traditional experience? Meet-up with your selected professional at a nearby shop or salon.
+
+                  </Text>
+                  <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                    {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Schedule Appointment : </Text>}
+
+                    Book an appointment for a specific day and time.
+                  </Text>
+
+
+
+
+                </View>
+              }
+              placement="bottom"
+              onClose={() => setShowTip(false)}
+
+            >
+
+              <AntDesign
+                onPress={() => setShowTip(true)}
+                name="infocirlce"
+                size={18}
+                color={COLOR.ChartBlue}
+              />
+
+            </Tooltip>
+          </View>
           <View
             style={{
               flexDirection: 'row',
@@ -427,7 +558,7 @@ const Explore = () => {
                   activeTab === 'Delivery' ? ComeToYouWhite : ComeToYouOrange
                 }
                 resizeMode="contain"
-                style={{height: 18, width: 18}}
+                style={{ height: 18, width: 18 }}
               />
               <Text
                 style={{
@@ -462,7 +593,7 @@ const Explore = () => {
                 source={
                   activeTab === 'Salon' && COLOR ? HomeIcon2 : HouseOrange
                 }
-                style={{height: 20, width: 20}}
+                style={{ height: 20, width: 20 }}
                 resizeMode="contain"
               />
               <Text
@@ -530,7 +661,7 @@ const Explore = () => {
             }}>
             <FastImage
               source={theme == 1 ? FilterWhite : FilterBlack}
-              style={{height: 20, width: 20}}
+              style={{ height: 20, width: 20 }}
             />
           </TouchableOpacity>
         </View>
@@ -563,7 +694,7 @@ const Explore = () => {
                   description={'This is a description of the marker'}
                   key={i}>
                   <View
-                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View
                       style={{
                         backgroundColor: COLOR.BLACK,
@@ -572,7 +703,7 @@ const Explore = () => {
                         padding: 5,
                         borderRadius: 5,
                       }}>
-                      <Text style={{color: COLOR.WHITE, fontSize: 12}}>
+                      <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>
                         {' '}
                         {MarkerDataFordelivery.length === 0
                           ? 'Empty Queue'
@@ -589,7 +720,7 @@ const Explore = () => {
                         borderRadius: 50,
                       }}>
                       <FastImage
-                        style={{height: 20, width: 20}}
+                        style={{ height: 20, width: 20 }}
                         source={ComeToYouOrange}
                       />
                     </View>
@@ -608,7 +739,7 @@ const Explore = () => {
                 title={'Test Marker'}
                 description={'This is a description of the marker'}
                 key={i}>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <View
                     style={{
                       backgroundColor: COLOR.BLACK,
@@ -617,7 +748,7 @@ const Explore = () => {
                       padding: 5,
                       borderRadius: 5,
                     }}>
-                    <Text style={{color: COLOR.WHITE, fontSize: 12}}>
+                    <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>
                       {MarkerDataForSalon.length === 0 ? '0 Seats' : '10 Seats'}
                     </Text>
                   </View>
@@ -651,8 +782,8 @@ const Explore = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
-            style={{flex: 1}}
-            renderItem={({item}) => {
+            style={{ flex: 1 }}
+            renderItem={({ item }) => {
               return (
                 <View
                   style={{
@@ -672,7 +803,7 @@ const Explore = () => {
                     onPress={() =>
                       navigation.navigate(
                         NavigationScreens.ProfessionalInfoScreen,
-                        {ProfDetail: item},
+                        { ProfDetail: item },
                       )
                     }
                     style={{
@@ -688,6 +819,7 @@ const Explore = () => {
                         borderRadius: 10,
                       }}
                     />
+
                     <View
                       style={{
                         flexDirection: 'column',
@@ -699,7 +831,7 @@ const Explore = () => {
                           justifyContent: 'space-between',
                           flexDirection: 'row',
                           alignItems: 'center',
-                          width: Screen_Width * 0.6,
+                          width: Screen_Width * 0.25,
                         }}>
                         <View>
                           <Text
@@ -710,6 +842,7 @@ const Explore = () => {
                               marginBottom: 2,
                             }}
                             numberOfLines={1}>
+
                             {item?.user?.firstName} {item?.user?.lastName}
                           </Text>
                           <View
@@ -746,11 +879,19 @@ const Explore = () => {
                           width: Screen_Width * 0.2,
                           height: 20,
                         }}>
-                        <Text style={{color: COLOR.WHITE, fontSize: 13}}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>
                           {item?.distance}km
                         </Text>
                       </View>
                     </View>
+                    <TouchableOpacity onPress={() => toggleBookmark(item._id)} style={{}}>
+
+                      <MaterialCommunityIcons
+                        name={bookmarkStatus[item._id] ? "bookmark" : "bookmark-outline"}
+                        size={25}
+                        color={COLOR.ChartBlue}
+                      />
+                    </TouchableOpacity>
                   </TouchableOpacity>
                 </View>
               );
@@ -762,8 +903,8 @@ const Explore = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
-            style={{flex: 1}}
-            renderItem={({item}) => {
+            style={{ flex: 1 }}
+            renderItem={({ item }) => {
               return (
                 <View
                   style={{
@@ -783,7 +924,7 @@ const Explore = () => {
                     onPress={() =>
                       navigation.navigate(
                         NavigationScreens.SalonProffListScreen,
-                        {FacilityDetail: item},
+                        { FacilityDetail: item },
                       )
                     }
                     style={{
@@ -792,13 +933,14 @@ const Explore = () => {
                       gap: 10,
                     }}>
                     <Image
-                      source={{uri: item.coverImage}}
+                      source={{ uri: item.coverImage }}
                       style={{
                         width: Screen_Width * 0.2,
                         height: Screen_Height * 0.08,
                         borderRadius: 10,
                       }}
                     />
+
                     <View
                       style={{
                         flexDirection: 'column',
@@ -847,11 +989,37 @@ const Explore = () => {
                             </Text>
                           </View>
                         </View>
+                        <TouchableOpacity onPress={() => toggleBookmarkSalon(item._id)} style={{ bottom: 5 }}>
+
+                          <MaterialCommunityIcons
+                            name={bookmarkStatusSalon[item._id] ? "bookmark" : "bookmark-outline"}
+                            size={25}
+                            color={COLOR.ChartBlue}
+                          />
+                        </TouchableOpacity>
+
+                      </View>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <View
+                          style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: COLOR.BLACK,
+                            borderRadius: 10,
+                            color: COLOR.WHITE,
+                            width: Screen_Width * 0.2,
+                            padding: 6
+                          }}>
+                          <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>
+                            20km
+                          </Text>
+                        </View>
                         <TouchableOpacity
                           style={{
                             backgroundColor: COLOR.ORANGECOLOR,
                             padding: 5,
                             borderRadius: 5,
+                            borderBottomRightRadius: 15,
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexDirection: 'row',
@@ -862,24 +1030,10 @@ const Explore = () => {
                             size={14}
                             color={COLOR.WHITE}
                           />
-                          <Text style={{color: COLOR.WHITE}} numberOfLines={1}>
+                          <Text style={{ color: COLOR.WHITE }} numberOfLines={1}>
                             15
                           </Text>
                         </TouchableOpacity>
-                      </View>
-                      <View
-                        style={{
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: COLOR.BLACK,
-                          borderRadius: 10,
-                          color: COLOR.WHITE,
-                          width: Screen_Width * 0.2,
-                          height: 20,
-                        }}>
-                        <Text style={{color: COLOR.WHITE, fontSize: 13}}>
-                          20km
-                        </Text>
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -916,8 +1070,8 @@ const Explore = () => {
           customAvoidingViewProps={{
             enabled: false,
           }}>
-          <View style={{paddingHorizontal: 5, marginVertical: 10}}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ paddingHorizontal: 5, marginVertical: 10 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <View
                 style={{
                   width: 30,
@@ -933,9 +1087,9 @@ const Explore = () => {
                   alignItems: 'center',
                   width: Screen_Width * 0.9,
                 }}>
-                <View style={{width: 30}} />
+                <View style={{ width: 30 }} />
                 <Text
-                  style={{fontWeight: '600', fontSize: 25, color: COLOR.BLACK}}>
+                  style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>
                   Filter
                 </Text>
                 <TouchableOpacity onPress={() => refRBSheet.current[0].close()}>
@@ -953,7 +1107,7 @@ const Explore = () => {
               }}
             />
 
-            <View style={{marginHorizontal: 10, marginVertical: 10}}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text
                 style={{
                   fontWeight: '700',
@@ -989,7 +1143,7 @@ const Explore = () => {
                   onPress={() => setActiveTab1('Masculine')}>
                   <FastImage
                     source={activeTab1 === 'Masculine' ? maleWhite : maleOrange}
-                    style={{width: 20, height: 20}}
+                    style={{ width: 20, height: 20 }}
                     resizeMode="contain"
                   />
                   <Text
@@ -1020,7 +1174,7 @@ const Explore = () => {
                   onPress={() => setActiveTab1('Both')}>
                   <FastImage
                     source={activeTab1 === 'Both' ? BothWhite : BothOrange}
-                    style={{width: 20, height: 20}}
+                    style={{ width: 20, height: 20 }}
                     resizeMode="contain"
                   />
 
@@ -1054,7 +1208,7 @@ const Explore = () => {
                     source={
                       activeTab1 === 'Feminine' ? femaleWhite : femaleOrange
                     }
-                    style={{width: 20, height: 20}}
+                    style={{ width: 20, height: 20 }}
                     resizeMode="contain"
                   />
                   <Text
@@ -1071,9 +1225,9 @@ const Explore = () => {
               </View>
             </View>
 
-            <View style={{marginHorizontal: 10, marginVertical: 10}}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text
-                style={{fontWeight: '700', color: COLOR.BLACK, fontSize: 18}}>
+                style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>
                 Rating
               </Text>
               <FlatList
@@ -1084,12 +1238,12 @@ const Explore = () => {
                 showsHorizontalScrollIndicator={false}
               />
             </View>
-            <View style={{marginHorizontal: 10, marginVertical: 10}}>
-              <Text style={{fontWeight: '700', color: '#000', fontSize: 18}}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+              <Text style={{ fontWeight: '700', color: '#000', fontSize: 18 }}>
                 Distance: {distance} km
               </Text>
               <Slider
-                style={{width: '100%', marginTop: 10}}
+                style={{ width: '100%', marginTop: 10 }}
                 minimumValue={0}
                 maximumValue={100}
                 step={1}

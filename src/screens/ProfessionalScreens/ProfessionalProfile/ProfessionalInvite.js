@@ -8,18 +8,18 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {useSelector} from 'react-redux';
-import {Screen_Height, Screen_Width} from '../../../constants/Constants';
+import { useSelector } from 'react-redux';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import MapView, {Marker} from 'react-native-maps';
-import {data, data3, data4} from '../../../components/utils';
+import MapView, { Marker } from 'react-native-maps';
+import { data, data3, data4 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import {
   barber,
@@ -42,97 +42,99 @@ import {
   ShareIcon2,
   ShareIcon3,
 } from '../../../constants/Icons';
+import Tooltip from 'react-native-walkthrough-tooltip';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BASE_API_URL} from '../../../Services';
+import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import Geolocation from 'react-native-geolocation-service';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {NavigationScreens} from '../../../constants/Strings';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { NavigationScreens } from '../../../constants/Strings';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {COLOR_DARK, COLOR_LIGHT} from '../../../constants/Colors';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 
 const ProfessionalInvite = () => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const mapStyle = [
-    {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-    {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
     {
       featureType: 'administrative.locality',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'geometry',
-      stylers: [{color: '#263c3f'}],
+      stylers: [{ color: '#263c3f' }],
     },
     {
       featureType: 'poi.park',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#6b9a76'}],
+      stylers: [{ color: '#6b9a76' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry',
-      stylers: [{color: '#38414e'}],
+      stylers: [{ color: '#38414e' }],
     },
     {
       featureType: 'road',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#212a37'}],
+      stylers: [{ color: '#212a37' }],
     },
     {
       featureType: 'road',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#9ca5b3'}],
+      stylers: [{ color: '#9ca5b3' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry',
-      stylers: [{color: '#746855'}],
+      stylers: [{ color: '#746855' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'geometry.stroke',
-      stylers: [{color: '#1f2835'}],
+      stylers: [{ color: '#1f2835' }],
     },
     {
       featureType: 'road.highway',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#f3d19c'}],
+      stylers: [{ color: '#f3d19c' }],
     },
     {
       featureType: 'transit',
       elementType: 'geometry',
-      stylers: [{color: '#2f3948'}],
+      stylers: [{ color: '#2f3948' }],
     },
     {
       featureType: 'transit.station',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#d59563'}],
+      stylers: [{ color: '#d59563' }],
     },
     {
       featureType: 'water',
       elementType: 'geometry',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.fill',
-      stylers: [{color: '#515c6d'}],
+      stylers: [{ color: '#515c6d' }],
     },
     {
       featureType: 'water',
       elementType: 'labels.text.stroke',
-      stylers: [{color: '#17263c'}],
+      stylers: [{ color: '#17263c' }],
     },
   ];
   const [searchText, setSearchText] = useState('');
@@ -155,6 +157,7 @@ const ProfessionalInvite = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState();
   const [activeTab1, setActiveTab1] = useState('Both');
+  const [showTip, setShowTip] = useState(false);
 
   useEffect(() => {
     checkLocationPermission();
@@ -199,7 +202,7 @@ const ProfessionalInvite = () => {
       error => {
         console.error('Error:', error);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     );
   };
 
@@ -271,7 +274,7 @@ const ProfessionalInvite = () => {
   const openBottomSheet2 = () => {
     refRBSheet.current[0].open();
   };
-  const AllCategory = ({item}) => (
+  const AllCategory = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.CategoryContainer,
@@ -294,7 +297,7 @@ const ProfessionalInvite = () => {
       </View>
     </TouchableOpacity>
   );
-  const Rating = ({item}) => (
+  const Rating = ({ item }) => (
     <TouchableOpacity
       style={[
         styles.CategoryContainer,
@@ -391,6 +394,7 @@ const ProfessionalInvite = () => {
           top: Screen_Height * 0.01,
           zIndex: 100,
         }}>
+
         <View
           style={{
             justifyContent: 'center',
@@ -404,9 +408,12 @@ const ProfessionalInvite = () => {
             shadowColor: COLOR.ChartBlue,
             borderRadius: 15,
           }}>
-          <Text style={{color: COLOR.BLACK, fontWeight: '800', fontSize: 14}}>
+
+          <Text style={{ color: COLOR.BLACK, alignSelf: 'center', fontWeight: '800', fontSize: 14 }}>
             Delivery Options Links
           </Text>
+
+
           <View
             style={{
               flexDirection: 'row',
@@ -436,7 +443,7 @@ const ProfessionalInvite = () => {
                   activeTab === 'Delivery' ? ComeToYouWhite : ComeToYouOrange
                 }
                 resizeMode="contain"
-                style={{height: 18, width: 18}}
+                style={{ height: 18, width: 18 }}
               />
               <Text
                 style={{
@@ -471,7 +478,7 @@ const ProfessionalInvite = () => {
                 source={
                   activeTab === 'Salon' && COLOR ? HomeIcon2 : HouseOrange
                 }
-                style={{height: 20, width: 20}}
+                style={{ height: 20, width: 20 }}
                 resizeMode="contain"
               />
               <Text
@@ -485,6 +492,60 @@ const ProfessionalInvite = () => {
               </Text>
             </TouchableOpacity>
           </View>
+
+        </View>
+        <View style={{ position: 'absolute', right: 25, top: 15 }}>
+          <Tooltip
+
+            isVisible={showTip}
+            content={
+              <View style={{ paddingHorizontal: 10 }}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 18, textAlign: 'center', fontWeight: '600', marginVertical: 5 }}>
+                  Welcome to your links page
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  Here you can share links with clients for faster bookings.
+                </Text>
+
+
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Delivery links : </Text>}
+
+                  This is for clients who want you to come to them.
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Facility links : </Text>}
+
+                  This link is for you to meet clients at any facility on the map. (Every facility has a unique link)
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Schedule calendar link : </Text>}
+
+                  This is for clients who need to book with you during your work hours. (Specific day and time)
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Invite link : </Text>}
+
+                  Invite multiple clients at a time.
+                </Text>
+
+
+
+              </View>
+            }
+            placement="bottom"
+            onClose={() => setShowTip(false)}
+
+          >
+
+            <AntDesign
+              onPress={() => setShowTip(true)}
+              name="infocirlce"
+              size={18}
+              color={COLOR.ChartBlue}
+            />
+
+          </Tooltip>
         </View>
         <View
           style={{
@@ -512,7 +573,7 @@ const ProfessionalInvite = () => {
                 gap: 10,
               }}>
               <Text
-                style={{textAlign: 'center', fontSize: 13, color: COLOR.BLACK}}>
+                style={{ textAlign: 'center', fontSize: 13, color: COLOR.BLACK }}>
                 Schedule calendar links
               </Text>
               <AntDesign name="calendar" size={24} color={COLOR.ORANGECOLOR} />
@@ -532,7 +593,7 @@ const ProfessionalInvite = () => {
             }}>
             <FastImage
               source={theme == 1 ? FilterWhite : FilterBlack}
-              style={{height: 20, width: 20}}
+              style={{ height: 20, width: 20 }}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -549,9 +610,9 @@ const ProfessionalInvite = () => {
             }}>
             <FastImage
               source={theme == 1 ? ShareIcon3 : ShareIcon}
-              style={{height: 18, width: 18}}
+              style={{ height: 18, width: 18 }}
             />
-            <Text style={{color: COLOR.BLACK, fontSize: 13}}>Invite Links</Text>
+            <Text style={{ color: COLOR.BLACK, fontSize: 13 }}>Invite Links</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -583,7 +644,7 @@ const ProfessionalInvite = () => {
                   description={'This is a description of the marker'}
                   key={i}>
                   <View
-                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View
                       style={{
                         backgroundColor: COLOR.BLACK,
@@ -592,7 +653,7 @@ const ProfessionalInvite = () => {
                         padding: 5,
                         borderRadius: 5,
                       }}>
-                      <Text style={{color: COLOR.WHITE, fontSize: 12}}>
+                      <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>
                         {' '}
                         {MarkerDataFordelivery.length === 0
                           ? 'Empty Queue'
@@ -609,7 +670,7 @@ const ProfessionalInvite = () => {
                         borderRadius: 50,
                       }}>
                       <FastImage
-                        style={{height: 20, width: 20}}
+                        style={{ height: 20, width: 20 }}
                         source={ComeToYouOrange}
                       />
                     </View>
@@ -628,7 +689,7 @@ const ProfessionalInvite = () => {
                 title={'Test Marker'}
                 description={'This is a description of the marker'}
                 key={i}>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <View
                     style={{
                       backgroundColor: COLOR.BLACK,
@@ -637,7 +698,7 @@ const ProfessionalInvite = () => {
                       padding: 5,
                       borderRadius: 5,
                     }}>
-                    <Text style={{color: COLOR.WHITE, fontSize: 12}}>
+                    <Text style={{ color: COLOR.WHITE, fontSize: 12 }}>
                       {MarkerDataForSalon.length === 0 ? '0 Seats' : '10 Seats'}
                     </Text>
                   </View>
@@ -671,8 +732,8 @@ const ProfessionalInvite = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
-            style={{flex: 1}}
-            renderItem={({item}) => {
+            style={{ flex: 1 }}
+            renderItem={({ item }) => {
               return (
                 // <View
                 //   style={{
@@ -783,8 +844,8 @@ const ProfessionalInvite = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
-            style={{flex: 1}}
-            renderItem={({item}) => {
+            style={{ flex: 1 }}
+            renderItem={({ item }) => {
               return (
                 <View
                   style={{
@@ -813,7 +874,7 @@ const ProfessionalInvite = () => {
                       gap: 10,
                     }}>
                     <Image
-                      source={{uri: item.coverImage}}
+                      source={{ uri: item.coverImage }}
                       style={{
                         width: Screen_Width * 0.2,
                         height: Screen_Height * 0.08,
@@ -883,7 +944,7 @@ const ProfessionalInvite = () => {
                             size={14}
                             color={COLOR.WHITE}
                           />
-                          <Text style={{color: COLOR.WHITE}} numberOfLines={1}>
+                          <Text style={{ color: COLOR.WHITE }} numberOfLines={1}>
                             15
                           </Text>
                         </TouchableOpacity>
@@ -898,7 +959,7 @@ const ProfessionalInvite = () => {
                           width: Screen_Width * 0.2,
                           height: 20,
                         }}>
-                        <Text style={{color: COLOR.WHITE, fontSize: 13}}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 13 }}>
                           20km
                         </Text>
                       </View>
@@ -937,8 +998,8 @@ const ProfessionalInvite = () => {
           customAvoidingViewProps={{
             enabled: false,
           }}>
-          <View style={{paddingHorizontal: 5, marginVertical: 10}}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ paddingHorizontal: 5, marginVertical: 10 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <View
                 style={{
                   width: 30,
@@ -954,9 +1015,9 @@ const ProfessionalInvite = () => {
                   alignItems: 'center',
                   width: Screen_Width * 0.9,
                 }}>
-                <View style={{width: 30}} />
+                <View style={{ width: 30 }} />
                 <Text
-                  style={{fontWeight: '600', fontSize: 25, color: COLOR.BLACK}}>
+                  style={{ fontWeight: '600', fontSize: 25, color: COLOR.BLACK }}>
                   Filter
                 </Text>
                 <TouchableOpacity onPress={() => refRBSheet.current[0].close()}>
@@ -974,7 +1035,7 @@ const ProfessionalInvite = () => {
               }}
             />
 
-            <View style={{marginHorizontal: 10, marginVertical: 10}}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text
                 style={{
                   fontWeight: '700',
@@ -1010,7 +1071,7 @@ const ProfessionalInvite = () => {
                   onPress={() => setActiveTab1('Masculine')}>
                   <FastImage
                     source={activeTab1 === 'Masculine' ? maleWhite : maleOrange}
-                    style={{width: 20, height: 20}}
+                    style={{ width: 20, height: 20 }}
                     resizeMode="contain"
                   />
                   <Text
@@ -1041,7 +1102,7 @@ const ProfessionalInvite = () => {
                   onPress={() => setActiveTab1('Both')}>
                   <FastImage
                     source={activeTab1 === 'Both' ? BothWhite : BothOrange}
-                    style={{width: 20, height: 20}}
+                    style={{ width: 20, height: 20 }}
                     resizeMode="contain"
                   />
 
@@ -1075,7 +1136,7 @@ const ProfessionalInvite = () => {
                     source={
                       activeTab1 === 'Feminine' ? femaleWhite : femaleOrange
                     }
-                    style={{width: 20, height: 20}}
+                    style={{ width: 20, height: 20 }}
                     resizeMode="contain"
                   />
                   <Text
@@ -1092,9 +1153,9 @@ const ProfessionalInvite = () => {
               </View>
             </View>
 
-            <View style={{marginHorizontal: 10, marginVertical: 10}}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
               <Text
-                style={{fontWeight: '700', color: COLOR.BLACK, fontSize: 18}}>
+                style={{ fontWeight: '700', color: COLOR.BLACK, fontSize: 18 }}>
                 Rating
               </Text>
               <FlatList
@@ -1105,12 +1166,12 @@ const ProfessionalInvite = () => {
                 showsHorizontalScrollIndicator={false}
               />
             </View>
-            <View style={{marginHorizontal: 10, marginVertical: 10}}>
-              <Text style={{fontWeight: '700', color: '#000', fontSize: 18}}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+              <Text style={{ fontWeight: '700', color: '#000', fontSize: 18 }}>
                 Distance: {distance} km
               </Text>
               <Slider
-                style={{width: '100%', marginTop: 10}}
+                style={{ width: '100%', marginTop: 10 }}
                 minimumValue={0}
                 maximumValue={100}
                 step={1}

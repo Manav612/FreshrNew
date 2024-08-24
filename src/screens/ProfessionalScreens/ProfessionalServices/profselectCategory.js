@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, Animated, TouchableOpacity, View, FlatList } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
 import { Searchbar } from 'react-native-paper';
+import Tooltip from 'react-native-walkthrough-tooltip';
 
 const ProfSelectCategory = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -23,7 +24,33 @@ const ProfSelectCategory = () => {
     const [femaleServices, setFemaleServices] = useState([]);
     const [maleServices, setMaleServices] = useState([]);
     const [bothServices, setBothServices] = useState([]);
-    
+    const [showTip, setShowTip] = useState(false);
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    useEffect(() => {
+        const animate = () => {
+            Animated.sequence([
+                Animated.timing(scaleAnim, {
+                    toValue: 1.3,
+                    duration: 1500,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleAnim, {
+                    toValue: 1,
+                    duration: 1500,
+                    useNativeDriver: true,
+                }),
+            ]).start(() => animate());
+        };
+
+        animate();
+    }, []);
+
+    const animatedStyle = {
+        transform: [{ scale: scaleAnim }],
+    };
+
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -43,12 +70,12 @@ const ProfSelectCategory = () => {
             const res = await axios.get(`${BASE_API_URL}/filters/categorys/`, config);
             console.log("=======   ressss  ==   ========", res.data.results);
             setServices(res.data.results);
-            
+
             // Filter services
             setFemaleServices(res.data.results.filter(service => service.forFemale && !service.forMale));
             setMaleServices(res.data.results.filter(service => service.forMale && !service.forFemale));
             setBothServices(res.data.results.filter(service => service.forFemale && service.forMale));
-            
+
             // Set initial filtered services
             setFilteredServices(res.data.results.filter(service => service.forFemale && service.forMale));
         } catch (error) {
@@ -62,7 +89,7 @@ const ProfSelectCategory = () => {
             const filterServices = (services) => services.filter((item) =>
                 item.name.toLowerCase().includes(query.toLowerCase())
             );
-            
+
             if (activeTab1 === 'Feminine') {
                 setFilteredServices(filterServices(femaleServices));
             } else if (activeTab1 === 'Masculine') {
@@ -95,91 +122,117 @@ const ProfSelectCategory = () => {
 
     return (
         <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15 }}>
-            <View style={{ justifyContent: 'flex-start', alignItems: 'center', gap: 20, flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
-                </TouchableOpacity>
-                <Text style={{ color: COLOR.BLACK, fontSize: 24, fontWeight: '600' }}>Select Category</Text>
+            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginRight: 5 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', gap: 20, flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <AntDesign name="arrowleft" size={28} color={COLOR.BLACK} />
+                    </TouchableOpacity>
+                    <Text style={{ color: COLOR.BLACK, fontSize: 24, fontWeight: '600' }}>Select Category</Text>
+                </View>
+                <Tooltip
+                    isVisible={showTip}
+                    content={
+                        <View style={{ paddingHorizontal: 10 }}>
+                            <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 18, textAlign: 'center' }}> Services</Text>
+
+                            <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                                To create a service, first select the style type—Masculine, Feminine, or both. Then, choose the appropriate category.
+
+                            </Text>
+                        </View>
+                    }
+                    placement="bottom"
+                    onClose={() => setShowTip(false)}
+                >
+                    <Animated.View style={animatedStyle}>
+                        <AntDesign
+                            onPress={() => setShowTip(true)}
+                            name="infocirlce"
+                            size={20}
+                            color={COLOR.ChartBlue}
+                        />
+                    </Animated.View>
+                </Tooltip>
             </View>
             <Searchbar
                 placeholder="Search"
                 onChangeText={handleSearch}
                 value={searchQuery}
-                style={{backgroundColor:COLOR.WHITE,marginVertical:10}}
+                style={{ backgroundColor: COLOR.WHITE, marginVertical: 10 }}
             />
-             <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 10, marginVertical: 5 }}>
+            <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 10, marginVertical: 5 }}>
                 <TouchableOpacity
-                  style={{
-                    width: 110,
-                    height: 40,
-                    backgroundColor: activeTab1 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-                    borderRadius: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection:'row',
-                    gap:5,
-                    borderWidth: 1,
-                    borderColor: COLOR.ORANGECOLOR
-                  }}
-                  onPress={() => handleTabPress('Masculine')}
+                    style={{
+                        width: 110,
+                        height: 40,
+                        backgroundColor: activeTab1 === 'Masculine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                        borderRadius: 30,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        gap: 5,
+                        borderWidth: 1,
+                        borderColor: COLOR.ORANGECOLOR
+                    }}
+                    onPress={() => handleTabPress('Masculine')}
                 >
-                  <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
+                    <Text style={{ color: activeTab1 === 'Masculine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Masculine</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{
-                    width: 110,
-                    height: 40,
-                    backgroundColor: activeTab1 === 'Both' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-                    borderRadius: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection:'row',
-                    gap:5,
-                    borderWidth: 1,
-                    borderColor: COLOR.ORANGECOLOR
-                  }}
-                  onPress={() => handleTabPress('Both')}
+                    style={{
+                        width: 110,
+                        height: 40,
+                        backgroundColor: activeTab1 === 'Both' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                        borderRadius: 30,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        gap: 5,
+                        borderWidth: 1,
+                        borderColor: COLOR.ORANGECOLOR
+                    }}
+                    onPress={() => handleTabPress('Both')}
                 >
-                  <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
+                    <Text style={{ color: activeTab1 === 'Both' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Both</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{
-                    width: 110,
-                    height: 40,
-                    backgroundColor: activeTab1 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
-                    borderRadius: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection:'row',
-                    gap:5,
-                    borderWidth: 1,
-                    borderColor: COLOR.ORANGECOLOR
-                  }}
-                  onPress={() => handleTabPress('Feminine')}
+                    style={{
+                        width: 110,
+                        height: 40,
+                        backgroundColor: activeTab1 === 'Feminine' ? COLOR.ORANGECOLOR : COLOR.GULABI,
+                        borderRadius: 30,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        gap: 5,
+                        borderWidth: 1,
+                        borderColor: COLOR.ORANGECOLOR
+                    }}
+                    onPress={() => handleTabPress('Feminine')}
                 >
-                  <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
+                    <Text style={{ color: activeTab1 === 'Feminine' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Feminine</Text>
                 </TouchableOpacity>
-              </View>
+            </View>
             <FlatList
                 data={filteredServices}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id}
                 scrollEnabled={false}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.profselectedDetailserviceScreen, { item: item, data: filteredServices })} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, paddingHorizontal: 10, borderRadius: 15, height: 80, justifyContent: 'center',marginVertical: 10, marginHorizontal: 5 }}>
-                        <Text style={{ fontSize: 16,color:COLOR.BLACK }}>{item.name}</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.profselectedDetailserviceScreen, { item: item, data: filteredServices })} style={{ backgroundColor: COLOR.WHITE, elevation: 3, shadowColor: COLOR.BLACK, paddingHorizontal: 10, borderRadius: 15, height: 80, justifyContent: 'center', marginVertical: 10, marginHorizontal: 5 }}>
+                        <Text style={{ fontSize: 16, color: COLOR.BLACK }}>{item.name}</Text>
                     </TouchableOpacity>
-                    
+
                 )}
             />
-           
-           <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfAddCustomServicesScreen,{})} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10, marginVertical:5, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 15, height: 50, elevation: 5, shadowColor: COLOR.WHITE }}>
-                <AntDesign name="plus" size={20} color={COLOR.WHITE} /> 
+
+            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfAddCustomServicesScreen, {})} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10, marginVertical: 5, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 15, height: 50, elevation: 5, shadowColor: COLOR.WHITE }}>
+                <AntDesign name="plus" size={20} color={COLOR.WHITE} />
                 <Text style={{ fontSize: 14, color: COLOR.WHITE, fontWeight: '700' }}>Request to add custom category</Text>
             </TouchableOpacity>
-            
-            <View style={{height:100}}/>
-            
+
+            <View style={{ height: 100 }} />
+
         </ScrollView>
     );
 };

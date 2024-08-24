@@ -138,6 +138,7 @@ export const NavigationScreens = {
   FacilityDetalisScreen: 'FacilityDetalisScreen',
   FacilitySettingScreen: 'FacilitySettingScreen',
   FacilityManageSeatScreen: 'FacilityManageSeatScreen',
+  EditFacilityOnBoardingScreen: 'EditFacilityOnBoardingScreen',
   FacilityViewMoreScreen: 'FacilityViewMoreScreen',
   FacilityLeaderboardScreen: 'FacilityLeaderboardScreen',
   FacilityGrossSalesScreen: 'FacilityGrossSalesScreen',

@@ -231,6 +231,22 @@ const ProfSelectedDetailService = ({ route }) => {
         }
     };
 
+    const handleChange = (text) => {
+        // If the input starts with a dollar sign, remove it for processing
+        const numericValue = text.replace(/[^0-9.]/g, '');
+
+        // Update the state with the dollar sign prepended
+        setPrice('$' + numericValue);
+    };
+
+    const handleChangeDuration = (text) => {
+        // Remove the "min" suffix and any non-numeric characters
+        const numericValue = text.replace(/[^0-9]/g, '');
+
+        // Update the state with the numeric value followed by " min"
+        setDuration(numericValue ? numericValue + ' min' : '');
+    };
+
 
     const styles = StyleSheet.create({
         input: {
@@ -407,7 +423,7 @@ const ProfSelectedDetailService = ({ route }) => {
                     </TouchableOpacity>
                 </View>
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Price
+                    Price ($)
                 </Text>
 
                 <TextInput
@@ -415,19 +431,20 @@ const ProfSelectedDetailService = ({ route }) => {
                     placeholderTextColor={COLOR.GRAY}
                     style={styles.input3}
                     value={price}
-                    onChangeText={text => setPrice(text)}
+                    onChangeText={handleChange}
                     keyboardType="numeric"
                 />
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
-                    Service Duration
+                    Service Duration (min)
                 </Text>
                 <TextInput
                     style={styles.input3}
-                    keyboardType='numeric'
+                    keyboardType="numeric"
                     placeholder="Enter estimated service duration in minutes"
                     placeholderTextColor={COLOR.GRAY}
                     value={duration}
-                    onChangeText={text => setDuration(text)} />
+                    onChangeText={handleChangeDuration}
+                />
 
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>
                     Description

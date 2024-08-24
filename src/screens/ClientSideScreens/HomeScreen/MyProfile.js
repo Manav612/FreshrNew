@@ -996,32 +996,32 @@ const MyProfile = () => {
       id: 1,
       icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Feedback',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 2,
       icon: (<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Edit Profile',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
     {
       id: 3,
       icon: (<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Payment',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 4,
       icon: (<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Security',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 5,
       icon: (<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Tutorial',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 6,
@@ -1029,7 +1029,7 @@ const MyProfile = () => {
       name: user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
       // name: 'Switch to Professionals',
 
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
     {
@@ -1037,13 +1037,13 @@ const MyProfile = () => {
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name: user.isHost ? 'Switch to Host' : 'Become to Host',
       // name: 'Switch to Host',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 8,
       icon: (<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Privacy Policy',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
 
@@ -1051,20 +1051,20 @@ const MyProfile = () => {
       id: 9,
       icon: (<Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Terms of Service',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
     {
       id: 10,
       icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Support',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 11,
       icon: (<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Account Deletion',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
   ];

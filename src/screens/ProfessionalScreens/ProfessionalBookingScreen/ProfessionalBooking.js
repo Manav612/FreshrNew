@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, FlatList, Modal } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
@@ -21,6 +21,7 @@ import ProfessionalOngoing from './ProfessionalOngoing';
 import ProfessionalHistory from './ProfessionalHistory';
 import ProfessionalPending from './ProfessionalPending';
 import socketServices from '../../../Services/Socket';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const ProfessionalBooking = () => {
   const navigation = useNavigation()
@@ -35,7 +36,13 @@ const ProfessionalBooking = () => {
   const [selected2, setSelected2] = useState()
   const [orderData, setOrderData] = useState()
   const [directionModalVisible, setDirectionModalVisibility] = useState(false);
-
+  const refRBSheet = useRef([]);
+  const openBottomSheet = () => {
+    refRBSheet.current[0].open();
+  };
+  const closeBottomSheet = () => {
+    refRBSheet.current[0].close();
+  };
   useEffect(() => {
     socketServices.on('payment_Done', data => {
       // console.log('==== payment done ======', data);
@@ -249,7 +256,7 @@ const ProfessionalBooking = () => {
         </View> */}
       </View >
       <TouchableOpacity
-        onPress={() => setSelectedItem2(!selectedItem2)}
+        onPress={() => { setSelectedItem2(!selectedItem2), openBottomSheet() }}
         style={{
           borderWidth: 2,
           borderColor: COLOR.ORANGECOLOR,
@@ -296,6 +303,36 @@ const ProfessionalBooking = () => {
         />
       </View>
       <View>{renderScreen()}</View>
+      <RBSheet
+        ref={(ref) => (refRBSheet.current[0] = ref)}
+
+        height={Screen_Height * 0.85}
+        customStyles={{
+
+          wrapper: {
+            backgroundColor: COLOR.BLACK_40,
+          },
+          container: {
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 40,
+            borderBottomRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            elevation: 10,
+            shadowColor: COLOR.BLACK,
+          },
+          draggableIcon: {
+            backgroundColor: COLOR.BLACK,
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}
+        customAvoidingViewProps={{
+          enabled: false,
+        }}>
+        <CalendarScreen />
+      </RBSheet>
       <Modal
         animationType="fade"
         transparent

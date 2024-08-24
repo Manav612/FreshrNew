@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
     ScrollView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View, Animated
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Slider from '@react-native-community/slider';
+import Tooltip from 'react-native-walkthrough-tooltip';
 
 const ProfessionalEditprofile = () => {
     const theme = useSelector(state => state.ThemeReducer);
@@ -26,6 +27,31 @@ const ProfessionalEditprofile = () => {
     const [isLastNameFocused, setIsLastNameFocused] = useState(false);
     const [isDobFocused, setIsDobFocused] = useState(false);
     const [distance, setDistance] = useState(50);
+    const [showTip, setShowTip] = useState(false);
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    useEffect(() => {
+        const animate = () => {
+            Animated.sequence([
+                Animated.timing(scaleAnim, {
+                    toValue: 1.3,
+                    duration: 1500,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleAnim, {
+                    toValue: 1,
+                    duration: 1500,
+                    useNativeDriver: true,
+                }),
+            ]).start(() => animate());
+        };
+
+        animate();
+    }, []);
+
+    const animatedStyle = {
+        transform: [{ scale: scaleAnim }],
+    };
 
 
     const styles = StyleSheet.create({
@@ -132,11 +158,37 @@ const ProfessionalEditprofile = () => {
                         />
                     </View>
 
-                    <View style={{alignItems: 'center',backgroundColor: COLOR.AuthField,borderWidth: 1,borderColor: COLOR.AuthField,borderRadius: 10, marginBottom: 20,paddingHorizontal: 5}}>
+                    <View style={{ alignItems: 'center', backgroundColor: COLOR.AuthField, borderWidth: 1, borderColor: COLOR.AuthField, borderRadius: 10, marginBottom: 20, paddingHorizontal: 5 }}>
+
                         <Text style={{ fontWeight: '700', color: '#000', fontSize: 18 }}>Change max travel distance</Text>
+
                         <Text style={{ fontWeight: '700', color: '#000', fontSize: 18 }}>{distance} km</Text>
+                        <View style={{ position: 'absolute', right: 10, top: 10 }}>
+                            <Tooltip
+                                isVisible={showTip}
+                                content={
+                                    <View style={{ paddingHorizontal: 10 }}>
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                                            <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Working distance : </Text>
+                                            This allows you to select how far you're willing to travel. You are compensated (1$/km) per delivery service.
+                                        </Text>
+                                    </View>
+                                }
+                                placement="bottom"
+                                onClose={() => setShowTip(false)}
+                            >
+                                <Animated.View style={animatedStyle}>
+                                    <AntDesign
+                                        onPress={() => setShowTip(true)}
+                                        name="infocirlce"
+                                        size={20}
+                                        color={COLOR.ChartBlue}
+                                    />
+                                </Animated.View>
+                            </Tooltip>
+                        </View>
                         <Slider
-                            style={{ width: '100%', marginVertical:20 }}
+                            style={{ width: '100%', marginVertical: 20 }}
                             minimumValue={0}
                             maximumValue={100}
                             step={1}

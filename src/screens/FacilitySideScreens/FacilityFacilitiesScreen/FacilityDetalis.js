@@ -11,7 +11,7 @@ import { NavigationScreens } from '../../../constants/Strings';
 import { Servicesdata3 } from '../../../components/utils';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import FastImage from 'react-native-fast-image';
-import { ClockUserIcon, HomeIcon, HomeIcon2, HouseOrange, InSalonOrange, ShareIcon } from '../../../constants/Icons';
+import { ClockUserIcon, HomeIcon, HomeIcon2, houseFillOrange, HouseOrange, InSalonOrange, ShareIcon } from '../../../constants/Icons';
 import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 
@@ -32,7 +32,12 @@ const FacilityDetalis = ({ route }) => {
   }));
   const facilityId = data.id
   console.log('=======        data  manage       ======>', data);
-
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [name2, setName2] = useState('')
+  const [email2, setEmail2] = useState('')
+  const [phone2, setPhone2] = useState('')
   const [isEditableFocused, setIsEditableFocused] = useState(false);
   const [Editable, setEditable] = useState('');
   const [fetchedProfList, setFetchedProfList] = useState([]);
@@ -45,7 +50,7 @@ const FacilityDetalis = ({ route }) => {
   const [proflist, setProflist] = useState([])
   const seatCapacity = data?.seatCapacity || [];
   const authToken = useSelector(state => state.AuthReducer);
-
+  const [commission, setCommission] = useState({ first: '', second: '' });
   useEffect(() => {
     console.log("Asssss", seatCapacity);
     fetchData();
@@ -98,7 +103,8 @@ const FacilityDetalis = ({ route }) => {
   );
   const [selectedSeat, setSelectedSeat] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const [showList, setShowList] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSeatPress = (seat) => {
@@ -178,6 +184,21 @@ const FacilityDetalis = ({ route }) => {
     setSearchQuery(email);
     setFetchedProfList([]);
   };
+
+  const handleSelectProfessional = (selectedUser) => {
+    setSearchQuery(selectedUser.email); // Set the selected email to the input field
+    setShowList(false); // Hide the list after selection
+    // Handle the selected user logic here
+  };
+
+  const handleSeatCancel = () => {
+    setName2('')
+    setEmail2('')
+    setPhone2('')
+    setCommission({ first: '', second: '' })
+    setModalVisible(false);
+  }
+
   const handleselectprofessional = (data) => {
     handleEmailSelect(data.email, data.firstName, data.phone)
     setProfEmail(data.email)
@@ -187,6 +208,12 @@ const FacilityDetalis = ({ route }) => {
 
 
   }
+  const handleCommissionChange = (value) => {
+    const firstValue = parseFloat(value) || 0;
+    const secondValue = 100 - firstValue;
+    setCommission({ first: firstValue.toString(), second: secondValue.toString() });
+    setSelectedSeat({ ...selectedSeat, commission: firstValue.toString() });
+  };
 
   const styles = StyleSheet.create({
     inputContainer: {
@@ -251,7 +278,7 @@ const FacilityDetalis = ({ route }) => {
       width: 80,
       marginHorizontal: 5,
       marginVertical: 5,
-      backgroundColor: COLOR.LIGHTGRAY,
+      backgroundColor: COLOR.BLACK,
       borderRadius: 15,
     },
     seatHeader: {
@@ -300,10 +327,22 @@ const FacilityDetalis = ({ route }) => {
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
+      color: COLOR.BLACK,
+      textAlign: 'center'
     },
     input2: {
       height: 40,
       backgroundColor: COLOR.AuthField,
+      borderRadius: 10,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+      color: COLOR.BLACK,
+    },
+    input3: {
+      height: 40,
+      backgroundColor: COLOR.AuthField,
+      alignItems: 'center',
+      justifyContent: 'center',
       borderRadius: 10,
       marginBottom: 10,
       paddingHorizontal: 10,
@@ -328,7 +367,7 @@ const FacilityDetalis = ({ route }) => {
 
           </View>
           <View style={{ flexDirection: 'row', gap: 10 }}>
-            <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+            <TouchableOpacity onPress={() => setModalVisible2(true)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
               <FastImage source={ShareIcon} style={{ height: 30, width: 30 }} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilitySchedule)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
@@ -341,13 +380,14 @@ const FacilityDetalis = ({ route }) => {
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', gap: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <FastImage source={HouseOrange} style={{ height: 40, width: 40 }} />
+            <FastImage source={houseFillOrange} style={{ height: 40, width: 40 }} />
             <Text style={styles.HeaderText}>{data?.name}</Text>
           </View>
           {/* <TouchableOpacity style={{ height: 50, width: 160, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.FacilityManageSeatScreen, { data: data })}><Text style={{ size: 20, color: COLOR.WHITE }}>Manage seats</Text></TouchableOpacity> */}
-          <TouchableOpacity style={{ height: 30, width: 120, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.FacilityOnBoardingScreen)}><Text style={{ fontSize: 14, color: COLOR.WHITE }}>Edit Facility</Text></TouchableOpacity>
+          <TouchableOpacity style={{ height: 30, width: 120, backgroundColor: COLOR.ORANGECOLOR, alignItems: 'center', justifyContent: 'center', borderRadius: 15 }} onPress={() => navigation.navigate(NavigationScreens.EditFacilityOnBoardingScreen, { data: data })}><Text style={{ fontSize: 14, color: COLOR.WHITE }}>Edit Facility</Text></TouchableOpacity>
         </View>
 
+        <View style={{ height: 2, backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, marginBottom: 10 }} />
 
         {/* Add media */}
 
@@ -427,6 +467,8 @@ const FacilityDetalis = ({ route }) => {
             numColumns={3}
           />
         </View>
+        <View style={{ height: 2, backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, marginBottom: 10 }} />
+
         <View
           style={{
             justifyContent: 'space-between',
@@ -442,10 +484,11 @@ const FacilityDetalis = ({ route }) => {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             {/* <MaterialCommunityIcons name="sofa-single" size={28} color={COLOR.ORANGECOLOR} /> */}
             <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: 'bold', marginBottom: 5 }}>Seat capacity</Text>
-
-            <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: 'bold', borderWidth: 1, padding: 3, borderRadius: 5 }}>
-              {data?.seatCapacity}
-            </Text>
+            <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5, backgroundColor: COLOR.WHITE, shadowColor: COLOR.ChartBlue, elevation: 3 }}>
+              <Text style={{ color: COLOR.BLACK, fontSize: 20, fontWeight: 'bold' }}>
+                {data?.seatCapacity}
+              </Text>
+            </View>
           </View>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <MaterialCommunityIcons name="sofa-single" size={28} color={COLOR.ORANGECOLOR} />
@@ -463,51 +506,167 @@ const FacilityDetalis = ({ route }) => {
             renderItem={renderSeat}
           />
 
+          <Modal transparent={true} visible={modalVisible2} onRequestClose={() => setModalVisible2(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>Share facilty link</Text>
+
+
+                <TextInput
+                  style={[styles.input2, { color: COLOR.BLACK }]}
+                  placeholder="Phone"
+                  placeholderTextColor={COLOR.GRAY}
+                  value={phone}
+                  keyboardType='number-pad'
+                  onChangeText={(text) => setPhone(text)}
+                />
+                <TextInput
+                  style={[styles.input2, { color: COLOR.BLACK }]}
+                  placeholder="Email"
+                  placeholderTextColor={COLOR.GRAY}
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                />
+
+                <TouchableOpacity
+                  // onPress={handleSave}
+                  style={{
+                    width: 255,
+                    backgroundColor: COLOR.ORANGECOLOR,
+                    height: 40,
+                    borderRadius: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginVertical: 10,
+                  }}
+                >
+                  <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Send</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  // onPress={() => setModalVisible2(false)}
+                  style={{
+                    width: 255,
+                    backgroundColor: COLOR.ChartBlue,
+                    height: 40,
+                    borderRadius: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Share with contacts</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setModalVisible2(false)}
+                  style={{
+                    width: 255,
+                    backgroundColor: COLOR.CANCEL_B,
+                    height: 40,
+                    borderRadius: 10,
+                    marginVertical: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
           {selectedSeat && (
             <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
               <View style={styles.modalOverlay}>
                 <View style={styles.modalContent}>
-                  <Text style={styles.modalTitle}>Seat {selectedSeat.id} Details</Text>
-                  <View style={{ justifyContent: 'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10 }}>
-                    <Text style={{ color: COLOR.BLACK }}>Name : {fetchedProfName}</Text>
-                  </View>
-                  <View style={{ justifyContent: 'center', height: 40, backgroundColor: COLOR.AuthField, borderRadius: 10, marginBottom: 10, paddingHorizontal: 10 }}>
-                    <Text style={{ color: COLOR.BLACK }}>Phone : {fetchedProfPhone}</Text>
-                  </View>
+                  <Text style={styles.modalTitle}>Assigned Seat ({selectedSeat.id})</Text>
+                  <Text style={{ color: COLOR.BLACK, fontWeight: '600', marginBottom: 5 }}>Add new staff : </Text>
+
+                  <TextInput
+                    style={[styles.input2, { color: COLOR.BLACK }]}
+                    placeholder="Name"
+                    placeholderTextColor={COLOR.GRAY}
+                    value={name2}
+                    onChangeText={(text) => setName2(text)}
+                  />
+                  <TextInput
+                    style={[styles.input2, { color: COLOR.BLACK }]}
+                    placeholder="Phone"
+                    placeholderTextColor={COLOR.GRAY}
+                    value={phone2}
+                    keyboardType='number-pad'
+                    onChangeText={(text) => setPhone2(text)}
+                  />
                   <TextInput
                     style={[styles.input2, { color: COLOR.BLACK }]}
                     placeholder="Email"
                     placeholderTextColor={COLOR.GRAY}
-                    value={searchQuery}
-                    onChangeText={handleSearch}
+                    value={email2}
+                    keyboardType='email-address'
+                    onChangeText={(text) => setEmail2(text)}
                   />
-                  <FlatList
-                    data={proflist}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity onPress={() => handleselectprofessional(item.user)}>
-                        <Text
-                          style={{
-                            padding: 10,
-                            backgroundColor: COLOR.LIGHTGRAY,
-                            borderBottomColor: COLOR.DARKGRAY,
-                            borderBottomWidth: 1,
-                          }}
-                        >
-                          {item.user.email}
-                        </Text>
-                      </TouchableOpacity>
+                  <Text style={{ color: COLOR.BLACK, fontWeight: '600', marginBottom: 5 }}>Current staff : </Text>
+                  <View style={{
+                    height: 40,
+                    backgroundColor: COLOR.AuthField,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                    paddingHorizontal: 10,
+                    color: COLOR.BLACK,
+                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                  }}>
+                    <TextInput
+                      style={{ color: COLOR.BLACK }}
+                      placeholder="Select Staff"
+                      placeholderTextColor={COLOR.GRAY}
+                      value={searchQuery}
+                      onFocus={() => setShowList(true)} // Show the list when the input is focused
+                      onChangeText={handleSearch}
 
-                    )}
-                    style={{ maxHeight: 150, marginBottom: 10 }}
-                  />
-                  <TextInput
+                    />
+                    <AntDesign onPress={() => setShowList(true)} name='down' size={22} color={COLOR.BLACK} />
+                  </View>
+
+                  {showList && (
+                    <FlatList
+                      data={proflist}
+                      keyExtractor={(item, index) => index.toString()}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => handleSelectProfessional(item.user)}>
+                          <Text
+                            style={{
+                              padding: 10,
+                              backgroundColor: COLOR.LIGHTGRAY,
+                              borderBottomColor: COLOR.DARKGRAY,
+                              borderBottomWidth: 1,
+                            }}
+                          >
+                            {item.user.email}
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                      style={{ maxHeight: 150, marginBottom: 10 }}
+                    />
+                  )}
+                  {/* <TextInput
                     style={[styles.input2, { color: COLOR.BLACK }]}
                     placeholder="Commission Split"
                     placeholderTextColor={COLOR.GRAY}
                     value={selectedSeat.commission}
                     onChangeText={(text) => setSelectedSeat({ ...selectedSeat, commission: text })}
-                  />
+                  /> */}
+                  <Text style={{ color: COLOR.BLACK, fontWeight: '600', marginBottom: 5 }}>Commission Split (%) : </Text>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <TextInput
+                      style={[styles.input2, { color: COLOR.BLACK }]}
+                      placeholder="Professional %"
+                      placeholderTextColor={COLOR.GRAY}
+                      keyboardType='number-pad'
+                      value={commission.first}
+                      onChangeText={handleCommissionChange}
+                    />
+                    <View style={styles.input3}>
+                      <Text style={{ color: COLOR.GRAY }}>Facility: {commission.second}%</Text>
+                    </View>
+                  </View>
                   <TouchableOpacity
                     onPress={handleSave}
                     style={{
@@ -523,7 +682,7 @@ const FacilityDetalis = ({ route }) => {
                     <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>{isSeatFilled ? 'Update' : 'Save'}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => setModalVisible(false)}
+                    onPress={handleSeatCancel}
                     style={{
                       width: 255,
                       backgroundColor: COLOR.ORANGECOLOR,

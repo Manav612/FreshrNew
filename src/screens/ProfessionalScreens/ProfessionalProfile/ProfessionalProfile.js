@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import Tooltip from 'react-native-walkthrough-tooltip';
+
 import {
   ClockUserIcon,
   ClockUserIcon2,
@@ -84,6 +86,7 @@ const ProfessionalProfile = ({ name }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stories, setStories] = useState([]);
   const [selected, setSelected] = useState()
+  const [showTip, setShowTip] = useState(false);
 
   const fullText =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
@@ -782,6 +785,7 @@ const ProfessionalProfile = ({ name }) => {
               source={Hair1}
               style={{ width: 140, height: 140, borderRadius: 100 }}
             />
+
             <View style={styles.container1}>
               <TouchableOpacity
                 style={styles.button}
@@ -885,6 +889,38 @@ const ProfessionalProfile = ({ name }) => {
                   </View>
                 </View>
               </Modal>
+            </View>
+            <View style={{ position: 'absolute', right: -12, bottom: -5 }}>
+              <Tooltip
+
+                isVisible={showTip}
+                content={
+                  <View style={{ paddingHorizontal: 10 }}>
+
+
+                    <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                      {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Stories : </Text>}
+                      Encourage your clients to follow you and keep them in the loop with engaging stories.
+
+                    </Text>
+
+
+
+                  </View>
+                }
+                placement="bottom"
+                onClose={() => setShowTip(false)}
+
+              >
+
+                <AntDesign
+                  onPress={() => setShowTip(true)}
+                  name="infocirlce"
+                  size={18}
+                  color={COLOR.ChartBlue}
+                />
+
+              </Tooltip>
             </View>
           </View>
         </ImageBackground>

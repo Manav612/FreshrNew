@@ -150,6 +150,7 @@ const ProfessionalHome = () => {
         },
         overview: {
             marginVertical: 20,
+
         },
         overviewTitle: {
             fontSize: 18,
@@ -312,7 +313,18 @@ const ProfessionalHome = () => {
 
                 </View>
                 <View style={styles.overview}>
-                    <Text style={styles.overviewTitle}>Overview</Text>
+                    <View style={{ justifyContent: 'space-between', alignItems: 'flex-end', flexDirection: 'row', marginHorizontal: 2 }}>
+                        <Text style={styles.overviewTitle}>Overview</Text>
+                        <View>
+                            <Text style={{ color: COLOR.BLACK, fontWeight: '600', textAlign: 'center' }}>Funds ($)</Text>
+                            <TouchableOpacity style={{
+                                backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 10, width: Screen_Width * 0.44, paddingVertical: 10,
+
+                            }}>
+                                <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Stripe connect</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                     <View style={styles.overviewRow}>
                         <View style={styles.overviewBox}>
                             <Text style={styles.overviewBoxTitle}>Customer</Text>

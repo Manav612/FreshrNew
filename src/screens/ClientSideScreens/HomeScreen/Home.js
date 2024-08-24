@@ -27,6 +27,8 @@ import { ComeToYou, ComeToYouOrange, ComeToYouWhite, Filter, FilterBlack, Filter
 import FastImage from 'react-native-fast-image';
 import { data3 } from '../../../components/utils';
 import Slider from '@react-native-community/slider';
+import Tooltip from 'react-native-walkthrough-tooltip';
+
 const Home = () => {
 
   const navigation = useNavigation();
@@ -45,6 +47,7 @@ const Home = () => {
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [activeTab, setActiveTab] = useState('Delivery');
+  const [showTip, setShowTip] = useState(false);
 
   const openModal = () => {
     setModalVisible(true);
@@ -269,7 +272,53 @@ const Home = () => {
 
       <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginHorizontal: 2, marginBottom: 10, padding: 10, elevation: 3, shadowColor: COLOR.ChartBlue }}>
         <Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 16 }}>Delivery Options</Text>
+        <View style={{ position: 'absolute', right: 5, top: 5 }}>
+          <Tooltip
 
+            isVisible={showTip}
+            content={
+              <View style={{ paddingHorizontal: 10 }}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 18, textAlign: 'center', fontWeight: '600', marginVertical: 5 }}>
+                  Welcome to your delivery options.
+
+                </Text>
+
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Comes to you : </Text>}
+
+                  Enjoy professional services delivered right to your location.
+
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>In-Salon : </Text>}
+                  Prefer a traditional experience? Meet-up with your selected professional at a nearby shop or salon.
+
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Schedule Appointment : </Text>}
+
+                  Book an appointment for a specific day and time.
+                </Text>
+
+
+
+
+              </View>
+            }
+            placement="bottom"
+            onClose={() => setShowTip(false)}
+
+          >
+
+            <AntDesign
+              onPress={() => setShowTip(true)}
+              name="infocirlce"
+              size={18}
+              color={COLOR.ChartBlue}
+            />
+
+          </Tooltip>
+        </View>
         <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>
           <TouchableOpacity style={{ width: Screen_Width * 0.4, flexDirection: 'row', gap: 5, height: 50, backgroundColor: activeTab === 'Delivery' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Delivery') }}>
             <FastImage source={activeTab === 'Delivery' ? ComeToYouWhite : ComeToYouOrange} resizeMode='contain' style={{ height: 22, width: 22 }} />

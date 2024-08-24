@@ -126,50 +126,50 @@ const FacilityProfile2 = () => {
       id: 1,
       icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Feedback',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 2,
       icon: (<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Edit Profile',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
     {
       id: 3,
       icon: (<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Payment',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 4,
       icon: (<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Security',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 5,
       icon: (<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Tutorial',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 6,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Switch to Client',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 7,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name: user.isProfessional ? 'Switch to Professionals' : 'Become a Professional',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 8,
       icon: (<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Privacy Policy',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
 
@@ -177,20 +177,20 @@ const FacilityProfile2 = () => {
       id: 9,
       icon: (<Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Terms of Service',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
     {
       id: 10,
       icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Support',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 11,
       icon: (<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Account Deletion',
-      icon1: (<AntDesign name="right" size={30} color='rgba(251, 148, 0, 1)' />),
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
   ];
@@ -284,6 +284,32 @@ const FacilityProfile2 = () => {
         <View style={{ flexDirection: 'row', gap: 20 }}>
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Profile</Text>
         </View>
+        <TouchableOpacity
+          style={{
+
+            height: 60,
+            borderRadius: 15,
+            marginVertical: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 10,
+            gap: 10
+          }}
+          onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)} // Pass appropriate ID or identifier here
+        >
+          <View style={{ flexDirection: 'row', gap: 15, alignItems: 'center' }}>
+
+            <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK }}>Dark Mode</Text>
+          </View>
+          <TouchableOpacity onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)}>
+            <FontAwesome
+              name={selectedThemeMode === 1 ? "toggle-on" : "toggle-off"}
+              size={30}
+              color={COLOR.ORANGECOLOR}
+            />
+          </TouchableOpacity>
+        </TouchableOpacity>
         {/* <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ClientSettingScreen)}>
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
         </TouchableOpacity> */}
@@ -364,31 +390,7 @@ const FacilityProfile2 = () => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity
-        style={{
-          width: Screen_Width * 0.90,
-          height: 60,
-          borderRadius: 15,
-          marginVertical: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: 10
-        }}
-        onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)} // Pass appropriate ID or identifier here
-      >
-        <View style={{ flexDirection: 'row', gap: 15, alignItems: 'center' }}>
-          <AntDesign name="eyeo" size={26} color={COLOR.ORANGECOLOR} />
-          <Text style={{ fontWeight: '800', fontSize: 18, color: COLOR.BLACK }}>Dark Mode</Text>
-        </View>
-        <TouchableOpacity onPress={() => toggledarkMode(selectedThemeMode === 1 ? 0 : 1)}>
-          <FontAwesome
-            name={selectedThemeMode === 1 ? "toggle-on" : "toggle-off"}
-            size={30}
-            color={COLOR.ORANGECOLOR}
-          />
-        </TouchableOpacity>
-      </TouchableOpacity>
+
       <TouchableOpacity onPress={() => { handleResetPress1(); openBottomSheet() }} style={{
         width: Screen_Width * 0.90,
         height: 60,

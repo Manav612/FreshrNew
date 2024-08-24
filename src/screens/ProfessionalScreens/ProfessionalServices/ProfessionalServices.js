@@ -16,6 +16,7 @@ import { BASE_API_URL } from '../../../Services';
 import { RemoveOneServiceData, SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import socketServices from '../../../Services/Socket';
+import Tooltip from 'react-native-walkthrough-tooltip';
 
 const ProfessionalServices = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -29,7 +30,7 @@ const ProfessionalServices = () => {
   const [fetchedData, setFetchedData] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [selected, setSelected] = useState()
-
+  const [showTip, setShowTip] = useState(false);
 
   // useEffect(() => {
   //   socketServices.on('create_order', data => {
@@ -425,10 +426,46 @@ const ProfessionalServices = () => {
 
     >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-        <View style={{ flexDirection: 'row', gap: 20 }}>
+        <View style={{ flexDirection: 'row', gap: 5 }}>
+
           <Text style={{ fontWeight: '800', fontSize: 25, color: COLOR.BLACK }}>Services</Text>
+
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+          <Tooltip
+
+            isVisible={showTip}
+            content={
+              <View style={{ paddingHorizontal: 10 }}>
+
+
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Queue : </Text>}
+
+                  Allows you to accept accumulated orders when your in freelance mode
+
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Work hours : </Text>}
+                  Here you can set your regular day shifts, automatically switch to freelancer mode after your day shifts, and decide how much extra you want to charge.
+                </Text>
+
+
+              </View>
+            }
+            placement="bottom"
+            onClose={() => setShowTip(false)}
+
+          >
+
+            <AntDesign
+              onPress={() => setShowTip(true)}
+              name="infocirlce"
+              size={20}
+              color={COLOR.ChartBlue}
+            />
+
+          </Tooltip>
           <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
             <Text style={{ color: COLOR.BLACK }}>Queue</Text>

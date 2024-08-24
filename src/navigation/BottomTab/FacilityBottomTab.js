@@ -36,6 +36,7 @@ import FacilityManageSeatScreen from '../../screens/FacilitySideScreens/Facility
 import FacilityProfile2 from '../../screens/FacilitySideScreens/FacilityProfile2/FacilityProfile2';
 import FacilityProduct from '../../screens/FacilitySideScreens/FacilityProductScreen/FacilityProduct';
 import FacilitySchedule from '../../components/FacilityComponents/FacilitySchedule';
+import EditFacilityOnBoardingScreen from '../../screens/FacilitySideScreens/OnBoardingScreens/FacilityOnBoardingScreen/EditFacilityOnBoardingScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
 
@@ -110,6 +111,10 @@ const FacilitiesStack = () => {
       <Stack.Screen
         name={NavigationScreens.FacilityManageSeatScreen}
         component={FacilityManageSeatScreen}
+      />
+      <Stack.Screen
+        name={NavigationScreens.EditFacilityOnBoardingScreen}
+        component={EditFacilityOnBoardingScreen}
       />
       <Stack.Screen
         name={NavigationScreens.FacilityProfile2Screen}

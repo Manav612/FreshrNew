@@ -1,16 +1,19 @@
 
 
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Modal, View, ScrollView, Alert, Platform, FlatList } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, Modal, View, Animated, ScrollView, Alert, Platform, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Screen_Height, Screen_Width } from '../../constants/Constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { BASE_API_URL } from '../../Services';
 import axios from 'axios';
 import Slider from '@react-native-community/slider';
+import Tooltip from 'react-native-walkthrough-tooltip';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfessionalScheduleScreen = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -25,7 +28,33 @@ const ProfessionalScheduleScreen = () => {
   const authToken = useSelector(state => state.AuthReducer);
   const [isOpen, setIsOpen] = useState(false);
   const [price, setPrice] = useState(10);
+  const [showTip, setShowTip] = useState(false);
+  const [showTip2, setShowTip2] = useState(false);
+  const navigation = useNavigation()
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
+  useEffect(() => {
+    const animate = () => {
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.3,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+      ]).start(() => animate());
+    };
+
+    animate();
+  }, []);
+
+  const animatedStyle = {
+    transform: [{ scale: scaleAnim }],
+  };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -281,11 +310,55 @@ const ProfessionalScheduleScreen = () => {
 
   return (
     <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-        <TouchableOpacity onPress={() => setAutoSwitchToFreelancer(!autoSwitchToFreelancer)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, }}>
-          <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.BLACK }}>Auto Switch to Freelancer</Text>
-          <MaterialCommunityIcons name={autoSwitchToFreelancer ? 'toggle-switch' : 'toggle-switch-off'} size={40} color={COLOR.ORANGECOLOR} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginVertical: 10 }}>
+
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={24} color={COLOR.BLACK} />
         </TouchableOpacity>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
+          <Tooltip
+            isVisible={showTip2}
+            content={
+              <View style={{ paddingHorizontal: 10 }}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 18, textAlign: 'center', fontWeight: '600', marginVertical: 5 }}>
+                  Auto switch to freelance
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  This allows you to automatically receive high paying on-demand Jobs.
+
+                </Text>
+
+
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Keep it on : </Text>}
+                  To remain visible on the map to clients.
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Turn it off : </Text>}
+                  To not receive orders outside of work hours.
+                </Text>
+              </View>
+            }
+            placement="bottom"
+            onClose={() => setShowTip2(false)}
+
+          >
+            <Animated.View style={animatedStyle}>
+              <AntDesign
+                onPress={() => setShowTip2(true)}
+                name="infocirlce"
+                size={18}
+                color={COLOR.ChartBlue}
+              />
+            </Animated.View>
+
+          </Tooltip>
+
+          <TouchableOpacity onPress={() => setAutoSwitchToFreelancer(!autoSwitchToFreelancer)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, }}>
+            <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.BLACK }}>Auto Switch to Freelancer</Text>
+            <MaterialCommunityIcons name={autoSwitchToFreelancer ? 'toggle-switch' : 'toggle-switch-off'} size={35} color={COLOR.ORANGECOLOR} />
+          </TouchableOpacity>
+        </View>
       </View>
       {/* <TouchableOpacity
         onPress={toggleDropdown}
@@ -324,7 +397,35 @@ const ProfessionalScheduleScreen = () => {
         <Text style={{ color: COLOR.BLACK, fontSize: 16, fontWeight: '600', }}>
           Freelancer Charge ($) <Text style={{ color: COLOR.ORANGECOLOR }}>{price}x</Text>
         </Text>
+        <View style={{ position: 'absolute', top: 5, right: 5 }}>
+          <Tooltip
+            isVisible={showTip}
+            content={
+              <View style={{ paddingHorizontal: 10 }}>
+                <Text style={{ color: COLOR.BLACK, fontSize: 18, textAlign: 'center', fontWeight: '600', marginVertical: 5 }}>
+                  Freelancer Charge
+                </Text>
+                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                  Set the additional amount you charge for freelance work, calculated based on your regular service pricing.
+                </Text>
+              </View>
+            }
+            placement="bottom"
+            onClose={() => setShowTip(false)}
 
+          >
+
+            <Animated.View style={animatedStyle}>
+              <AntDesign
+                onPress={() => setShowTip(true)}
+                name="infocirlce"
+                size={18}
+                color={COLOR.ChartBlue}
+              />
+            </Animated.View>
+
+          </Tooltip>
+        </View>
         <Slider
           style={{ width: '100%', marginTop: 10 }}
           minimumValue={0}
@@ -337,6 +438,7 @@ const ProfessionalScheduleScreen = () => {
           onValueChange={(value) => setPrice(value)}
         />
       </View>
+      <Text style={{ color: COLOR.BLACK, fontSize: 18, fontWeight: '600', marginTop: 10 }}>Work hours</Text>
 
       <View style={styles.container}>
         {Object.keys(timeData).map((day) => (
@@ -379,6 +481,7 @@ const ProfessionalScheduleScreen = () => {
           marginTop: 20,
           alignSelf: 'center',
           borderRadius: 10,
+
         }}
         onPress={updateSchedule}
       >

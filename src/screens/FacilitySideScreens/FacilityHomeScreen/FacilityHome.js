@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, TextInput, FlatList, Modal } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { Dropdown } from 'react-native-element-dropdown';
-import { ClockUserIcon, GearFineIcon, Hair1, barber } from '../../../constants/Icons';
+import { ClockUserIcon, GearFineIcon, Hair1, ShareIcon, barber } from '../../../constants/Icons';
 import { NavigationScreens } from '../../../constants/Strings';
 import FastImage from 'react-native-fast-image';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -28,14 +28,38 @@ const FacilityHome = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [user, setUser] = useState('');
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
+    const [fetchedData, setFetchedData] = useState([]);
+
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
     };
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible2, setModalVisible2] = useState(false);
 
     useEffect(() => {
-        getUserInfo()
+        getUserInfo(),
+            fetchData()
     }, [])
+
+    const fetchData = async () => {
+        try {
+            const token = await AsyncStorage.getItem("AuthToken");
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const res = await axios.get(`${BASE_API_URL}/users/facilities/`, config);
+
+            console.log('========  user facilty   =============', res.data.data);
+            setFetchedData(res.data.data);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const getUserInfo = async () => {
         try {
@@ -82,6 +106,21 @@ const FacilityHome = () => {
         { value: 600, label: 'Sep' },
         { value: 900, label: 'Oct' },
     ];
+
+    const dataaaa = [
+        {
+            id: 1,
+            name: 'John',
+        },
+        {
+            id: 2,
+            name: 'hefbjue'
+        },
+        {
+            id: 3,
+            name: 'juehfbjue'
+        },
+    ]
 
     const [selectedYear, setSelectedYear] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
@@ -133,7 +172,7 @@ const FacilityHome = () => {
             alignItems: 'center',
         },
         earningsText: {
-            fontSize: 28,
+            fontSize: 18,
             fontWeight: 'bold',
             color: COLOR.BLACK
         },
@@ -142,8 +181,9 @@ const FacilityHome = () => {
             color: COLOR.ORANGECOLOR, // COLOR.ORANGECOLOR-red color for percentage
         },
         earningsSubText: {
-            fontSize: 16,
+            fontSize: 14,
             color: COLOR.GRAY,
+            width: Screen_Width * 0.3
         },
         overview: {
             marginVertical: 20,
@@ -263,6 +303,34 @@ const FacilityHome = () => {
             backgroundColor: COLOR.AuthField,
             color: COLOR.BLACK
         },
+        modalOverlay: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+        modalContent: {
+            width: 300,
+            maxHeight: Screen_Height * 0.5,
+            padding: 20,
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 10,
+        },
+        modalTitle: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginBottom: 10,
+            color: COLOR.BLACK,
+            textAlign: 'center'
+        },
+        input2: {
+            height: 40,
+            backgroundColor: COLOR.AuthField,
+            borderRadius: 10,
+            marginBottom: 10,
+            paddingHorizontal: 10,
+            color: COLOR.BLACK,
+        },
     });
 
     return (
@@ -277,7 +345,9 @@ const FacilityHome = () => {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-
+                        <TouchableOpacity onPress={() => setModalVisible2(true)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                            <FastImage source={ShareIcon} style={{ height: 30, width: 30 }} />
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <AntDesign name="setting" size={28} color={COLOR.BLACK} />
                         </TouchableOpacity>
@@ -304,9 +374,22 @@ const FacilityHome = () => {
 
                 </View>
                 <View style={styles.overview}>
-                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginVertical: 5 }}>
+
+                    <View style={{ justifyContent: 'space-between', alignItems: 'flex-end', flexDirection: 'row', marginHorizontal: 2 }}>
                         <Text style={styles.overviewTitle}>Overview</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityViewMoreScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, width: 90, justifyContent: 'center', alignItems: 'center', borderRadius: 10, height: 35 }}><Text style={{ color: COLOR.WHITE, fontSize: 14, fontWeight: "bold" }}>View More</Text></TouchableOpacity>
+                        <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
+                            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.FacilityViewMoreScreen)} style={{ backgroundColor: COLOR.ORANGECOLOR, width: 90, justifyContent: 'center', alignItems: 'center', borderRadius: 10, height: 35 }}><Text style={{ color: COLOR.WHITE, fontSize: 14, fontWeight: "bold" }}>View More</Text></TouchableOpacity>
+
+                            <View>
+                                <Text style={{ color: COLOR.BLACK, fontWeight: '600', textAlign: 'center' }}>Funds ($)</Text>
+                                <TouchableOpacity style={{
+                                    backgroundColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 10, padding: 8
+
+                                }}>
+                                    <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Stripe connect</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
                     {/* <Dropdown
                         style={styles.dropdown}
@@ -508,6 +591,113 @@ const FacilityHome = () => {
                     />
 
                 </View>
+                <Modal transparent={true} visible={modalVisible2} onRequestClose={() => setModalVisible2(false)}>
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContent}>
+                            <Text style={{ marginVertical: 10, textAlign: 'center', fontSize: 18, fontWeight: '600', color: COLOR.BLACK }}>Share facility</Text>
+                            <FlatList
+                                showsVerticalScrollIndicator={false}
+                                style={{}}
+                                data={fetchedData}
+                                // scrollEnabled={false}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <TouchableOpacity style={{
+                                            marginVertical: 10,
+                                            padding: 10,
+                                            backgroundColor: COLOR.WHITE,
+                                            borderRadius: 20,
+                                            marginHorizontal: 2,
+                                            gap: 5,
+                                            elevation: 2,
+                                            shadowColor: COLOR.BLACK,
+                                            alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
+                                        }}
+                                            onPress={() => { setModalVisible(true), setModalVisible2(false) }}
+                                        >
+                                            <Image source={{ uri: item?.coverImage }} style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }} />
+                                            <View style={{ width: Screen_Width * 0.3 }}>
+                                                <Text style={styles.earningsText}>{item.name}</Text>
+                                                <Text style={styles.earningsSubText}>{item?.description}</Text>
+                                            </View>
+                                            <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                                <AntDesign name="right" size={28} color={COLOR.ChartBlue} />
+                                            </TouchableOpacity>
+                                        </TouchableOpacity>
+                                    )
+                                }}
+
+                            />
+                        </View>
+                    </View>
+                </Modal>
+                <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>Share facilty link</Text>
+
+
+                            <TextInput
+                                style={[styles.input2, { color: COLOR.BLACK }]}
+                                placeholder="Phone (Coming soon)"
+                                placeholderTextColor={COLOR.GRAY}
+                                value={phone}
+                                keyboardType='number-pad'
+                                onChangeText={(text) => setPhone(text)}
+                            />
+                            <TextInput
+                                style={[styles.input2, { color: COLOR.BLACK }]}
+                                placeholder="Email"
+                                placeholderTextColor={COLOR.GRAY}
+                                value={email}
+                                onChangeText={(text) => setEmail(text)}
+                            />
+
+                            <TouchableOpacity
+                                // onPress={handleSave}
+                                style={{
+                                    width: 255,
+                                    backgroundColor: COLOR.ORANGECOLOR,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginVertical: 10,
+                                }}
+                            >
+                                <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Send</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                // onPress={() => setModalVisible2(false)}
+                                style={{
+                                    width: 255,
+                                    backgroundColor: COLOR.ChartBlue,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Share with contacts</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(false)}
+                                style={{
+                                    width: 255,
+                                    backgroundColor: COLOR.CANCEL_B,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    marginVertical: 10,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
                 <View style={{ height: 100 }} />
             </View>
         </ScrollView>

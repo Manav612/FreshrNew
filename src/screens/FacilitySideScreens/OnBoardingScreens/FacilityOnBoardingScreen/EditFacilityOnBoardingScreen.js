@@ -24,54 +24,54 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import GetLocation from 'react-native-get-location'
 import Geocoder from 'react-native-geocoding';
 
-const FacilityOnBoardingScreen = () => {
+const EditFacilityOnBoardingScreen = ({ route }) => {
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
+    const { data } = route.params
+    console.log("==============      facility info data        ==============", data);
+
     const navigation = useNavigation();
-    const [street, setStreet] = useState('');
-    const [apartment, setApartment] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [postalCode, setPostalCode] = useState('');
-    const [country, setCountry] = useState('');
-    const [seatCount, setSeatCount] = useState(1);
-    const [facilityName, setFacilityName] = useState('');
-    const [description, setDescription] = useState('');
-    const [work, setWork] = useState('In salon');
-    const [isEmail, setIsEmail] = useState(false);
-    const [isFocus, setIsFocus] = useState(false);
+
+    const [apartment, setApartment] = useState(
+        data?.formattedAddress.length > 20 ? data?.formattedAddress.slice(0, 20) + '...' : data?.formattedAddress || ""
+    );
+
+
+    const [seatCount, setSeatCount] = useState(data?.seatCapacity || 1);
+    const [facilityName, setFacilityName] = useState(data?.name || '');
+    const [description, setDescription] = useState(data?.description || '');
+    const [locationPlaceholder, setLocationPlaceholder] = useState(data?.formattedAddress);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedDay, setSelectedDay] = useState(null);
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date());
     const [showStartPicker, setShowStartPicker] = useState(false);
     const [showEndPicker, setShowEndPicker] = useState(false);
-    const [location, setLocation] = useState([])
-    const [imageUri, setImageUri] = useState([]);
+
+    const [imageUri, setImageUri] = useState(data?.gallery || []);
     const [imageModalVisible, setImageModalVisible] = useState(false);
     const [closeDayModalVisible, setCloseDayModalVisible] = useState(false);
     const [selectedCloseDays, setSelectedCloseDays] = useState([]);
-    const [imageUrl, setImageUrl] = useState('');
-    const [activeTab, setActiveTab] = useState('Delivery');
+
     const [ShopTime, setShopTime] = useState(false);
     const { width, height } = Dimensions.get("window");
     const ASPECT_RATIO = width / height;
     const [radius, setRadius] = useState(1);
-    const mapRef = useRef();
-    const [loc, setLoc] = useState()
-    const [coverImageUri, setCoverImageUri] = useState(null);
+
+    const [coverImageUri, setCoverImageUri] = useState(data?.coverImage || null);
     const [isopen, setOpen] = useState(false)
-    const [galleryImageUris, setGalleryImageUris] = useState([]);
-    const [formattedAddress, setFormattedAddress] = useState('')
+    const [galleryImageUris, setGalleryImageUris] = useState(data?.gallery || []);
+    const [formattedAddress, setFormattedAddress] = useState(data?.formattedAddress || '')
     const LATITUDE_DELTA = Platform.OS === "IOS" ? 1.5 : 0.5;
     const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
     const initialRegion = {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: data?.location?.coordinates[1] || 37.78825,
+        longitude: data?.location?.coordinates[0] || -122.4324,
         latitudeDelta: LATITUDE_DELTA * Number(1 / 15),
         longitudeDelta: LONGITUDE_DELTA * Number(1 / 15),
     };
     const [region, setRegion] = useState(initialRegion);
+
 
     const _map = useRef(null);
 
@@ -85,7 +85,7 @@ const FacilityOnBoardingScreen = () => {
     }
     const [rState, rSetState] = useState(s);
 
-    const [timeData, setTimeData] = useState({
+    const [timeData, setTimeData] = useState(data?.timing || {
         Monday: { start: '10:00 AM', end: '11:00 PM', closed: false },
         Tuesday: { start: '10:00 AM', end: '11:00 PM', closed: false },
         Wednesday: { start: '10:00 AM', end: '11:00 PM', closed: false },
@@ -99,6 +99,12 @@ const FacilityOnBoardingScreen = () => {
     const openModal = (day) => {
         setSelectedDay(day);
         setModalVisible(true);
+    };
+
+    const handleApartmentChange = (text) => {
+        // Limit the text to 20 characters and add "..." if it exceeds the limit
+        const limitedText = text.length > 20 ? `${text.slice(0, 20)}...` : text;
+        setApartment(limitedText);
     };
 
     const saveTime = () => {
@@ -132,22 +138,6 @@ const FacilityOnBoardingScreen = () => {
             : [...selectedCloseDays, day];
         setSelectedCloseDays(updatedCloseDays);
     };
-
-    const saveClosedDays = () => {
-        const updatedTimeData = { ...timeData };
-        Object.keys(timeData).forEach(day => {
-            updatedTimeData[day] = {
-                ...updatedTimeData[day],
-                closed: selectedCloseDays.includes(day),
-            };
-        });
-        setTimeData(updatedTimeData);
-        setCloseDayModalVisible(false);
-    };
-
-
-
-
     const handleCountPlus = () => {
         setSeatCount(seatCount + 1);
     };
@@ -676,7 +666,8 @@ const FacilityOnBoardingScreen = () => {
 
 
                                         <GooglePlacesAutocomplete
-                                            placeholder='Enter Location'
+                                            placeholder={locationPlaceholder}
+
                                             minLength={4}
                                             styles={{
                                                 textInput: {
@@ -722,6 +713,9 @@ const FacilityOnBoardingScreen = () => {
                                                         longitude: details.geometry.location.lng,
                                                     },
                                                 );
+                                                if (details?.formatted_address) {
+                                                    setLocationPlaceholder(details?.formatted_address);
+                                                }
                                             }}
                                             autoFocus={false}
                                             listViewDisplayed={false}
@@ -746,7 +740,7 @@ const FacilityOnBoardingScreen = () => {
                                                 placeholder="Apartment, Suite"
                                                 placeholderTextColor={COLOR.GRAY}
                                                 value={apartment}
-                                                onChangeText={setApartment}
+                                                onChangeText={handleApartmentChange}
                                             />
                                         </View>
                                         <View style={{ height: Screen_Height * 0.3, width: Screen_Width * 0.88, borderRadius: 15, marginVertical: 20, backgroundColor: COLOR.AuthField, elevation: 5, shadowColor: COLOR.BLACK }} >
@@ -842,14 +836,13 @@ const FacilityOnBoardingScreen = () => {
                                             <AntDesign name="pluscircle" size={24} color={COLOR.ORANGECOLOR} />
                                         </TouchableOpacity>
                                     </View>
-                                    {/* <TouchableOpacity style={styles.button}>
-                                        <Text style={styles.buttonText}>Get Started</Text>
-                                    </TouchableOpacity> */}
+
                                 </View>
                                 <View style={{ height: Screen_Height * 0.5 }} />
                             </ScrollView>
                         ),
                     },
+
                     {
                         backgroundColor: COLOR.WHITE,
                         image: (
@@ -905,6 +898,7 @@ const FacilityOnBoardingScreen = () => {
                             </ScrollView>
                         ),
                     },
+
                     {
                         backgroundColor: COLOR.WHITE,
                         image: (
@@ -1041,4 +1035,4 @@ const FacilityOnBoardingScreen = () => {
     );
 };
 
-export default FacilityOnBoardingScreen;
+export default EditFacilityOnBoardingScreen;
