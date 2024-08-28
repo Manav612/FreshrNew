@@ -47,6 +47,7 @@ const MyBooking = ({ route }) => {
   const [showTip2, setShowTip2] = useState(false);
   const [showTip3, setShowTip3] = useState(false);
   const [showTip4, setShowTip4] = useState(false);
+
   const [directionModalVisible, setDirectionModalVisibility] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds

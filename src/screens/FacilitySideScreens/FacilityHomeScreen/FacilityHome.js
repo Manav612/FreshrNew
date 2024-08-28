@@ -20,7 +20,6 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../Services';
-
 const FacilityHome = () => {
     const navigation = useNavigation();
     const theme = useSelector(state => state.ThemeReducer);
@@ -32,7 +31,16 @@ const FacilityHome = () => {
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [fetchedData, setFetchedData] = useState([]);
+    const [copiedText, setCopiedText] = useState('');
 
+    const copyToClipboard = () => {
+        Clipboard.setString('hello world');
+    };
+
+    const fetchCopiedText = async () => {
+        const text = await Clipboard.getString();
+        setCopiedText(text);
+    };
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
     };
@@ -614,6 +622,7 @@ const FacilityHome = () => {
                                             shadowColor: COLOR.BLACK,
                                             alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'
                                         }}
+                                            activeOpacity={1}
                                             onPress={() => { setModalVisible(true), setModalVisible2(false) }}
                                         >
                                             <Image source={{ uri: item?.coverImage }} style={{ height: 60, width: 60, resizeMode: 'cover', borderRadius: 10 }} />
@@ -621,7 +630,7 @@ const FacilityHome = () => {
                                                 <Text style={styles.earningsText}>{item.name}</Text>
                                                 <Text style={styles.earningsSubText}>{item?.description}</Text>
                                             </View>
-                                            <TouchableOpacity style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                                            <TouchableOpacity onPress={() => { setModalVisible(true), setModalVisible2(false) }} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                                 <AntDesign name="right" size={28} color={COLOR.ChartBlue} />
                                             </TouchableOpacity>
                                         </TouchableOpacity>
@@ -635,7 +644,8 @@ const FacilityHome = () => {
                 <Modal transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
                     <View style={styles.modalOverlay}>
                         <View style={styles.modalContent}>
-                            <Text style={styles.modalTitle}>Share facilty link</Text>
+                            <Text style={styles.modalTitle}>Share facilty link <AntDesign name="copy1" size={20} color={COLOR.BLACK} /></Text>
+
 
 
                             <TextInput

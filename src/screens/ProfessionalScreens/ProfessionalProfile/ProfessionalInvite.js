@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -159,6 +160,30 @@ const ProfessionalInvite = () => {
   const [activeTab1, setActiveTab1] = useState('Both');
   const [showTip, setShowTip] = useState(false);
 
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const animate = () => {
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.3,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+      ]).start(() => animate());
+    };
+
+    animate();
+  }, []);
+
+  const animatedStyle = {
+    transform: [{ scale: scaleAnim }],
+  };
   useEffect(() => {
     checkLocationPermission();
   }, []);
@@ -537,13 +562,14 @@ const ProfessionalInvite = () => {
             onClose={() => setShowTip(false)}
 
           >
-
-            <AntDesign
-              onPress={() => setShowTip(true)}
-              name="infocirlce"
-              size={18}
-              color={COLOR.ChartBlue}
-            />
+            <Animated.View style={animatedStyle}>
+              <AntDesign
+                onPress={() => setShowTip(true)}
+                name="infocirlce"
+                size={18}
+                color={COLOR.ChartBlue}
+              />
+            </Animated.View>
 
           </Tooltip>
         </View>
@@ -597,7 +623,7 @@ const ProfessionalInvite = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={openBottomSheet2}
+            // onPress={openBottomSheet2}
             style={{
               height: 40,
               justifyContent: 'center',

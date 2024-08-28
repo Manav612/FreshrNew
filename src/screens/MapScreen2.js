@@ -19,10 +19,12 @@ import MapView from 'react-native-maps';
 import { Screen_Width } from '../constants/Constants';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../constants/Colors';
-import { Client, ClientBlack, ComeToYou, ComeToYouWhite, Hair1 } from '../constants/Icons';
+import { Client, ClientBlack, ComeToYou, ComeToYouBlue, ComeToYouWhite, Hair1 } from '../constants/Icons';
 import ActiveLine from '../components/Story/Story/ActiveLine';
 import LiveTrackingMap from '../components/LiveTrackingMap';
 import socketServices from '../Services/Socket';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationScreens } from '../constants/Strings';
 
 const MapScreen2 = ({ orderData }) => {
 
@@ -43,6 +45,7 @@ const MapScreen2 = ({ orderData }) => {
   const [date, setDate] = useState(orderData?.message?.data?.order?.createdAt.slice(0, 10))
   const [status, setStatus] = useState(orderData?.message?.data?.order?.status)
   const [services, setServices] = useState(orderData?.message?.service)
+  const navigation = useNavigation()
   const getFullName = (person) => {
     const firstName = person?.firstName || '';
     const lastName = person?.lastName || '';
@@ -233,18 +236,20 @@ const MapScreen2 = ({ orderData }) => {
               <View
                 style={[
                   {
-                    borderWidth: 1,
-                    borderColor: '#e1e1e1',
+
                     borderRadius: 15,
                     padding: 10,
                     shadowOpacity: 0.1,
                     shadowOffset: { height: 1 },
                     shadowRadius: 1,
-                    backgroundColor: '#fff',
+                    backgroundColor: COLOR.WHITE,
                     position: 'absolute',
                     zIndex: 100,
                     width: '100%',
                     alignSelf: 'center',
+                    elevation: 5,
+                    shadowColor: COLOR.ChartBlue,
+                    shadowOpacity: 1,
                   },
                   height > 0 && { top: -height / 2 },
                 ]}
@@ -268,18 +273,18 @@ const MapScreen2 = ({ orderData }) => {
                 />
 
 
-                <TouchableOpacity
+                <View
                   style={{
                     flex: 1,
                     padding: 7,
-                    backgroundColor: COLOR.ORANGECOLOR,
+                    backgroundColor: COLOR.ChartBlue,
                     borderRadius: 7,
                     marginVertical: 5,
                   }}>
                   <Text style={[styles.LabelText, { color: COLOR.WHITE }]}>
                     please wait for approval
                   </Text>
-                </TouchableOpacity>
+                </View>
               </View>
               <View
                 style={{
@@ -409,11 +414,11 @@ const MapScreen2 = ({ orderData }) => {
                           flex: 1,
                           alignItems: 'center',
                         }}>
-                        <Image style={{ height: 20, width: 20 }} source={ClientBlack} resizeMode='contain' />
+                        <Image style={{ height: 20, width: 20 }} source={Client} resizeMode='contain' />
 
                         <Text
-                          style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                          You
+                          style={[styles.LabelText, { fontSize: 13, marginLeft: 7, color: COLOR.ORANGECOLOR }]}>
+                          {clientName}
                         </Text>
                       </View>
                       <View
@@ -455,11 +460,11 @@ const MapScreen2 = ({ orderData }) => {
                           alignItems: 'center',
                         }}>
                         {/* <FontAwesome5 name="user" color={'#000'} size={15} /> */}
-                        <Image style={{ height: 20, width: 20 }} source={ComeToYou} resizeMode='contain' />
+                        <Image style={{ height: 20, width: 20 }} source={ComeToYouBlue} resizeMode='contain' />
 
                         <Text
-                          style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                          Professional
+                          style={[styles.LabelText, { fontSize: 13, marginLeft: 7, color: COLOR.ChartBlue }]}>
+                          {profName}
                         </Text>
                       </View>
                       <View
@@ -497,10 +502,17 @@ const MapScreen2 = ({ orderData }) => {
                   <Text
                     style={[
                       styles.LabelText,
-                      { fontSize: 20, paddingBottom: 70, color: COLOR.ORANGECOLOR },
+                      { fontSize: 20, paddingBottom: 70, textAlign: 'left', marginLeft: 20, color: COLOR.ORANGECOLOR },
                     ]}>
-                    Meet-up in 2:20 min
+                    Meet-up in {parseFloat(Client_duration > Prof_duration ? Client_duration === 0 ? Client_duration : Client_duration + 5 : Prof_duration === 0 ? Prof_duration : Prof_duration + 5).toFixed(2)} min
                   </Text>
+
+                  <View style={{ position: 'absolute', right: 43, top: -5, zIndex: 2, backgroundColor: 'red', height: 15, width: 15, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: COLOR.WHITE, fontSize: 10 }}>1</Text>
+                  </View>
+                  <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)} style={{ position: 'absolute', right: 45, top: -5 }}>
+                    <Entypo name="message" color={COLOR.BLACK} size={34} />
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -538,8 +550,8 @@ const MapScreen2 = ({ orderData }) => {
                             gap: 10,
                           }}>
                           <Image
-                            source={{ uri: services[0]?.photo }}
-                            // source={Hair1}
+                            // source={{ uri: services[0]?.photo }}
+                            source={Hair1}
                             style={{ width: 50, height: 50, borderRadius: 5 }}
                           />
                           <Text
@@ -568,8 +580,8 @@ const MapScreen2 = ({ orderData }) => {
                             gap: 10,
                           }}>
                           <Image
-                            source={{ uri: services[0]?.photo }}
-                            // source={Hair1}
+                            // source={{ uri: services[0]?.photo }}
+                            source={Hair1}
                             style={{ width: 50, height: 50, borderRadius: 5 }}
                           />
                           <View style={{}}>
@@ -667,7 +679,7 @@ const MapScreen2 = ({ orderData }) => {
                 )}
               </View>
 
-              <View
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -686,7 +698,7 @@ const MapScreen2 = ({ orderData }) => {
                 <Entypo name="scissors" color={'#000'} size={20} />
                 <Text style={[styles.UserName, { marginLeft: 7 }]}>{profName}</Text>
                 <Entypo name="message" color={'#000'} size={24} />
-              </View>
+              </View>*/}
             </View>
           </ScrollView>
 

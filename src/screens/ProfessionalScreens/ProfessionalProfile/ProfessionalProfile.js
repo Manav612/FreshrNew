@@ -9,6 +9,7 @@ import {
   View,
   FlatList,
   Button,
+  Animated,
   Alert,
   RefreshControl,
   Modal,
@@ -57,6 +58,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import mime from 'mime';
 import ProfessionalScheduleScreen from '../../../components/ProfessionalComponents/ProfessionalScheduleScreen';
 import socketServices from '../../../Services/Socket';
+import QueueToggle from '../../../components/OueueBotton';
 
 const ProfessionalProfile = ({ name }) => {
   const navigation = useNavigation();
@@ -87,7 +89,33 @@ const ProfessionalProfile = ({ name }) => {
   const [stories, setStories] = useState([]);
   const [selected, setSelected] = useState()
   const [showTip, setShowTip] = useState(false);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const handleQueueToggle = (isSelected) => {
+    // Handle the toggle state change here
+    console.log('Queue is now:', isSelected ? 'on' : 'off');
+  };
+  useEffect(() => {
+    const animate = () => {
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.3,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+      ]).start(() => animate());
+    };
 
+    animate();
+  }, []);
+
+  const animatedStyle = {
+    transform: [{ scale: scaleAnim }],
+  };
   const fullText =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget laoreet ex. Nulla facilisi. In eget ex tincidunt, suscipit arcu nec, aliquam Donec et nunc non felis rutrum semper. Duis eu tellus vel turpis varius rhoncus eget nec neque. Aenean ac placerat tortor. Duis ultricies, eros nec fermentum iaculis, libero lorem rhoncus justo, sed lacinia arcu neque sit amet nisi. Vivamus id purus non erat posuere pharetra sed lacinia arcu neque.';
   const truncatedText = fullText.slice(0, 100) + '...';
@@ -248,7 +276,7 @@ const ProfessionalProfile = ({ name }) => {
     if (selectedScreen === 'My schedule') {
       return (
         <View style={styles.content}>
-          <ProfessionalScheduleScreen />
+          <ProfessionalScheduleScreen showBackButton={false} />
         </View>
       );
     } else if (selectedScreen === 'services') {
@@ -759,15 +787,13 @@ const ProfessionalProfile = ({ name }) => {
             </View>
 
             <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-              <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
-                <Text style={{ color: COLOR.BLACK }}>Queue</Text>
+              <QueueToggle theme={theme} onToggle={handleQueueToggle} COLOR={COLOR} />
+
+              <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                <FastImage source={ClockUserIcon} style={{ height: 25, width: 25 }} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+              <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                <AntDesign name="setting" size={23} color={COLOR.BLACK} />
               </TouchableOpacity>
             </View>
           </View>
@@ -890,7 +916,7 @@ const ProfessionalProfile = ({ name }) => {
                 </View>
               </Modal>
             </View>
-            <View style={{ position: 'absolute', right: -12, bottom: -5 }}>
+            <View style={{ position: 'absolute', right: -8, bottom: -5 }}>
               <Tooltip
 
                 isVisible={showTip}
@@ -912,14 +938,14 @@ const ProfessionalProfile = ({ name }) => {
                 onClose={() => setShowTip(false)}
 
               >
-
-                <AntDesign
-                  onPress={() => setShowTip(true)}
-                  name="infocirlce"
-                  size={18}
-                  color={COLOR.ChartBlue}
-                />
-
+                <Animated.View style={animatedStyle}>
+                  <AntDesign
+                    onPress={() => setShowTip(true)}
+                    name="infocirlce"
+                    size={14}
+                    color={COLOR.ChartBlue}
+                  />
+                </Animated.View>
               </Tooltip>
             </View>
           </View>

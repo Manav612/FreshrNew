@@ -287,7 +287,7 @@ const PasswordAndOtp = ({ route }) => {
           </View>
 
           <TextInput
-            style={styles.otpInput}
+            style={{ backgroundColor: COLOR.AuthField, width: Screen_Width * 0.9, borderRadius: 10, paddingLeft: 10 }}
             onChangeText={handleOtpChange}
             value={otp}
             keyboardType="number-pad"
@@ -355,7 +355,7 @@ const PasswordAndOtp = ({ route }) => {
           <Text style={{ color: COLOR.BLACK }}>Don't have an account? </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('Sign Up Screen')}>
-            <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500' }}>
+            <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500', fontSize: 18 }}>
               Sign up
             </Text>
           </TouchableOpacity>

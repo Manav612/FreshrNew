@@ -22,6 +22,7 @@ import ProfessionalHistory from './ProfessionalHistory';
 import ProfessionalPending from './ProfessionalPending';
 import socketServices from '../../../Services/Socket';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import QueueToggle from '../../../components/OueueBotton';
 
 const ProfessionalBooking = () => {
   const navigation = useNavigation()
@@ -169,7 +170,10 @@ const ProfessionalBooking = () => {
       marginTop: 15,
     },
   });
-
+  const handleQueueToggle = (isSelected) => {
+    // Handle the toggle state change here
+    console.log('Queue is now:', isSelected ? 'on' : 'off');
+  };
   const AllCategory = ({ item, setSelectedItem }) => (
     <TouchableOpacity
       style={[
@@ -213,23 +217,10 @@ const ProfessionalBooking = () => {
           <Text style={{ fontWeight: '800', fontSize: 20, color: COLOR.BLACK }}>My Bookings</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 5, flexDirection: 'row', padding: 5, gap: 5 }}>
-            {selected ?
-              <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingLeft: 5, }}>
-                <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>on</Text>
-                <View style={{ backgroundColor: COLOR.ChartBlue, height: 16, width: 16, borderRadius: 10 }} />
-              </View>
-              :
-              <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingRight: 5, }}>
-                <View style={{ backgroundColor: COLOR.ORANGECOLOR, height: 16, width: 16, borderRadius: 10 }} />
-                <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>off</Text>
-              </View>
-            }
-            {/* <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={selected ? COLOR.BLACK : COLOR.ORANGECOLOR} />
-              <Text style={{ color: COLOR.BLACK }}>{selected ? 'off' : 'on'}</Text> */}
-            <Text style={{ color: COLOR.BLACK }}>Queue</Text>
-          </TouchableOpacity>
+          <QueueToggle theme={theme} onToggle={handleQueueToggle} COLOR={COLOR} />
           <TouchableOpacity onPress={() => setSelected2(!selected2)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 5, flexDirection: 'row', padding: 5, gap: 5 }}>
+            <Text style={{ color: COLOR.BLACK }}>Freelancer</Text>
+
             {selected2 ?
               <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected2 ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingLeft: 5, }}>
                 <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>on</Text>
@@ -242,7 +233,6 @@ const ProfessionalBooking = () => {
               </View>
             }
             {/* <MaterialCommunityIcons name={selected2 ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={selected2 ? COLOR.CANCEL_B : COLOR.GREEN} /> */}
-            <Text style={{ color: COLOR.BLACK }}>Freelancer</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />

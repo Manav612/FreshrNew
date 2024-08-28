@@ -15,10 +15,11 @@ import Slider from '@react-native-community/slider';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import { useNavigation } from '@react-navigation/native';
 
-const ProfessionalScheduleScreen = () => {
+const ProfessionalScheduleScreen = ({ showBackButton = true }) => {
   const theme = useSelector(state => state.ThemeReducer);
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
@@ -32,6 +33,7 @@ const ProfessionalScheduleScreen = () => {
   const [showTip2, setShowTip2] = useState(false);
   const navigation = useNavigation()
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [selected, setSelected] = useState(false)
 
   useEffect(() => {
     const animate = () => {
@@ -305,16 +307,21 @@ const ProfessionalScheduleScreen = () => {
       fontSize: 18,
       marginBottom: 10,
       color: COLOR.BLACK,
+      textAlign: 'center'
     },
+
+
   });
 
   return (
     <ScrollView style={{ height: Screen_Height, width: Screen_Width, paddingHorizontal: 15 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginVertical: 10 }}>
 
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="arrowleft" size={24} color={COLOR.BLACK} />
-        </TouchableOpacity>
+        {showBackButton ? (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <AntDesign name="arrowleft" size={24} color={COLOR.BLACK} />
+          </TouchableOpacity>
+        ) : <View />}
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
           <Tooltip
             isVisible={showTip2}
@@ -335,7 +342,7 @@ const ProfessionalScheduleScreen = () => {
                 </Text>
                 <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
                   {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Turn it off : </Text>}
-                  To not receive orders outside of work hours.
+                  To stop receiving higher paying orders outside of your daily schedule.
                 </Text>
               </View>
             }
@@ -347,18 +354,57 @@ const ProfessionalScheduleScreen = () => {
               <AntDesign
                 onPress={() => setShowTip2(true)}
                 name="infocirlce"
-                size={18}
+                size={14}
                 color={COLOR.ChartBlue}
               />
             </Animated.View>
 
           </Tooltip>
 
-          <TouchableOpacity onPress={() => setAutoSwitchToFreelancer(!autoSwitchToFreelancer)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, }}>
+          {/* <TouchableOpacity onPress={() => setAutoSwitchToFreelancer(!autoSwitchToFreelancer)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10, }}>
             <Text style={{ fontWeight: '600', fontSize: 16, color: COLOR.BLACK }}>Auto Switch to Freelancer</Text>
             <MaterialCommunityIcons name={autoSwitchToFreelancer ? 'toggle-switch' : 'toggle-switch-off'} size={35} color={COLOR.ORANGECOLOR} />
+          </TouchableOpacity> */}
+          <TouchableOpacity onPress={() => { setSelected(!selected), !selected ? setModalVisible2(true) : null }} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 5, flexDirection: 'row', padding: 5, gap: 5 }}>
+            <Text style={{ color: COLOR.BLACK }}>Auto Switch to Freelancer</Text>
+
+            {selected ?
+              <>
+                <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingLeft: 5, }}>
+                  <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>on</Text>
+                  <View style={{ backgroundColor: COLOR.ChartBlue, height: 16, width: 16, borderRadius: 10 }} />
+                </View>
+
+              </>
+              :
+              <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingRight: 5, }}>
+                <View style={{ backgroundColor: COLOR.ORANGECOLOR, height: 16, width: 16, borderRadius: 10 }} />
+                <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>off</Text>
+              </View>
+            }
+            {/* <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={selected ? COLOR.BLACK : COLOR.ORANGECOLOR} />
+              <Text style={{ color: COLOR.BLACK }}>{selected ? 'off' : 'on'}</Text> */}
           </TouchableOpacity>
         </View>
+        <Modal transparent={true} visible={modalVisible2} onRequestClose={() => setModalVisible2(false)}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Disclaimer</Text>
+
+              <Text style={{ color: COLOR.BLACK, marginBottom: 10 }}>This makes you visible to potential clients outside of work hours. Please make sure you're ready to accept incoming orders.
+              </Text>
+              <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                <TouchableOpacity onPress={() => { setModalVisible2(false), setSelected(false) }} style={{ height: 40, width: Screen_Width * 0.3, backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', borderRadius: 10, padding: 10 }}>
+                  <Text style={{ color: COLOR.WHITE }}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ height: 40, width: Screen_Width * 0.3, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', alignItems: 'center', borderRadius: 10, padding: 10 }}>
+                  <Text style={{ color: COLOR.WHITE }}>Accept</Text>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
       </View>
       {/* <TouchableOpacity
         onPress={toggleDropdown}
@@ -419,7 +465,7 @@ const ProfessionalScheduleScreen = () => {
               <AntDesign
                 onPress={() => setShowTip(true)}
                 name="infocirlce"
-                size={18}
+                size={14}
                 color={COLOR.ChartBlue}
               />
             </Animated.View>

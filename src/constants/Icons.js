@@ -1,3 +1,10 @@
+export const Logo = require('../assets/Logo.png');
+
+
+
+
+
+
 export const BookmarkFill = require('../assets/images/Bookmark.png');
 export const CameraIcon = require('../assets/images/Camera.png');
 export const UploadIcon = require('../assets/images/Upload.png');
@@ -90,6 +97,8 @@ export const InSalonWhite = require('../assets/InSalonWhite.png');
 export const ComeToYouOrange = require('../assets/RunningOrange.png');
 export const ComeToYouWhite = require('../assets/RunningWhite.png');
 export const ComeToYou = require('../assets/ComeToYou.png');
+export const ComeToYouBlue = require('../assets/ComeToYouBlue.png');
+export const Invite = require('../assets/Invite.png');
 export const vector = require('../assets/images/Vector.png');
 export const tipjar = require('../assets/images/tipjar.png');
 export const chartdonut = require('../assets/images/ChartDonut.png');

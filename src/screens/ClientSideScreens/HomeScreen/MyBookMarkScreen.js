@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, FlatList, Image, RefreshControl, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, FlatList, Image, RefreshControl, Alert, Animated } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Category from '../../../components/Category';
@@ -31,6 +31,30 @@ const MyBookMarkScreen = () => {
   const flatListRef = useRef(null);
   const [showTip, setShowTip] = useState(false);
 
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const animate = () => {
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.3,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+      ]).start(() => animate());
+    };
+
+    animate();
+  }, []);
+
+  const animatedStyle = {
+    transform: [{ scale: scaleAnim }],
+  };
   const theme = useSelector(state => state.ThemeReducer);
 
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
@@ -145,8 +169,6 @@ const MyBookMarkScreen = () => {
             <MaterialCommunityIcons name="arrow-left" size={24} color={COLOR.BLACK} />
           </TouchableOpacity>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLOR.BLACK }}>Following</Text>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
           <Tooltip
 
             isVisible={showTip}
@@ -167,15 +189,18 @@ const MyBookMarkScreen = () => {
             onClose={() => setShowTip(false)}
 
           >
-
-            <AntDesign
-              onPress={() => setShowTip(true)}
-              name="infocirlce"
-              size={33}
-              color={COLOR.ChartBlue}
-            />
-
+            <Animated.View style={animatedStyle}>
+              <AntDesign
+                onPress={() => setShowTip(true)}
+                name="infocirlce"
+                size={15}
+                color={COLOR.ChartBlue}
+              />
+            </Animated.View>
           </Tooltip>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+
           <TouchableOpacity style={{ height: 40, width: 40, borderRadius: 3, backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center' }}>
             <FastImage source={FilterBlack} style={{ height: 30, width: 30 }} />
           </TouchableOpacity>

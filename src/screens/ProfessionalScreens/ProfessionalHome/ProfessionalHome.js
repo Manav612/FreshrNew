@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Modal, Animated } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -20,12 +20,40 @@ import { BASE_API_URL } from '../../../Services';
 import axios from 'axios';
 import socketServices from '../../../Services/Socket';
 import { showModal } from '../../../redux/modalAction';
+import QueueToggle from '../../../components/OueueBotton';
+import Tooltip from 'react-native-walkthrough-tooltip';
 
 
 const ProfessionalHome = () => {
     const navigation = useNavigation();
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
+    const [modalVisible2, setModalVisible2] = useState(false);
+    const [showTip, setShowTip] = useState(false);
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    useEffect(() => {
+        const animate = () => {
+            Animated.sequence([
+                Animated.timing(scaleAnim, {
+                    toValue: 1.3,
+                    duration: 1500,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleAnim, {
+                    toValue: 1,
+                    duration: 1500,
+                    useNativeDriver: true,
+                }),
+            ]).start(() => animate());
+        };
+
+        animate();
+    }, []);
+
+    const animatedStyle = {
+        transform: [{ scale: scaleAnim }],
+    };
     const dispatch = useDispatch()
     const inSalonData = [
         { value: 100, label: 'May' },
@@ -94,6 +122,12 @@ const ProfessionalHome = () => {
             console.error("Error:", error);
         }
     };
+
+    const handleQueueToggle = (isSelected) => {
+        // Handle the toggle state change here
+        console.log('Queue is now:', isSelected ? 'on' : 'off');
+    };
+
 
     const styles = StyleSheet.create({
         container: {
@@ -267,6 +301,24 @@ const ProfessionalHome = () => {
             backgroundColor: COLOR.AuthField,
             color: COLOR.BLACK
         },
+        modalContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: COLOR.BLACK_40,
+        },
+        modalContent: {
+            width: '80%',
+            backgroundColor: COLOR.WHITE,
+            padding: 20,
+            borderRadius: 10,
+        },
+        modalTitle: {
+            fontSize: 18,
+            marginBottom: 10,
+            color: COLOR.BLACK,
+            textAlign: 'center'
+        },
     });
 
     return (
@@ -280,19 +332,92 @@ const ProfessionalHome = () => {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-                        <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                            <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
+                        <View style={{ position: 'absolute', top: -14 }}>
+                            <Tooltip
+
+                                isVisible={showTip}
+                                content={
+                                    <View style={{ paddingHorizontal: 10 }}>
+
+
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                                            {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Queue : </Text>}
+
+                                            Allows you to automatically accumulate orders while you're in the middle of In-Salon deliveries.
+                                            {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}> (Reduces traveling while in freelance mode & auto-accumulates up to 5 orders)</Text>}
+
+
+                                        </Text>
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
+                                            {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Work hours : </Text>}
+                                            Here you can set your regular day shifts, automatically switch to freelancer mode after your day shifts, and decide how much extra you want to charge.
+                                        </Text>
+
+
+                                    </View>
+                                }
+                                placement="bottom"
+                                onClose={() => setShowTip(false)}
+
+                            >
+                                <Animated.View style={animatedStyle}>
+                                    <AntDesign
+                                        onPress={() => setShowTip(true)}
+                                        name="infocirlce"
+                                        size={15}
+                                        color={COLOR.ChartBlue}
+                                    />
+                                </Animated.View>
+                            </Tooltip>
+                        </View>
+                        <QueueToggle theme={theme} onToggle={handleQueueToggle} COLOR={COLOR} />
+                        {/* <TouchableOpacity onPress={() => { setSelected(!selected), !selected ? setModalVisible2(true) : null }} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, justifyContent: 'center', alignItems: 'center', borderRadius: 5, flexDirection: 'row', padding: 5, gap: 5 }}>
                             <Text style={{ color: COLOR.BLACK }}>Queue</Text>
+
+                            {selected ?
+                                <>
+                                    <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingLeft: 5, }}>
+                                        <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>on</Text>
+                                        <View style={{ backgroundColor: COLOR.ChartBlue, height: 16, width: 16, borderRadius: 10 }} />
+                                    </View>
+
+                                </>
+                                :
+                                <View style={{ borderRadius: 15, borderWidth: 1, borderColor: selected ? COLOR.ChartBlue : COLOR.ORANGECOLOR, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingRight: 5, }}>
+                                    <View style={{ backgroundColor: COLOR.ORANGECOLOR, height: 16, width: 16, borderRadius: 10 }} />
+                                    <Text style={{ color: COLOR.BLACK, fontSize: 10, fontWeight: '600', height: 16, }}>off</Text>
+                                </View>
+                            }
+                           
+                        </TouchableOpacity> */}
+                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, height: 35, width: 35, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                            <FastImage source={ClockUserIcon} style={{ height: 25, width: 25 }} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                            <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-                            <AntDesign name="setting" size={28} color={COLOR.BLACK} />
+                        <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.ProfessionalProfile2Screen)} style={{ backgroundColor: COLOR.WHITE, elevation: 10, shadowColor: COLOR.ChartBlue, height: 35, width: 35, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                            <AntDesign name="setting" size={23} color={COLOR.BLACK} />
                         </TouchableOpacity>
                     </View>
                 </View>
+                <Modal transparent={true} visible={modalVisible2} onRequestClose={() => setModalVisible2(false)}>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>Disclaimer</Text>
 
+                            <Text style={{ color: COLOR.BLACK, marginBottom: 10 }}>Be ready to receive an accumulation of orders. (Up a max of 5)
+
+                            </Text>
+                            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={() => setModalVisible2(false)} style={{ height: 40, width: Screen_Width * 0.3, backgroundColor: COLOR.BLACK, justifyContent: 'center', alignItems: 'center', borderRadius: 10, padding: 10 }}>
+                                    <Text style={{ color: COLOR.WHITE }}>Cancel</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ height: 40, width: Screen_Width * 0.3, backgroundColor: COLOR.ORANGECOLOR, justifyContent: 'center', alignItems: 'center', borderRadius: 10, padding: 10 }}>
+                                    <Text style={{ color: COLOR.WHITE }}>Accept</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </View>
+                    </View>
+                </Modal>
                 <View style={{
                     marginVertical: 20,
                     padding: 20,

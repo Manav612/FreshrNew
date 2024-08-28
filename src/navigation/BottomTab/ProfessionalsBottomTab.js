@@ -41,6 +41,7 @@ import { COLOR_DARK, COLOR_LIGHT } from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import ProfessionalInvite from '../../screens/ProfessionalScreens/ProfessionalProfile/ProfessionalInvite';
+import Editprofile from '../../components/UserdetailsScreen/Editprofile';
 
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -63,6 +64,7 @@ const HomeStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalHistoryScreen} component={ProfessionalHistory} />
             <Stack.Screen name={NavigationScreens.ProfessionalOngoingScreen} component={ProfessionalOngoing} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
+            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
 
         </Stack.Navigator>
     );
@@ -90,6 +92,8 @@ const ServicesStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalHistoryScreen} component={ProfessionalHistory} />
             <Stack.Screen name={NavigationScreens.ProfessionalOngoingScreen} component={ProfessionalOngoing} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
+            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+
 
 
         </Stack.Navigator>
@@ -110,6 +114,8 @@ const MyBookingStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+
             {/* <Stack.Screen name={NavigationScreens.LiveTrackingProfSideScreen} component={LiveTrackingProfSide} />
             <Stack.Screen name={NavigationScreens.OrderProcessingScreenProfSideScreen} component={OrderProcessingScreenProfSide} />
  */}
@@ -136,6 +142,8 @@ const InboxStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalSettingScreen} component={ProfessionalSettingScreen} />
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
+            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+
 
         </Stack.Navigator>
     );
@@ -163,6 +171,7 @@ const ProfileStack = () => {
             <Stack.Screen name={NavigationScreens.ProfessionalViewServicesScreen} component={ProfessionalViewServices} />
             <Stack.Screen name={NavigationScreens.ProfessionalProfile2Screen} component={ProfessionalProfile2} />
             <Stack.Screen name={NavigationScreens.ProfessionalInviteScreen} component={ProfessionalInvite} />
+            <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
 
 
         </Stack.Navigator>

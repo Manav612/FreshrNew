@@ -319,7 +319,7 @@ const CalendarScreen = () => {
       <Modal transparent={true} visible={modalVisible2} onRequestClose={() => setModalVisible2(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent2}>
-            <Text style={styles.modalTitle}>Share your calendar</Text>
+            <Text style={styles.modalTitle}>Send for booking</Text>
             <TextInput
               style={[styles.input2, { color: COLOR.BLACK }]}
               placeholder="Phone (Coming soon)"

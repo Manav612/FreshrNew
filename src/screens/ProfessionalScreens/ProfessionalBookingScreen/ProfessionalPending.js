@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
-import { Client, ClientBlack, ComeToYou, ComeToYouWhite, Hair1, HomeIcon2, InSalonWhite, OnBoard1 } from '../../../constants/Icons';
+import { Client, ClientBlack, ComeToYou, ComeToYouBlue, ComeToYouWhite, Hair1, HomeIcon2, InSalonWhite, OnBoard1 } from '../../../constants/Icons';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -488,8 +488,9 @@ const ProfessionalPending = () => {
                         <View
                             style={[
                                 {
-                                    borderWidth: 1,
-                                    borderColor: '#e1e1e1',
+                                    elevation: 5,
+                                    shadowColor: COLOR.ChartBlue,
+                                    shadowOpacity: 1,
                                     borderRadius: 15,
                                     padding: 10,
                                     shadowOpacity: 0.1,
@@ -544,12 +545,11 @@ const ProfessionalPending = () => {
                                     style={{
                                         flex: 1,
                                         padding: 7,
-                                        backgroundColor: COLOR.GULABI,
+                                        backgroundColor: COLOR.BLACK,
                                         borderRadius: 7,
-                                        borderColor: COLOR.ORANGECOLOR,
-                                        borderWidth: 1,
+
                                     }}>
-                                    <Text style={[styles.LabelText, { color: COLOR.ORANGECOLOR }]}>
+                                    <Text style={[styles.LabelText, { color: COLOR.WHITE }]}>
                                         Reject
                                     </Text>
                                 </TouchableOpacity>
@@ -689,11 +689,11 @@ const ProfessionalPending = () => {
                                             flex: 1,
                                             alignItems: 'center',
                                         }}>
-                                        <Image style={{ height: 20, width: 20 }} source={ComeToYou} resizeMode='contain' />
+                                        <Image style={{ height: 20, width: 20 }} source={ComeToYouBlue} resizeMode='contain' />
 
                                         <Text
-                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                                            You
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 7, color: COLOR.ChartBlue }]}>
+                                            {item.professional.user.firstName}{" "}{item.professional.user.lastName}
                                         </Text>
                                     </View>
                                     <View
@@ -735,11 +735,11 @@ const ProfessionalPending = () => {
                                             flex: 1,
                                             alignItems: 'center',
                                         }}>
-                                        <Image style={{ height: 20, width: 20 }} source={ClientBlack} resizeMode='contain' />
+                                        <Image style={{ height: 20, width: 20 }} source={Client} resizeMode='contain' />
 
                                         <Text
-                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                                            Client
+                                            style={[styles.LabelText, { fontSize: 13, marginLeft: 7, color: COLOR.ORANGECOLOR }]}>
+                                            {item.client.firstName}{" "}{item.client.lastName}
                                         </Text>
                                     </View>
                                     <View
@@ -777,10 +777,17 @@ const ProfessionalPending = () => {
                             <Text
                                 style={[
                                     styles.LabelText,
-                                    { fontSize: 20, paddingBottom: 70, color: COLOR.ORANGECOLOR },
+                                    { fontSize: 20, paddingBottom: 70, textAlign: 'left', marginLeft: 20, color: COLOR.ORANGECOLOR },
+
                                 ]}>
                                 Meet-up in 2:20 min
                             </Text>
+                            <View style={{ position: 'absolute', right: 43, top: -5, zIndex: 2, backgroundColor: 'red', height: 15, width: 15, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ color: COLOR.WHITE, fontSize: 10 }}>1</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)} style={{ position: 'absolute', right: 45, top: -5 }}>
+                                <Entypo name="message" color={COLOR.BLACK} size={34} />
+                            </TouchableOpacity>
                         </View>
                     </View>
 
@@ -944,7 +951,7 @@ const ProfessionalPending = () => {
                         )}
                     </View>
 
-                    <View
+                    {/* <View
                         style={{
                             flexDirection: 'row',
                             alignItems: 'center',
@@ -963,7 +970,7 @@ const ProfessionalPending = () => {
                         <Entypo name="scissors" color={'#000'} size={20} />
                         <Text style={[styles.UserName, { marginLeft: 7 }]}>{item.professional.user.firstName}{" "}{item.professional.user.lastName}</Text>
                         <Entypo name="message" color={'#000'} size={24} />
-                    </View>
+                    </View> */}
                 </View>
             </ScrollView>
 

@@ -234,6 +234,7 @@ import { NavigationScreens } from '../../../constants/Strings';
 import FastImage from 'react-native-fast-image';
 import socketServices from '../../../Services/Socket';
 import { Searchbar } from 'react-native-paper';
+import QueueToggle from '../../../components/OueueBotton';
 
 const ProfessionalInbox = ({ navigate }) => {
   const navigation = useNavigation();
@@ -244,7 +245,10 @@ const ProfessionalInbox = ({ navigate }) => {
   const [selected, setSelected] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredChatData, setFilteredChatData] = useState(chatdata);
-
+  const handleQueueToggle = (isSelected) => {
+    // Handle the toggle state change here
+    console.log('Queue is now:', isSelected ? 'on' : 'off');
+  };
   useEffect(() => {
     if (searchQuery === '') {
       setFilteredChatData(chatdata);
@@ -320,10 +324,7 @@ const ProfessionalInbox = ({ navigate }) => {
             </Text>
           </View>
           <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-            <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-              <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
-              <Text style={{ color: COLOR.BLACK }}>Queue</Text>
-            </TouchableOpacity>
+            <QueueToggle theme={theme} onToggle={handleQueueToggle} COLOR={COLOR} />
             <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
               <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
             </TouchableOpacity>

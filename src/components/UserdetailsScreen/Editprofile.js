@@ -21,14 +21,19 @@ import { CheckPermission } from '../../constants/CheckPermission';
 import { PERMISSIONS } from 'react-native-permissions';
 import ImagePicker from 'react-native-image-crop-picker'
 
-const Editprofile = () => {
+const Editprofile = ({ route }) => {
+    const { user } = route?.params
+    console.log("===============          user              =====================", user);
+
+
     const theme = useSelector(state => state.ThemeReducer);
     const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
     const navigation = useNavigation();
-    const [fullName, setFullName] = useState('');
+    const [fullName, setFullName] = useState(user?.firstName + ' ' + user?.lastName || "");
     const [nickName, setNickName] = useState('');
     const [dob, setDob] = useState('');
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(user?.email || '');
+    const [phone, setPhone] = useState(user?.phone || '');
     const [gender, setGender] = useState('');
     const phoneInput = useRef(null);
     const [value, setValue] = useState('');
@@ -176,8 +181,8 @@ const Editprofile = () => {
             alignItems: 'center',
             height: '100%',
             width: '100%',
-          },
-          innerContainer: {
+        },
+        innerContainer: {
             justifyContent: 'center',
             alignItems: 'center',
             height: '20%',
@@ -186,37 +191,37 @@ const Editprofile = () => {
             borderRadius: 15,
             elevation: 10,
             shadowColor: COLOR.BLACK,
-          },
-          closeButton: {
+        },
+        closeButton: {
             justifyContent: 'center',
             alignItems: 'center',
             position: 'absolute',
             right: 0,
             top: 0,
-          },
-          buttonContainer: {
+        },
+        buttonContainer: {
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
             gap: 30,
-          },
-          button: {
+        },
+        button: {
             justifyContent: 'center',
             alignItems: 'center',
-          },
-          buttonText: {
+        },
+        buttonText: {
             color: COLOR.BLACK,
             fontSize: 18,
             fontWeight: '700',
-          },
-      
-          iconStyle: {
+        },
+
+        iconStyle: {
             width: 20,
             height: 20,
-          },
-          errorText: {
+        },
+        errorText: {
             color: COLOR.ROYALGOLDEN
-          },
+        },
     });
 
     return (
@@ -255,7 +260,7 @@ const Editprofile = () => {
                             onChangeText={text => setFullName(text)}
                         />
                     </View>
-                    <View style={styles.inputContainer}>
+                    {/* <View style={styles.inputContainer}>
                         <TextInput
                             style={styles.input}
                             placeholder="Nickname"
@@ -265,7 +270,7 @@ const Editprofile = () => {
                             value={nickName}
                             onChangeText={text => setNickName(text)}
                         />
-                    </View>
+                    </View> */}
                     <View style={styles.inputContainer}>
                         <TextInput
                             style={styles.input}
@@ -286,6 +291,17 @@ const Editprofile = () => {
                             onBlur={() => setIsEmail(false)}
                             value={email}
                             onChangeText={text => setEmail(text)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Phone"
+                            placeholderTextColor={COLOR.GRAY}
+                            onFocus={() => setPhone(true)}
+                            onBlur={() => setPhone(false)}
+                            value={phone}
+                            onChangeText={text => setPhone(text)}
                         />
                     </View>
 
@@ -320,7 +336,7 @@ const Editprofile = () => {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder={!isFocus ? 'United States' : '...'}
+                        placeholder={!isFocus ? 'Select Country' : '...'}
                         value={gender}
                         // onFocus={() => setIsFocus(true)}
                         // onBlur={() => setIsFocus(false)}
@@ -330,26 +346,7 @@ const Editprofile = () => {
                         }}
                     />
 
-                    <PhoneInput
-                        ref={phoneInput}
-                        defaultValue={value}
-                        defaultCode="DM"
-                        layout="first"
-                        onChangeText={(text) => {
-                            setValue(text);
-                        }}
-                        onChangeFormattedText={(text) => {
-                            setFormattedValue(text);
-                        }}
-                        // withDarkTheme
-                        // autoFocus
-                        containerStyle={{ backgroundColor: COLOR.AuthField, height: 68, width: Screen_Width * 0.92, marginBottom: 20, borderRadius: 10 }}
-                        // textInputStyle={{color:COLOR.BLACK,backgroundColor:'yellow'}}
-                        // codeTextStyle={{color:COLOR.BLACK}}
-                        textContainerStyle={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}
-                        textInputProps={{ fontSize: 12 }}
-                        codeTextStyle={{ fontSize: 12 }}
-                    />
+
                     <Dropdown
                         style={{
                             paddingHorizontal: 15,
@@ -381,17 +378,7 @@ const Editprofile = () => {
                         }}
                     />
 
-                    <View style={styles.inputContainer}>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Address"
-                            placeholderTextColor={COLOR.GRAY}
-                            onFocus={() => setIsNickNameFocused(true)}
-                            onBlur={() => setIsNickNameFocused(false)}
-                            value={nickName}
-                            onChangeText={text => setNickName(text)}
-                        />
-                    </View>
+
                     <TouchableOpacity
                         style={{
                             justifyContent: 'center',
@@ -441,6 +428,7 @@ const Editprofile = () => {
                     </View>
                 </Modal>
             </View>
+            <View style={{ height: 100 }} />
         </ScrollView>
     );
 };

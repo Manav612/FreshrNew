@@ -5,12 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import FontSize from '../../../constants/FontSize';
 import FastImage from 'react-native-fast-image';
-import { Loader } from '../../../constants/Icons';
+import { Loader, Logo } from '../../../constants/Icons';
 import WelcomeOnboardScreen from '../WelcomeOnboardScreen/WelcomeOnboardScreen';
 import { GetAuthToken, GetThemeMode } from '../../../constants/AsyncStorage';
 import { SetThemeMode } from '../../../redux/ThemeAction';
 import { NavigationScreens } from '../../../constants/Strings';
 import { SetAuthToken } from '../../../redux/AuthAction';
+import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 
 const SplashScreen = () => {
   const navigation = useNavigation();
@@ -20,7 +21,7 @@ const SplashScreen = () => {
     GetFromStorage()
     // return () => clearTimeout(timer);
 
-  }, []); 
+  }, []);
 
   const GetFromStorage = async () => {
 
@@ -61,11 +62,11 @@ const SplashScreen = () => {
 
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:COLOR.WHITE }}>
-      <Text style={{ color: COLOR.ORANGECOLOR, fontSize: 60, marginVertical: 20 }}>F</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE }}>
+
       <FastImage
-        style={{ width: 50, height: 50 }}
-        source={Loader}
+        style={{ width: Screen_Width * 0.5, height: Screen_Height * 0.3 }}
+        source={Logo}
         resizeMode={FastImage.resizeMode.contain}
       />
     </View>

@@ -1,4 +1,4 @@
-import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, RefreshControl } from 'react-native';
+import { Alert, FlatList, Image, ScrollView, StyleSheet, Animated, Text, TouchableOpacity, View, RefreshControl } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
@@ -16,7 +16,7 @@ import { BASE_API_URL } from '../../../Services';
 import { RemoveOneServiceData, SetServiceData } from '../../../redux/ServicesData/ServicesDataAction';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import socketServices from '../../../Services/Socket';
-import Tooltip from 'react-native-walkthrough-tooltip';
+import QueueToggle from '../../../components/OueueBotton';
 
 const ProfessionalServices = () => {
   const theme = useSelector(state => state.ThemeReducer);
@@ -30,7 +30,8 @@ const ProfessionalServices = () => {
   const [fetchedData, setFetchedData] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [selected, setSelected] = useState()
-  const [showTip, setShowTip] = useState(false);
+
+
 
   // useEffect(() => {
   //   socketServices.on('create_order', data => {
@@ -99,6 +100,10 @@ const ProfessionalServices = () => {
       console.error("Error:", error);
     }
   };
+  const handleQueueToggle = (isSelected) => {
+    // Handle the toggle state change here
+    console.log('Queue is now:', isSelected ? 'on' : 'off');
+  };
 
   const renderContent = () => {
     const RenderItem = ({ item, index }) => (
@@ -124,7 +129,7 @@ const ProfessionalServices = () => {
             height: Screen_Height * 0.1,
             borderRadius: 10,
           }}
-          source={{ uri: item.photo }}
+          source={{ uri: item?.photo }}
         />
         <View style={{ flexDirection: 'column', marginLeft: 15, gap: 5 }}>
           <Text
@@ -432,44 +437,9 @@ const ProfessionalServices = () => {
 
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-          <Tooltip
 
-            isVisible={showTip}
-            content={
-              <View style={{ paddingHorizontal: 10 }}>
+          <QueueToggle theme={theme} onToggle={handleQueueToggle} COLOR={COLOR} />
 
-
-                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
-                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Queue : </Text>}
-
-                  Allows you to accept accumulated orders when your in freelance mode
-
-                </Text>
-                <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
-                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Work hours : </Text>}
-                  Here you can set your regular day shifts, automatically switch to freelancer mode after your day shifts, and decide how much extra you want to charge.
-                </Text>
-
-
-              </View>
-            }
-            placement="bottom"
-            onClose={() => setShowTip(false)}
-
-          >
-
-            <AntDesign
-              onPress={() => setShowTip(true)}
-              name="infocirlce"
-              size={20}
-              color={COLOR.ChartBlue}
-            />
-
-          </Tooltip>
-          <TouchableOpacity onPress={() => setSelected(!selected)} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
-            <MaterialCommunityIcons name={selected ? 'toggle-switch-off' : 'toggle-switch'} size={24} color={COLOR.BLACK} />
-            <Text style={{ color: COLOR.BLACK }}>Queue</Text>
-          </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('ProfessionalScheduleScreen')} style={{ backgroundColor: COLOR.WHITE, elevation: 20, shadowColor: COLOR.ChartBlue, height: 50, width: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
             <FastImage source={ClockUserIcon} style={{ height: 30, width: 30 }} />
           </TouchableOpacity>

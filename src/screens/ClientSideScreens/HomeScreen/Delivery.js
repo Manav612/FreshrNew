@@ -110,18 +110,18 @@ const Delivery = () => {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentPage < ProfileData.length - 1) {
-        flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
-        setCurrentPage(currentPage + 1);
-      } else {
-        flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-        setCurrentPage(0);
-      }
-    }, 7000);
-    return () => clearInterval(interval);
-  }, [currentPage, ProfileData.length]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (currentPage < ProfileData.length - 1) {
+  //       flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
+  //       setCurrentPage(currentPage + 1);
+  //     } else {
+  //       flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+  //       setCurrentPage(0);
+  //     }
+  //   }, 7000);
+  //   return () => clearInterval(interval);
+  // }, [currentPage, ProfileData.length]);
 
   useEffect(() => {
     checkLocationPermission();
@@ -302,7 +302,7 @@ const Delivery = () => {
           <FastImage source={Filter} style={{ height: 20, width: 20 }} />
         </TouchableOpacity>
       </View> */}
-      <View style={{ marginVertical: 5, borderRadius: 15 }}>
+      {/* <View style={{ marginVertical: 5, borderRadius: 15 }}>
         <FlatList
           ref={flatListRef}
           data={ProfileData}
@@ -337,10 +337,10 @@ const Delivery = () => {
             }}
           />
         ))}
-      </View>
+      </View> */}
       <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', marginVertical: 10 }}>
-        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Professional</Text>
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Professionals</Text>
         {/* <TouchableOpacity><Text style={{ color: COLOR.ORANGECOLOR, fontSize: 20 }}>See all</Text></TouchableOpacity> */}
       </View>
       <FlatList

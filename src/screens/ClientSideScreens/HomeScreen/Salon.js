@@ -92,22 +92,22 @@ const Salon = () => {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentPage < ProfileData.length - 1) {
-        flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
-        setCurrentPage(currentPage + 1);
-      } else {
-        flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-        setCurrentPage(0);
-      }
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [currentPage, ProfileData.length]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (currentPage < ProfileData.length - 1) {
+  //       flatListRef.current.scrollToIndex({ animated: true, index: currentPage + 1 });
+  //       setCurrentPage(currentPage + 1);
+  //     } else {
+  //       flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+  //       setCurrentPage(0);
+  //     }
+  //   }, 2000);
+  //   return () => clearInterval(interval);
+  // }, [currentPage, ProfileData.length]);
 
-  useEffect(() => {
-    checkLocationPermission();
-  }, []);
+  // useEffect(() => {
+  //   checkLocationPermission();
+  // }, []);
 
   const checkLocationPermission = async () => {
     const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
@@ -259,16 +259,18 @@ const Salon = () => {
       <TouchableOpacity
         onPress={() => navigation.navigate(NavigationScreens.ScheduledeliveryScreen)}
         style={{
-
-          height: 40,
+          height: 50,
 
           justifyContent: 'space-between',
-
+          backgroundColor: COLOR.WHITE,
+          elevation: 3,
+          borderRadius: 15,
+          paddingHorizontal: 5,
+          shadowColor: COLOR.ChartBlue,
           marginVertical: 10,
           flexDirection: 'row',
           alignItems: 'center',
-          marginHorizontal: 10
-
+          marginHorizontal: 2
         }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
@@ -295,7 +297,7 @@ const Salon = () => {
           <FastImage source={Filter} style={{ height: 20, width: 20 }} />
         </TouchableOpacity>
       </View> */}
-      <View style={{ marginVertical: 10, borderRadius: 15 }}>
+      {/* <View style={{ marginVertical: 10, borderRadius: 15 }}>
         <FlatList
           ref={flatListRef}
           data={ProfileData}
@@ -330,10 +332,10 @@ const Salon = () => {
             }}
           />
         ))}
-      </View>
+      </View> */}
       <View style={{ backgroundColor: COLOR.LINECOLOR, width: Screen_Width, height: 2, marginVertical: 10, paddingHorizontal: 10 }} />
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center' }}>
-        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Location</Text>
+        <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Nearby Locations</Text>
       </View>
       <View style={{ marginVertical: 10 }}>
         <FlatList

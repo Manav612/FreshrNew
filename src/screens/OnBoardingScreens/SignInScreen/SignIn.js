@@ -143,7 +143,7 @@ const SignIn = () => {
                     <AntDesign name="arrowleft" size={26} color={COLOR.BLACK} />
                 </TouchableOpacity>
                 <Text style={{ fontSize: 20, color: COLOR.BLACK, fontWeight: '500' }}>
-                    Login to your Account
+                    Login to Account
                 </Text>
             </View>
 

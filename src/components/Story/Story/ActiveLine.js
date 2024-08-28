@@ -1,5 +1,7 @@
-import {Animated, StyleSheet, View} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
 
 const ActiveLine = ({
   duration,
@@ -10,7 +12,8 @@ const ActiveLine = ({
   bgColor,
 }) => {
   const _animation = useRef(new Animated.Value(0)).current;
-
+  const theme = useSelector(state => state.ThemeReducer);
+  const COLOR = theme === 1 ? COLOR_DARK : COLOR_LIGHT;
   useEffect(() => {
     if (isActive) {
       Animated.timing(_animation, {
@@ -26,13 +29,14 @@ const ActiveLine = ({
       style={[
         {
           backgroundColor: '#ffffff50',
-          height: 2,
+          height: 4,
+
           flex: 1,
           marginHorizontal: 2,
-          borderRadius: 1,
+          borderRadius: 5,
           marginVertical: 5,
         },
-        bgColor && {backgroundColor: bgColor},
+        bgColor && { backgroundColor: bgColor },
       ]}
       onLayout={onLayout}>
       <Animated.View
@@ -46,7 +50,7 @@ const ActiveLine = ({
             height: '100%',
             borderRadius: 1,
           },
-          progressColor && {backgroundColor: progressColor},
+          progressColor && { backgroundColor: progressColor },
         ]}
       />
     </View>

@@ -994,37 +994,43 @@ const MyProfile = () => {
   const ProfileData1 = [
     {
       id: 1,
-      icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Feedback',
+      icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Live chat support',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
       id: 2,
-      icon: (<AntDesign name="user" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Edit Profile',
+      icon: (<MaterialIcons name="group-add" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Invite a friend',
+      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
+    },
+    {
+      id: 2,
+      icon: (<MaterialIcons name="feedback" size={30} color='rgba(251, 148, 0, 1)' />),
+      name: 'Feedback',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
     {
-      id: 3,
+      id: 4,
       icon: (<MaterialIcons name="payment" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Payment',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
-      id: 4,
+      id: 5,
       icon: (<MaterialIcons name="security" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Security',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
-      id: 5,
+      id: 6,
       icon: (<AntDesign name="videocamera" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Tutorial',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
-      id: 6,
+      id: 7,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name: user.isProfessional ? 'Switch to Professionals' : 'Become a  Professional',
       // name: 'Switch to Professionals',
@@ -1033,14 +1039,14 @@ const MyProfile = () => {
     },
 
     {
-      id: 7,
+      id: 8,
       icon: (<AntDesign name="swap" size={30} color='rgba(251, 148, 0, 1)' />),
       name: user.isHost ? 'Switch to Host' : 'Become to Host',
       // name: 'Switch to Host',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
     {
-      id: 8,
+      id: 9,
       icon: (<Ionicons name="lock-closed-outline" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Privacy Policy',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
@@ -1048,18 +1054,13 @@ const MyProfile = () => {
 
 
     {
-      id: 9,
+      id: 10,
       icon: (<Ionicons name="newspaper" size={30} color='rgba(251, 148, 0, 1)' />),
       name: 'Terms of Service',
       icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
     },
 
-    {
-      id: 10,
-      icon: (<AntDesign name="customerservice" size={30} color='rgba(251, 148, 0, 1)' />),
-      name: 'Support',
-      icon1: (<AntDesign name="right" size={30} color={COLOR.ChartBlue} />),
-    },
+
     {
       id: 11,
       icon: (<AntDesign name="delete" size={30} color='rgba(251, 148, 0, 1)' />),
@@ -1271,8 +1272,8 @@ const MyProfile = () => {
           <AntDesign name="setting" size={28} color={COLOR.BLACK} />
         </TouchableOpacity> */}
       </View>
-      <View style={{ alignItems: 'center', flexDirection: 'row', gap: 20, marginVertical: 5 }}>
-        <View
+      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.EditProfileScreen, { user })} style={{ alignItems: 'center', flexDirection: 'row', gap: 20, marginVertical: 5 }}>
+        <TouchableOpacity
           style={{
             backgroundColor: COLOR.BLACK_30,
             height: 60,
@@ -1281,13 +1282,30 @@ const MyProfile = () => {
             alignItems: 'center',
             borderRadius: 100,
           }}
+          onPress={() => navigation.navigate(NavigationScreens.EditProfileScreen, { user })}
         >
-        </View>
+          <TouchableOpacity
+            style={{
+              backgroundColor: COLOR.ORANGECOLOR,
+              width: 15,
+              height: 15,
+              borderRadius: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              right: 5,
+              bottom: 0
+            }}
+            onPress={() => navigation.navigate(NavigationScreens.EditProfileScreen, { user })}
+          >
+            <MaterialIcons name="edit" size={10} color={COLOR.WHITE} />
+          </TouchableOpacity>
+        </TouchableOpacity>
         <View>
           <Text style={{ fontWeight: 'bold', fontSize: 25, color: COLOR.BLACK, marginVertical: 5 }}>{user?.firstName}{' '}{user?.lastName}</Text>
           <Text style={{ fontSize: 18, color: COLOR.GRAY }}>{user?.email}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
       {/* <View style={{ backgroundColor: COLOR.LINECOLOR, height: 2, marginVertical: 5, paddingHorizontal: 10, width: Screen_Width }} /> */}
       <FlatList
         data={ProfileData1}
@@ -1299,9 +1317,7 @@ const MyProfile = () => {
           <TouchableOpacity style={{ width: Screen_Width * 0.90, height: 60, borderRadius: 15, marginVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}
             onPress={() => {
               switch (item.name) {
-                case 'Edit Profile':
-                  navigation.navigate(NavigationScreens.EditProfileScreen);
-                  break;
+
                 case 'Security':
                   navigation.navigate(NavigationScreens.SecurityScreen);
                   break;
@@ -1388,8 +1404,8 @@ const MyProfile = () => {
               <TouchableOpacity onPress={() => { handleResetPress1(); refRBSheet.current[0].close() }} style={{ backgroundColor: resetSelected ? COLOR.ORANGECOLOR : COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 15, fontWeight: '700', color: resetSelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { handleApplyPress2(); refRBSheet.current[0].close() }} style={{ backgroundColor: applySelected ? COLOR.ORANGECOLOR : COLOR.GULABI, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 15, fontWeight: '700', color: applySelected ? COLOR.WHITE : COLOR.ORANGECOLOR }}>Yes,  Logout</Text>
+              <TouchableOpacity onPress={() => { handleApplyPress2(); refRBSheet.current[0].close() }} style={{ backgroundColor: COLOR.ChartBlue, height: 50, borderRadius: 30, width: 170, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: 15, fontWeight: '700', color: COLOR.WHITE }}>Yes,  Logout</Text>
               </TouchableOpacity>
             </View>
           </View>

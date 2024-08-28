@@ -1,5 +1,5 @@
 
-import { ScrollView, StyleSheet, Text, View, FlatList, PermissionsAndroid, Image, TextInput, Modal, TouchableOpacity, RefreshControl, Dimensions, Platform } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, FlatList, PermissionsAndroid, Image, TextInput, Modal, TouchableOpacity, RefreshControl, Dimensions, Platform, Animated } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { COLOR_DARK, COLOR_LIGHT, GRADIENT_COLOR_DARK, GRADIENT_COLOR_LIGHT } from '../../../constants/Colors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,7 +48,30 @@ const Home = () => {
   const COLOR1 = theme == 1 ? GRADIENT_COLOR_DARK : GRADIENT_COLOR_LIGHT;
   const [activeTab, setActiveTab] = useState('Delivery');
   const [showTip, setShowTip] = useState(false);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
+  useEffect(() => {
+    const animate = () => {
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.3,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+      ]).start(() => animate());
+    };
+
+    animate();
+  }, []);
+
+  const animatedStyle = {
+    transform: [{ scale: scaleAnim }],
+  };
   const openModal = () => {
     setModalVisible(true);
   };
@@ -309,14 +332,14 @@ const Home = () => {
             onClose={() => setShowTip(false)}
 
           >
-
-            <AntDesign
-              onPress={() => setShowTip(true)}
-              name="infocirlce"
-              size={18}
-              color={COLOR.ChartBlue}
-            />
-
+            <Animated.View style={animatedStyle}>
+              <AntDesign
+                onPress={() => setShowTip(true)}
+                name="infocirlce"
+                size={18}
+                color={COLOR.ChartBlue}
+              />
+            </Animated.View>
           </Tooltip>
         </View>
         <View style={{ flexDirection: 'row', alignSelf: 'center', gap: 30, marginVertical: 5 }}>

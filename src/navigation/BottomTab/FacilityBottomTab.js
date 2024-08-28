@@ -37,6 +37,7 @@ import FacilityProfile2 from '../../screens/FacilitySideScreens/FacilityProfile2
 import FacilityProduct from '../../screens/FacilitySideScreens/FacilityProductScreen/FacilityProduct';
 import FacilitySchedule from '../../components/FacilityComponents/FacilitySchedule';
 import EditFacilityOnBoardingScreen from '../../screens/FacilitySideScreens/OnBoardingScreens/FacilityOnBoardingScreen/EditFacilityOnBoardingScreen';
+import Editprofile from '../../components/UserdetailsScreen/Editprofile';
 const Tab = createBottomTabNavigator();
 const Stack = createSharedElementStackNavigator();
 
@@ -86,6 +87,8 @@ const HomeStack = () => {
         name={NavigationScreens.FacilitySchedule}
         component={FacilitySchedule}
       />
+      <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+
     </Stack.Navigator>
   );
 };
@@ -124,6 +127,8 @@ const FacilitiesStack = () => {
         name={NavigationScreens.FacilitySchedule}
         component={FacilitySchedule}
       />
+      <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+
     </Stack.Navigator>
   );
 };
@@ -141,6 +146,8 @@ const ProductStack = () => {
         name={NavigationScreens.FacilitySchedule}
         component={FacilitySchedule}
       />
+      <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+
     </Stack.Navigator>
   );
 };
@@ -162,6 +169,8 @@ const HistoryStack = () => {
         name={NavigationScreens.FacilitySchedule}
         component={FacilitySchedule}
       />
+      <Stack.Screen name={NavigationScreens.EditProfileScreen} component={Editprofile} />
+
     </Stack.Navigator>
   );
 };

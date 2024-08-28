@@ -422,14 +422,14 @@ const FacilityDetalis = ({ route }) => {
                     Cover Image
                   </Text>
                 </View>
-                <View style={{ backgroundColor: COLOR.BLACK_70, justifyContent: 'center', alignItems: 'center', height: 40, flexDirection: 'row', gap: 5, padding: 5 }}>
+                {/* <View style={{ backgroundColor: COLOR.BLACK_70, justifyContent: 'center', alignItems: 'center', height: 40, flexDirection: 'row', gap: 5, padding: 5 }}>
                   <Feather
                     name='upload'
                     size={20}
                     color={COLOR.WHITE}
                   />
                   <Text style={{ color: COLOR.WHITE }}>Edit images</Text>
-                </View>
+                </View> */}
               </View>
             </ImageBackground>
           </View>
@@ -622,7 +622,7 @@ const FacilityDetalis = ({ route }) => {
                       onChangeText={handleSearch}
 
                     />
-                    <AntDesign onPress={() => setShowList(true)} name='down' size={22} color={COLOR.BLACK} />
+                    <AntDesign onPress={() => setShowList(true)} name={showList === true ? 'up' : 'down'} size={22} color={COLOR.BLACK} />
                   </View>
 
                   {showList && (

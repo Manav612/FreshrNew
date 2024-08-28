@@ -461,7 +461,7 @@ const SignUP = () => {
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ alignSelf: 'center', color: COLOR.BLACK }}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Sign In Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500', fontSize: 16 }}>Sign in</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Sign In Screen')}><Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '500', fontSize: 18 }}>Sign in</Text></TouchableOpacity>
           </View>
         </View>
       </View>

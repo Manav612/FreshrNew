@@ -16,7 +16,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
 import { COLOR_DARK, COLOR_LIGHT } from '../../../constants/Colors';
-import { ClientBlack, ComeToYou, Hair1, HomeIcon2, OnBoard1 } from '../../../constants/Icons';
+import { Client, ClientBlack, ComeToYou, ComeToYouBlue, Hair1, HomeIcon2, OnBoard1 } from '../../../constants/Icons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Screen_Height, Screen_Width } from '../../../constants/Constants';
 import { useNavigation } from '@react-navigation/native';
@@ -536,8 +536,9 @@ const ProfessionalOngoing = ({
                     <View
                       style={[
                         {
-                          borderWidth: 1,
-                          borderColor: '#e1e1e1',
+                          elevation: 5,
+                          shadowColor: COLOR.ChartBlue,
+                          shadowOpacity: 1,
                           borderRadius: 15,
                           padding: 10,
                           shadowOpacity: 0.1,
@@ -718,12 +719,12 @@ const ProfessionalOngoing = ({
                               flex: 1,
                               alignItems: 'center',
                             }}>
-                            <Image style={{ height: 20, width: 20 }} source={ComeToYou} resizeMode='contain' />
+                            <Image style={{ height: 20, width: 20 }} source={ComeToYouBlue} resizeMode='contain' />
 
 
                             <Text
-                              style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                              You
+                              style={[styles.LabelText, { fontSize: 13, marginLeft: 7, color: COLOR.ChartBlue }]}>
+                              {item?.professional?.user?.firstName}{' '}{item?.professional?.user?.lastName}
                             </Text>
                           </View>
                           <View
@@ -765,11 +766,11 @@ const ProfessionalOngoing = ({
                               flex: 1,
                               alignItems: 'center',
                             }}>
-                            <Image style={{ height: 20, width: 20 }} source={ClientBlack} resizeMode='contain' />
+                            <Image style={{ height: 20, width: 20 }} source={Client} resizeMode='contain' />
 
                             <Text
-                              style={[styles.LabelText, { fontSize: 13, marginLeft: 7 }]}>
-                              Client
+                              style={[styles.LabelText, { fontSize: 13, marginLeft: 7, color: COLOR.ORANGECOLOR }]}>
+                              {item?.client?.firstName}{' '}{item?.client?.lastName}
                             </Text>
                           </View>
                           <View
@@ -807,10 +808,17 @@ const ProfessionalOngoing = ({
                       <Text
                         style={[
                           styles.LabelText,
-                          { fontSize: 18, paddingBottom: 70, color: COLOR.ORANGECOLOR },
+                          { fontSize: 20, paddingBottom: 70, textAlign: 'left', marginLeft: 20, color: COLOR.ORANGECOLOR },
                         ]}>
                         Meet-up in {parseFloat(Client_duration > Prof_duration ? Client_duration === 0 ? Client_duration : Client_duration + 5 : Prof_duration === 0 ? Prof_duration : Prof_duration + 5).toFixed(2)} min
                       </Text>
+
+                      <View style={{ position: 'absolute', right: 43, top: -5, zIndex: 2, backgroundColor: 'red', height: 15, width: 15, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 10 }}>1</Text>
+                      </View>
+                      <TouchableOpacity onPress={() => navigation.navigate(NavigationScreens.InboxScreen)} style={{ position: 'absolute', right: 45, top: -5 }}>
+                        <Entypo name="message" color={COLOR.BLACK} size={34} />
+                      </TouchableOpacity>
                     </View>
                   </View>
 
@@ -977,7 +985,7 @@ const ProfessionalOngoing = ({
                     )}
                   </View>
 
-                  <View
+                  {/* <View
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -998,7 +1006,7 @@ const ProfessionalOngoing = ({
                     <Text style={[styles.UserName, { marginLeft: 7 }]}>{item?.professional?.user?.firstName}{' '}{item?.professional?.user?.lastName}</Text>
 
                     <Entypo name="message" color={'#000'} size={24} />
-                  </View>
+                  </View> */}
                 </View>
 
               </ScrollView>
