@@ -668,6 +668,19 @@ const FacilityDetalis = ({ route }) => {
                     </View>
                   </View>
                   <TouchableOpacity
+                    // onPress={handleSeatCancel}
+                    style={{
+                      width: 255,
+                      backgroundColor: COLOR.ORANGECOLOR,
+                      height: 40,
+                      borderRadius: 10,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Unassign Seat</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     onPress={handleSave}
                     style={{
                       width: 255,

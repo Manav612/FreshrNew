@@ -524,7 +524,7 @@ const Explore = () => {
 
                   </Text>
                   <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
-                    {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>In-Salon : </Text>}
+                    {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>In-Saloon : </Text>}
                     Prefer a traditional experience? Meet-up with your selected professional at a nearby shop or salon.
 
                   </Text>
@@ -600,7 +600,7 @@ const Explore = () => {
               style={{
                 width: Screen_Width * 0.35,
                 flexDirection: 'row',
-                gap: 10,
+                gap: 2,
                 height: 30,
                 backgroundColor:
                   activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI,
@@ -627,7 +627,7 @@ const Explore = () => {
                   fontWeight: '600',
                   fontSize: 12,
                 }}>
-                In Salon
+                Meet In Store
               </Text>
             </TouchableOpacity>
           </View>

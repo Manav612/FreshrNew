@@ -223,7 +223,7 @@ const MyBookMarkScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity style={{ width: Screen_Width * 0.4, flexDirection: 'row', gap: 10, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
             <FastImage source={activeTab === 'Salon' ? HomeIcon2 : HouseOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
-            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 14 }}>In Salon</Text>
+            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 14 }}>Meet In Store</Text>
           </TouchableOpacity>
         </View>
       </View>

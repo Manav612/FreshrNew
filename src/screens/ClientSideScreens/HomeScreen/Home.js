@@ -313,7 +313,7 @@ const Home = () => {
 
                 </Text>
                 <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
-                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>In-Salon : </Text>}
+                  {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>In-Saloon : </Text>}
                   Prefer a traditional experience? Meet-up with your selected professional at a nearby shop or salon.
 
                 </Text>
@@ -347,9 +347,9 @@ const Home = () => {
             <FastImage source={activeTab === 'Delivery' ? ComeToYouWhite : ComeToYouOrange} resizeMode='contain' style={{ height: 22, width: 22 }} />
             <Text style={{ color: activeTab === 'Delivery' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 14 }}>Comes to you</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ width: Screen_Width * 0.4, flexDirection: 'row', gap: 10, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
+          <TouchableOpacity style={{ width: Screen_Width * 0.4, flexDirection: 'row', gap: 5, height: 50, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
             <FastImage source={activeTab === 'Salon' ? HomeIcon2 : HouseOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
-            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 14 }}>In Salon</Text>
+            <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600', fontSize: 14 }}>Meet In Store</Text>
           </TouchableOpacity>
         </View>
       </View>

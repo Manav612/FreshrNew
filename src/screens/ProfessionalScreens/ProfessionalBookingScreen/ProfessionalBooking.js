@@ -273,7 +273,7 @@ const ProfessionalBooking = () => {
           <Text style={{ color: activeTab === 'Comes to you' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to you</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{ width: Screen_Width * 0.4, height: 40, backgroundColor: activeTab === 'Salon' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Salon') }}>
-          <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
+          <Text style={{ color: activeTab === 'Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Meet In Store</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{ width: Screen_Width * 0.3, height: 40, backgroundColor: activeTab === 'Schedule' ? COLOR.ORANGECOLOR : COLOR.WHITE, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: COLOR.ORANGECOLOR }} onPress={() => { setActiveTab('Schedule') }}>
           <Text style={{ color: activeTab === 'Schedule' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Schedule</Text>

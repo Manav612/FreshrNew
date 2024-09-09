@@ -36,14 +36,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ongoing from '../MyBookingDetails/Ongoing';
 
 
+
 const OurServices = ({ route }) => {
   const theme = useSelector(state => state.ThemeReducer);
 
   const COLOR = theme == 1 ? COLOR_DARK : COLOR_LIGHT;
   const dispatch = useDispatch();
+  const [modalVisible, setmodalVisible] = useState(false)
   const { SelectedProf, locationData, facilitiesData } = route.params;
   const [FetchedDeliveryData, setFetchedDeliveryData] = useState([]);
   const coordinates = route.params.coorinates;
+  const refRBSheet = useRef(null);
 
   const facilitiesInfo = {
 
@@ -68,10 +71,218 @@ const OurServices = ({ route }) => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [id, setId] = useState('');
-  const refRBSheet = useRef(null);
+
   const navigation = useNavigation();
 
   const authToken = useSelector(state => state.AuthReducer);
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingVertical: 10
+
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    },
+    avatar: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      marginRight: 15,
+    },
+    name: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: COLOR.BLACK
+    },
+    role: {
+      fontSize: 14,
+      color: COLOR.GRAY,
+    },
+    menuIcon: {
+      marginLeft: 'auto',
+    },
+    menuText: {
+      fontSize: 24,
+    },
+    earningsContainer: {
+      marginVertical: 20,
+      padding: 20,
+      backgroundColor: COLOR.BLACK,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+    earningsText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: COLOR.BLACK
+    },
+    percentageText: {
+      fontSize: 16,
+      color: COLOR.ORANGECOLOR, // COLOR.ORANGECOLOR-red color for percentage
+    },
+    earningsSubText: {
+      fontSize: 14,
+      color: COLOR.GRAY,
+      width: Screen_Width * 0.3
+    },
+    overview: {
+      marginVertical: 20,
+    },
+    overviewTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      color: COLOR.BLACK
+    },
+    overviewRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingHorizontal: 2
+    },
+    overviewBox: {
+      width: Screen_Width * 0.44,
+      padding: 15,
+      backgroundColor: COLOR.WHITE,
+      borderRadius: 20,
+      marginVertical: 5,
+      elevation: 2,
+      shadowColor: COLOR.BLACK
+    },
+    overviewBoxTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: COLOR.BLACK
+    },
+    overviewBoxValue: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginVertical: 5,
+      color: COLOR.BLACK
+    },
+    overviewBoxSubText: {
+      fontSize: 14,
+      color: COLOR.GRAY,
+    },
+    increaseText: {
+      fontSize: 16,
+      color: COLOR.ChartBlue, // lime-green color for increase
+    },
+    decreaseText: {
+      fontSize: 16,
+      color: COLOR.ORANGECOLOR, // COLOR.ORANGECOLOR-red color for decrease
+    },
+    chartContainer: {
+      marginVertical: 20,
+      alignItems: 'center',
+      backgroundColor: COLOR.WHITE,
+      elevation: 2,
+      marginHorizontal: 2,
+      shadowColor: COLOR.BLACK,
+      borderRadius: 20,
+      height: Screen_Height * 0.48,
+      justifyContent: 'center',
+
+    },
+    chartTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      color: COLOR.BLACK
+    },
+    customLabel: {
+      backgroundColor: COLOR.WHITE,
+      padding: 5,
+      borderRadius: 5,
+      shadowColor: COLOR.BLACK,
+      shadowOpacity: 0.1,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 5,
+      elevation: 3,
+      color: COLOR.BLACK
+    },
+    labelText: {
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: COLOR.BLACK
+    },
+    dropdownContainer: {
+      backgroundColor: COLOR.AuthField,
+      borderRadius: 10,
+      borderColor: COLOR.AuthField,
+      padding: 10
+    },
+    dropdown: {
+      height: 20,
+      width: 150,
+      backgroundColor: COLOR.AuthField,
+      borderRadius: 10,
+      paddingHorizontal: 8,
+      marginBottom: 10
+    },
+    placeholderStyle: {
+      fontSize: 16,
+      color: COLOR.BLACK_40
+    },
+    selectedTextStyle: {
+      fontSize: 16,
+      color: COLOR.BLACK
+    },
+    iconStyle: {
+      width: 20,
+      height: 20,
+    },
+    icon: {
+      marginRight: 10
+    },
+    dropdownItem: {
+      padding: 10,
+      backgroundColor: COLOR.AuthField,
+      color: COLOR.BLACK
+    },
+    dropdownItemSelected: {
+      backgroundColor: COLOR.AuthField,
+      color: COLOR.BLACK
+    },
+    modalOverlay: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      width: 300,
+      maxHeight: Screen_Height * 0.5,
+      height: 150,
+      padding: 20,
+      backgroundColor: COLOR.WHITE,
+      borderRadius: 10,
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      color: COLOR.BLACK,
+      textAlign: 'center'
+    },
+    modasubTitle: {
+      fontSize: 14,
+      fontWeight: "800",
+      marginBottom: 10,
+      color: COLOR.BLACK,
+      textAlign: 'center'
+    },
+    input2: {
+      height: 40,
+      backgroundColor: COLOR.AuthField,
+      borderRadius: 10,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+      color: COLOR.BLACK,
+    },
+  });
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -411,7 +622,97 @@ const OurServices = ({ route }) => {
       </TouchableOpacity>
     </View>
   );
+  const renderitemguest = ({ item }) => (
+    <View style={{ borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.WHITE, marginHorizontal: 2, marginBottom: 10, padding: 10, }}>
+      <TouchableOpacity
+        onPress={() => handleSelect(item)}
+        style={{
+          backgroundColor: COLOR.WHITE,
+          marginTop: 10,
+          width: Screen_Width * 0.92,
+          height: Screen_Height * 0.15,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 20,
+          borderRadius: 10,
+          flexDirection: 'row',
+          elevation: 3, shadowColor: COLOR.ChartBlue
+        }}>
+        <Image
+          source={Hair1}
+          // source={
+          //   { uri: item?.photo }
+          // }
+          style={{
+            width: Screen_Width * 0.22,
+            height: Screen_Height * 0.1,
+            borderRadius: 10,
+          }}
 
+        />
+        <View
+          style={{ flexDirection: 'column', marginLeft: 15, gap: 5, width: 180, elevation: 3, shadowColor: COLOR.ChartBlue }}>
+          <Text
+            style={{
+              color: COLOR.BLACK,
+              fontSize: 16,
+              fontWeight: '600',
+              paddingRight: 10,
+            }}>
+            {item?.name}
+          </Text>
+          <Text
+            style={{
+              color: COLOR.BLACK,
+              fontSize: 16,
+              fontWeight: '300',
+              paddingRight: 10,
+            }}>
+            {item?.category?.name}
+          </Text>
+          <Text
+            style={{
+              color: COLOR.BLACK_40,
+              fontSize: 14,
+              fontWeight: '600',
+              paddingRight: 10,
+              width: 170,
+            }}>
+            {item.description.length > 40
+              ? `${item.description.slice(0, 40)}...`
+              : item.description}
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: Screen_Width * 0.55,
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: COLOR.ORANGECOLOR,
+                fontSize: 16,
+                fontWeight: '600',
+                paddingRight: 10,
+              }}>
+              ${item?.price}
+            </Text>
+          </View>
+        </View>
+
+        <Fontisto
+          name={
+            selected.some(service => service.id === item.id)
+              ? 'checkbox-active'
+              : 'checkbox-passive'
+          }
+          size={28}
+          color={COLOR.BLACK}
+        />
+      </TouchableOpacity>
+    </View>
+  );
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}
@@ -436,7 +737,55 @@ const OurServices = ({ route }) => {
               Select Services
             </Text>
           </View>
+
         </View>
+        <ScrollView horizontal style={{ flex: 1, height: 50, flexDirection: "row", gap: 10 }}>
+
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} onPress={() => openBottomSheet()}>
+            <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '600' }}>Guest 1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+
+
+            <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Guest 2</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+            <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '600' }}>Guest 3</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+
+
+            <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Guest 4</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+
+
+            <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Guest 5</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+            <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '600' }}>Guest 6</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+
+
+            <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Guest 7</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+            <Text style={{ color: COLOR.ORANGECOLOR, fontWeight: '600' }}>Guest 8</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+
+
+            <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Guest 9</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: 100, height: 40, backgroundColor: COLOR.ORANGECOLOR, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR, flexDirection: 'row', gap: 10, marginLeft: 10 }} >
+
+
+            <Text style={{ color: COLOR.WHITE, fontWeight: '600' }}>Guest 10</Text>
+          </TouchableOpacity>
+
+
+        </ScrollView>
         <FlatList
           data={fetchedServices}
           showsVerticalScrollIndicator={false}
@@ -528,6 +877,123 @@ const OurServices = ({ route }) => {
           </View>
         </View>
       </Modal>
+      <Modal transparent={true} visible={modalVisible} onRequestClose={() => setmodalVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>You are 3rd in the queue</Text>
+
+            <Text style={styles.modasubTitle}>Would you like to proceed?</Text>
+
+
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", }}>
+              <TouchableOpacity
+                onPress={() => { setmodalVisible(false), navigation.navigate("Home Screen") }}
+                style={{
+                  width: 130,
+                  backgroundColor: COLOR.BLACK,
+                  height: 40,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginVertical: 10, marginRight: 5
+                }}
+              >
+                <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Take me back</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                style={{
+                  width: 130,
+                  backgroundColor: COLOR.ORANGECOLOR,
+                  height: 40,
+                  borderRadius: 10,
+                  marginVertical: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text style={{ color: COLOR.WHITE, fontSize: 18 }}>Continue</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <RBSheet
+        ref={refRBSheet}
+        height={Screen_Height * 0.5}
+        customStyles={{
+          wrapper: {
+            backgroundColor: COLOR.BLACK_40,
+          },
+          container: {
+            backgroundColor: COLOR.WHITE,
+            borderRadius: 40,
+            borderBottomRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            elevation: 10,
+            shadowColor: COLOR.BLACK,
+          },
+          draggableIcon: {
+            backgroundColor: COLOR.BLACK,
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}
+        customAvoidingViewProps={{
+          enabled: false,
+        }}>
+        <View
+          style={{
+            width: Screen_Width,
+            height: Screen_Height * 0.5,
+
+            backgroundColor: COLOR.WHITE,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View style={{ width: "100%", height: 60, borderBottomWidth: 1, borderColor: COLOR.LINECOLOR, }}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                marginTop: 20,
+                textAlign: 'center',
+                color: "#000"
+              }}>
+              Select Services
+            </Text>
+          </View>
+          <ScrollView>
+            <FlatList
+              data={fetchedServices}
+              showsVerticalScrollIndicator={false}
+              renderItem={renderitemguest}
+              style={{ flex: 1 }}
+              scrollEnabled={false}
+            />
+          </ScrollView>
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 50,
+              borderRadius: 35,
+              backgroundColor: COLOR.ORANGECOLOR,
+              marginVertical: 15,
+
+              width: Screen_Width * 0.95,
+              marginHorizontal: 10,
+            }}
+          >
+            <Text style={{ color: COLOR.WHITE, fontSize: 16, fontWeight: '500' }}>
+              Add services for Guest 1
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </RBSheet>
     </>
   );
 };

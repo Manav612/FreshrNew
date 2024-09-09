@@ -25,7 +25,17 @@ import ProfessionalReviewScreen from '../../../components/ProfessionalSalonDetai
 import { NavigationScreens } from '../../../constants/Strings';
 import Category from '../../../components/Category';
 import OrderRequest from '../../../components/ProfessionalComponents/OrderRequest';
+import {
+    ClockUserIcon,
+    ClockUserIcon2,
+    ClockUserIcon3,
+    GearFineIcon,
+    Hair1,
+    ShareIcon,
+    ShareIcon2,
+    ShareIcon3,
 
+} from '../../../constants/Icons';
 const ProfessionalInfo = ({ route }) => {
     const { ProfessionalData, ProfDetail, facilitiesData } = route.params; // Ensure facilitiesData is passed
 
@@ -170,7 +180,7 @@ const ProfessionalInfo = ({ route }) => {
     };
 
     const handleSelectSalon = () => {
-        setActiveTab('In Salon')
+        setActiveTab('Meet In Store')
         navigation.navigate(NavigationScreens.FacilityListScreen, { SelectedProf: ProfDetail })
     }
 
@@ -336,8 +346,10 @@ const ProfessionalInfo = ({ route }) => {
                                     {isOpen ? "Open" : "Close"}
                                 </Text> */}
                             <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <FastImage source={share} style={{ height: 20, width: 20, marginVertical: 5 }} />
-                                <Text style={{ marginLeft: 10, color: COLOR.GRAY }}>Share</Text>
+                                {/* <TouchableOpacity onPress={() => setModalVisible2(true)} style={{ backgroundColor: COLOR.WHITE, elevation: 5, shadowColor: COLOR.ChartBlue, height: 40, width: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}> */}
+                                <FastImage source={ShareIcon2} style={{ height: 30, width: 30 }} />
+                                {/* </TouchableOpacity> */}
+                                <Text style={{ marginLeft: 2, color: COLOR.GRAY }}>Share</Text>
                             </TouchableOpacity>
                             {/* </TouchableOpacity> */}
                         </View>
@@ -365,10 +377,8 @@ const ProfessionalInfo = ({ route }) => {
                                 }}
                                 onPress={() => navigation.navigate(NavigationScreens.ReserveNowServicesScreen, { SelectedProf: ProfDetail, address: address })}
                             >
-                                <AntDesign name="calendar" size={22} color={COLOR.ORANGECOLOR} />
-                                <Text style={{ fontSize: 14, color: COLOR.GRAY }}>
-                                    Schedule
-                                </Text>
+                                {/* <AntDesign name="calendar" size={22} color={COLOR.ORANGECOLOR} /> */}
+                                <Text style={{ fontWeight: '600', fontSize: 20, color: COLOR.BLACK }}>Choose a delivery option</Text>
                                 {/* <AntDesign name="plus" size={18} color={COLOR.BLACK} /> */}
 
                             </TouchableOpacity>}
@@ -401,10 +411,10 @@ const ProfessionalInfo = ({ route }) => {
 
                                 <Text style={{ color: activeTab === 'Comes to you' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Comes to you</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ flexDirection: 'row', gap: 10, width: 150, height: 40, backgroundColor: activeTab === 'In Salon' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={handleSelectSalon}>
-                                <FastImage source={activeTab === 'In Salon' ? HomeIcon2 : HouseOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
+                            <TouchableOpacity style={{ flexDirection: 'row', gap: 5, width: 150, height: 40, backgroundColor: activeTab === 'Meet In Store' ? COLOR.ORANGECOLOR : COLOR.GULABI, borderRadius: 30, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLOR.ORANGECOLOR }} onPress={handleSelectSalon}>
+                                <FastImage source={activeTab === 'Meet In Store' ? HomeIcon2 : HouseOrange} style={{ height: 25, width: 25 }} resizeMode='contain' />
 
-                                <Text style={{ color: activeTab === 'In Salon' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>In Salon</Text>
+                                <Text style={{ color: activeTab === 'Meet In Store' ? COLOR.WHITE : COLOR.ORANGECOLOR, fontWeight: '600' }}>Meet In Store</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

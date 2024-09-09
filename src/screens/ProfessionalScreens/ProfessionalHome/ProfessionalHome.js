@@ -343,7 +343,7 @@ const ProfessionalHome = () => {
                                         <Text style={{ color: COLOR.BLACK, fontSize: 14, marginBottom: 5 }}>
                                             {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}>Queue : </Text>}
 
-                                            Allows you to automatically accumulate orders while you're in the middle of In-Salon deliveries.
+                                            Allows you to automatically accumulate orders while you're in the middle of In-Saloon deliveries.
                                             {<Text style={{ color: COLOR.BLACK, fontWeight: '600', fontSize: 14 }}> (Reduces traveling while in freelance mode & auto-accumulates up to 5 orders)</Text>}
 
 
@@ -505,7 +505,7 @@ const ProfessionalHome = () => {
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width * 0.88, paddingHorizontal: 15, marginVertical: 10 }}>
                         <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
                             <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ChartBlue }} />
-                            <Text style={{ color: COLOR.BLACK }}>In Salon</Text>
+                            <Text style={{ color: COLOR.BLACK }}>Meet In Store</Text>
                         </View>
                         <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
                             <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ORANGECOLOR }} />

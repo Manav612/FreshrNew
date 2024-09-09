@@ -151,7 +151,7 @@ const FacilityGrossSales = () => {
     });
 
     return (
-        <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15,backgroundColor:COLOR.WHITE }}>
+        <ScrollView style={{ width: Screen_Width, height: Screen_Height, paddingHorizontal: 15, backgroundColor: COLOR.WHITE }}>
             <View style={styles.HeaderView}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', gap: 10, flexDirection: 'row' }}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -274,7 +274,7 @@ const FacilityGrossSales = () => {
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width * 0.88, paddingHorizontal: 15, marginVertical: 10 }}>
                     <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ChartBlue }} />
-                        <Text style={{ color: COLOR.BLACK }}>In Salon</Text>
+                        <Text style={{ color: COLOR.BLACK }}>Meet In Store</Text>
                     </View>
                     <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ORANGECOLOR }} />

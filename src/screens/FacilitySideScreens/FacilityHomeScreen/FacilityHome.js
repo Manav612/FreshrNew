@@ -416,7 +416,7 @@ const FacilityHome = () => {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder="In Salon"
+                        placeholder="Meet In Salon"
                         value={gender}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
@@ -457,7 +457,7 @@ const FacilityHome = () => {
                                     fontSize: 20,
                                     fontWeight: 'bold',
                                     color: COLOR.BLACK
-                                }}>In Salon</Text>
+                                }}>Meet In Salon</Text>
                             )}
                             <AntDesign name="down" size={28} color={COLOR.ChartBlue} />
                         </TouchableOpacity>
@@ -565,7 +565,7 @@ const FacilityHome = () => {
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', width: Screen_Width * 0.88, paddingHorizontal: 15, marginVertical: 10 }}>
                         <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
                             <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ChartBlue }} />
-                            <Text style={{ color: COLOR.BLACK }}>In Salon</Text>
+                            <Text style={{ color: COLOR.BLACK }}>Meet In Salon</Text>
                         </View>
                         <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
                             <View style={{ width: 10, height: 10, borderRadius: 20, backgroundColor: COLOR.ORANGECOLOR }} />
